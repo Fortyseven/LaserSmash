@@ -63,7 +63,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .962516904, y: .349999994, z: -.00601623021}
+  m_LocalPosition: {x: -7.96449947, y: 2.91127706, z: -.00601623021}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -231,8 +231,8 @@ CircleCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Radius: .0399999991
-  m_Center: {x: 0, y: 0}
+  m_Radius: .400000006
+  m_Center: {x: 0, y: .0500000007}
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1
@@ -302,7 +302,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: .467966557, b: 0, a: 1}
   m_Intensity: 8
-  m_Range: 1.5
+  m_Range: .934826851
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:

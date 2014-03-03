@@ -3,10 +3,10 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-    private const float SHIP_SPEED = 4.0f;
-    private const float SHIP_X_BOUNDS = 1.5f;
-    private const float TOUCH_MOVE_SPEED = 0.05f;
-    private const float LASER_Y_OFFSET_FROM_SHIP = 0.2f;
+    private const float SHIP_SPEED = 40.0f;
+    private const float SHIP_X_BOUNDS = 12.0f;
+    private const float TOUCH_MOVE_SPEED = 0.05f;    
+    private const float LASER_Y_OFFSET_FROM_SHIP = 2.0f;
     
     public GameObject LaserbeamPrefab = null;
     //public GameObject PainPrefab = null;

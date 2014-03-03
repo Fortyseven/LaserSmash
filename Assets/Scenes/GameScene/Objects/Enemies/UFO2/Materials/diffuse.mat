@@ -39,9 +39,9 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Cube
+          name: _Detail
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: e83bb538b1e49a54aa6c2b206e929e77, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -53,9 +53,23 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 2800000, guid: b8d24d717d892f24ebefcb7c6a7ac7a7, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _ParallaxMap
         second:
           m_Texture: {fileID: 2800000, guid: 9fa31b7852e612c4090ebb943837fd53, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Cube
+        second:
+          m_Texture: {fileID: 8900000, guid: b995d4bd9d11078d11005b9844295342, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -76,11 +90,11 @@ Material:
       data:
         first:
           name: _Shininess
-        second: 1
+        second: .491383314
       data:
         first:
           name: _BumpAmt
-        second: 10
+        second: 23.7142849
       data:
         first:
           name: _Heat
@@ -91,8 +105,12 @@ Material:
         second: 1
       data:
         first:
+          name: _Outline
+        second: .00600000005
+      data:
+        first:
           name: _Parallax
-        second: .0451785699
+        second: .0799999982
       data:
         first:
           name: _SquashAmount
@@ -108,16 +126,20 @@ Material:
         second: {r: .501960814, g: .501960814, b: .501960814, a: 1}
       data:
         first:
+          name: _SpherePos
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _OutlineColor
+        second: {r: 0, g: 0, b: 0, a: 1}
+      data:
+        first:
           name: _Emission
         second: {r: 0, g: 0, b: 0, a: 0}
       data:
         first:
           name: _ReflectColor
         second: {r: 1, g: 1, b: 1, a: .5}
-      data:
-        first:
-          name: _SpherePos
-        second: {r: 0, g: 0, b: 0, a: 0}
       data:
         first:
           name: _Scale

@@ -15,13 +15,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-namespace AssemblyCSharp
+namespace Game
 {
     public class GameConstants
     {
-        public GameConstants()
-        {
-        }
+        public static float SCREEN_X_BOUNDS = 12.0f;
+        public static float SCREEN_Y_GEN_OFFSET = 17.0f;
+        public static float SCREEN_Y_FLOOR = 0.0f;
     }
 }
 

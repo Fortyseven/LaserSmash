@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Game;
 
 public class WaveGenerator : MonoBehaviour
 {
@@ -48,13 +49,13 @@ public class WaveGenerator : MonoBehaviour
         
     void SpawnAsteroidLarge()
     {
-        Vector3 where = new Vector3( Random.Range( -1.5f, 1.5f ), 1.5f, 0 );
+        Vector3 where = new Vector3( Random.Range( -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS ), GameConstants.SCREEN_Y_GEN_OFFSET, 0 );
         Instantiate( AsteroidLarge, where, Quaternion.identity );
     }
 
 
     void SpawnBomb()
     {
-        Instantiate(SpinnerBombLarge, new Vector3(Random.Range(-1.0f,1.0f), 1.0f, 0), Quaternion.identity);
+        Instantiate(SpinnerBombLarge, new Vector3(Random.Range(-GameConstants.SCREEN_X_BOUNDS,GameConstants.SCREEN_X_BOUNDS), GameConstants.SCREEN_Y_GEN_OFFSET, 0), Quaternion.identity);
     }
 }

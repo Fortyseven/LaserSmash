@@ -27,7 +27,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: .150000006
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

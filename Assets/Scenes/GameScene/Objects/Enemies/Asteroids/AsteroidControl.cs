@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Game;
 
 public class AsteroidControl : MonoBehaviour
 {   
@@ -37,7 +38,7 @@ public class AsteroidControl : MonoBehaviour
     
     void Start()
     {
-        mDropspeed = Random.Range( 0.05f, 0.5f );
+        mDropspeed = Random.Range( 0.5f, 1.0f );
         mGameControl = FindObjectOfType<GameControl>();
         mPlayer = FindObjectOfType<Player>();
         mAudioSource = GetComponent<AudioSource>();
@@ -51,13 +52,13 @@ public class AsteroidControl : MonoBehaviour
         transform.Translate( 0, -mDropspeed * Time.deltaTime, 0 );
         
         // Did we go off screen? Sweep it under the rug.
-        if (Mathf.Abs(transform.position.x) > 2.0f ) {
+        if (Mathf.Abs(transform.position.x) > GameConstants.SCREEN_X_BOUNDS ) {
             Destroy( this.gameObject );
             return;
         }
         
         // Did we hit the ground? Punish player, make noises, explode
-        if ( transform.position.y < -1.0f ) {
+        if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
             mGameControl.getGameState().Score -= SCORE_PENALTY_BASE;
             mPlayer.Hurt();
             
