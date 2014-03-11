@@ -16,8 +16,8 @@ public class AsteroidControl : MonoBehaviour
     [Range(0f,100f)]
     public float PercentChanceOfRRock = 50.0f;
     
-    public float MinSplitRockForce = 0.001f;    
-    public float MaxSplitRockForce = 0.005f;
+    private float MinSplitRockForce = 0.1f;    
+    private float MaxSplitRockForce = 0.5f;
 
     public int SCORE_PENALTY_BASE = 200;
     public int SCORE_AWARD_BASE = 100;
@@ -29,31 +29,46 @@ public class AsteroidControl : MonoBehaviour
     public GameObject HitSurfacePrefab = null;
     public GameObject PlayerObject = null;
     public GameObject AsteroidSmallPrefab = null;
-    
+
+    public GameObject ParticleTrail = null;
+
     private Player mPlayer = null;
     private float mDropspeed = 0.5f;
     
     private GameControl mGameControl = null;
 
+    private GameObject mParticleTrail = null;
     
     void Start()
     {
-        mDropspeed = Random.Range( 0.5f, 1.0f );
         mGameControl = FindObjectOfType<GameControl>();
         mPlayer = FindObjectOfType<Player>();
         mAudioSource = GetComponent<AudioSource>();
-                
-        //Debug.Log (mGameControl);
+
+        mParticleTrail = Instantiate(ParticleTrail, transform.position, Quaternion.identity) as GameObject;
+
+        if (!isLargeRock) {
+            ParticleEmitter p = mParticleTrail.GetComponent<ParticleEmitter>();
+            p.minSize = 0.5f;
+            p.maxSize = 1.0f;
+        } else {
+            int dir = Random.Range(0,3);
+            switch(dir) {
+                case 0: rigidbody2D.AddForce(new Vector2(Random.Range(MinSplitRockForce, MaxSplitRockForce) * 250.0f, 0.0f)); break;
+                case 1: break;
+                case 2: rigidbody2D.AddForce(-new Vector2(Random.Range(MinSplitRockForce, MaxSplitRockForce) * 250.0f, 0.0f)); break;
+            }
+        }
     }       
         
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.Translate( 0, -mDropspeed * Time.deltaTime, 0 );
-        
+        mParticleTrail.transform.position = transform.position;
+
         // Did we go off screen? Sweep it under the rug.
         if (Mathf.Abs(transform.position.x) > GameConstants.SCREEN_X_BOUNDS ) {
-            Destroy( this.gameObject );
+            Explode();
             return;
         }
         
@@ -61,37 +76,51 @@ public class AsteroidControl : MonoBehaviour
         if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
             mGameControl.getGameState().Score -= SCORE_PENALTY_BASE;
             mPlayer.Hurt();
-            
             mAudioSource.PlayOneShot(SoundHitSurface);
-            Instantiate( HitSurfacePrefab, this.gameObject.transform.position, Quaternion.identity );
-            
-            Destroy( this.gameObject );
+            Explode();
+            return;
         }
     }
-        
-    public void HitByLaser( Laserbeam laser )
+
+    private void Done()
     {
-        mGameControl.getGameState().Score += 100;
-        Instantiate( ExplosionPrefab, laser.gameObject.transform.position, Quaternion.identity );
-        Destroy( this.gameObject, 0.05f );
-        Destroy( laser.gameObject );
-        
+        Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
+        Destroy( mParticleTrail.gameObject );
+        Destroy(this.gameObject);
+    }
+
+    public void Explode()
+    {
         // There's a chance to split off one or two small rocks if we're large
         if (isLargeRock) {
             GameObject sm_rock;
-            float sm_rock_driftforce = Random.Range(MinSplitRockForce, MaxSplitRockForce);
-            
+
             if (Random.Range(0,100) >= PercentChanceOfLRock) {
-                sm_rock_driftforce = Random.Range(MinSplitRockForce, MaxSplitRockForce);
-                sm_rock = Instantiate( AsteroidSmallPrefab, laser.gameObject.transform.position, Quaternion.identity ) as GameObject;   
-                sm_rock.rigidbody2D.AddForce(new Vector2(sm_rock_driftforce,0.0f));
+                float sm_rock_driftforce_x = Random.Range(MinSplitRockForce, MaxSplitRockForce) * 150.0f;
+                float sm_rock_driftforce_y = Random.Range(MinSplitRockForce, MaxSplitRockForce) * 50.0f;
+                
+                sm_rock = Instantiate( AsteroidSmallPrefab, transform.position, Quaternion.identity ) as GameObject;   
+                sm_rock.rigidbody2D.AddForce(new Vector2(sm_rock_driftforce_x, 0.0f));
+                sm_rock.rigidbody2D.AddForce(-new Vector2(0.0f, sm_rock_driftforce_y));
             }
             
             if (Random.Range(0,100) >= PercentChanceOfRRock) {
-                sm_rock_driftforce = Random.Range(MinSplitRockForce, MaxSplitRockForce);
-                sm_rock = Instantiate( AsteroidSmallPrefab, laser.gameObject.transform.position, Quaternion.identity ) as GameObject;   
-                sm_rock.rigidbody2D.AddForce(new Vector2(-sm_rock_driftforce,0.0f));
+                float sm_rock_driftforce_x = Random.Range(MinSplitRockForce, MaxSplitRockForce) * 150.0f;
+                float sm_rock_driftforce_y = Random.Range(MinSplitRockForce, MaxSplitRockForce) * 50.0f;
+                
+                sm_rock = Instantiate( AsteroidSmallPrefab, transform.position, Quaternion.identity ) as GameObject;   
+                sm_rock.rigidbody2D.AddForce(-new Vector2(sm_rock_driftforce_x, 0.0f));
+                sm_rock.rigidbody2D.AddForce(new Vector2(0.0f, sm_rock_driftforce_y));
             }
-        }       
+        }
+        Done();
+    }
+
+    public void HitByLaser( Laserbeam laser )
+    {
+        mGameControl.getGameState().Score += GameConstants.SCORE_ASTEROID_BYLASER;
+        Destroy( laser.gameObject );
+
+        Explode();
     }
 }

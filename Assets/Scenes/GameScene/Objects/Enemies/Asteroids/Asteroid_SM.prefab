@@ -55,7 +55,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -63,7 +63,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.96449947, y: 2.91127706, z: -.00601623021}
+  m_LocalPosition: {x: 0, y: 9.69999981, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -213,10 +213,10 @@ Rigidbody2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Mass: 9.99999975e-05
-  m_LinearDrag: 0
+  m_Mass: 1
+  m_LinearDrag: .0500000007
   m_AngularDrag: .0500000007
-  m_GravityScale: .0199999996
+  m_GravityScale: .25
   m_FixedAngle: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -353,8 +353,6 @@ MonoBehaviour:
   DropSpeedMin: .115000002
   PercentChanceOfLRock: 50
   PercentChanceOfRRock: 50
-  MinSplitRockForce: .00100000005
-  MaxSplitRockForce: .00499999989
   SCORE_PENALTY_BASE: 200
   SCORE_AWARD_BASE: 100
   SoundHitSurface: {fileID: 8300000, guid: 8fc2f45abdf0c9f4ab417af7952c2142, type: 3}
@@ -362,6 +360,7 @@ MonoBehaviour:
   HitSurfacePrefab: {fileID: 100000, guid: 0a81f725d78e3a7478b849205fa9087c, type: 2}
   PlayerObject: {fileID: 100002, guid: 2ff575b047ff12341bb45d33b5f130d6, type: 2}
   AsteroidSmallPrefab: {fileID: 0}
+  ParticleTrail: {fileID: 100000, guid: cfd782d1e25cec6469c1c2c0fadf2cbd, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

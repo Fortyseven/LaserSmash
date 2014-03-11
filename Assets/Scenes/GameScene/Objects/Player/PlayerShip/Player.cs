@@ -105,7 +105,7 @@ public class Player : MonoBehaviour
         if (mAutoFireEnabled) Fire();
         else if(Input.GetButton("Fire1")) Fire();
 
-        mSceneStarsPosition.x = transform.position.x * 0.04f;
+        mSceneStarsPosition.x = transform.position.x * 0.03f;
         mSceneStars.transform.position = mSceneStarsPosition;
         
         mSceneSurfacePosition.x = transform.position.x * 0.02f;
