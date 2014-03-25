@@ -112,47 +112,64 @@ public class dfRichTextLabelInspector : dfControlInspector
 
 		}
 
-		using( dfEditorUtil.BeginGroup( "Scrolling" ) )
+		using( dfEditorUtil.BeginGroup( "Layout" ) )
 		{
 
-			var allowScrolling = EditorGUILayout.Toggle( "Allow Scroll", control.AllowScrolling );
-			if( allowScrolling != control.AllowScrolling )
+			var autoHeight = EditorGUILayout.Toggle( "Auto Height", control.AutoHeight );
+			if( control.AutoHeight != autoHeight )
 			{
-				dfEditorUtil.MarkUndo( control, "Toggle 'Allow Scrolling'" );
-				control.AllowScrolling = allowScrolling;
+				dfEditorUtil.MarkUndo( control, "Toggle Auto Height property" );
+				control.AutoHeight = autoHeight;
 			}
 
-			GUI.enabled = allowScrolling;
+		}
 
-			var scrollOffset = dfEditorUtil.EditInt2( "Scroll Pos.", "X", "Y", control.ScrollPosition );
-			if( scrollOffset != control.ScrollPosition )
+		if( !control.AutoHeight )
+		{
+
+			using( dfEditorUtil.BeginGroup( "Scrolling" ) )
 			{
-				dfEditorUtil.MarkUndo( control, "Change Scroll Position" );
-				control.ScrollPosition = scrollOffset;
-			}
 
-			var useMomentum = EditorGUILayout.Toggle( "Add Momentum", control.UseScrollMomentum );
-			if( useMomentum != control.UseScrollMomentum )
-			{
-				dfEditorUtil.MarkUndo( control, "Toggle Momentum" );
-				control.UseScrollMomentum = useMomentum;
-			}
+				var allowScrolling = EditorGUILayout.Toggle( "Allow Scroll", control.AllowScrolling );
+				if( allowScrolling != control.AllowScrolling )
+				{
+					dfEditorUtil.MarkUndo( control, "Toggle 'Allow Scrolling'" );
+					control.AllowScrolling = allowScrolling;
+				}
 
-			var horzScroll = (dfScrollbar)EditorGUILayout.ObjectField( "Horz. Scrollbar", control.HorizontalScrollbar, typeof( dfScrollbar ), true );
-			if( horzScroll != control.HorizontalScrollbar )
-			{
-				dfEditorUtil.MarkUndo( control, "Set Horizontal Scrollbar" );
-				control.HorizontalScrollbar = horzScroll;
-			}
+				GUI.enabled = allowScrolling;
 
-			var vertScroll = (dfScrollbar)EditorGUILayout.ObjectField( "Vert. Scrollbar", control.VerticalScrollbar, typeof( dfScrollbar ), true );
-			if( vertScroll != control.VerticalScrollbar )
-			{
-				dfEditorUtil.MarkUndo( control, "Set Vertical Scrollbar" );
-				control.VerticalScrollbar = vertScroll;
-			}
+				var scrollOffset = dfEditorUtil.EditInt2( "Scroll Pos.", "X", "Y", control.ScrollPosition );
+				if( scrollOffset != control.ScrollPosition )
+				{
+					dfEditorUtil.MarkUndo( control, "Change Scroll Position" );
+					control.ScrollPosition = scrollOffset;
+				}
 
-			GUI.enabled = true;
+				var useMomentum = EditorGUILayout.Toggle( "Add Momentum", control.UseScrollMomentum );
+				if( useMomentum != control.UseScrollMomentum )
+				{
+					dfEditorUtil.MarkUndo( control, "Toggle Momentum" );
+					control.UseScrollMomentum = useMomentum;
+				}
+
+				var horzScroll = (dfScrollbar)EditorGUILayout.ObjectField( "Horz. Scrollbar", control.HorizontalScrollbar, typeof( dfScrollbar ), true );
+				if( horzScroll != control.HorizontalScrollbar )
+				{
+					dfEditorUtil.MarkUndo( control, "Set Horizontal Scrollbar" );
+					control.HorizontalScrollbar = horzScroll;
+				}
+
+				var vertScroll = (dfScrollbar)EditorGUILayout.ObjectField( "Vert. Scrollbar", control.VerticalScrollbar, typeof( dfScrollbar ), true );
+				if( vertScroll != control.VerticalScrollbar )
+				{
+					dfEditorUtil.MarkUndo( control, "Set Vertical Scrollbar" );
+					control.VerticalScrollbar = vertScroll;
+				}
+
+				GUI.enabled = true;
+
+			}
 
 		}
 
@@ -167,11 +184,6 @@ public class dfRichTextLabelInspector : dfControlInspector
 				dfEditorUtil.MarkUndo( control, "Change label Text" );
 				control.Text = text;
 			}
-
-			//if( GUILayout.Button( "Open Text Editor" ) )
-			//{
-			//    showDialog = true;
-			//}
 
 		}
 

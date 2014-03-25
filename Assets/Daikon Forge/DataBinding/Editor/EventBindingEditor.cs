@@ -311,7 +311,12 @@ public class EventBindingEditor : Editor
 
 	}
 
-	private bool signatureIsCompatible( ParameterInfo[] lhs, ParameterInfo[] rhs, bool allowProxy = true )
+	private bool signatureIsCompatible( ParameterInfo[] lhs, ParameterInfo[] rhs )
+	{
+		return signatureIsCompatible( lhs, rhs, true );
+	}
+
+	private bool signatureIsCompatible( ParameterInfo[] lhs, ParameterInfo[] rhs, bool allowProxy )
 	{
 
 		if( lhs == null || rhs == null )

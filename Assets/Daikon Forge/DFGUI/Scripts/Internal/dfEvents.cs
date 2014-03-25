@@ -107,7 +107,7 @@ public class dfControlEventArgs
 
 	/// <summary> The dfControl instance that this event was 
 	/// originally generated for </summary>
-	public dfControl Source { get; private set; }
+	public dfControl Source { get; internal set; }
 
 	/// <summary> Indicates whether this event has already been 
 	/// processed by an event subscriber </summary>
@@ -398,9 +398,14 @@ public class dfTouchEventArgs : dfMouseEventArgs
 		this.Touch = touch;
 		this.Touches = new List<Touch>() { touch };
 
-		if( touch.deltaTime > float.Epsilon )
+		var deltaTime = Time.deltaTime;
+		if( touch.deltaTime > float.Epsilon && deltaTime > float.Epsilon )
 		{
-			this.MoveDelta = touch.deltaPosition * ( Time.deltaTime / touch.deltaTime );
+			this.MoveDelta = touch.deltaPosition * ( deltaTime / touch.deltaTime );
+		}
+		else
+		{
+			this.MoveDelta = touch.deltaPosition;
 		}
 
 	}

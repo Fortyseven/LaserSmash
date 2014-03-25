@@ -391,6 +391,53 @@ public class dfScrollPanel : dfControl
 
 	#region Overrides
 
+	/// <summary>
+	/// Returns the screen-based coordinates for this control's clipping area.
+	/// This function is intended for internal use when performing shader-based clipping.
+	/// </summary>
+	/// <returns></returns>
+	protected internal override Rect GetClippingRect()
+	{
+
+		if( !ClipChildren )
+			return base.GetClippingRect();
+
+		var right = transform.TransformDirection( Vector3.right );
+		var left = transform.TransformDirection( Vector3.left );
+		var up = transform.TransformDirection( Vector3.up );
+		var down = transform.TransformDirection( Vector3.down );
+
+		var p2u = PixelsToUnits();
+		var padding = ScrollPadding;
+
+		var corners = GetCorners();
+		corners[ 0 ] += right * padding.left * p2u + down * padding.top * p2u;
+		corners[ 1 ] += left * padding.right * p2u + down * padding.top * p2u;
+		corners[ 2 ] += right * padding.left * p2u + up * padding.bottom * p2u;
+		corners[ 3 ] += left * padding.left * p2u + up * padding.bottom * p2u;
+
+		var renderCamera = GetCamera();
+
+		var min = Vector2.one * float.MaxValue;
+		var max = Vector2.one * float.MinValue;
+
+		var count = corners.Length;
+		for( var i = 0; i < count; i++ )
+		{
+			var screenPos = renderCamera.WorldToScreenPoint( corners[ i ] );
+			min = Vector2.Min( min, screenPos );
+			max = Vector2.Max( max, screenPos );
+		}
+
+		return new Rect(
+			min.x,
+			Screen.height - max.y,
+			max.x - min.x,
+			max.y - min.y
+		);
+
+	}
+
 	protected internal override Plane[] GetClippingPlanes()
 	{
 
@@ -453,9 +500,10 @@ public class dfScrollPanel : dfControl
 
 		base.Update();
 
-		if( useScrollMomentum && !isMouseDown && scrollMomentum.sqrMagnitude > float.Epsilon )
+		if( useScrollMomentum && !isMouseDown && scrollMomentum.magnitude > 0.1f )
 		{
 			ScrollPosition += scrollMomentum;
+			scrollMomentum *= ( 0.95f - Time.deltaTime );
 		}
 
 		if( isControlInvalidated )
@@ -468,8 +516,6 @@ public class dfScrollPanel : dfControl
 			}
 
 		}
-
-		scrollMomentum *= ( 0.95f - Time.deltaTime );
 
 	}
 
@@ -656,18 +702,13 @@ public class dfScrollPanel : dfControl
 				var manager = GetManager();
 				var screenSize = manager.GetScreenSize();
 
-				// Obtain a reference to the main camera
-				var mainCamera = Camera.main;
-				if( mainCamera == null )
-				{
-					Debug.LogWarning( "No MainCamera could be found. This could cause issues with scrolling." );
-					mainCamera = manager.RenderCamera;
-				}
+				// Obtain a reference to the camera used to render this control
+				var renderCamera = manager.RenderCamera;
 
 				// Scale the movement amount by the difference between the "virtual" 
 				// screen size and the real screen size
-				delta.x = screenSize.x * ( delta.x / mainCamera.pixelWidth );
-				delta.y = screenSize.y * ( delta.y / mainCamera.pixelHeight );
+				delta.x = screenSize.x * ( delta.x / renderCamera.pixelWidth );
+				delta.y = screenSize.y * ( delta.y / renderCamera.pixelHeight );
 
 				// Set the new scroll position and momentum
 				ScrollPosition += delta;
@@ -708,7 +749,7 @@ public class dfScrollPanel : dfControl
 			}
 
 			args.Use();
-			Signal( "OnMouseWheel", args );
+			Signal( "OnMouseWheel", this, args );
 
 		}
 		finally
@@ -792,7 +833,7 @@ public class dfScrollPanel : dfControl
 
 		Invalidate();
 
-		SignalHierarchy( "OnScrollPositionChanged", this.ScrollPosition );
+		SignalHierarchy( "OnScrollPositionChanged", this, this.ScrollPosition );
 
 		if( ScrollPositionChanged != null )
 		{

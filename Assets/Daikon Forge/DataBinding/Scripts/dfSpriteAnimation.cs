@@ -1,8 +1,6 @@
 using System;
 using System.Reflection;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 
 using UnityEngine;
 
@@ -460,7 +458,7 @@ public class dfSpriteAnimation : dfTweenPlayableBase
 	private string getPath( Transform obj )
 	{
 
-		System.Text.StringBuilder path = new System.Text.StringBuilder();
+		var path = new System.Text.StringBuilder();
 
 		while( obj != null )
 		{

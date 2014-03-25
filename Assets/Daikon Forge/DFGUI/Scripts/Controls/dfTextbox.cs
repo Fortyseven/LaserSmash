@@ -1084,7 +1084,7 @@ public class dfTextbox : dfInteractiveBase, IDFMultiRender
 	protected internal virtual void OnTextChanged()
 	{
 
-		SignalHierarchy( "OnTextChanged", this.text );
+		SignalHierarchy( "OnTextChanged", this, this.text );
 
 		if( TextChanged != null )
 		{

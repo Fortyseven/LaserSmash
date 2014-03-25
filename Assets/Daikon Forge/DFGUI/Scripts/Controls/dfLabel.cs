@@ -376,7 +376,7 @@ public class dfLabel : dfControl, IDFMultiRender
 	}
 
 	/// <summary>
-	/// Gets or sets whether the <see cref="dfLabel"/> label will be automatically
+	/// Gets or sets whether the label will be automatically
 	/// resized vertically to contain the rendered text.
 	/// </summary>
 	public bool AutoHeight
@@ -609,7 +609,7 @@ public class dfLabel : dfControl, IDFMultiRender
 
 		Invalidate();
 
-		Signal( "OnTextChanged", this.text );
+		Signal( "OnTextChanged", this, this.text );
 
 		if( TextChanged != null )
 		{
@@ -689,7 +689,7 @@ public class dfLabel : dfControl, IDFMultiRender
 	[HideInInspector]
 	public override void Invalidate()
 	{
-		
+
 		base.Invalidate();
 
 		if( this.Font == null || !this.Font.IsValid || GetManager() == null )
@@ -707,9 +707,12 @@ public class dfLabel : dfControl, IDFMultiRender
 		{
 
 			if( sizeIsUninitialized )
-				Size = new Vector2( 150, 24 );
+				size = new Vector2( 150, 24 );
+
 			if( this.AutoSize || this.AutoHeight )
-				Height = Mathf.CeilToInt( Font.LineHeight * TextScale );
+				size.y = Mathf.CeilToInt( Font.LineHeight * TextScale );
+
+			raiseSizeChangedEvent();
 
 			return;
 
@@ -725,13 +728,20 @@ public class dfLabel : dfControl, IDFMultiRender
 			// that would be caused by assigning to the property, but doing so actually
 			// causes issues: http://daikonforge.com/issues/view.php?id=37
 
+			// NOTE: The call to raiseSizeChangedEvent() was added to address a user-reported 
+			// issue where an AutoSize or AutoHeight label that was contained in a ScrollPanel 
+			// did not notify the parent ScrollPanel that it had to redo the layout and clipping 
+			// operations. raiseSizeChangedEvent() performs that notification.
+
 			if( AutoSize || sizeIsUninitialized )
 			{
 				this.size = renderSize + new Vector2( padding.horizontal, padding.vertical );
+				raiseSizeChangedEvent();
 			}
 			else if( AutoHeight )
 			{
 				this.size = new Vector2( size.x, renderSize.y + padding.vertical );
+				raiseSizeChangedEvent();
 			}
 
 		}

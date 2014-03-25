@@ -19,7 +19,6 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 
-using UnityObject = UnityEngine.Object;
 using UnityFont = UnityEngine.Font;
 using UnityMaterial = UnityEngine.Material;
 
@@ -93,7 +92,7 @@ public class dfDynamicFontInspector : Editor
 		{
 			EditorUtility.FocusProjectWindow();
 			go = AssetDatabase.LoadMainAssetAtPath( prefabPath ) as GameObject;
-			Selection.objects = new UnityObject[] { go };
+			Selection.objects = new UnityEngine.Object[] { go };
 			EditorGUIUtility.PingObject( go );
 			Debug.Log( "Dynamic Font created at " + prefabPath, prefab );
 			EditorApplication.delayCall -= callback;

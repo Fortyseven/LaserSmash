@@ -97,7 +97,15 @@ public class dfRenderData : IDisposable
 	/// the <see cref="Lookup"/> method to benefit from object pooling.
 	/// </summary>
 	/// <param name="capacity">The initial capacity of the internal lists</param>
-	internal dfRenderData( int capacity = 32 )
+	internal dfRenderData() : this( 32 ) {}
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="dfRenderData"/> class.
+	/// Direct instantiation of this class is discouraged in favor of using
+	/// the <see cref="Lookup"/> method to benefit from object pooling.
+	/// </summary>
+	/// <param name="capacity">The initial capacity of the internal lists</param>
+	internal dfRenderData( int capacity )
 	{
 
 		Vertices = new dfList<Vector3>( capacity );
@@ -237,7 +245,20 @@ public class dfRenderData : IDisposable
 	/// <paramref name="buffer"/> will be transformed by its <see cref="Transform"/> 
 	/// before being merged with this instance. If set to FALSE, the data will be 
 	/// merged without tranforming.</param>
-	public void Merge( dfRenderData buffer, bool transformVertices = true )
+	public void Merge( dfRenderData buffer )
+	{
+		Merge( buffer, true );
+	}
+
+	/// <summary>
+	/// Merges another <see cref="dfRenderData"/> instance with this instance
+	/// </summary>
+	/// <param name="buffer">The render data to be appended to this instance</param>
+	/// <param name="transformVertices">If set to TRUE, the render data in 
+	/// <paramref name="buffer"/> will be transformed by its <see cref="Transform"/> 
+	/// before being merged with this instance. If set to FALSE, the data will be 
+	/// merged without tranforming.</param>
+	public void Merge( dfRenderData buffer, bool transformVertices )
 	{
 
 		// We need the current currentIndex of vertices before adding any more so that 

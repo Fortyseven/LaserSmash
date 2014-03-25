@@ -770,7 +770,7 @@ public class dfDropdown : dfInteractiveBase, IDFMultiRender
 	protected internal virtual void OnSelectedIndexChanged()
 	{
 
-		SignalHierarchy( "OnSelectedIndexChanged", this.selectedIndex );
+		SignalHierarchy( "OnSelectedIndexChanged", this, this.selectedIndex );
 
 		if( SelectedIndexChanged != null )
 		{
@@ -928,12 +928,6 @@ public class dfDropdown : dfInteractiveBase, IDFMultiRender
 			var right = popup.transform.TransformDirection( Vector3.right );
 			var scrollbarPosition = popup.transform.position + right * ( popupSize.x - activeScrollbar.Width ) * p2u;
 
-			activeScrollbar.transform.parent = popup.transform;
-			activeScrollbar.transform.position = scrollbarPosition;
-
-			activeScrollbar.Anchor = dfAnchorStyle.Top | dfAnchorStyle.Bottom;
-			activeScrollbar.Height = popup.Height;
-
 			popup.AddControl( activeScrollbar );
 			popup.Width -= activeScrollbar.Width;
 			popup.Scrollbar = activeScrollbar;
@@ -942,6 +936,12 @@ public class dfDropdown : dfInteractiveBase, IDFMultiRender
 			{
 				activeScrollbar.Height = control.Height;
 			};
+
+			activeScrollbar.transform.parent = popup.transform;
+			activeScrollbar.transform.position = scrollbarPosition;
+
+			activeScrollbar.Anchor = dfAnchorStyle.Top | dfAnchorStyle.Bottom;
+			activeScrollbar.Height = popup.Height;
 
 		}
 
@@ -974,7 +974,12 @@ public class dfDropdown : dfInteractiveBase, IDFMultiRender
 
 	}
 
-	public void ClosePopup( bool allowOverride = true )
+	public void ClosePopup()
+	{
+		ClosePopup ( true );
+	}
+
+	public void ClosePopup( bool allowOverride )
 	{
 
 		if( popup == null )

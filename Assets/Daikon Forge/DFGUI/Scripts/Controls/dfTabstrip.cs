@@ -215,8 +215,10 @@ public class dfTabstrip : dfControl
 	/// </summary>
 	/// <param name="Text">The text to be displayed in the tab</param>
 	/// <returns>Returns a reference to the newly-created tab control</returns>
-	public dfControl AddTab( string Text = "" )
+	public dfControl AddTab( string Text )
 	{
+
+		if( Text == null ) Text = string.Empty;
 
 		var template = controls.Where( i => i is dfButton ).FirstOrDefault() as dfButton;
 
@@ -391,7 +393,7 @@ public class dfTabstrip : dfControl
 	protected internal virtual void OnSelectedIndexChanged()
 	{
 
-		SignalHierarchy( "OnSelectedIndexChanged", this.SelectedIndex );
+		SignalHierarchy( "OnSelectedIndexChanged", this, this.SelectedIndex );
 
 		if( SelectedIndexChanged != null )
 		{

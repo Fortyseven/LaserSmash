@@ -105,6 +105,9 @@ public class dfSlicedSprite : dfSprite
 	internal new static void renderSprite( dfRenderData renderData, RenderOptions options )
 	{
 
+		if( options.fillAmount <= float.Epsilon )
+			return;
+
 #if UNITY_EDITOR
 		
 		var atlas = options.atlas;
@@ -126,7 +129,7 @@ public class dfSlicedSprite : dfSprite
 		rebuildUV( renderData, options );
 		rebuildColors( renderData, options );
 
-		if( options.fillAmount < 1f )
+		if( options.fillAmount < 1f - float.Epsilon )
 		{
 			doFill( renderData, options );
 		}

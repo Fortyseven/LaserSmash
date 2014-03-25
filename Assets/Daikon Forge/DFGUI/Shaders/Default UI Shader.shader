@@ -72,32 +72,4 @@ Shader "Daikon Forge/Default UI Shader"
 		}
 	}
 	
-	SubShader
-	{
-		Tags
-		{
-			"IgnoreProjector" = "True"
-			"RenderType" = "Transparent"
-			"Queue" = "Overlay"
-		}
-		
-		LOD 100
-		Cull Off
-		Lighting Off
-		ZWrite Off
-		Fog { Mode Off }
-		ColorMask RGBA
-		AlphaTest Greater .01
-		Blend SrcAlpha OneMinusSrcAlpha
-		
-		Pass
-		{
-			ColorMaterial AmbientAndDiffuse
-			
-			SetTexture [_MainTex]
-			{
-				Combine Texture * Primary
-			}
-		}
-	}
 }

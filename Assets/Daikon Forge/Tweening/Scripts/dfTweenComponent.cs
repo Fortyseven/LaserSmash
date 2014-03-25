@@ -202,7 +202,7 @@ public abstract class dfTweenComponent<T> : dfTweenComponentBase where T : struc
 
 	#region Coroutines
 
-	protected internal IEnumerator<T> Execute( dfObservableProperty property )
+	protected internal IEnumerator Execute( dfObservableProperty property )
 	{
 
 		isRunning = true;
@@ -241,7 +241,7 @@ public abstract class dfTweenComponent<T> : dfTweenComponentBase where T : struc
 			var timeout = Time.realtimeSinceStartup + delayBeforeStarting;
 			while( Time.realtimeSinceStartup < timeout )
 			{
-				yield return default( T );
+				yield return null;
 			}
 		}
 
@@ -255,7 +255,7 @@ public abstract class dfTweenComponent<T> : dfTweenComponentBase where T : struc
 
 			if( isPaused )
 			{
-				yield return currentValue;
+				yield return null;
 				continue;
 			}
 
@@ -296,7 +296,7 @@ public abstract class dfTweenComponent<T> : dfTweenComponentBase where T : struc
 
 			}
 
-			yield return currentValue;
+			yield return null;
 
 		}
 

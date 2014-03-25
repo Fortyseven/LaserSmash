@@ -116,6 +116,11 @@ public class dfMarkupTag : dfMarkupElement
 			return;
 		}
 
+		var marginAttribute = findAttribute( "margin" );
+		if( marginAttribute != null )
+		{
+		}
+
 		for( int i = 0; i < ChildNodes.Count; i++ )
 		{
 			ChildNodes[ i ].PerformLayout( container, style );
@@ -129,7 +134,7 @@ public class dfMarkupTag : dfMarkupElement
 		var fontAttribute = findAttribute( "font", "font-family" );
 		if( fontAttribute != null )
 		{
-			style.Font = dfDynamicFont.FindByName( fontAttribute.Value );
+			style.Font = dfDynamicFont.FindByName( fontAttribute.Value ) ?? owner.Font;
 		}
 
 		var fontStyleAttribute = findAttribute( "style", "font-style" );
@@ -289,6 +294,23 @@ public class dfMarkupTagSpan : dfMarkupTag
 
 		style = applyTextStyleAttributes( style );
 
+		dfMarkupBox spanBox = container;
+
+		var marginAttribute = findAttribute( "margin" );
+		if( marginAttribute != null )
+		{
+			
+			spanBox = new dfMarkupBox( this, dfMarkupDisplayType.inlineBlock, style );
+			spanBox.Margins = dfMarkupBorders.Parse( marginAttribute.Value );
+
+			// Span does not utilize top and bottom margins
+			spanBox.Margins.top = 0;
+			spanBox.Margins.bottom = 0;
+
+			container.AddChild( spanBox );
+
+		}
+
 		for( int i = 0; i < ChildNodes.Count; i++ )
 		{
 
@@ -302,14 +324,14 @@ public class dfMarkupTagSpan : dfMarkupTag
 				{
 					if( style.PreserveWhitespace )
 					{
-						container.AddLineBreak();
+						spanBox.AddLineBreak();
 					}
 					continue;
 				}
 
 			}
 
-			child.PerformLayout( container, style );
+			child.PerformLayout( spanBox, style );
 
 		}
 
@@ -565,7 +587,10 @@ public class dfMarkupTagListItem : dfMarkupTag
 		// The listItemBox.Parent property will actually refer to an internal
 		// linebox that hosts the listItemBox, which needs to be fit to the 
 		// contents of the list item box.
-		listItemBox.Parent.FitToContents();
+		if( listItemBox.Parent != null )
+		{
+			listItemBox.Parent.FitToContents();
+		}
 
 		listItemContainer.FitToContents();
 

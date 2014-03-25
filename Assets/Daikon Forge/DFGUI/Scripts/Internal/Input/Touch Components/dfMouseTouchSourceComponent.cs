@@ -33,7 +33,7 @@ public class dfMouseTouchSourceComponent : dfTouchInputSourceComponent
 
 	public void Start()
 	{
-		// Only included so that the component can be enabled/disabled in Editor
+		this.useGUILayout = false;
 	}
 
 	public void OnGUI()

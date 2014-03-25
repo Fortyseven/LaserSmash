@@ -398,7 +398,7 @@ public class dfAnimationClipInspector : Editor
 	{
 
 		var suffix = Regex.Matches( text, @"(\d+$)" )
-			.Cast<Match>()
+			.Cast<System.Text.RegularExpressions.Match>()
 			.Select( m => m.Value )
 			.FirstOrDefault();
 
@@ -430,7 +430,7 @@ public class dfAnimationClipInspector : Editor
 			var atlas = clip.Atlas;
 
 			if( atlas == null )
-				GUI.color = Color.red;
+				GUI.color = EditorGUIUtility.isProSkin ? Color.yellow : Color.red;
 
 			dfPrefabSelectionDialog.SelectionCallback selectionCallback = delegate( GameObject item )
 			{

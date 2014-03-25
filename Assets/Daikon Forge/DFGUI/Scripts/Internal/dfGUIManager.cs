@@ -74,7 +74,7 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	protected bool generateNormals = false;
 
 	[SerializeField]
-	protected bool consumeMouseEvents = true;
+	protected bool consumeMouseEvents = false;
 
 	[SerializeField]
 	protected bool overrideCamera = false;
@@ -92,7 +92,7 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	/// <summary>
 	/// Keeps track of all active dfGUIManager instances
 	/// </summary>
-	private static List<dfGUIManager> activeViews = new List<dfGUIManager>();
+	private static List<dfGUIManager> activeInstances = new List<dfGUIManager>();
 
 	/// <summary>
 	/// Global reference to the control that currently has input focus
@@ -115,6 +115,7 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	private int activeRenderMesh = 0;
 	private int cachedChildCount = 0;
 	private bool isDirty;
+	private bool abortRendering;
 	private Vector2 cachedScreenSize;
 	private Vector3[] corners = new Vector3[ 4 ];
 
@@ -138,6 +139,8 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 
 	#region Public properties
 
+	public static IEnumerable<dfGUIManager> ActiveManagers { get { return activeInstances; } }
+
 	/// <summary>Returns the total number of draw calls required to render this <see cref="dfGUIManager"/> instance during the last frame </summary>
 	public int TotalDrawCalls { get; private set; }
 
@@ -150,7 +153,7 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	/// <summary>Returns the total number of frames this <see cref="dfGUIManager"/> instance has rendered </summary>
 	public int FramesRendered { get; private set; }
 
-	/// <summary> Returns the list of controls actually rendered </summary>
+	/// <summary> Returns the list of controls actually rendered in the last render pass</summary>
 	public IList<dfControl> ControlsRendered { get { return controlsRendered; } }
 
 	/// <summary> Returns a list of indices into the ControlsRendered collection where each draw call started </summary>
@@ -423,6 +426,13 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 		// clipped portion will still block mouse clicks due to the fact that DFGUI does not
 		// currently clip the control exclusion rectangles, and doing so is likely to have a
 		// nontrivial impact on per-frame performance for low-powered mobile devices.
+		
+		// NOTE: Using GUI drawing functions to block mouse input is pathologically slow
+		// on Windows Phone 8 (and potentially other mobile devices), resulting in a significant 
+		// reduction in frame rates. Unfortunately, Unity does not give *any other way* to block 
+		// the built-in SendMouseEvents processing, so there is no other option. You can either 
+		// block mouse input processing from sending the built-in OnMouseXXX events, or have better 
+		// framerates. You apparently cannot have both.
 
 		var mousePosition = Input.mousePosition;
 		mousePosition.y = Screen.height - mousePosition.y;
@@ -438,14 +448,21 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 			// Block mouse/touch input for each screen area where a control was rendered
 			for( int i = 0; i < occluders.Count; i++ )
 			{
-				GUI.Box( occluders[ i ], GUIContent.none, GUIStyle.none );
+
+				if( Event.current.isMouse && occluders[ i ].Contains( mousePosition ) )
+					Event.current.Use();
+				else
+					GUI.Box( occluders[ i ], GUIContent.none, GUIStyle.none );
+
 			}
 		}
 
+		// NOTE: Not using inputManager.touchInputSource here because we're only concerned
+		// with Unity's built-in touch processing when attempting to account for "click-through".
 		if( Event.current.isMouse && Input.touchCount > 0 )
 		{
 			var touchCount = Input.touchCount;
-			for( int i = 0; i < touchCount; i++ )
+			for( var i = 0; i < touchCount; i++ )
 			{
 				var touch = Input.GetTouch( i );
 				if( touch.phase == TouchPhase.Began )
@@ -556,10 +573,10 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 
 		// Render the outline of the view
 		Gizmos.color = UnityEngine.Color.green;
-		var corners = GetCorners();
-		for( int i = 0; i < corners.Length; i++ )
+		var worldCorners = GetCorners();
+		for( var i = 0; i < worldCorners.Length; i++ )
 		{
-			Gizmos.DrawLine( corners[ i ], corners[ ( i + 1 ) % corners.Length ] );
+			Gizmos.DrawLine( worldCorners[ i ], worldCorners[ ( i + 1 ) % worldCorners.Length ] );
 		}
 
 	}
@@ -572,9 +589,9 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 
 		var isSelected = UnityEditor.Selection.activeGameObject == this.gameObject;
 
-		var corners = GetCorners();
+		var worldCorners = GetCorners();
 
-		for( int i = 0; i < guides.Count; i++ )
+		for( var i = 0; i < guides.Count; i++ )
 		{
 
 			var color = Color.magenta;
@@ -589,13 +606,13 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 			var guide = guides[ i ];
 			if( guide.orientation == dfControlOrientation.Vertical )
 			{
-				pos1 = Vector3.Lerp( corners[ 0 ], corners[ 1 ], (float)guide.position / (float)FixedWidth );
-				pos2 = Vector3.Lerp( corners[ 3 ], corners[ 2 ], (float)guide.position / (float)FixedWidth );
+				pos1 = Vector3.Lerp( worldCorners[ 0 ], worldCorners[ 1 ], (float)guide.position / (float)FixedWidth );
+				pos2 = Vector3.Lerp( worldCorners[ 3 ], worldCorners[ 2 ], (float)guide.position / (float)FixedWidth );
 			}
 			else
 			{
-				pos1 = Vector3.Lerp( corners[ 0 ], corners[ 3 ], (float)guide.position / (float)FixedHeight );
-				pos2 = Vector3.Lerp( corners[ 1 ], corners[ 2 ], (float)guide.position / (float)FixedHeight );
+				pos1 = Vector3.Lerp( worldCorners[ 0 ], worldCorners[ 3 ], (float)guide.position / (float)FixedHeight );
+				pos2 = Vector3.Lerp( worldCorners[ 1 ], worldCorners[ 2 ], (float)guide.position / (float)FixedHeight );
 			}
 
 			var screenPos1 = UnityEditor.HandleUtility.WorldToGUIPoint( pos1 );
@@ -615,21 +632,21 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	private static float distanceFromLine( Vector3 start, Vector3 end, Vector3 test )
 	{
 
-		Vector3 v = start - end;
-		Vector3 w = test - end;
+		var v = start - end;
+		var w = test - end;
 
-		float c1 = Vector3.Dot( w, v );
+		var c1 = Vector3.Dot( w, v );
 		if( c1 <= 0 )
 			return Vector3.Distance( test, end );
 
-		float c2 = Vector3.Dot( v, v );
+		var c2 = Vector3.Dot( v, v );
 		if( c2 <= c1 )
 			return Vector3.Distance( test, start );
 
-		float b = c1 / c2;
-		Vector3 Pb = end + b * v;
+		var b = c1 / c2;
+		var pb = end + b * v;
 
-		return Vector3.Distance( test, Pb );
+		return Vector3.Distance( test, pb );
 
 	}
 
@@ -639,13 +656,13 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 		if( !UnityEditor.SceneView.currentDrawingSceneView.orthographic )
 			return;
 
-		var corners = GetCorners();
+		var worldCorners = GetCorners();
 
 		const int SHOW_GRID_THRESHOLD = 512;
 
 		// If the on-screen view is too zoomed out, don't show the rulers
-		var screenUL = UnityEditor.HandleUtility.WorldToGUIPoint( corners[ 0 ] );
-		var screenLR = UnityEditor.HandleUtility.WorldToGUIPoint( corners[ 2 ] );
+		var screenUL = UnityEditor.HandleUtility.WorldToGUIPoint( worldCorners[ 0 ] );
+		var screenLR = UnityEditor.HandleUtility.WorldToGUIPoint( worldCorners[ 2 ] );
 		var screenSize = Vector3.Distance( screenUL, screenLR );
 		if( screenSize < SHOW_GRID_THRESHOLD )
 			return;
@@ -656,21 +673,21 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 		if( gridSize < 5 )
 			return;
 
-		for( int x = 0; x < FixedWidth; x += gridSize )
+		for( var x = 0; x < FixedWidth; x += gridSize )
 		{
 
-			var pos1 = Vector3.Lerp( corners[ 0 ], corners[ 1 ], (float)x / (float)FixedWidth );
-			var pos2 = Vector3.Lerp( corners[ 3 ], corners[ 2 ], (float)x / (float)FixedWidth );
+			var pos1 = Vector3.Lerp( worldCorners[ 0 ], worldCorners[ 1 ], (float)x / (float)FixedWidth );
+			var pos2 = Vector3.Lerp( worldCorners[ 3 ], worldCorners[ 2 ], (float)x / (float)FixedWidth );
 
 			Gizmos.DrawLine( pos1, pos2 );
 
 		}
 
-		for( int y = 0; y < FixedHeight; y += gridSize )
+		for( var y = 0; y < FixedHeight; y += gridSize )
 		{
 
-			var pos1 = Vector3.Lerp( corners[ 0 ], corners[ 3 ], (float)y / (float)FixedHeight );
-			var pos2 = Vector3.Lerp( corners[ 1 ], corners[ 2 ], (float)y / (float)FixedHeight );
+			var pos1 = Vector3.Lerp( worldCorners[ 0 ], worldCorners[ 3 ], (float)y / (float)FixedHeight );
+			var pos2 = Vector3.Lerp( worldCorners[ 1 ], worldCorners[ 2 ], (float)y / (float)FixedHeight );
 
 			Gizmos.DrawLine( pos1, pos2 );
 
@@ -684,7 +701,7 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 		if( !UnityEditor.SceneView.currentDrawingSceneView.orthographic )
 			return;
 
-		var corners = GetCorners();
+		var worldCorners = GetCorners();
 
 		const int SHOW_RULERS_THRESHOLD = 128;
 		const int SHOW_SMALL_THRESHOLD = 200;
@@ -692,8 +709,8 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 		const int SHOW_TICKS_THRESHOLD = 1280;
 
 		// If the on-screen view is too zoomed out, don't show the rulers
-		var screenUL = UnityEditor.HandleUtility.WorldToGUIPoint( corners[ 0 ] );
-		var screenLL = UnityEditor.HandleUtility.WorldToGUIPoint( corners[ 3 ] );
+		var screenUL = UnityEditor.HandleUtility.WorldToGUIPoint( worldCorners[ 0 ] );
+		var screenLL = UnityEditor.HandleUtility.WorldToGUIPoint( worldCorners[ 3 ] );
 		var screenSize = Vector3.Distance( screenUL, screenLL );
 		if( screenSize < SHOW_RULERS_THRESHOLD )
 			return;
@@ -706,11 +723,11 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 		var up = Vector3.up * lineSize;
 		var left = Vector3.left * lineSize;
 
-		for( int x = 0; x < FixedWidth; x += 2 )
+		for( var x = 0; x < FixedWidth; x += 2 )
 		{
 
-			var pos1 = Vector3.Lerp( corners[ 0 ], corners[ 1 ], (float)x / (float)FixedWidth );
-			var pos2 = Vector3.Lerp( corners[ 3 ], corners[ 2 ], (float)x / (float)FixedWidth );
+			var pos1 = Vector3.Lerp( worldCorners[ 0 ], worldCorners[ 1 ], (float)x / (float)FixedWidth );
+			var pos2 = Vector3.Lerp( worldCorners[ 3 ], worldCorners[ 2 ], (float)x / (float)FixedWidth );
 
 			if( x % 50 == 0 )
 			{
@@ -730,11 +747,11 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 
 		}
 
-		for( int y = 0; y < FixedHeight; y += 2 )
+		for( var y = 0; y < FixedHeight; y += 2 )
 		{
 
-			var pos1 = Vector3.Lerp( corners[ 0 ], corners[ 3 ], (float)y / (float)FixedHeight );
-			var pos2 = Vector3.Lerp( corners[ 1 ], corners[ 2 ], (float)y / (float)FixedHeight );
+			var pos1 = Vector3.Lerp( worldCorners[ 0 ], worldCorners[ 3 ], (float)y / (float)FixedHeight );
+			var pos2 = Vector3.Lerp( worldCorners[ 1 ], worldCorners[ 2 ], (float)y / (float)FixedHeight );
 
 			if( y % 50 == 0 )
 			{
@@ -755,36 +772,10 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 		}
 
 		// Draw lines at ends of rulers, looks kind of unfinished otherwise
-		Gizmos.DrawLine( corners[ 1 ], corners[ 1 ] + up * 3 );
-		Gizmos.DrawLine( corners[ 2 ], corners[ 2 ] - left * 3 );
-		Gizmos.DrawLine( corners[ 2 ], corners[ 2 ] - up * 3 );
-		Gizmos.DrawLine( corners[ 3 ], corners[ 3 ] + left * 3 );
-
-	}
-
-	private static Vector3 closestPoint( Vector3 start, Vector3 end, Vector3 test, bool clamp = true )
-	{
-
-		// http://www.gamedev.net/community/forums/topic.asp?topic_id=198199&whichpage=1&#1250842
-
-		Vector3 c = test - start;				// Vector from a to Point
-		Vector3 v = ( end - start ).normalized;	// Unit Vector from a to b
-		float d = ( end - start ).magnitude;	// Length of the line segment
-		float t = Vector3.Dot( v, c );			// Intersection point Distance from a
-
-		// Check to see if the point is on the line
-		// if not then return the endpoint
-		if( clamp )
-		{
-			if( t < 0 ) return start;
-			if( t > d ) return end;
-		}
-
-		// get the distance to move from point a
-		v *= t;
-
-		// move from point a to the nearest point on the segment
-		return start + v;
+		Gizmos.DrawLine( worldCorners[ 1 ], worldCorners[ 1 ] + up * 3 );
+		Gizmos.DrawLine( worldCorners[ 2 ], worldCorners[ 2 ] - left * 3 );
+		Gizmos.DrawLine( worldCorners[ 2 ], worldCorners[ 2 ] - up * 3 );
+		Gizmos.DrawLine( worldCorners[ 3 ], worldCorners[ 3 ] + left * 3 );
 
 	}
 
@@ -807,7 +798,22 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	public void OnEnable()
 	{
 
-		activeViews.Add( this );
+		var sceneCameras = Camera.allCameras;
+		for( var i = 0; i < sceneCameras.Length; i++ )
+		{
+
+			// Get rid of Unity's extremely annoying tendency to print errors
+			// about being unable to call SendMouseEventXXX because the event
+			// signatures don't match. Whose idea was that, anyways? Sheesh.
+			sceneCameras[ i ].eventMask &= ~( 1 << gameObject.layer );
+
+		}
+
+		// Explicitly disabling the layout stage improves performance, most notably on
+		// very slow mobile platforms
+		this.useGUILayout = !this.ConsumeMouseEvents;
+
+		activeInstances.Add( this );
 
 		FramesRendered = 0;
 		TotalDrawCalls = 0;
@@ -844,7 +850,7 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	public void OnDisable()
 	{
 
-		activeViews.Remove( this );
+		activeInstances.Remove( this );
 
 		if( meshRenderer != null )
 		{
@@ -856,17 +862,15 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	public void OnDestroy()
 	{
 
-		if( meshRenderer != null )
-		{
+		if( renderMesh == null || renderFilter == null )
+			return;
 
-			renderFilter.sharedMesh = null;
+		renderFilter.sharedMesh = null;
 
-			DestroyImmediate( renderMesh[ 0 ] );
-			DestroyImmediate( renderMesh[ 1 ] );
+		DestroyImmediate( renderMesh[ 0 ] );
+		DestroyImmediate( renderMesh[ 1 ] );
 
-			renderMesh = null;
-
-		}
+		renderMesh = null;
 
 	}
 
@@ -877,8 +881,8 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	public void Start()
 	{
 
-		var sceneCameras = FindObjectsOfType( typeof( Camera ) ) as Camera[];
-		for( int i = 0; i < sceneCameras.Length; i++ )
+		var sceneCameras = Camera.allCameras;
+		for( var i = 0; i < sceneCameras.Length; i++ )
 		{
 
 			// Get rid of Unity's extremely annoying tendency to print errors
@@ -982,18 +986,19 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 			updateRenderOrder();
 #endif
 
-			var collider = this.collider as BoxCollider;
-			if( collider != null )
+			var boxCollider = this.collider as BoxCollider;
+			if( boxCollider != null )
 			{
 				var size = this.GetScreenSize() * PixelsToUnits();
-				collider.center = Vector3.zero;
-				collider.size = size;
+				boxCollider.center = Vector3.zero;
+				boxCollider.size = size;
 			}
 
 		}
 
 		if( isDirty )
 		{
+			abortRendering = false;
 			isDirty = false;
 			Render();
 		}
@@ -1030,7 +1035,42 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	}
 
 	/// <summary>
-	/// Returns the top-most control under the given screen position.
+	/// Returns the top-most rendered control under the given screen position.
+	/// NOTE: the <paramref name="screenPosition"/> parameter should be
+	/// in "screen coordinates", such as the value from Input.mousePosition
+	/// </summary>
+	/// <param name="screenPosition">The screen position to check</param>
+	/// <returns></returns>
+	public static dfControl HitTestAll( Vector2 screenPosition )
+	{
+
+		var hitResult = (dfControl)null;
+		var hitCameraDepth = float.MinValue;
+
+		for( var i = 0; i < activeInstances.Count; i++ )
+		{
+			
+			var view = activeInstances[ i ];
+			var viewCamera = view.RenderCamera;
+
+			if( viewCamera.depth < hitCameraDepth )
+				continue;
+
+			var test = view.HitTest( screenPosition );
+			if( test != null )
+			{
+				hitResult = test;
+				hitCameraDepth = viewCamera.depth;
+			}
+
+		}
+
+		return hitResult;
+
+	}
+
+	/// <summary>
+	/// Returns the top-most rendered control under the given screen position.
 	/// NOTE: the <paramref name="screenPosition"/> parameter should be
 	/// in "screen coordinates", such as the value from Input.mousePosition
 	/// </summary>
@@ -1041,11 +1081,60 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 
 		var ray = renderCamera.ScreenPointToRay( screenPosition );
 		var maxDistance = renderCamera.farClipPlane - renderCamera.nearClipPlane;
+		var modalControl = dfGUIManager.GetModalControl();
 
-		var hits = Physics.RaycastAll( ray, maxDistance, renderCamera.cullingMask );
-		Array.Sort( hits, dfInputManager.raycastHitSorter );
+		// Caching these values can result in a small perf. boost
+		var controls = controlsRendered;
+		var controlCount = controls.Count;
+		var items = controls.Items;
 
-		return inputManager.clipCast( hits );
+		// Every control rendered should have a corresponding occluder
+		if( occluders.Count != controlCount )
+		{
+			Debug.LogWarning( "Occluder count does not match control count" );
+			return null;
+		}
+
+		// "Massage" screen position to check against Rect occluders
+		var occluderPosition = screenPosition;
+		occluderPosition.y = RenderCamera.pixelHeight - screenPosition.y;
+
+		// NOTE: This function takes advantage of the "inside knowledge" that the 
+		// ControlsRendered list is compiled in "render order", where the order of 
+		// the contained controls exactly matches the control render order, and so
+		// exactly matches which controls are "on top" of other controls. Iterating
+		// the list backwards will always return the "topmost" control that intersects
+		// the mouse position and which is not disabled or invisible.
+		for( var i = controlCount - 1; i >= 0; i-- )
+		{
+
+			if( !occluders[ i ].Contains( occluderPosition ) )
+				continue;
+
+			var control = items[ i ];
+			if( control == null )
+				continue;
+
+			RaycastHit hitInfo;
+			if( control.collider == null || !control.collider.Raycast( ray, out hitInfo, maxDistance ) )
+				continue;
+
+			var skipControl =
+				( modalControl != null && !control.transform.IsChildOf( modalControl.transform ) ) ||
+				!control.IsInteractive ||
+				!control.IsEnabled;
+
+			if( skipControl )
+				continue;
+
+			if( isInsideClippingRegion( hitInfo.point, control ) )
+			{
+				return control;
+			}
+
+		}
+
+		return null;
 
 	}
 
@@ -1078,7 +1167,7 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	public Plane[] GetClippingPlanes()
 	{
 
-		var corners = GetCorners();
+		var worldCorners = GetCorners();
 
 		var right = transform.TransformDirection( Vector3.right );
 		var left = transform.TransformDirection( Vector3.left );
@@ -1090,10 +1179,10 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 			clippingPlanes = new Plane[ 4 ];
 		}
 
-		clippingPlanes[ 0 ] = new Plane( right, corners[ 0 ] );
-		clippingPlanes[ 1 ] = new Plane( left, corners[ 1 ] );
-		clippingPlanes[ 2 ] = new Plane( up, corners[ 2 ] );
-		clippingPlanes[ 3 ] = new Plane( down, corners[ 0 ] );
+		clippingPlanes[ 0 ] = new Plane( right, worldCorners[ 0 ] );
+		clippingPlanes[ 1 ] = new Plane( left, worldCorners[ 1 ] );
+		clippingPlanes[ 2 ] = new Plane( up, worldCorners[ 2 ] );
+		clippingPlanes[ 3 ] = new Plane( down, worldCorners[ 0 ] );
 
 		return clippingPlanes;
 
@@ -1141,7 +1230,7 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	public Vector2 GetScreenSize()
 	{
 
-		var camera = RenderCamera;
+		var renderCamera = RenderCamera;
 
 		// If the application is running and the UI is set to "pixel perfect"
 		// mode, return the actual screen size. Cannot return the actual 
@@ -1149,12 +1238,12 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 		// always returns a value of 640x480 for some reason.
 		var returnActualScreenSize =
 			Application.isPlaying &&
-			camera != null;
+			renderCamera != null;
 
 		if( returnActualScreenSize )
 		{
-			var uiScale = PixelPerfectMode ? 1 : ( camera.pixelHeight / (float)fixedHeight ) * this.uiScale;
-			return ( new Vector2( camera.pixelWidth, camera.pixelHeight ) / uiScale ).CeilToInt();
+			var activeScale = PixelPerfectMode ? 1 : ( renderCamera.pixelHeight / (float)fixedHeight ) * this.uiScale;
+			return ( new Vector2( renderCamera.pixelWidth, renderCamera.pixelHeight ) / activeScale ).CeilToInt();
 		}
 
 		return new Vector2( FixedWidth, FixedHeight );
@@ -1174,19 +1263,19 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	/// <summary>
 	/// Adds a new control of the specified type to the scene
 	/// </summary>
-	/// <param name="type">The Type of control to create - Must derive from <see cref="dfControl"/></param>
+	/// <param name="controlType">The Type of control to create - Must derive from <see cref="dfControl"/></param>
 	/// <returns>A reference to the new <see cref="dfControl"/>instance</returns>
-	public dfControl AddControl( Type type )
+	public dfControl AddControl( Type controlType )
 	{
 
-		if( !typeof( dfControl ).IsAssignableFrom( type ) )
+		if( !typeof( dfControl ).IsAssignableFrom( controlType ) )
 			throw new InvalidCastException();
 
-		var go = new GameObject( type.Name );
+		var go = new GameObject( controlType.Name );
 		go.transform.parent = this.transform;
 		go.layer = this.gameObject.layer;
 
-		var child = go.AddComponent( type ) as dfControl;
+		var child = go.AddComponent( controlType ) as dfControl;
 		child.ZOrder = getMaxZOrder() + 1;
 
 		return child;
@@ -1282,8 +1371,18 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	/// and all of its descendants will receive user input events.
 	/// </summary>
 	/// <param name="control">The control to make modal</param>
+	public static void PushModal( dfControl control )
+	{
+		PushModal( control, null );
+	}
+
+	/// <summary>
+	/// Push a control onto the modal control stack. When a control is modal, only that control
+	/// and all of its descendants will receive user input events.
+	/// </summary>
+	/// <param name="control">The control to make modal</param>
 	/// <param name="callback">A function that will be called when the control is popped off of the modal stack. Can be null.</param>
-	public static void PushModal( dfControl control, ModalPoppedCallback callback = null )
+	public static void PushModal( dfControl control, ModalPoppedCallback callback )
 	{
 
 		if( control == null )
@@ -1506,8 +1605,17 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	/// Refresh all <see cref="dfGUIManager instances"/> and ensure that all <see cref="dfControl"/>
 	/// instances are forced to refresh as well.
 	/// </summary>
+	public static void RefreshAll()
+	{
+		RefreshAll( false );
+	}
+	
+	/// <summary>
+	/// Refresh all <see cref="dfGUIManager instances"/> and ensure that all <see cref="dfControl"/>
+	/// instances are forced to refresh as well.
+	/// </summary>
 	/// <param name="force">Set to TRUE to force each <see cref="dfGUIManager"/> instance to refresh immediately</param>
-	public static void RefreshAll( bool force = false )
+	public static void RefreshAll( bool force )
 	{
 
 		var views = FindObjectsOfType( typeof( dfGUIManager ) ) as dfGUIManager[];
@@ -1546,6 +1654,16 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	}
 
 	/// <summary>
+	/// Causes the rendering process to be aborted. For internal use only.
+	/// </summary>
+	// @cond DOXY_IGNORE
+	internal void AbortRender()
+	{
+		abortRendering = true;
+	}
+	// @endcond DOXY_IGNORE
+
+	/// <summary>
 	/// Rebuild the user interface mesh and update the renderer so that the UI will
 	/// be presented to the user on the next frame. <b>NOTE</b> : This function is
 	/// automatically called internally and should not be called by user code.
@@ -1569,12 +1687,16 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 			// TODO: Make sure that having updateRenderSettings() in Invalidate is sufficient
 			//updateRenderSettings();
 
+			// Clear occluders and ensure at least enough memory for the number of controls 
+			// that were rendered in the last pass
+			occluders.Clear();
+			occluders.EnsureCapacity( NumControlsRendered );
+
 			// We'll be keeping track of how many controls were actually rendered,
 			// as opposed to just how many exist in the scene.
 			NumControlsRendered = 0;
 			controlsRendered.Clear();
 			drawCallIndices.Clear();
-			occluders.Clear();
 
 			// Other stats to be tracked for informational purposes
 			TotalDrawCalls = 0;
@@ -1622,17 +1744,22 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 			using( var controls = getTopLevelControls() )
 			{
 
-				//@Profiler.BeginSample( "Update Render Order" );
 				updateRenderOrder( controls );
-				//@Profiler.EndSample();
 
-				for( int i = 0; i < controls.Count; i++ )
+				for( int i = 0; i < controls.Count && !abortRendering; i++ )
 				{
 					var control = controls[ i ];
+					//@Profiler.BeginSample( "Render control: " + control.GetType().Name );
 					renderControl( ref buffer, control, checksum, 1f );
+					//@Profiler.EndSample();
 				}
 
 			}
+
+			// Components can request that rendering be aborted. If so, then throw an exception
+			// that exits the rendering loop
+			if( abortRendering )
+				throw new dfAbortRenderingException();
 
 			//@Profiler.EndSample();
 
@@ -1691,26 +1818,32 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 
 			//@Profiler.BeginSample( "Building draw call submeshes" );
 
-			mesh.subMeshCount = submeshes.Count;
-			for( int i = 0; i < submeshes.Count; i++ )
+			if( masterBuffer.Triangles.Count >= 65000 )
+			{
+				Debug.LogError( "The triangle index count of 65000 per mesh has been exceeded", this );
+			}
+			else
 			{
 
-				// Calculate the start and length of the submesh array
-				var startIndex = submeshes[ i ];
-				var length = masterBuffer.Triangles.Count - startIndex;
-				if( i < submeshes.Count - 1 )
+				mesh.subMeshCount = submeshes.Count;
+				for( int i = 0; i < submeshes.Count; i++ )
 				{
-					length = submeshes[ i + 1 ] - startIndex;
+
+					// Calculate the start and length of the submesh array
+					var startIndex = submeshes[ i ];
+					var length = masterBuffer.Triangles.Count - startIndex;
+					if( i < submeshes.Count - 1 )
+					{
+						length = submeshes[ i + 1 ] - startIndex;
+					}
+
+					var submeshTriangles = TriangleBufferCache.Obtain( length );
+					masterBuffer.Triangles.CopyTo( startIndex, submeshTriangles, 0, length );
+
+					// Set the submesh's triangle index array
+					mesh.SetTriangles( submeshTriangles, i );
+
 				}
-
-				// Allocating the array locally appears to reduce (not eliminate)
-				// per-frame allocations tenfold compared to .ToArray(), at least
-				// when measured with the profiler in the Editor. Total mystery why.
-				var submeshTriangles = new int[ length ];
-				masterBuffer.Triangles.CopyTo( startIndex, submeshTriangles, 0, length );
-
-				// Set the submesh's triangle index array
-				mesh.SetTriangles( submeshTriangles, i );
 
 			}
 
@@ -1732,6 +1865,7 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 			// rebuilt, which causes any control rendered with that dynamic font
 			// to be invalid and require re-rendering.
 			isDirty = true;
+			abortRendering = false;
 		}
 		finally
 		{
@@ -1746,6 +1880,38 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	#endregion
 
 	#region Private utility methods
+
+	/// <summary>
+	/// Determines whether the raycast point on the given control is
+	/// inside of the control's clip region hierarchy
+	/// </summary>
+	/// <param name="control"></param>
+	/// <returns></returns>
+	private static bool isInsideClippingRegion( Vector3 point, dfControl control )
+	{
+
+		while( control != null )
+		{
+
+			var planes = control.ClipChildren ? control.GetClippingPlanes() : null;
+			if( planes != null && planes.Length > 0 )
+			{
+				for( int i = 0; i < planes.Length; i++ )
+				{
+					if( !planes[ i ].GetSide( point ) )
+					{
+						return false;
+					}
+				}
+			}
+
+			control = control.Parent;
+
+		}
+
+		return true;
+
+	}
 
 	private int getMaxZOrder()
 	{
@@ -2201,51 +2367,39 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 		// Retrieve the control's bounds, which will be used in intersection testing
 		// and triangle clipping.
 		var bounds = control.GetBounds();
-		var controlRendered = false;
 
-		try
+		if( !( control is IDFMultiRender ) )
 		{
 
-			//@Profiler.BeginSample( "Render control - " + control.GetType().Name );
-
-			if( !( control is IDFMultiRender ) )
+			// Ask the control to render itself and return a buffer of the 
+			// information needed to render it as a Mesh
+			var controlData = control.Render();
+			if( controlData != null )
 			{
-
-				// Ask the control to render itself and return a buffer of the 
-				// information needed to render it as a Mesh
-				var controlData = control.Render();
-				if( controlData == null )
-					return;
-
-				if( processRenderData( ref buffer, controlData, bounds, checksum, clipInfo ) )
-				{
-					controlRendered = true;
-				}
-
+				processRenderData( ref buffer, controlData, bounds, checksum, clipInfo );
 			}
-			else
+
+		}
+		else
+		{
+
+			// Ask the control to render itself and return as many dfRenderData buffers
+			// as needed to render all elements of the control as a Mesh
+			var childBuffers = ( (IDFMultiRender)control ).RenderMultiple();
+
+			if( childBuffers != null )
 			{
 
-				// Ask the control to render itself and return as many dfRenderData buffers
-				// as needed to render all elements of the control as a Mesh
-				var childBuffers = ( (IDFMultiRender)control ).RenderMultiple();
+				var buffers = childBuffers.Items;
+				var bufferCount = childBuffers.Count;
 
-				if( childBuffers != null )
+				for( int i = 0; i < bufferCount; i++ )
 				{
 
-					var buffers = childBuffers.Items;
-					var bufferCount = childBuffers.Count;
-
-					for( int i = 0; i < bufferCount; i++ )
+					var childBuffer = buffers[ i ];
+					if( childBuffer != null )
 					{
-
-						var childBuffer = buffers[ i ];
-
-						if( processRenderData( ref buffer, childBuffer, bounds, checksum, clipInfo ) )
-						{
-							controlRendered = true;
-						}
-
+						processRenderData( ref buffer, childBuffer, bounds, checksum, clipInfo );
 					}
 
 				}
@@ -2253,25 +2407,18 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 			}
 
 		}
-		finally
-		{
-			//@Profiler.EndSample();
-		}
 
-		// Keep track of the number of controls rendered and where they 
-		// appear on screen
-		if( controlRendered )
-		{
+		#region  Keep track of the number of controls rendered and where they appear on screen
 
-			NumControlsRendered += 1;
-			occluders.Add( getControlOccluder( control ) );
+		NumControlsRendered += 1;
+		occluders.Add( getControlOccluder( control ) );
 
-			controlsRendered.Add( control );
+		controlsRendered.Add( control );
 
-			// Keep track of controls are associated with which draw call
-			drawCallIndices.Add( drawCallBuffers.Count - 1 );
+		// Keep track of controls are associated with which draw call
+		drawCallIndices.Add( drawCallBuffers.Count - 1 );
 
-		}
+		#endregion 
 
 		// If the control has the "Clip child controls" option set, push
 		// its clip region information onto the stack so that all controls
@@ -2283,7 +2430,7 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 		}
 
 		// Render all child controls
-		for( int i = 0; i < control.Controls.Count; i++ )
+		for( int i = 0; i < control.Controls.Count && !abortRendering; i++ )
 		{
 			var child = control.Controls[ i ];
 			renderControl( ref buffer, child, checksum, effectiveOpacity );
@@ -2556,7 +2703,15 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	/// <summary>
 	/// Updates the render order of all controls that are rendered by this <see cref="dfGUIManager"/>
 	/// </summary>
-	private void updateRenderOrder( dfList<dfControl> list = null )
+	private void updateRenderOrder()
+	{
+		updateRenderOrder( null );
+	}
+
+	/// <summary>
+	/// Updates the render order of all controls that are rendered by this <see cref="dfGUIManager"/>
+	/// </summary>
+	private void updateRenderOrder( dfList<dfControl> list )
 	{
 
 		var allControls = list;
@@ -2595,6 +2750,78 @@ public class dfGUIManager : MonoBehaviour, IDFControlHost
 	#endregion
 
 	#region Private nested types
+
+	/// <summary>
+	/// Keeps a cache of triangle buffers in an attempt to mitigate the 
+	/// memory allocations necessitated by building a dynamic mesh with
+	/// many submeshes
+	/// </summary>
+	private class TriangleBufferCache
+	{
+
+		#region Constants
+
+		private const int MAX_CACHE_SIZE = 32;
+
+		#endregion 
+
+		#region Private variables
+
+		private static List<int[]> cache = new List<int[]>( MAX_CACHE_SIZE );
+
+		#endregion 
+
+		#region Public methods 
+
+		public static void Clear()
+		{
+			cache.Clear();
+		}
+
+		public static int[] Obtain( int length )
+		{
+
+			// Search for an existing list of the correct size
+			for( int i = 0; i < cache.Count; i++ )
+			{
+				
+				var list = cache[ i ];
+				if( list.Length == length )
+				{
+
+					// Always keep the most-recently-accessed list at the
+					// front of the cache
+					if( i > 0 )
+					{
+						cache.RemoveAt( i );
+						cache.Insert( 0, list );
+					}
+
+					return list;
+
+				}
+
+			}
+
+			// No list of the correct size was found. If the cache is already 
+			// full, remove the least-recently-accessed list from the cache 
+			// in order to make room for another list.
+			if( cache.Count == MAX_CACHE_SIZE )
+			{
+				cache.RemoveAt( cache.Count - 1 );
+			}
+			
+			// Create a new list of the correct size and add it to the cache
+			var newList = new int[ length ];
+			cache.Insert( 0, newList );
+
+			return newList;
+
+		}
+
+		#endregion 
+
+	}
 
 	/// <summary>
 	/// Encapsulates the information about a dfControl's clipping region,

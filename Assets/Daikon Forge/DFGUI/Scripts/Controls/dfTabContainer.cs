@@ -197,7 +197,7 @@ public class dfTabContainer : dfControl
 	protected internal virtual void OnSelectedIndexChanged( int Index )
 	{
 
-		SignalHierarchy( "OnSelectedIndexChanged", Index );
+		SignalHierarchy( "OnSelectedIndexChanged", this, Index );
 
 		if( SelectedIndexChanged != null )
 		{

@@ -5,8 +5,6 @@ using UnityEngine;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Collections;
-using System.Collections.Generic;
 
 /// <summary>
 /// Provides a data-bindable proxy object that works with the <see cref="dfProxyPropertyBinding"/>
@@ -118,8 +116,8 @@ public class dfDataObjectProxy : MonoBehaviour, IDataBindingComponent
 	/// <summary>
 	/// Returns the <see cref="System.Type"/> of the named property 
 	/// </summary>
-	/// <param name="PropertyName">The name of a field or property that is expected to be available on the object referenced by <see cref="Data"/></param>
-	public Type GetPropertyType( string PropertyName )
+	/// <param name="propertyName">The name of a field or property that is expected to be available on the object referenced by <see cref="Data"/></param>
+	public Type GetPropertyType( string propertyName )
 	{
 
 		// NOTE: There is a bug in Unity 4.3.3+ on Windows Phone that causes all reflection 
@@ -133,9 +131,9 @@ public class dfDataObjectProxy : MonoBehaviour, IDataBindingComponent
 			return null;
 
 #if UNITY_EDITOR || !UNITY_WP8
-		var member = type.GetMember( PropertyName, BindingFlags.Public | BindingFlags.Instance ).FirstOrDefault();
+		var member = type.GetMember( propertyName, BindingFlags.Public | BindingFlags.Instance ).FirstOrDefault();
 #else
-		var member = type.GetMember( PropertyName ).FirstOrDefault();
+		var member = type.GetMember( propertyName ).FirstOrDefault();
 #endif
 		if( member is FieldInfo )
 		{
@@ -170,24 +168,23 @@ public class dfDataObjectProxy : MonoBehaviour, IDataBindingComponent
 
 	/// <summary>
 	/// Returns a Type whose Name property matches the value specified in 
-	/// the <paramref name="typeName"/> parameter, if possible. Only looks
+	/// the <paramref name="nameOfType"/> parameter, if possible. Only looks
 	/// in the current Assembly.
 	/// </summary>
-	/// <param name="typeName">The value corresponding to the desired Type.Name property</param>
+	/// <param name="nameOfType">The value corresponding to the desired Type.Name property</param>
 	/// <returns></returns>
-	private Type getTypeFromName( string typeName )
+	private Type getTypeFromName( string nameOfType )
 	{
+
+		if( nameOfType == null )
+			throw new ArgumentNullException( "nameOfType" );
 
 		var definedTypes =
 			this.GetType()
 			.GetAssembly()
 			.GetTypes();
 
-		var result =
-			definedTypes
-			.Where( t => t.Name == typeName )
-			.FirstOrDefault();
-
+		var result = definedTypes.FirstOrDefault(t => t.Name == nameOfType);
 		return result;
 
 	}

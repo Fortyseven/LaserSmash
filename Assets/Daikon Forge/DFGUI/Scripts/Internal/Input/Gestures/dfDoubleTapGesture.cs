@@ -61,7 +61,7 @@ public class dfDoubleTapGesture : dfGestureBase
 
 	#region Input events
 
-	protected void OnMouseDown( dfControl source, dfMouseEventArgs args )
+	public void OnMouseDown( dfControl source, dfMouseEventArgs args )
 	{
 
 		if( State == dfGestureState.Possible )
@@ -92,17 +92,17 @@ public class dfDoubleTapGesture : dfGestureBase
 
 	}
 
-	protected void OnMouseLeave()
+	public void OnMouseLeave()
 	{
 		endGesture();
 	}
 
-	protected void OnMultiTouchEnd()
+	public void OnMultiTouchEnd()
 	{
 		endGesture();
 	}
 
-	protected void OnMultiTouch()
+	public void OnMultiTouch()
 	{
 		endGesture();
 	}

@@ -43,12 +43,12 @@ public class dfResizeGesture : dfGestureBase
 
 	#region Input notifications
 
-	protected void OnMultiTouchEnd()
+	public void OnMultiTouchEnd()
 	{
 		endGesture();
 	}
 
-	protected void OnMultiTouch( dfControl sender, dfTouchEventArgs args )
+	public void OnMultiTouch( dfControl sender, dfTouchEventArgs args )
 	{
 
 		var touches = args.Touches;

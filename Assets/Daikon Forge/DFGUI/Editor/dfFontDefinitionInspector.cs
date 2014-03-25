@@ -218,7 +218,7 @@ public class dfFontDefinitionInspector : Editor
 		Regex propertyPattern = new Regex( @"(?<Property>(?<Key>[a-z0-9]+)=(?<Value>(""((\\"")|\\\\|[^""\n])*"")|([\S]+))\s*)", RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture );
 
 		var matches = propertyPattern.Matches( line.Trim() );
-		foreach( Match property in matches )
+		foreach( System.Text.RegularExpressions.Match property in matches )
 		{
 
 			var key = property.Groups[ "Key" ].Value;
@@ -250,7 +250,12 @@ public class dfFontDefinitionInspector : Editor
 
 	}
 
-	protected internal static void EditSprite( string label, dfFont font, string propertyName, int labelWidth = 90 )
+	protected internal static void EditSprite( string label, dfFont font, string propertyName )
+	{
+		EditSprite( label, font, propertyName, 90 );
+	}
+
+	protected internal static void EditSprite( string label, dfFont font, string propertyName, int labelWidth )
 	{
 
 		var atlas = font.Atlas;
@@ -446,7 +451,12 @@ public class dfFontDefinitionInspector : Editor
 
 	}
 
-	protected internal static void SelectTextureAtlas( string label, dfFont view, string propertyName, bool readOnly, bool colorizeIfMissing, int labelWidth = 95 )
+	protected internal static void SelectTextureAtlas( string label, dfFont view, string propertyName, bool readOnly, bool colorizeIfMissing )
+	{
+		SelectTextureAtlas( label, view, propertyName, readOnly, colorizeIfMissing, 95 );
+	}
+
+	protected internal static void SelectTextureAtlas( string label, dfFont view, string propertyName, bool readOnly, bool colorizeIfMissing, int labelWidth )
 	{
 
 		var savedColor = GUI.color;
@@ -460,7 +470,7 @@ public class dfFontDefinitionInspector : Editor
 			GUI.enabled = !readOnly;
 
 			if( atlas == null && colorizeIfMissing )
-				GUI.color = Color.red;
+				GUI.color = EditorGUIUtility.isProSkin ? Color.yellow : Color.red;
 
 			dfPrefabSelectionDialog.SelectionCallback selectionCallback = delegate( GameObject item )
 			{

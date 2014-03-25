@@ -701,7 +701,12 @@ public class dfRichTextTokenizer
 
 	}
 
-	private char Peek( int offset = 0 )
+	private char Peek()
+	{
+		return Peek( 0 );
+	}
+
+	private char Peek( int offset )
 	{
 
 		if( index + offset > source.Length - 1 )
@@ -713,7 +718,12 @@ public class dfRichTextTokenizer
 
 	}
 
-	private char Advance( int amount = 1 )
+	private char Advance()
+	{
+		return Advance( 1 );
+	}
+
+	private char Advance( int amount )
 	{
 		index += amount;
 		return Peek();
@@ -1116,7 +1126,12 @@ public class dfMarkupTokenizer
 
 	}
 
-	private char Peek( int offset = 0 )
+	private char Peek()
+	{
+		return Peek( 0 );
+	}
+
+	private char Peek( int offset )
 	{
 
 		if( index + offset > source.Length - 1 )
@@ -1128,7 +1143,12 @@ public class dfMarkupTokenizer
 
 	}
 
-	private char Advance( int amount = 1 )
+	private char Advance()
+	{
+		return Advance( 1 );
+	}
+
+	private char Advance( int amount )
 	{
 		index += amount;
 		return Peek();

@@ -37,6 +37,7 @@ public class dfObservableProperty : IObservableValue
 	private PropertyInfo propertyInfo;
 	private MethodInfo propertyGetter;
 	private MethodInfo propertySetter;
+	private Type propertyType;
 	private bool canWrite = false;
 
 	#endregion
@@ -210,7 +211,10 @@ public class dfObservableProperty : IObservableValue
 		if( !canWrite )
 			return;
 
-		var propertyType = propertyInfo.PropertyType;
+		if( propertyType == null )
+		{
+			propertyType = propertyInfo.PropertyType;
+		}
 
 		if( value == null || propertyType.IsAssignableFrom( value.GetType() ) )
 		{
@@ -235,15 +239,18 @@ public class dfObservableProperty : IObservableValue
 		if( fieldInfo.IsLiteral )
 			return;
 
-		var fieldType = this.fieldInfo.FieldType;
+		if( propertyType == null )
+		{
+			propertyType = this.fieldInfo.FieldType;
+		}
 
-		if( value == null || fieldType.IsAssignableFrom( value.GetType() ) )
+		if( value == null || propertyType.IsAssignableFrom( value.GetType() ) )
 		{
 			fieldInfo.SetValue( target, value );
 		}
 		else
 		{
-			var convertedValue = Convert.ChangeType( value, fieldType );
+			var convertedValue = Convert.ChangeType( value, propertyType );
 			fieldInfo.SetValue( target, convertedValue );
 		}
 

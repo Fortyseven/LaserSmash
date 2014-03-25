@@ -347,10 +347,10 @@ public class dfAtlas : MonoBehaviour
 	/// <summary>
 	/// Add a collection of sprites to the Texture Atlas
 	/// </summary>
-	/// <param name="items">The sprite data to be stored</param>
-	public void AddItems( IEnumerable<ItemInfo> items )
+	/// <param name="list">The sprite data to be stored</param>
+	public void AddItems( IEnumerable<ItemInfo> list )
 	{
-		this.items.AddRange( items );
+		this.items.AddRange( list );
 		RebuildIndexes();
 	}
 

@@ -8,7 +8,7 @@ using System.Text;
 
 using System.Reflection;
 
-#if !UNITY_EDITOR && UNITY_METRO 
+#if ( !UNITY_EDITOR && UNITY_METRO )
 
 #region MemberTypes enumeration
 
@@ -69,7 +69,26 @@ public static class MetroReflectionExtensions
 
 	public static Type[] EmptyTypes = new Type[ 0 ];
 
-#region GetCustomAttributes() extension methods 
+	#region GetEvent and EventInfo extension methods 
+
+	public static EventInfo GetEvent( this System.Type type, string eventName )
+	{
+		return type.GetTypeInfo().DeclaredEvents.Where( x => x.Name == eventName ).FirstOrDefault();
+	}
+
+	public static MethodInfo GetAddMethod( this EventInfo eventInfo )
+	{
+		return eventInfo.AddMethod;
+	}
+
+	public static MethodInfo GetRemoveMethod( this EventInfo eventInfo )
+	{
+		return eventInfo.RemoveMethod;
+	}
+
+	#endregion 
+
+	#region GetCustomAttributes() extension methods
 
 	public static System.Attribute[] GetCustomAttributes( this Type type )
 	{

@@ -129,6 +129,53 @@ public class dfPanel : dfControl
 		this.BackgroundSprite = getLocalizedValue( this.backgroundSprite );
 	}
 
+	/// <summary>
+	/// Returns the screen-based coordinates for this control's clipping area.
+	/// This function is intended for internal use when performing shader-based clipping.
+	/// </summary>
+	/// <returns></returns>
+	protected internal override Rect GetClippingRect()
+	{
+
+		if( !ClipChildren )
+			return base.GetClippingRect();
+
+		var right = transform.TransformDirection( Vector3.right );
+		var left = transform.TransformDirection( Vector3.left );
+		var up = transform.TransformDirection( Vector3.up );
+		var down = transform.TransformDirection( Vector3.down );
+
+		var p2u = PixelsToUnits();
+		var padding = Padding;
+
+		var corners = GetCorners();
+		corners[ 0 ] += right * padding.left * p2u + down * padding.top * p2u;
+		corners[ 1 ] += left * padding.right * p2u + down * padding.top * p2u;
+		corners[ 2 ] += right * padding.left * p2u + up * padding.bottom * p2u;
+		corners[ 3 ] += left * padding.left * p2u + up * padding.bottom * p2u;
+
+		var renderCamera = GetCamera();
+
+		var min = Vector2.one * float.MaxValue;
+		var max = Vector2.one * float.MinValue;
+
+		var count = corners.Length;
+		for( var i = 0; i < count; i++ )
+		{
+			var screenPos = renderCamera.WorldToScreenPoint( corners[ i ] );
+			min = Vector2.Min( min, screenPos );
+			max = Vector2.Max( max, screenPos );
+		}
+
+		return new Rect(
+			min.x,
+			Screen.height - max.y,
+			max.x - min.x,
+			max.y - min.y
+		);
+
+	}
+
 	protected internal override Plane[] GetClippingPlanes()
 	{
 

@@ -276,7 +276,7 @@ public class dfMarkupParser
 #endif
 	}
 
-	private dfMarkupElement parseTag( Match tag )
+	private dfMarkupElement parseTag( System.Text.RegularExpressions.Match tag )
 	{
 
 		var tagName = tag.Groups[ "tag" ].Value.ToLowerInvariant();

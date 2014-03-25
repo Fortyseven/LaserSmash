@@ -47,7 +47,7 @@ using UnityColor32 = UnityEngine.Color32;
 /// 
 /// 	public void Start()
 /// 	{
-/// 		health.TextChanged += new PropertyChangedEventHandler<string>( health_TextChanged );
+/// 		health.TextChanged += new PropertyChangedEventHandler&lt;string&gt;( health_TextChanged );
 /// 	}
 /// 
 /// 	void health_TextChanged( dfControl control, string value )
@@ -313,7 +313,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// has a unique Version number
 	/// </summary>
 	// @private
-	private static uint versionCounter = 0x00;
+	private static uint versionCounter;
 
 	#endregion
 
@@ -341,7 +341,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 	[HideInInspector]
 	[SerializeField]
-	public int zindex = -1;
+	public int zindex = int.MaxValue;
 
 	[SerializeField]
 	protected Color32 color = new Color32( 255, 255, 255, 255 );
@@ -368,6 +368,9 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	[HideInInspector]
 	[SerializeField]
 	protected bool canFocus = false;
+
+	[SerializeField]
+	protected bool autoFocus = false;
 
 	/// <summary>
 	/// Responsible for performing control resizing and layout to maintain 
@@ -532,7 +535,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// layouts do not loop forever
 	/// </summary>
 	// @private
-	private bool performingLayout = false;
+	private bool performingLayout;
 
 	/// <summary>
 	/// Describes the control's upper-left, upper-right, bottom-left, and bottom-right 
@@ -550,7 +553,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// <summary>
 	/// Indicates that an application shutdown is in progress
 	/// </summary>
-	private bool shutdownInProgress = false;
+	private bool shutdownInProgress;
 
 	/// <summary>
 	/// This value will be updated each time the dfControl is invalidated, and can 
@@ -558,12 +561,17 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// changed the last time the value was queried.
 	/// </summary>
 	// @private
-	private uint version = 0x00;
+	private uint version;
 
 	/// <summary>
 	/// Indicates whether the initializeControl() method has been called.
 	/// </summary>
 	protected bool isControlInitialized = false;
+
+	/// <summary>
+	/// Indicates whether the control is currently rendering, to prevent recursive render loops
+	/// </summary>
+	private bool rendering;
 
 	#endregion
 
@@ -702,7 +710,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		{
 			value = Mathf.Max( 0, Mathf.Min( 1, value ) );
 			var alpha = (float)this.color.a / 255f;
-			if( value != alpha )
+			if( !Mathf.Approximately( value, alpha ) )
 			{
 				this.color.a = (byte)( value * 255 );
 				OnOpacityChanged();
@@ -911,14 +919,17 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			if( value != zindex )
 			{
 
-				this.zindex = Mathf.Max( -1, value );
 				if( parent != null )
 				{
 					parent.SetControlIndex( this, value );
 				}
+				else
+				{
+					this.zindex = Mathf.Max( -1, value );
+				}
 
 				OnZOrderChanged();
-					
+				
 			}
 		}
 	}
@@ -1060,6 +1071,25 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		}
 	}
 
+	/// <summary>
+	/// Gets or sets whether the control will automatically be focused when enabled or shown
+	/// </summary>
+	public bool AutoFocus
+	{
+		get { return this.autoFocus; }
+		set
+		{
+			if( value != this.autoFocus )
+			{
+				this.autoFocus = value;
+				if( this.IsEnabled && this.CanFocus )
+				{
+					this.Focus();
+				}
+			}
+		}
+	}
+
 	#endregion
 
 	#region Members used by GUIManager class and intended to be overridden 
@@ -1110,7 +1140,14 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 		for( int i = 0; i < count; i++ )
 		{
-			items[ i ].setRenderOrder( ref order );
+			// NOTE: Edge case - Using Destroy( control ) without first removing a control from 
+			// the parent's Controls collection will result in a null reference inside of the 
+			// former parent control's Controls collection. Always use Parent.RemoveControl() 
+			// before calling Destroy().
+			if( items[ i ] != null )
+			{
+				items[ i ].setRenderOrder( ref order );
+			}
 		}
 
 	}
@@ -1130,7 +1167,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// is requested on the control. 
 	/// </summary>
 	/// <param name="args">Contains information regarding the drag operation.
-	/// Set the <paramref name="args.State"/> property to <see cref="dfDragDropState.Dragging"/>
+	/// Set the <paramref name="args"/>.State property to <see cref="dfDragDropState.Dragging"/>
 	/// to allow the drag operation to continue, or <see cref="dfDragDropState.Denied"/> to 
 	/// prevent the drag operation</param>
 	internal virtual void OnDragStart( dfDragEventArgs args )
@@ -1139,7 +1176,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnDragStart", args );
+			Signal( "OnDragStart", this, args );
 
 			if( !args.Used && DragStart != null )
 			{
@@ -1166,7 +1203,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// operation was denied, <see cref="dfDragDropState.Cancelled"/> if the user cancelled
 	/// the drag-and-drop operation (by pressing ESC for instance), or 
 	/// <see cref="dfDragDropState.CancelledNoTarget"/> if the control was dropped without 
-	/// being dropped on a valid drop target. If <see cref="args.State"/> is set to 
+	/// being dropped on a valid drop target. If <see cref="args"/>.State is set to 
 	/// <see cref="dfDragDropState.CancelledNoTarget"/> then args.Ray can be used to 
 	/// perform a raycast to see where the control was dropped (such as a user dropping
 	/// an inventory item on the ground, etc)</param>
@@ -1176,7 +1213,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnDragEnd", args );
+			Signal( "OnDragEnd", this, args );
 
 			if( !args.Used && DragEnd != null )
 			{
@@ -1205,7 +1242,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnDragDrop", args );
+			Signal( "OnDragDrop", this, args );
 
 			if( !args.Used && DragDrop != null )
 			{
@@ -1232,7 +1269,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnDragEnter", args );
+			Signal( "OnDragEnter", this, args );
 
 			if( !args.Used && DragEnter != null )
 			{
@@ -1259,7 +1296,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnDragLeave", args );
+			Signal( "OnDragLeave", this, args );
 
 			if( !args.Used && DragLeave != null )
 			{
@@ -1286,7 +1323,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnDragOver", args );
+			Signal( "OnDragOver", this, args );
 
 			if( !args.Used && DragOver != null )
 			{
@@ -1310,7 +1347,6 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// Called by the <see cref="dfInputManager"/> when a touch has been lifted
 	/// and there is now only one 
 	/// </summary>
-	/// <param name="args">Contains information for all active Touch events</param>
 	protected internal virtual void OnMultiTouchEnd()
 	{
 
@@ -1339,7 +1375,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnMultiTouch", args );
+			Signal( "OnMultiTouch", this, args );
 
 			if( MultiTouch != null )
 			{
@@ -1372,7 +1408,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnMouseEnter", args );
+			Signal( "OnMouseEnter", this, args );
 
 			if( MouseEnter != null )
 			{
@@ -1401,7 +1437,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnMouseLeave", args );
+			Signal( "OnMouseLeave", this, args );
 
 			if( MouseLeave != null )
 			{
@@ -1428,7 +1464,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnMouseMove", args );
+			Signal( "OnMouseMove", this, args );
 
 			if( MouseMove != null )
 			{
@@ -1455,7 +1491,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnMouseHover", args );
+			Signal( "OnMouseHover", this, args );
 
 			if( MouseHover != null )
 			{
@@ -1482,7 +1518,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnMouseWheel", args );
+			Signal( "OnMouseWheel", this, args );
 
 			if( MouseWheel != null )
 			{
@@ -1522,7 +1558,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnMouseDown", args );
+			Signal( "OnMouseDown", this, args );
 
 			if( MouseDown != null )
 			{
@@ -1549,7 +1585,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnMouseUp", args );
+			Signal( "OnMouseUp", this, args );
 
 			if( MouseUp != null )
 			{
@@ -1574,7 +1610,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnClick", args );
+			Signal( "OnClick", this, args );
 
 			if( Click != null )
 			{
@@ -1599,7 +1635,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnDoubleClick", args );
+			Signal( "OnDoubleClick", this, args );
 
 			if( DoubleClick != null )
 			{
@@ -1632,7 +1668,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( this.IsInteractive && !args.Used )
 		{
 
-			Signal( "OnKeyPress", args );
+			Signal( "OnKeyPress", this, args );
 
 			if( KeyPress != null )
 			{
@@ -1674,7 +1710,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			if( !args.Used )
 			{
 
-				Signal( "OnKeyDown", args );
+				Signal( "OnKeyDown", this, args );
 
 				if( KeyDown != null )
 				{
@@ -1779,7 +1815,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( this.IsInteractive )
 		{
 
-			Signal( "OnKeyUp", args );
+			Signal( "OnKeyUp", this, args );
 
 			if( KeyUp != null )
 			{
@@ -1812,7 +1848,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	protected internal virtual void OnEnterFocus( dfFocusEventArgs args )
 	{
 
-		Signal( "OnEnterFocus", args );
+		Signal( "OnEnterFocus", this, args );
 
 		if( EnterFocus != null )
 		{
@@ -1838,7 +1874,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	protected internal virtual void OnLeaveFocus( dfFocusEventArgs args )
 	{
 
-		Signal( "OnLeaveFocus", args );
+		Signal( "OnLeaveFocus", this, args );
 
 		if( LeaveFocus != null )
 		{
@@ -1861,7 +1897,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnGotFocus", args );
+			Signal( "OnGotFocus", this, args );
 
 			if( GotFocus != null )
 			{
@@ -1887,7 +1923,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !args.Used )
 		{
 
-			Signal( "OnLostFocus", args );
+			Signal( "OnLostFocus", this, args );
 
 			if( LostFocus != null )
 			{
@@ -1904,36 +1940,6 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	}
 
 	#endregion
-
-	/// <summary>
-	/// Raises the named event. This method is only provided for the use of 
-	/// derived classes, which cannot directly raise events on a base class
-	/// due to constraints in the C# language specification.
-	/// </summary>
-	/// <param name="eventName">The name of the event to be raise (Click, MouseDown, etc)</param>
-	/// <param name="args">The parameters to be passed to the event</param>
-	[HideInInspector]
-	protected internal void RaiseEvent( string eventName, params object[] args )
-	{
-
-		var eventField =
-			this.GetType()
-			.GetAllFields()
-			.Where( f => f.Name == eventName )
-			.FirstOrDefault();
-
-		if( eventField != null )
-		{
-
-			var eventDelegate = eventField.GetValue( this );
-			if( eventDelegate != null )
-			{
-				( (Delegate)eventDelegate ).DynamicInvoke( args );
-			}
-
-		}
-
-	}
 
 	/// <summary>
 	/// Performs a SendMessage()-like event notification by searching the this.gameObject
@@ -1976,12 +1982,12 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	}
 
 	/// <summary>
-	/// Performs a SendMessage()-like event notification by searching the this.gameObject
+	/// Performs a SendMessage()-like event notification by searching the gameObject
 	/// for components which have a method with the same name as the <paramref name="eventName"/>
 	/// parameter and which have a signature that matches the types in the 
 	/// <paramref name="args"/> array. 
 	/// </summary>
-	/// <param name="target">The this.gameObject on which to raise the event</param>
+	/// <param name="target">The gameObject on which to raise the event</param>
 	/// <param name="eventName">The name of the method to invoke</param>
 	/// <param name="args">The parameters that will be passed to the method</param>
 	/// <returns>Returns TRUE if a matching event handler was found and invoked</returns>
@@ -1989,75 +1995,64 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	protected internal bool Signal( GameObject target, string eventName, params object[] args )
 	{
 
-		try
+		if( target == null )
+			return false;
+
+		// Retrieve the list of MonoBehaviour instances on the target object
+		var components = target.GetComponents( typeof( MonoBehaviour ) );
+
+		// Exit early if there are no attached behaviors or this dfControl is 
+		// the only attached behavior
+		if( components == null || ( target == this.gameObject && components.Length == 1 ) )
+			return false;
+
+		// Need to ensure that the 'this' pointer is always sent with the 
+		// event arguments. This also has the side benefit of differentiating
+		// the method signatures from the built-in methods
+		if( args.Length == 0 || !ReferenceEquals( args[ 0 ], this ) )
+		{
+			var newArgs = new object[ args.Length + 1 ];
+			Array.Copy( args, 0, newArgs, 1, args.Length );
+			newArgs[ 0 ] = this;
+			args = newArgs;
+		}
+
+		bool wasHandled = false;
+
+		for( int i = 0; i < components.Length; i++ )
 		{
 
-			if( target == null )
-				return false;
+			var component = components[ i ];
 
-			//@Profiler.BeginSample( string.Format( "Signal: {0}.{1}", this.GetType().Name, eventName ) );
+			// Should never happen, but seems to happen occasionally during a 
+			// long recompile in the Editor. Unity bug?
+			if( component == null || component.GetType() == null )
+				continue;
 
-			// Retrieve the list of MonoBehaviour instances on the target object
-			var components = target.GetComponents( typeof( MonoBehaviour ) );
+			if( component is MonoBehaviour && !( (MonoBehaviour)component ).enabled )
+				continue;
 
-			// Exit early if there are no attached behaviors or this dfControl is 
-			// the only attached behavior
-			if( components == null || ( target == this.gameObject && components.Length == 1 ) )
-				return false;
+			if( component == this )
+				continue;
 
-			// Need to ensure that the 'this' pointer is always sent with the 
-			// event arguments. This also has the side benefit of differentiating
-			// the method signatures from the built-in methods
-			if( args.Length == 0 || !object.ReferenceEquals( args[ 0 ], this ) )
-			{
-				var newArgs = new object[ args.Length + 1 ];
-				Array.Copy( args, 0, newArgs, 1, args.Length );
-				newArgs[ 0 ] = this;
-				args = newArgs;
-			}
+			object returnValue = null;
 
-			bool wasHandled = false;
-
-			for( int i = 0; i < components.Length; i++ )
+			var handledByComponent = SignalCache.Invoke( component, eventName, args, out returnValue );
+			if( handledByComponent )
 			{
 
-				var component = components[ i ];
+				wasHandled = true;
 
-				// Should never happen, but seems to happen occasionally during a 
-				// long recompile in the Editor. Unity bug?
-				if( component == null || component.GetType() == null )
-					continue;
-
-				if( component is MonoBehaviour && !( (MonoBehaviour)component ).enabled )
-					continue;
-
-				if( component == this )
-					continue;
-
-				object returnValue = null;
-
-				var handledByComponent = SignalCache.Invoke( component, eventName, args, out returnValue );
-				if( handledByComponent )
+				if( returnValue is IEnumerator && component is MonoBehaviour )
 				{
-
-					wasHandled = true;
-
-					if( returnValue is IEnumerator && component is MonoBehaviour )
-					{
-						( (MonoBehaviour)component ).StartCoroutine( (IEnumerator)returnValue );
-					}
-
+					( (MonoBehaviour)component ).StartCoroutine( (IEnumerator)returnValue );
 				}
 
 			}
 
-			return wasHandled;
+		}
 
-		}
-		finally
-		{
-			//@Profiler.EndSample();
-		}
+		return wasHandled;
 
 	}
 
@@ -2115,19 +2110,18 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// <summary>
 	/// Detaches all event handlers for the named event
 	/// </summary>
-	/// <param name="EventName"></param>
+	/// <param name="eventName"></param>
 	[HideInInspector]
-	protected internal void RemoveEventHandlers( string EventName )
+	protected internal void RemoveEventHandlers( string eventName )
 	{
 
 		var namedEvent =
 			this.GetType()
 			.GetAllFields()
-			.Where( f => 
+			.FirstOrDefault( f => 
 				typeof( Delegate ).IsAssignableFrom( f.FieldType ) &&
-				f.Name == EventName
-			)
-			.FirstOrDefault();
+				f.Name == eventName
+			);
 
 		if( namedEvent != null )
 		{
@@ -2224,7 +2218,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// Returns the relative position in screen coordinates (X increases to the right, 
 	/// Y increases downward, top-left origin) of the point where the ray intersects this control. Returns 
 	/// TRUE if the ray intersects the control and assigns the relative hit location to 
-	/// the <paramref name="position"/> argument.
+	/// the <paramref name="ray"/> argument.
 	/// </summary>
 	public Vector2 GetHitPosition( Ray ray )
 	{
@@ -2304,49 +2298,49 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 	/// <summary>
 	/// Performs a breadth-first search for a dfControl instance with the same
-	/// name as the <paramref name="Name"/> argument <i>and</i> which is of the specified Type. 
+	/// name as the <paramref name="controlName"/> argument <i>and</i> which is of the specified Type. 
 	/// This search is case-sensitive.
 	/// </summary>
 	/// <typeparam name="T">The Type of control to find (must derive from <see cref="dfControl"/>)</typeparam>
-	/// <param name="Name">The name of the dfControl you wish to find</param>
+	/// <param name="controlName">The name of the dfControl you wish to find</param>
 	/// <returns>TRUE if the dfControl was located, FALSE otherwise</returns>
-	public T Find<T>( string Name ) where T : dfControl
+	public T Find<T>( string controlName ) where T : dfControl
 	{
 
-		if( this.name == Name && this is T )
+		if( this.name == controlName && this is T )
 			return (T)this;
 
 		updateControlHierarchy( true );
 
-		for( int i = 0; i < controls.Count; i++ )
+		for( var i = 0; i < controls.Count; i++ )
 		{
 			var test = controls[ i ] as T;
-			if( test != null && test.name == Name )
+			if( test != null && test.name == controlName )
 				return test;
 		}
 
-		for( int i = 0; i < controls.Count; i++ )
+		for( var i = 0; i < controls.Count; i++ )
 		{
-			var test = controls[ i ].Find<T>( Name );
+			var test = controls[ i ].Find<T>( controlName );
 			if( test != null )
 				return test;
 		}
 
 
-		return (T)null;
+		return null;
 
 	}
 
 	/// <summary>
 	/// Performs a breadth-first search for a dfControl instance with the same
-	/// name as the <paramref name="Name"/> argument. This search is case-sensitive.
+	/// name as the <paramref name="controlName"/> argument. This search is case-sensitive.
 	/// </summary>
-	/// <param name="Name">The name of the dfControl you wish to find</param>
+	/// <param name="controlName">The name of the dfControl you wish to find</param>
 	/// <returns>TRUE if the dfControl was located, FALSE otherwise</returns>
-	public dfControl Find( string Name )
+	public dfControl Find( string controlName )
 	{
 
-		if( this.name == Name )
+		if( this.name == controlName )
 			return this;
 
 		updateControlHierarchy( true );
@@ -2354,13 +2348,13 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		for( int i = 0; i < controls.Count; i++ )
 		{
 			var test = controls[ i ];
-			if( test.name == Name )
+			if( test.name == controlName )
 				return test;
 		}
 
 		for( int i = 0; i < controls.Count; i++ )
 		{
-			var test = controls[ i ].Find( Name );
+			var test = controls[ i ].Find( controlName );
 			if( test != null )
 				return test;
 		}
@@ -2420,8 +2414,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		}
 		else
 		{
-			this.ZOrder = int.MaxValue;
-			parent.RebuildControlOrder();
+			parent.SetControlIndex( this, int.MaxValue );
 		}
 		Invalidate();
 	}
@@ -2438,8 +2431,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		}
 		else
 		{
-			this.ZOrder = int.MinValue;
-			parent.RebuildControlOrder();
+			parent.SetControlIndex( this, 0 );
 		}
 		Invalidate();
 	}
@@ -2450,7 +2442,6 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// </summary>
 	/// <returns>A <see cref="dfRenderData"/> buffer containing the data 
 	/// needed to render this <see cref="dfControl"/> instance as a Mesh</returns>
-	private bool rendering = false;
 	internal dfRenderData Render()
 	{
 
@@ -2549,7 +2540,20 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// <param name="force">Set to TRUE to force the layout, even if SuspendLayout
 	/// has been set to TRUE</param>
 	[HideInInspector]
-	public void ResetLayout( bool recursive = false, bool force = false )
+	public void ResetLayout()
+	{
+		ResetLayout( false, false );
+	}
+
+	/// <summary>
+	/// Causes the control to reset all layout information 
+	/// </summary>
+	/// <param name="recursive">Set to TRUE if the layout information should be
+	/// reset recursively</param>
+	/// <param name="force">Set to TRUE to force the layout, even if SuspendLayout
+	/// has been set to TRUE</param>
+	[HideInInspector]
+	public void ResetLayout( bool recursive, bool force )
 	{
 
 		if( shutdownInProgress )
@@ -2664,7 +2668,16 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// properties so that they lie exactly on pixel boundaries
 	/// </summary>
 	[HideInInspector]
-	public void MakePixelPerfect( bool recursive = true )
+	public void MakePixelPerfect()
+	{
+		MakePixelPerfect( true );
+	}	
+	/// <summary>
+	/// Causes this control to textAlign its <see cref="Position"/> and <see cref="Size"/>
+	/// properties so that they lie exactly on pixel boundaries
+	/// </summary>
+	[HideInInspector]
+	public void MakePixelPerfect( bool recursive )
 	{
 
 		this.size = this.size.RoundToInt();
@@ -2688,7 +2701,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	public Bounds GetBounds()
 	{
 
-		if( isInteractive )
+		if( isInteractive && collider != null )
 		{
 			return collider.bounds;
 		}
@@ -2787,21 +2800,31 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	}
 
 	/// <summary>
+	/// Returns the screen-based coordinates for this control's clipping area.
+	/// This function is intended for internal use when performing shader-based clipping.
+	/// </summary>
+	/// <returns></returns>
+	protected internal virtual Rect GetClippingRect()
+	{
+		return GetScreenRect();
+	}
+
+	/// <summary>
 	/// Returns the Screen-based coordinates containing this control
 	/// </summary>
 	public Rect GetScreenRect()
 	{
 
-		var camera = GetCamera();
+		var renderCamera = GetCamera();
 		var corners = GetCorners();
 
 		var min = Vector2.one * float.MaxValue;
 		var max = Vector2.one * float.MinValue;
 
 		var count = corners.Length;
-		for( int i = 0; i < count; i++ )
+		for( var i = 0; i < count; i++ )
 		{
-			var screenPos = camera.WorldToScreenPoint( corners[ i ] );
+			var screenPos = renderCamera.WorldToScreenPoint( corners[ i ] );
 			min = Vector2.Min( min, screenPos );
 			max = Vector2.Max( max, screenPos );
 		}
@@ -2848,7 +2871,12 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 		}
 
-		return null;
+		// Failed to find a dfGUIManager instance in the control hierarchy. This might 
+		// mean that this control is a newly-instantiated prefab which is not yet 
+		// part of the control hierarchy. Return a reference to the first dfGUIManager
+		// instance in the scene, but do not assign the cached reference
+
+		return dfGUIManager.ActiveManagers.FirstOrDefault();
 
 	}
 
@@ -2964,7 +2992,12 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		var myCollider = collider as BoxCollider;
 		if( myCollider == null )
 		{
+
+			if( collider != null )
+				throw new Exception( "Invalid collider type on control: " + collider.GetType().Name );
+
 			myCollider = this.gameObject.AddComponent<BoxCollider>();
+
 		}
 
 		if( Application.isPlaying && !this.isInteractive )
@@ -2981,23 +3014,15 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 		var p2u = PixelsToUnits();
 		var sizeInUnits = size * p2u;
+
 		var center = pivot.TransformToCenter( sizeInUnits );
 		var colliderSize = new Vector3( sizeInUnits.x * hotZoneScale.x, sizeInUnits.y * hotZoneScale.y, 0.001f );
 		var colliderEnabled = this.enabled && this.IsVisible;
 
-		var needsUpdate =
-			myCollider.isTrigger ||
-			myCollider.enabled != colliderEnabled ||
-			!Vector3.Equals( myCollider.size, colliderSize ) ||
-			!Vector3.Equals( myCollider.center, center );
-
-		if( needsUpdate )
-		{
-			myCollider.isTrigger = false;
-			myCollider.enabled = colliderEnabled;
-			myCollider.size = colliderSize;
-			myCollider.center = center;
-		}
+		myCollider.isTrigger = false;
+		myCollider.enabled = colliderEnabled;
+		myCollider.size = colliderSize;
+		myCollider.center = center;
 
 	}
 
@@ -3072,6 +3097,25 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			Invalidate();
 		}
 
+		// Add a kinematic rigidbody at runtime to make moving controls and 
+		// updating the collider less expensive (in theory, not conclusive)
+		if( this.isControlInitialized && Application.isPlaying && rigidbody == null )
+		{
+
+			// Too many active RigidBody components gives Windows Metro the falling fits
+#if UNITY_EDITOR || !UNITY_METRO
+
+			var rigidBody = this.gameObject.AddComponent<Rigidbody>();
+
+			rigidBody.hideFlags = HideFlags.HideAndDontSave | HideFlags.HideInInspector;
+			rigidBody.isKinematic = true;
+			rigidbody.useGravity = false;
+			rigidBody.detectCollisions = false;
+
+#endif
+
+		}
+
 		ResetLayout();
 
 		if( PositionChanged != null )
@@ -3102,12 +3146,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			PerformLayout();
 		}
 
-		Signal( "OnSizeChanged", this.size );
-
-		if( SizeChanged != null )
-		{
-			SizeChanged( this, Size );
-		}
+		raiseSizeChangedEvent();
 
 		for( int i = 0; i < controls.Count; i++ )
 		{
@@ -3230,7 +3269,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		updateCollider();
 
 		// Calculate visibility once to avoid duplication of 
-		// processing (IsVisible walks up the control hierarch).
+		// processing (IsVisible walks up the control hierarchy).
 		var visible = IsVisible;
 
 		// If the control had focus and is now hidden, then no
@@ -3252,7 +3291,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		// IsVisible affects the entire hierarchy below this control
 		var children = controls.Items;
 		var childCount = controls.Count;
-		for( int i = 0; i < childCount; i++ )
+		for( var i = 0; i < childCount; i++ )
 		{
 			children[ i ].OnIsVisibleChanged();
 		}
@@ -3269,7 +3308,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			{
 				ControlShown( this, true );
 			}
-			Signal( "OnControlShown", this, visible );
+			Signal( "OnControlShown", this, true );
 		}
 		else
 		{
@@ -3277,7 +3316,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			{
 				ControlHidden( this, true );
 			}
-			Signal( "OnControlHidden", this, visible );
+			Signal( "OnControlHidden", this, false );
 		}
 
 		#endregion
@@ -3285,32 +3324,48 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		// Control hierarchy must be re-rendered
 		Invalidate();
 
+		// Automatically sets focus if the AutoFocus property is true
+		if( visible )
+		{
+			doAutoFocus();
+		}
+		else if( !Application.isPlaying )
+		{
+			// Disable colliders for invisible controls during design time
+			var boxCollider = collider as BoxCollider;
+			boxCollider.size = Vector3.zero;
+		}
+
 	}
 
 	[HideInInspector]
 	protected internal virtual void OnIsEnabledChanged()
 	{
 
+		var enabledProperty = this.IsEnabled && this.enabled;
+
 		updateCollider();
 
-		if( dfGUIManager.ContainsFocus( this ) && !IsEnabled )
+		if( dfGUIManager.ContainsFocus( this ) && !enabledProperty )
 		{
 			dfGUIManager.SetFocus( null );
 		}
 
 		Invalidate();
 
-		Signal( "OnIsEnabledChanged", this, IsEnabled );
+		Signal( "OnIsEnabledChanged", this, enabledProperty );
 
 		if( IsEnabledChanged != null )
 		{
-			IsEnabledChanged( this, isEnabled );
+			IsEnabledChanged( this, enabledProperty );
 		}
 
 		for( int i = 0; i < controls.Count; i++ )
 		{
 			controls[ i ].OnIsEnabledChanged();
 		}
+
+		doAutoFocus();
 
 	}
 
@@ -3330,11 +3385,11 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// <see cref="Color32"/> value. This is a convenience function used 
 	/// to determine vector colors when rendering the control.
 	/// </summary>
-	protected internal Color32 ApplyOpacity( Color32 color )
+	protected internal Color32 ApplyOpacity( Color32 rawColor )
 	{
 		float opacity = CalculateOpacity();
-		color.a = (byte)( color.a * opacity );
-		return color;
+		rawColor.a = (byte)( rawColor.a * opacity );
+		return rawColor;
 	}
 
 	/// <summary>
@@ -3408,7 +3463,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		cachedPosition = transform.localPosition = oldPos * ( 2f / currentResolution.y );
 
 		// Ensure that the control's layout is correct
-		var flags = dfAnchorStyle.Proportional | dfAnchorStyle.CenterHorizontal | dfAnchorStyle.CenterVertical;
+		const dfAnchorStyle flags = dfAnchorStyle.Proportional | dfAnchorStyle.CenterHorizontal | dfAnchorStyle.CenterVertical;
 		if( Anchor.IsAnyFlagSet( flags ) )
 		{
 			PerformLayout();
@@ -3455,38 +3510,41 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	public virtual void OnDrawGizmos()
 	{
 
-		var collider = this.collider as BoxCollider;
-		collider.hideFlags = HideFlags.HideInInspector;
+		var controlCollider = this.collider as BoxCollider;
+		if( controlCollider == null )
+			return;
+
+		controlCollider.hideFlags = HideFlags.HideInInspector;
 
 		if( !IsVisible || Opacity < MINIMUM_OPACITY )
 			return;
 
-		var center = pivot.TransformToCenter( Size ) * PixelsToUnits();
-		var size = ( (Vector3)this.Size ) * this.PixelsToUnits();
+		var controlCenter = pivot.TransformToCenter( Size ) * PixelsToUnits();
+		var controlSize = ( (Vector3)this.Size ) * this.PixelsToUnits();
 
 		Gizmos.matrix = Matrix4x4.TRS( transform.position, transform.rotation, transform.localScale );
 
 		if( !UnityEditor.Selection.gameObjects.Contains( this.gameObject ) )
 		{
 			Gizmos.color = new UnityColor( 0, 0, 0, 0.175f );
-			Gizmos.DrawWireCube( center, size );
+			Gizmos.DrawWireCube( controlCenter, controlSize );
 		}
 
 		// Rendering a clear cube allows the user to click on the control
 		// in the Unity Editor Scene Manager
 		var thickness = new Vector3( 0, 0, 0.01f * ( renderOrder + 2 ) );
 		Gizmos.color = UnityColor.clear;
-		Gizmos.DrawCube( center, size + thickness );
+		Gizmos.DrawCube( controlCenter, controlSize + thickness );
 
 		// Render hot zone if set
 		if( !Vector2.Equals( this.HotZoneScale, Vector2.one ) )
 		{
 
-			size.x *= hotZoneScale.x;
-			size.y *= hotZoneScale.y;
+			controlSize.x *= hotZoneScale.x;
+			controlSize.y *= hotZoneScale.y;
 
 			Gizmos.color = new UnityColor( 1, 1, 0, 0.175f );
-			Gizmos.DrawWireCube( center, size );
+			Gizmos.DrawWireCube( controlCenter, controlSize );
 
 		}
 
@@ -3504,32 +3562,15 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		if( !IsVisible )
 			return;
 
-		var center = pivot.TransformToCenter( Size ) * PixelsToUnits();
-		var size = ( (Vector3)this.Size ) * this.PixelsToUnits();
+		var controlCenter = pivot.TransformToCenter( Size ) * PixelsToUnits();
+		var controlSize = ( (Vector3)this.Size ) * this.PixelsToUnits();
 
 		// Rendering a clear cube allows the user to click on the control
 		// in the Unity Editor Scene Manager
 		Gizmos.matrix = Matrix4x4.TRS( transform.position, transform.rotation, transform.localScale );
 		var thickness = new Vector3( 0, 0, 0.007f * ( renderOrder + 1 ) );
 		Gizmos.color = UnityColor.clear;
-		Gizmos.DrawCube( center, size + thickness );
-
-	}
-
-	private void drawScreenLine( Plane plane, Vector2 from, Vector2 to )
-	{
-
-		var dist = 0f;
-
-		var ray = UnityEditor.HandleUtility.GUIPointToWorldRay( from );
-		plane.Raycast( ray, out dist );
-		var fromWorld = ray.GetPoint( dist );
-
-		ray = UnityEditor.HandleUtility.GUIPointToWorldRay( to );
-		plane.Raycast( ray, out dist );
-		var toWorld = ray.GetPoint( dist );
-
-		Gizmos.DrawLine( fromWorld, toWorld );
+		Gizmos.DrawCube( controlCenter, controlSize + thickness );
 
 	}
 
@@ -3554,7 +3595,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			if( controlComponents.Length > 1 )
 			{
 				var thisType = this.GetType().Name;
-				var otherType = controlComponents.Where( x => x != this ).First().GetType().Name;
+				var otherType = controlComponents.First( x => x != this ).GetType().Name;
 				var errorMessage = string.Format( "Cannot add a {0} component to {2}, which already has a {1} component assigned.", thisType, otherType, this.name );
 				Debug.LogError( errorMessage, this.gameObject );
 				this.enabled = false;
@@ -3628,7 +3669,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	}
 
 	/// <summary>
-	/// This function is called by the Unity engine when the cotnrol becomes 
+	/// This function is called by the Unity engine when the control becomes 
 	/// disabled or inactive.
 	/// </summary>
 	[HideInInspector]
@@ -3642,12 +3683,6 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 			Invalidate();
 
-			if( this.renderData != null )
-			{
-				this.renderData.Release();
-				this.renderData = null;
-			}
-
 			if( dfGUIManager.HasFocus( this ) )
 			{
 				dfGUIManager.SetFocus( null );
@@ -3660,7 +3695,13 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			OnIsEnabledChanged();
 
 		}
-		catch { }
+		catch
+		{
+		}
+		finally
+		{
+			isControlInitialized = false;
+		}
 			
 	}
 
@@ -3672,6 +3713,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	{
 
 		isDisposing = true;
+		isControlInitialized = false;
 
 		// Detach all event handlers
 		if( Application.isPlaying )
@@ -3702,7 +3744,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		}
 
 		// Make sure that child controls no longer hold a reference to this control
-		for( int i = 0; i < controls.Count; i++ )
+		for( var i = 0; i < controls.Count; i++ )
 		{
 
 			if( controls[ i ].layout != null )
@@ -3773,13 +3815,19 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 		// Cache the .transform property to avoid repeated calls to the
 		// property get method
-		var transform = this.transform;
+		var cachedTransform = this.transform;
 
 		// Layouts are invalid when controls are reparented
-		if( transform.parent != cachedParentTransform )
+		if( cachedTransform.parent != cachedParentTransform )
 		{
-			cachedParentTransform = transform.parent;
+
+			// Control might have been assigned to another dfGUIManager
+			cachedManager = null;
+			GetManager();
+
+			cachedParentTransform = cachedTransform.parent;
 			ResetLayout( false, true );
+
 		}
 
 		// Maintain the control hierarchy - Keeps track of when child Controls are 
@@ -3789,13 +3837,13 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		// If the transform has been changed this dfControl needs to determine whether
 		// the changes are already reflected in the Position and Size properties and
 		// act accordingly if they are not
-		if( transform.hasChanged )
+		if( cachedTransform.hasChanged )
 		{
 
 			// If the control's scale has changed, need to rebuild render data
-			if( cachedScale != transform.localScale )
+			if( cachedScale != cachedTransform.localScale )
 			{
-				cachedScale = transform.localScale;
+				cachedScale = cachedTransform.localScale;
 				Invalidate();
 			}
 
@@ -3804,13 +3852,13 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			// using the built-in Position/RelativePosition methods, keep track of
 			// the new position and raise the PositionChanged event.
 			// To paraphrase a song, I just dropped in to see what condition my position is in.
-			if( ( cachedPosition - transform.localPosition ).sqrMagnitude > float.Epsilon )
+			if( ( cachedPosition - cachedTransform.localPosition ).sqrMagnitude > float.Epsilon )
 			{
 
 				// Keep track of "last known" position so that the OnPositionChanged event
 				// can be fired when the user moves the control through either the Position
 				// property in the Inspector or via gizmos in the scene.
-				cachedPosition = transform.localPosition;
+				cachedPosition = cachedTransform.localPosition;
 
 				// Notify any observers that the control has been moved
 				OnPositionChanged();
@@ -3818,14 +3866,14 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			}
 
 			// If the control was rotated, notify any observers
-			if( cachedRotation != transform.localRotation )
+			if( cachedRotation != cachedTransform.localRotation )
 			{
-				cachedRotation = transform.localRotation;
+				cachedRotation = cachedTransform.localRotation;
 				Invalidate();
 			}
 
 			// Clear the changed flag
-			transform.hasChanged = false;
+			cachedTransform.hasChanged = false;
 
 		}
 
@@ -3835,18 +3883,32 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 	#region Manage control hierarchy 
 
-	protected internal void SetControlIndex( dfControl child, int zindex )
+	protected internal void SetControlIndex( dfControl child, int zorder )
 	{
 
-		var swap = controls.FirstOrDefault( c => c.zindex == zindex && c != child );
-		if( swap != null )
+		// Backward compatibiity - In previous versions, -1 meant "make topmost"
+		if( zorder < 0 )
+			zorder = int.MaxValue;
+
+		controls.Sort();
+		controls.Remove( child );
+
+		if( zorder >= controls.Count )
+			controls.Add( child );
+		else
+			controls.Insert( zorder, child );
+
+		child.zindex = zorder;
+
+		for( int i = 0; i < controls.Count; i++ )
 		{
-			swap.zindex = controls.IndexOf( child );
+			if( controls[ i ].zindex != i )
+			{
+				var changed = controls[ i ];
+				changed.zindex = i;
+				changed.OnZOrderChanged();
+			}
 		}
-
-		child.zindex = zindex;
-
-		RebuildControlOrder();
 
 	}
 
@@ -3865,24 +3927,24 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// Creates a new <see cref="dfControl"/> instance of the specified
 	/// type and adds it as a child of this instance
 	/// </summary>
-	/// <param name="ControlType">The type of control to be created</param>
+	/// <param name="controlType">The type of control to be created</param>
 	/// <returns>A reference to the newly-created control instance</returns>
-	public dfControl AddControl( Type ControlType )
+	public dfControl AddControl( Type controlType )
 	{
 
-		if( !typeof( dfControl ).IsAssignableFrom( ControlType ) )
+		if( !typeof( dfControl ).IsAssignableFrom( controlType ) )
 		{
 			throw new InvalidCastException();
 		}
 
-		var go = new GameObject( ControlType.Name );
+		var go = new GameObject( controlType.Name );
 		go.transform.parent = this.transform;
 		go.layer = this.gameObject.layer;
 
 		var position = Size * PixelsToUnits() * 0.5f;
 		go.transform.localPosition = new Vector3( position.x, position.y, 0 );
 
-		var child = go.AddComponent( ControlType ) as dfControl;
+		var child = go.AddComponent( controlType ) as dfControl;
 		child.parent = this;
 		child.cachedManager = this.cachedManager;
 		child.zindex = -1;
@@ -3907,16 +3969,15 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		}
 
 		// Edge case - Some object pooling solutions can create a situation where the parent
-		// pointer is not cleaned up properly.
+		// pointer is not cleaned up properly. 
 		if( child.parent != null && child.parent != this )
 		{
 			child.parent.RemoveControl( child );
 		}
 
-		// Nothing to do if the control is already in the collection
+		// Add the control to the hierarchy if not already included
 		if( !controls.Contains( child ) )
 		{
-			// Add the control to the hierarchy
 			controls.Add( child );
 			child.parent = this;
 			child.transform.parent = this.transform;
@@ -3926,17 +3987,21 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			
 		// A ZOrder value of -1 means "make it the topmost control"
 		// If this is not what is desired, the caller must specify
-		// the custom ZOrder afterward
-		if( child.zindex == -1 )
+		// the custom ZOrder afterwards.
+		if( child.zindex == -1 || child.zindex == int.MaxValue )
 		{
-
 			// Auto-increment the control's ZOrder
-			child.zindex = getMaxZOrder() + 1;
-
+			SetControlIndex( child, int.MaxValue );
 		}
-
-		// The list of child controls must always remain sorted
-		controls.Sort();
+		else 
+		{
+			// The list of child controls must always remain sorted.
+			// NOTE: No attempt is made to fill "gaps" in the ZOrder
+			// of the controls collection, since doing so at startup
+			// will result in ZOrder changes due to non-deterministic
+			// control activation order.
+			controls.Sort();
+		}
 
 		// Notify all observers that a control has been added
 		OnControlAdded( child );
@@ -4044,34 +4109,85 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 	#region Private utility methods
 
-	/// <summary>
-	/// For internal use only.
-	/// </summary>
-	[HideInInspector]
-	internal void OverrideZOrder( int value )
+	private void doAutoFocus()
 	{
-		if( value != zindex )
+
+		var doAutoFocus =
+			Application.isPlaying &&
+			this.IsEnabled &&
+			this.enabled &&
+			this.AutoFocus &&
+			this.CanFocus &&
+			this.IsVisible &&
+			gameObject.activeSelf &&
+			gameObject.activeInHierarchy;
+
+		if( doAutoFocus )
 		{
+			// Need to focus on the *next* frame to allow all startup actions 
+			// to be completed first
+			StartCoroutine( focusOnNextFrame() );
+		}
 
-			this.zindex = Mathf.Max( -1, value );
-			OnZOrderChanged();
-			
-			if( parent != null )
-				parent.controls.Sort();
+	}
 
+	private IEnumerator focusOnNextFrame()
+	{
+		yield return null;
+		this.Focus();
+	}
+
+	protected void raiseSizeChangedEvent()
+	{
+
+		Signal( "OnSizeChanged", this, this.size );
+
+		if( SizeChanged != null )
+		{
+			SizeChanged( this, Size );
+		}
+
+	}
+
+	protected void raiseMouseDownEvent( dfMouseEventArgs args )
+	{
+		if( MouseDown != null )
+		{
+			MouseDown( this, args );
+		}
+	}
+
+	protected void raiseMouseMoveEvent( dfMouseEventArgs args )
+	{
+		if( MouseMove != null )
+		{
+			MouseMove( this, args );
+		}
+	}
+
+	protected void raiseMouseWheelEvent( dfMouseEventArgs args )
+	{
+		if( MouseWheel != null )
+		{
+			MouseWheel( this, args );
 		}
 	}
 
 	private void initializeControl()
 	{
 
-		if( GetManager() == null )
+		// Cache the transform's parent since it is referenced so frequently in this function
+		var transformParent = transform.parent;
+
+		// If control is newly instantiated (or currently being activated in an object pooling scenario)
+		// and is not yet part of a UI hierarchy, do not continue with control initialization
+		if( transformParent == null || transformParent.GetComponent( typeof( IDFControlHost ) ) == null )
 			return;
 
-		if( transform.parent != null || cachedParentTransform != transform.parent )
+		if( transformParent != null || cachedParentTransform != transformParent )
 		{
 
-			var parentControl = transform.parent.GetComponent<dfControl>();
+			var parentControl = transformParent.GetComponent<dfControl>();
 			if( parentControl != null )
 			{
 				this.parent = parentControl;
@@ -4084,33 +4200,11 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			}
 
 		}
-		else
-		{
-			zindex = -1;
-		}
 
 		// If RenderOrder has not yet been set, then default to the control's ZOrder
 		if( renderOrder == -1 )
 		{
 			renderOrder = ZOrder;
-		}
-
-		// Add a kinematic rigidbody at runtime to make moving controls and 
-		// updating the collider less expensive (in theory, not conclusive)
-		if( Application.isPlaying && rigidbody == null )
-		{
-
-// Too many active RigidBody components gives Windows Metro the falling fits
-#if UNITY_EDITOR || !UNITY_METRO
-
-			var rigidBody = this.gameObject.AddComponent<Rigidbody>();
-			
-			rigidBody.hideFlags = HideFlags.HideAndDontSave | HideFlags.HideInInspector;
-			rigidBody.isKinematic = true;
-			rigidBody.detectCollisions = false;
-
-#endif
-
 		}
 
 		// Make sure that the collider matches the desired size
@@ -4139,7 +4233,17 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	/// and lack of hierarchy change notifications by manually tracking changes 
 	/// to the this.gameObject's hierarchy and updating the Controls collection to match.
 	/// </summary>
-	internal void updateControlHierarchy( bool force = false )
+	internal void updateControlHierarchy()
+	{
+		updateControlHierarchy( false );	
+	}
+
+	/// <summary>
+	/// Compensates for Unity3D's lack of a consistent order of startup events
+	/// and lack of hierarchy change notifications by manually tracking changes 
+	/// to the this.gameObject's hierarchy and updating the Controls collection to match.
+	/// </summary>
+	internal void updateControlHierarchy( bool force )
 	{
 
 		// Assume that the control hierarchy is correct if Transform.childCount
@@ -4225,8 +4329,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 		var childCount = transform.childCount;
 
-		var controls = dfList<dfControl>.Obtain();
-		controls.EnsureCapacity( childCount );
+		var result = dfList<dfControl>.Obtain( childCount );
 
 		for( int i = 0; i < childCount; i++ )
 		{
@@ -4238,12 +4341,12 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			var control = childTransform.GetComponent<dfControl>();
 			if( control != null )
 			{
-				controls.Add( control );
+				result.Add( control );
 			}
 
 		}
 
-		return controls;
+		return result;
 
 	}
 
@@ -4430,27 +4533,6 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 	}
 
-	private static float distanceFromLine( Vector3 start, Vector3 end, Vector3 test )
-	{
-
-		Vector3 v = start - end;
-		Vector3 w = test - end;
-
-		float c1 = Vector3.Dot( w, v );
-		if( c1 <= 0 )
-			return Vector3.Distance( test, end );
-
-		float c2 = Vector3.Dot( v, v );
-		if( c2 <= c1 )
-			return Vector3.Distance( test, start );
-
-		float b = c1 / c2;
-		Vector3 Pb = end + b * v;
-
-		return Vector3.Distance( test, Pb );
-
-	}
-
 	private static Vector3 closestPointOnLine( Vector3 start, Vector3 end, Vector3 test, bool clamp )
 	{
 
@@ -4499,10 +4581,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		// with already-assigned ZOrder values
 		if( this.ZOrder < 0 )
 		{
-			if( other.ZOrder < 0 )
-				return 0;
-			else
-				return 1;
+			return other.ZOrder < 0 ? 0 : 1;
 		}
 
 		return ZOrder.CompareTo( other.ZOrder );
@@ -4516,7 +4595,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 	protected class SignalCache
 	{
 
-		private static List<SignalCacheItem> cache = new List<SignalCacheItem>();
+		private static readonly List<SignalCacheItem> cache = new List<SignalCacheItem>();
 
 		public static bool Invoke( Component target, string eventName, object[] arguments, out object returnValue )
 		{
@@ -4576,11 +4655,11 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 		private class SignalCacheItem
 		{
 
-			public Type ComponentType;
-			public string EventName;
+			public readonly Type ComponentType;
+			public readonly string EventName;
 
-			private MethodInfo method;
-			private bool usesParameters;
+			private readonly MethodInfo method;
+			private readonly bool usesParameters;
 
 			public SignalCacheItem( Type componentType, string eventName, Type[] paramTypes )
 			{
@@ -4683,7 +4762,7 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			if( parameters.Length != types.Length )
 				return false;
 
-			for( int i = 0; i < types.Length; i++ )
+			for( var i = 0; i < types.Length; i++ )
 			{
 				if( !parameters[ i ].ParameterType.IsAssignableFrom( types[ i ] ) )
 					return false;
@@ -4722,10 +4801,10 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 
 		#region Private fields
 
-		private int suspendLayoutCounter = 0;
-		private bool performingLayout = false;
-		private bool disposed = false;
-		private bool pendingLayoutRequest = false;
+		private int suspendLayoutCounter;
+		private bool performingLayout;
+		private bool disposed;
+		private bool pendingLayoutRequest;
 
 		#endregion
 
@@ -4833,7 +4912,12 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			}
 		}
 
-		internal void Reset( bool force = false )
+		internal void Reset()
+		{
+			Reset( false );
+		}
+
+		internal void Reset( bool force )
 		{
 
 			if( owner == null || owner.transform.parent == null )
@@ -4945,23 +5029,6 @@ public abstract class dfControl : MonoBehaviour, IDFControlHost, IComparable<dfC
 			{
 				performingLayout = false;
 			}
-
-		}
-
-		private string getPath( dfControl owner )
-		{
-
-			var buffer = new System.Text.StringBuilder( 1024 );
-
-			while( owner != null )
-			{
-				if( buffer.Length > 0 )
-					buffer.Insert( 0, '/' );
-				buffer.Insert( 0, owner.name );
-				owner = owner.Parent;
-			}
-
-			return buffer.ToString();
 
 		}
 

@@ -292,6 +292,16 @@ public class dfControlInspector : Editor
 				control.CanFocus = canFocus;
 			}
 
+			if( canFocus )
+			{
+				var focusOnEnable = EditorGUILayout.Toggle( "Auto Focus", control.AutoFocus );
+				if( focusOnEnable != control.AutoFocus )
+				{
+					dfEditorUtil.MarkUndo( control, "Toggle FocusOnEnable property" );
+					control.AutoFocus = focusOnEnable;
+				}
+			}
+
 			var clips = EditorGUILayout.Toggle( "Clip Children", control.ClipChildren );
 			if( clips != control.ClipChildren )
 			{
@@ -412,7 +422,7 @@ public class dfControlInspector : Editor
 
 	}
 
-	private void setZOrder( List<dfControl> group, dfControl control, int zorder )
+	private void setZOrder( dfList<dfControl> group, dfControl control, int zorder )
 	{
 
 		for( int i = 0; i < group.Count; i++ )
@@ -436,15 +446,16 @@ public class dfControlInspector : Editor
 
 	}
 
-	private List<dfControl> getControlGroup( dfControl control )
+	private dfList<dfControl> topControls = dfList<dfControl>.Obtain();
+	private dfList<dfControl> getControlGroup( dfControl control )
 	{
 
 		if( control.transform.parent != null && control.Parent != null )
 		{
-			return control.Parent.Controls.ToList();
+			return control.Parent.Controls;
 		}
 
-		var topControls = new List<dfControl>();
+		topControls.Clear();
 		var top = control.GetManager().transform;
 
 		for( int i = 0; i < top.childCount; i++ )
@@ -466,7 +477,12 @@ public class dfControlInspector : Editor
 		return false;
 	}
 
-	protected bool isFoldoutExpanded( Dictionary<int, bool> list, string label, bool defaultValue = true )
+	protected bool isFoldoutExpanded( Dictionary<int, bool> list, string label )
+	{
+		return isFoldoutExpanded( list, label, true );
+	}
+
+	protected bool isFoldoutExpanded( Dictionary<int, bool> list, string label, bool defaultValue )
 	{
 
 		var isExpanded = defaultValue;
@@ -479,6 +495,43 @@ public class dfControlInspector : Editor
 		list[ controlID ] = isExpanded;
 
 		return isExpanded;
+
+	}
+
+	protected Vector2 EditInt2( string groupLabel, string label1, string label2, Vector2 value )
+	{
+
+		var retVal = Vector2.zero;
+
+		var savedLabelWidth = dfEditorUtil.LabelWidth;
+
+		GUILayout.BeginHorizontal();
+		{
+
+			EditorGUILayout.LabelField( groupLabel, "", GUILayout.Width( dfEditorUtil.LabelWidth - 12 ) );
+
+			GUILayout.BeginVertical();
+			{
+
+				dfEditorUtil.LabelWidth = 60f;
+
+				var x = EditorGUILayout.IntField( label1, (int)value.x );
+				var y = EditorGUILayout.IntField( label2, (int)value.y );
+
+				retVal.x = x;
+				retVal.y = y;
+
+			}
+			GUILayout.EndVertical();
+
+			GUILayout.FlexibleSpace();
+
+		}
+		GUILayout.EndHorizontal();
+
+		dfEditorUtil.LabelWidth = savedLabelWidth;
+
+		return retVal;
 
 	}
 
@@ -519,7 +572,7 @@ public class dfControlInspector : Editor
 
 	}
 
-	protected internal static void SelectPrefab<T>( string label, dfControl control, string propertyName, dfPrefabSelectionDialog.PreviewCallback previewCallback = null, dfPrefabSelectionDialog.FilterCallback filter = null ) where T : dfControl
+	protected internal static void SelectPrefab<T>( string label, dfControl control, string propertyName, dfPrefabSelectionDialog.PreviewCallback previewCallback, dfPrefabSelectionDialog.FilterCallback filter ) where T : dfControl
 	{
 
 		var value = getValue( control, propertyName ) as dfControl;
@@ -598,7 +651,7 @@ public class dfControlInspector : Editor
 			GUI.enabled = !readOnly;
 
 			if( atlas == null && colorizeIfMissing )
-				GUI.color = Color.red;
+				GUI.color = EditorGUIUtility.isProSkin ? Color.yellow : Color.red;
 
 			dfPrefabSelectionDialog.SelectionCallback selectionCallback = delegate( GameObject item )
 			{
@@ -673,7 +726,12 @@ public class dfControlInspector : Editor
 
 	}
 
-	protected internal static void SelectFontDefinition( string label, dfAtlas atlas, dfControl control, string propertyName, bool colorizeIfMissing, bool allowDynamicFonts = false )
+	protected internal static void SelectFontDefinition( string label, dfAtlas atlas, dfControl control, string propertyName, bool colorizeIfMissing )
+	{
+		SelectFontDefinition( label, atlas, control, propertyName, colorizeIfMissing, false );
+	}
+
+	protected internal static void SelectFontDefinition( string label, dfAtlas atlas, dfControl control, string propertyName, bool colorizeIfMissing, bool allowDynamicFonts )
 	{
 
 		var savedColor = GUI.color;
@@ -684,7 +742,7 @@ public class dfControlInspector : Editor
 			var value = (dfFontBase)getValue( control, propertyName );
 
 			if( value == null && colorizeIfMissing )
-				GUI.color = Color.red;
+				GUI.color = EditorGUIUtility.isProSkin ? Color.yellow : Color.red;
 
 			dfPrefabSelectionDialog.FilterCallback filterCallback = delegate( GameObject item )
 			{
@@ -803,7 +861,12 @@ public class dfControlInspector : Editor
 
 	}
 
-	protected internal static void SelectSprite( string label, dfAtlas atlas, dfControl control, string propertyName, bool colorizeIfMissing = true )
+	protected internal static void SelectSprite( string label, dfAtlas atlas, dfControl control, string propertyName )
+	{
+		SelectSprite( label, atlas, control, propertyName, true );
+	}
+
+	protected internal static void SelectSprite( string label, dfAtlas atlas, dfControl control, string propertyName, bool colorizeIfMissing )
 	{
 
 		var savedColor = GUI.color;
@@ -821,7 +884,7 @@ public class dfControlInspector : Editor
 
 			var value = (string)getValue( control, propertyName );
 			if( atlas == null || atlas[ value ] == null && colorizeIfMissing )
-				GUI.color = Color.red;
+				GUI.color = EditorGUIUtility.isProSkin ? Color.yellow : Color.red;
 
 			EditorGUILayout.BeginHorizontal();
 			{
@@ -1834,11 +1897,16 @@ public class dfControlInspector : Editor
 
 	}
 
+	private float getGuideSnapPosition( float position, dfControlOrientation orientation )
+	{
+		return getGuideSnapPosition( position, orientation, 5 );
+	}
+
 	/// <summary>
 	/// Returns a "snapped" value if the given position is within a small tolerance of
 	/// any active design guides, and the value (-1) otherwise
 	/// </summary>
-	private float getGuideSnapPosition( float position, dfControlOrientation orientation, int snapDistance = 5 )
+	private float getGuideSnapPosition( float position, dfControlOrientation orientation, int snapDistance )
 	{
 
 		var showGuides = EditorPrefs.GetBool( "dfGUIManager.ShowGuides", true );
@@ -1963,7 +2031,12 @@ public class dfControlInspector : Editor
 
 	}
 
-	private Vector2 getVirtualScreenPosition( Vector2 position, bool clamp = true )
+	private Vector2 getVirtualScreenPosition( Vector2 position )
+	{
+		return getVirtualScreenPosition( position, true );
+	}
+
+	private Vector2 getVirtualScreenPosition( Vector2 position, bool clamp )
 	{
 
 		position.y = Camera.current.pixelHeight - position.y;
@@ -2278,7 +2351,12 @@ public class dfControlInspector : Editor
 
 	}
 
-	private Vector2 snapToNearestGuidePosition( Vector2 point, int snapDistance = 10 )
+	private Vector2 snapToNearestGuidePosition( Vector2 point )
+	{
+		return snapToNearestGuidePosition( point, 10 );
+	}
+
+	private Vector2 snapToNearestGuidePosition( Vector2 point, int snapDistance )
 	{
 
 		var snapX = getGuideSnapPosition( point.x, dfControlOrientation.Vertical, snapDistance );

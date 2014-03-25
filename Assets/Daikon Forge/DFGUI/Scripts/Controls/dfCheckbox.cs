@@ -216,7 +216,7 @@ public class dfCheckbox : dfControl
 	protected internal void OnCheckChanged()
 	{
 
-		SignalHierarchy( "OnCheckChanged", this.isChecked );
+		SignalHierarchy( "OnCheckChanged", this, this.isChecked );
 
 		if( CheckChanged != null )
 		{

@@ -12,7 +12,6 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
 
-using UnityObject = UnityEngine.Object;
 using DICT = System.Collections.Generic.Dictionary<string, object>;
 
 /// <summary>
@@ -175,7 +174,7 @@ public class dfTexturePackerImporter : EditorWindow
 		{
 			EditorUtility.FocusProjectWindow();
 			go = AssetDatabase.LoadMainAssetAtPath( prefabPath ) as GameObject;
-			Selection.objects = new UnityObject[] { go };
+			Selection.objects = new UnityEngine.Object[] { go };
 			EditorGUIUtility.PingObject( go );
 			Debug.Log( "Texture Atlas prefab re-imported at " + prefabPath, go );
 			EditorApplication.delayCall -= callback;
@@ -281,7 +280,7 @@ public class dfTexturePackerImporter : EditorWindow
 			{
 				EditorUtility.FocusProjectWindow();
 				go = AssetDatabase.LoadMainAssetAtPath( prefabPath ) as GameObject;
-				Selection.objects = new UnityObject[] { go };
+				Selection.objects = new UnityEngine.Object[] { go };
 				EditorGUIUtility.PingObject( go );
 				Debug.Log( "Texture Atlas prefab created at " + prefabPath, prefab );
 				EditorApplication.delayCall -= callback;

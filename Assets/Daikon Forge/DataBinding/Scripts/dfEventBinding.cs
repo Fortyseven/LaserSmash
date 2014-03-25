@@ -34,7 +34,7 @@ public class dfEventBinding : MonoBehaviour, IDataBindingComponent
 
 	#region Private fields
 
-	private bool isBound = false;
+	private bool isBound;
 
 	private Component sourceComponent;
 	private Component targetComponent;
@@ -550,24 +550,27 @@ public class dfEventBinding : MonoBehaviour, IDataBindingComponent
 			arguments = null;
 
 		var result = handlerProxy.Invoke( targetComponent, arguments );
-		if( result is IEnumerator )
+
+		if( !( result is IEnumerator ) )
+			return;
+
+		if( targetComponent is MonoBehaviour )
 		{
-			if( targetComponent is MonoBehaviour )
-			{
-				( (MonoBehaviour)targetComponent ).StartCoroutine( (IEnumerator)result );
-			}
+			( (MonoBehaviour)targetComponent ).StartCoroutine( (IEnumerator)result );
 		}
-		
+
 	}
 
-	private FieldInfo getField( Component sourceComponent, string fieldName )
+	private static FieldInfo getField( Component component, string fieldName )
 	{
 
+		if( component == null )
+			throw new ArgumentNullException( "component" );
+
 		return
-			sourceComponent.GetType()
+			component.GetType()
 			.GetAllFields()
-			.Where( f => f.Name == fieldName )
-			.FirstOrDefault();
+			.FirstOrDefault(f => f.Name == fieldName);
 
 	}
 
@@ -600,14 +603,14 @@ public class dfEventBinding : MonoBehaviour, IDataBindingComponent
 		this.handlerProxy = eventHandler;
 		this.handlerParameters = eventHandler.GetParameters();
 
-		Delegate eventDelegate;
+		Delegate createdDelegate;
 #if !UNITY_EDITOR && UNITY_METRO
-		eventDelegate = proxyMethod.CreateDelegate( delegateType, this );
+		createdDelegate = proxyMethod.CreateDelegate( delegateType, this );
 #else
-		eventDelegate = Delegate.CreateDelegate( delegateType, this, proxyMethod, true );
+		createdDelegate = Delegate.CreateDelegate( delegateType, this, proxyMethod, true );
 #endif
 
-		return eventDelegate;
+		return createdDelegate;
 
 	}
 
@@ -620,7 +623,7 @@ public class dfEventBinding : MonoBehaviour, IDataBindingComponent
 		if( lhs.Length != rhs.Length )
 			return false;
 
-		for( int i = 0; i < lhs.Length; i++ )
+		for( var i = 0; i < lhs.Length; i++ )
 		{
 			if( !areTypesCompatible( lhs[i], rhs[i] ) )
 				return false;

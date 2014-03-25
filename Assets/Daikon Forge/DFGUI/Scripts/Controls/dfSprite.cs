@@ -210,7 +210,7 @@ public class dfSprite : dfControl
 	protected internal virtual void OnSpriteNameChanged( string value )
 	{
 
-		Signal( "OnSpriteNameChanged", value );
+		Signal( "OnSpriteNameChanged", this, value );
 
 		if( SpriteNameChanged != null )
 		{
@@ -277,6 +277,9 @@ public class dfSprite : dfControl
 	internal static void renderSprite( dfRenderData data, RenderOptions options )
 	{
 
+		if( options.fillAmount <= float.Epsilon )
+			return;
+
 #if UNITY_EDITOR
 
 		var atlas = options.atlas;
@@ -298,7 +301,7 @@ public class dfSprite : dfControl
 		rebuildUV( data, options );
 		rebuildColors( data, options );
 
-		if( options.fillAmount > -1 && options.fillAmount < 1f )
+		if( options.fillAmount < 1f - float.Epsilon )
 		{
 			doFill( data, options );
 		}

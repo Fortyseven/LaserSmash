@@ -293,7 +293,12 @@ public class dfEditorUtil
 
 	}
 
-	public static void DrawHorzLine( int height = 2, int padding = 4 )
+	public static void DrawHorzLine()
+	{
+		DrawHorzLine ( 2, 4 );
+	}
+
+	public static void DrawHorzLine( int height, int padding )
 	{
 
 		GUILayout.Space( padding );
@@ -332,7 +337,12 @@ public class dfEditorUtil
 
 	}
 
-	public static Component ComponentField( string label, Component value, Type componentType = null )
+	public static Component ComponentField( string label, Component value )
+	{
+		return ComponentField( label, value, null );
+	}
+
+	public static Component ComponentField( string label, Component value, Type componentType )
 	{
 
 		componentType = componentType ?? typeof( MonoBehaviour );
@@ -471,7 +481,11 @@ public class dfPropertyGroup : IDisposable
 
 	private float savedLabelWidth = 0;
 
-	public dfPropertyGroup( string label, float labelWidth = 100 )
+	public dfPropertyGroup( string label ) : this( label, 100 )
+	{
+	}
+
+	public dfPropertyGroup( string label, float labelWidth )
 	{
 
 		savedLabelWidth = dfEditorUtil.LabelWidth;
@@ -524,6 +538,11 @@ public static class dfEditorExtensions
 
 	private static void DrawHierarchyIcon( int instanceID, Rect selectionRect )
 	{
+
+		if( HierarchyIcon == null )
+		{
+			return;
+		}
 
 		GameObject gameObject = EditorUtility.InstanceIDToObject( instanceID ) as GameObject;
 		if( gameObject == null )

@@ -14,7 +14,7 @@ public class dfInstallPostProcessor : AssetPostprocessor
 {
 
 	private const string VERSION_KEY = "DaikonForge.UserInterface.InstalledVersion";
-	private const string CURRENT_VERSION = "1.0.14 f1";
+	private const string CURRENT_VERSION = "1.0.15 hf1";
 
 	static void OnPostprocessAllAssets( string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths )
 	{

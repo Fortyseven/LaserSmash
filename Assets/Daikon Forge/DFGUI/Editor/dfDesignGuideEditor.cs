@@ -12,8 +12,6 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
 
-using UnityObject = UnityEngine.Object;
-
 public class dfDesignGuideEditor : EditorWindow
 {
 

@@ -526,7 +526,7 @@ public class dfScrollbar : dfControl
 		this.Value += IncrementAmount * -args.WheelDelta;
 
 		args.Use();
-		Signal( "OnMouseWheel", args );
+		Signal( "OnMouseWheel", this, args );
 
 	}
 
@@ -550,7 +550,7 @@ public class dfScrollbar : dfControl
 		updateFromTrackClick( args );
 
 		args.Use();
-		Signal( "OnMouseHover", args );
+		Signal( "OnMouseHover", this, args );
 
 	}
 
@@ -572,7 +572,7 @@ public class dfScrollbar : dfControl
 		this.Value = Mathf.Max( minValue, getValueFromMouseEvent( args ) - scrollSize * 0.5f );
 
 		args.Use();
-		Signal( "OnMouseMove", args );
+		Signal( "OnMouseMove", this, args );
 
 	}
 
@@ -613,7 +613,7 @@ public class dfScrollbar : dfControl
 		}
 
 		args.Use();
-		Signal( "OnMouseDown", args );
+		Signal( "OnMouseDown", this, args );
 
 	}
 
@@ -622,7 +622,7 @@ public class dfScrollbar : dfControl
 
 		Invalidate();
 
-		SignalHierarchy( "OnValueChanged", this.Value );
+		SignalHierarchy( "OnValueChanged", this, this.Value );
 
 		if( ValueChanged != null )
 		{

@@ -22,6 +22,14 @@ using UnityMaterial = UnityEngine.Material;
 public class dfWebSprite : dfTextureSprite
 {
 
+	#region Public events 
+
+	public PropertyChangedEventHandler<Texture> DownloadComplete;
+
+	public PropertyChangedEventHandler<string> DownloadError;
+
+	#endregion 
+
 	#region Protected serialized fields
 
 	[SerializeField]
@@ -92,17 +100,17 @@ public class dfWebSprite : dfTextureSprite
 
 	#region Unity events
 
-	public override void Start()
+	public override void OnEnable()
 	{
 
-		base.Start();
+		base.OnEnable();
 
 		if( Texture == null )
 		{
 			Texture = this.LoadingImage;
 		}
 
-		if( Application.isPlaying )
+		if( Texture == null && AutoDownload && Application.isPlaying )
 		{
 			LoadImage();
 		}
@@ -138,12 +146,29 @@ public class dfWebSprite : dfTextureSprite
 
 			if( !string.IsNullOrEmpty( request.error ) )
 			{
-				Debug.Log( "Error downloading image: " + request.error );
+
 				this.Texture = this.errorImage ?? this.loadingImage;
+
+				if( DownloadError != null )
+				{
+					DownloadError( this, request.error );
+				}
+
+				Signal( "OnDownloadError", this, request.error );
+
 			}
 			else
 			{
+
 				this.Texture = request.texture;
+
+				if( DownloadComplete != null )
+				{
+					DownloadComplete( this, this.Texture );
+				}
+
+				Signal( "OnDownloadComplete", this, this.Texture );
+
 			}
 
 		}

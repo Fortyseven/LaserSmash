@@ -881,14 +881,13 @@ public class dfList<T> : IList<T>, IDisposable
 	// use a for(;;) loop instead of foreach(). Note that this may also apply to using
 	// LINQ queries, which may use foreach() or an GetEnumerator() internally.
 
-#if UNITY_IPHONE
 	/// <summary>
 	/// Returns an IEnumerator instance that can be used to iterate through
 	/// the elements in this list.
 	/// </summary>
 	public IEnumerator<T> GetEnumerator()
 	{
-		throw new Exception( "Generic-Typed enumerators not work properly on iOS. Please use a for() loop instead of foreach()" );
+		return PooledEnumerator.Obtain( this, null );
 	}
 
 	/// <summary>
@@ -897,27 +896,8 @@ public class dfList<T> : IList<T>, IDisposable
 	/// </summary>
 	IEnumerator IEnumerable.GetEnumerator()
 	{
-		throw new Exception( "Generic-Typed enumerators not work properly on iOS. Please use a for() loop instead of foreach()" );
+		return PooledEnumerator.Obtain( this, null );
 	}
-#else
-	/// <summary>
-	/// Returns an IEnumerator instance that can be used to iterate through
-	/// the elements in this list.
-	/// </summary>
-	public IEnumerator<T> GetEnumerator()
-	{
-		return PooledEnumerator.Obtain( this );
-	}
-
-	/// <summary>
-	/// Returns an IEnumerator instance that can be used to iterate through
-	/// the elements in this list.
-	/// </summary>
-	IEnumerator IEnumerable.GetEnumerator()
-	{
-		return PooledEnumerator.Obtain( this );
-	}
-#endif
 
 	#endregion
 
@@ -970,7 +950,7 @@ public class dfList<T> : IList<T>, IDisposable
 
 		#region Pooling
 
-		public static PooledEnumerator Obtain( dfList<T> list, Func<T, bool> predicate = null )
+		public static PooledEnumerator Obtain( dfList<T> list, Func<T, bool> predicate )
 		{
 
 			var enumerator = ( pool.Count > 0 ) ? pool.Dequeue() : new PooledEnumerator();
@@ -1010,7 +990,7 @@ public class dfList<T> : IList<T>, IDisposable
 
 		#region Private utility methods
 
-		private void ResetInternal( dfList<T> list, Func<T, bool> predicate = null )
+		private void ResetInternal( dfList<T> list, Func<T, bool> predicate )
 		{
 			this.isValid = true;
 			this.list = list;

@@ -62,14 +62,14 @@ public class dfTapGesture : dfGestureBase
 
 	#region Input events
 
-	protected void OnMouseDown( dfControl source, dfMouseEventArgs args )
+	public void OnMouseDown( dfControl source, dfMouseEventArgs args )
 	{
 		StartPosition = CurrentPosition = args.Position;
 		State = dfGestureState.Possible;
 		StartTime = Time.realtimeSinceStartup;
 	}
 
-	protected void OnMouseMove( dfControl source, dfMouseEventArgs args )
+	public void OnMouseMove( dfControl source, dfMouseEventArgs args )
 	{
 		if( State == dfGestureState.Possible || State == dfGestureState.Began )
 		{
@@ -81,7 +81,7 @@ public class dfTapGesture : dfGestureBase
 		}
 	}
 
-	protected void OnMouseUp( dfControl source, dfMouseEventArgs args )
+	public void OnMouseUp( dfControl source, dfMouseEventArgs args )
 	{
 
 		if( State == dfGestureState.Possible )
@@ -105,7 +105,7 @@ public class dfTapGesture : dfGestureBase
 
 	}
 
-	protected void OnMultiTouch( dfControl source, dfTouchEventArgs args )
+	public void OnMultiTouch( dfControl source, dfTouchEventArgs args )
 	{
 		State = dfGestureState.Failed;
 	}

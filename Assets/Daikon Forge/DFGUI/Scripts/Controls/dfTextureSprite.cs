@@ -57,6 +57,12 @@ public class dfTextureSprite : dfControl
 	[SerializeField]
 	protected bool invertFill = false;
 
+	[SerializeField]
+	protected Rect cropRect = new Rect( 0, 0, 1, 1 );
+
+	[SerializeField]
+	protected bool cropImage = false;
+
 	#endregion
 
 	#region Private instance variables 
@@ -67,6 +73,41 @@ public class dfTextureSprite : dfControl
 	#endregion
 
 	#region Public properties
+
+	/// <summary>
+	/// If set to TRUE, the sprite will be rendered using the custom UV values defined
+	/// in the CustomUV property
+	/// </summary>
+	public bool CropTexture
+	{
+		get { return this.cropImage; }
+		set 
+		{
+			if( value != this.cropImage )
+			{
+				this.cropImage = value;
+				Invalidate();
+			}
+		}
+	}
+
+	/// <summary>
+	/// If the UseCustomUV property is set to TRUE, the sprite will be rendered using
+	/// the values defined in this property.
+	/// </summary>
+	public Rect CropRect
+	{
+		get { return this.cropRect; }
+		set
+		{
+			value = validateCropRect( value );
+			if( value != this.cropRect )
+			{
+				this.cropRect = value;
+				Invalidate();
+			}
+		}
+	}
 
 	/// <summary>
 	/// Gets/Sets the <see cref="Texture2D"/> that will be rendered
@@ -294,7 +335,7 @@ public class dfTextureSprite : dfControl
 
 	#region Private utility methods 
 
-	private void disposeCreatedMaterial()
+	protected virtual void disposeCreatedMaterial()
 	{
 
 		if( createdRuntimeMaterial )
@@ -306,15 +347,35 @@ public class dfTextureSprite : dfControl
 
 	}
 
-	private void rebuildUV( dfRenderData renderData )
+	protected virtual void rebuildUV( dfRenderData renderBuffer )
 	{
 
-		var result = renderData.UV;
+		var result = renderBuffer.UV;
 
-		result.Add( new Vector2( 0, 1 ) );
-		result.Add( new Vector2( 1, 1 ) );
-		result.Add( new Vector2( 1, 0 ) );
-		result.Add( new Vector2( 0, 0 ) );
+		if( cropImage )
+		{
+
+			var w = texture.width;
+			var h = texture.height;
+
+			var left = Mathf.Max( 0, Mathf.Min( cropRect.x, w ) );
+			var right = Mathf.Max( 0, Mathf.Min( cropRect.xMax, w ) );
+			var bottom = Mathf.Max( 0, Mathf.Min( cropRect.y, h ) );
+			var top = Mathf.Max( 0, Mathf.Min( cropRect.yMax, h ) );
+
+			result.Add( new Vector2( left / w, top / h ) );
+			result.Add( new Vector2( right / w, top / h ) );
+			result.Add( new Vector2( right / w, bottom / h ) );
+			result.Add( new Vector2( left / w, bottom / h ) );
+
+		}
+		else
+		{
+			result.Add( new Vector2( 0, 1 ) );
+			result.Add( new Vector2( 1, 1 ) );
+			result.Add( new Vector2( 1, 0 ) );
+			result.Add( new Vector2( 0, 0 ) );
+		}
 
 		var temp = Vector2.zero;
 
@@ -332,7 +393,7 @@ public class dfTextureSprite : dfControl
 
 	}
 
-	private void doFill( dfRenderData renderData )
+	protected virtual void doFill( dfRenderData renderData )
 	{
 
 		var verts = renderData.Vertices;
@@ -374,10 +435,35 @@ public class dfTextureSprite : dfControl
 
 	}
 
+	private Rect validateCropRect( Rect rect )
+	{
+
+		if( texture == null )
+			return new Rect();
+
+		var w = texture.width;
+		var h = texture.height;
+
+		var left = Mathf.Max( 0, Mathf.Min( rect.x, w ) );
+		var top = Mathf.Max( 0, Mathf.Min( rect.y, h ) );
+		var width = Mathf.Max( 0, Mathf.Min( rect.width, w ) );
+		var height = Mathf.Max( 0, Mathf.Min( rect.height, h ) );
+
+		var result = new Rect(
+			left,
+			top,
+			width,
+			height
+		);
+
+		return result;
+	
+	}
+
 	protected internal virtual void OnTextureChanged( Texture value )
 	{
 
-		SignalHierarchy( "OnTextureChanged", value );
+		SignalHierarchy( "OnTextureChanged", this, value );
 
 		if( TextureChanged != null )
 		{

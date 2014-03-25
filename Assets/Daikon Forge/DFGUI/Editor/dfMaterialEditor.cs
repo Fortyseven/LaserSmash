@@ -18,6 +18,8 @@ using Object = UnityEngine.Object;
 public class dfMaterialEditor : MaterialEditor
 {
 
+#if !UNITY_STANDALONE_OSX && !UNITY_IPHONE
+
 #if UNITY_4_3
 
 	protected override void OnHeaderGUI()
@@ -25,6 +27,9 @@ public class dfMaterialEditor : MaterialEditor
 
 		try
 		{
+
+			if( Application.platform == RuntimePlatform.OSXEditor )
+				return;
 
 			var go = Selection.activeGameObject;
 			if( go == null || go.GetComponent<dfGUIManager>() == null )
@@ -45,6 +50,9 @@ public class dfMaterialEditor : MaterialEditor
 		try
 		{
 
+			if( Application.platform == RuntimePlatform.OSXEditor )
+				return;
+
 			var go = Selection.activeGameObject;
 			if( go == null || go.GetComponent<dfGUIManager>() == null )
 			{
@@ -56,4 +64,7 @@ public class dfMaterialEditor : MaterialEditor
 
 	}
 
+#endif
+
 }
+

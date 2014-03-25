@@ -126,8 +126,12 @@ public static class dfNumberExtensions
 	/// </summary>
 	public static int Quantize( this int value, int stepSize )
 	{
-		if( stepSize <= 0 ) return value;
+
+		if( stepSize <= 0 )
+			return value;
+
 		return ( value / stepSize ) * stepSize;
+
 	}
 
 	/// <summary>
@@ -135,8 +139,12 @@ public static class dfNumberExtensions
 	/// </summary>
 	public static float Quantize( this float value, float stepSize )
 	{
-		if( stepSize <= 0 ) return value;
+
+		if( stepSize <= 0 ) 
+			return value;
+
 		return Mathf.Floor( value / stepSize ) * stepSize;
+
 	}
 
 	/// <summary>
@@ -145,11 +153,12 @@ public static class dfNumberExtensions
 	public static int RoundToNearest( this int value, int stepSize )
 	{
 
-		if( stepSize <= 0 ) return value;
+		if( stepSize <= 0 ) 
+			return value;
 
 		var result = ( value / stepSize ) * stepSize;
+
 		var remainder = value % stepSize;
-		
 		if( remainder >= stepSize / 2 )
 			return result + stepSize;
 
@@ -163,12 +172,13 @@ public static class dfNumberExtensions
 	public static float RoundToNearest( this float value, float stepSize )
 	{
 
-		if( stepSize <= 0 ) return value;
+		if( stepSize <= 0 )
+			return value;
 
-		var result = Mathf.FloorToInt( value / stepSize ) * stepSize;
-		var remainder = value % stepSize;
+		var result = (float)Mathf.Floor( value / stepSize ) * stepSize;
 
-		if( remainder >= stepSize * 0.5f )
+		var remainder = value - ( stepSize * Mathf.Floor( value / stepSize ) );
+		if( remainder >= stepSize * 0.5f - float.Epsilon )
 			return result + stepSize;
 
 		return result;

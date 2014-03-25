@@ -1,11 +1,7 @@
 /* Copyright 2013 Daikon Forge */
-using UnityEngine;
 
 using System;
-using System.Linq;
-using System.Reflection;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Provides a basic Button implementation that allows the developer
@@ -777,7 +773,7 @@ public class dfButton : dfInteractiveBase, IDFMultiRender
 
 		this.state = value;
 
-		Signal( "OnButtonStateChanged", value );
+		Signal( "OnButtonStateChanged", this, value );
 
 		if( ButtonStateChanged != null )
 		{
@@ -1035,9 +1031,6 @@ public class dfButton : dfInteractiveBase, IDFMultiRender
 
 	public dfList<dfRenderData> RenderMultiple()
 	{
-
-		if( this.name == "DEBUG" )
-			Debug.Log( "Rendering: " + this.name );
 
 		if( renderData == null )
 		{

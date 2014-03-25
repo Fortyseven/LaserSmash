@@ -188,12 +188,12 @@ internal static class dfTexturePacker
 		public List<Rect> usedRectangles = new List<Rect>();
 		public List<Rect> freeRectangles = new List<Rect>();
 
-		public MaxRectsBinPack( int width, int height, bool rotations = false )
+		public MaxRectsBinPack( int width, int height, bool rotations )
 		{
 			Init( width, height, rotations );
 		}
 
-		public void Init( int width, int height, bool rotations = false )
+		public void Init( int width, int height, bool rotations )
 		{
 			binWidth = width;
 			binHeight = height;

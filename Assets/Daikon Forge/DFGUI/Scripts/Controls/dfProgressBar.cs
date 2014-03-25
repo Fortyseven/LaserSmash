@@ -362,7 +362,7 @@ public class dfProgressBar : dfControl
 
 		Invalidate();
 
-		SignalHierarchy( "OnValueChanged", this.Value );
+		SignalHierarchy( "OnValueChanged", this, this.Value );
 
 		if( ValueChanged != null )
 		{
@@ -512,8 +512,12 @@ public class dfProgressBar : dfControl
 		return rawValue;
 
 	}
+	private Vector3[] getEndPoints()
+	{
+		return getEndPoints( false );
+	}
 
-	private Vector3[] getEndPoints( bool convertToWorld = false )
+	private Vector3[] getEndPoints( bool convertToWorld )
 	{
 
 		var offset = pivot.TransformToUpperLeft( Size );

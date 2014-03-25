@@ -76,7 +76,7 @@ public class dfFlickGesture : dfGestureBase
 
 	#region Input events
 
-	protected void OnMouseDown( dfControl source, dfMouseEventArgs args )
+	public void OnMouseDown( dfControl source, dfMouseEventArgs args )
 	{
 		StartPosition = CurrentPosition = args.Position;
 		State = dfGestureState.Possible;
@@ -84,7 +84,7 @@ public class dfFlickGesture : dfGestureBase
 		hoverTime = Time.realtimeSinceStartup;
 	}
 
-	protected void OnMouseHover( dfControl source, dfMouseEventArgs args )
+	public void OnMouseHover( dfControl source, dfMouseEventArgs args )
 	{
 		if( State == dfGestureState.Possible && Time.realtimeSinceStartup - hoverTime >= timeout )
 		{
@@ -93,7 +93,7 @@ public class dfFlickGesture : dfGestureBase
 		}
 	}
 
-	protected void OnMouseMove( dfControl source, dfMouseEventArgs args )
+	public void OnMouseMove( dfControl source, dfMouseEventArgs args )
 	{
 
 		hoverTime = Time.realtimeSinceStartup;
@@ -106,7 +106,7 @@ public class dfFlickGesture : dfGestureBase
 
 	}
 
-	protected void OnMouseUp( dfControl source, dfMouseEventArgs args )
+	public void OnMouseUp( dfControl source, dfMouseEventArgs args )
 	{
 
 		if( State == dfGestureState.Began )
@@ -142,12 +142,12 @@ public class dfFlickGesture : dfGestureBase
 
 	}
 
-	protected void OnMultiTouchEnd()
+	public void OnMultiTouchEnd()
 	{
 		endGesture();
 	}
 
-	protected void OnMultiTouch()
+	public void OnMultiTouch()
 	{
 		endGesture();
 	}

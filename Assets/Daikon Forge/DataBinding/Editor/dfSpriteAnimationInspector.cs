@@ -259,7 +259,7 @@ public class dfSpriteAnimationInspector : Editor
 
 			var clip = animation.Clip;
 			if( clip == null )
-				GUI.color = Color.red;
+				GUI.color = EditorGUIUtility.isProSkin ? Color.yellow : Color.red;
 
 			dfPrefabSelectionDialog.SelectionCallback selectionCallback = delegate( GameObject item )
 			{

@@ -555,7 +555,7 @@ public class dfListbox : dfInteractiveBase, IDFMultiRender
 	protected internal virtual void OnSelectedIndexChanged()
 	{
 
-		SignalHierarchy( "OnSelectedIndexChanged", this.selectedIndex );
+		SignalHierarchy( "OnSelectedIndexChanged", this, this.selectedIndex );
 
 		if( SelectedIndexChanged != null )
 		{
@@ -567,7 +567,7 @@ public class dfListbox : dfInteractiveBase, IDFMultiRender
 	protected internal virtual void OnItemClicked()
 	{
 
-		Signal( "OnItemClicked", this.selectedIndex );
+		Signal( "OnItemClicked", this, this.selectedIndex );
 
 		if( ItemClicked != null )
 		{

@@ -81,7 +81,7 @@ public class dfTabstripInspector : dfControlInspector
 			if( GUILayout.Button( "Add Tab" ) )
 			{
 				dfEditorUtil.MarkUndo( control, "Add Tab" );
-				Selection.activeGameObject = control.AddTab().gameObject;
+				Selection.activeGameObject = control.AddTab( "" ).gameObject;
 				control.SelectedIndex = int.MaxValue;
 			}
 
@@ -104,7 +104,7 @@ public class dfTabstripInspector : dfControlInspector
 				{
 					dfEditorUtil.MarkUndo( control, "Add Tab" );
 					var tabStrip = control as dfTabstrip;
-					Selection.activeGameObject = tabStrip.AddTab().gameObject;
+					Selection.activeGameObject = tabStrip.AddTab( "" ).gameObject;
 					tabStrip.SelectedIndex = int.MaxValue;
 				}
 			} );

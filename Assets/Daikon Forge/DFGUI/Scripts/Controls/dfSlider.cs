@@ -352,17 +352,22 @@ public class dfSlider : dfControl
 	protected internal override void OnKeyDown( dfKeyEventArgs args )
 	{
 
+		if( args.Used )
+		{
+			return;
+		}
+
 		if( Orientation == dfControlOrientation.Horizontal )
 		{
 			if( args.KeyCode == KeyCode.LeftArrow )
 			{
-				this.Value -= ScrollSize;
+				this.Value -= ( this.rightToLeft ) ? -scrollSize : scrollSize;
 				args.Use();
 				return;
 			}
 			else if( args.KeyCode == KeyCode.RightArrow )
 			{
-				this.Value += ScrollSize;
+				this.Value += ( this.rightToLeft ) ? -scrollSize : scrollSize;
 				args.Use();
 				return;
 			}
@@ -371,13 +376,13 @@ public class dfSlider : dfControl
 		{
 			if( args.KeyCode == KeyCode.UpArrow )
 			{
-				this.Value -= ScrollSize;
+				this.Value += ScrollSize;
 				args.Use();
 				return;
 			}
 			else if( args.KeyCode == KeyCode.DownArrow )
 			{
-				this.Value += ScrollSize;
+				this.Value -= ScrollSize;
 				args.Use();
 				return;
 			}
@@ -416,7 +421,7 @@ public class dfSlider : dfControl
 		args.Use();
 
 		Signal( "OnMouseWheel", args );
-		RaiseEvent( "MouseWheel", this, args );
+		raiseMouseWheelEvent( args );
 
 	}
 
@@ -432,8 +437,8 @@ public class dfSlider : dfControl
 		this.Value = getValueFromMouseEvent( args );
 		args.Use();
 
-		Signal( "OnMouseMove", args );
-		RaiseEvent( "MouseMove", this, args );
+		Signal( "OnMouseMove", this, args );
+		raiseMouseMoveEvent( args );
 
 	}
 
@@ -451,8 +456,8 @@ public class dfSlider : dfControl
 		this.Value = getValueFromMouseEvent( args );
 		args.Use();
 
-		Signal( "OnMouseDown", args );
-		RaiseEvent( "MouseDown", this, args );
+		Signal( "OnMouseDown", this, args );
+		raiseMouseDownEvent( args );
 
 	}
 
@@ -468,7 +473,7 @@ public class dfSlider : dfControl
 		Invalidate();
 		updateValueIndicators( rawValue );
 
-		SignalHierarchy( "OnValueChanged", this.Value );
+		SignalHierarchy( "OnValueChanged", this, this.Value );
 
 		if( ValueChanged != null )
 		{
@@ -541,6 +546,37 @@ public class dfSlider : dfControl
 
 	private void updateValueIndicators( float rawValue )
 	{
+
+		if( Mathf.Approximately( this.MinValue, this.MaxValue ) )
+		{
+
+			// Having the same Min and Max values is not a valid condition, and will result in 
+			// float.NaN values
+
+			if( Application.isEditor )
+			{
+				Debug.LogWarning( "Slider Min and Max values cannot be the same", this );
+			}
+
+			if( thumb != null )
+				thumb.IsVisible = false;
+
+			if( fillIndicator != null )
+				fillIndicator.IsVisible = false;
+
+			return;
+
+		}
+		else
+		{
+
+			if( thumb != null )
+				thumb.IsVisible = true;
+
+			if( fillIndicator != null )
+				fillIndicator.IsVisible = true;
+
+		}
 
 		if( thumb != null )
 		{
@@ -633,7 +669,12 @@ public class dfSlider : dfControl
 
 	}
 
-	private Vector3[] getEndPoints( bool convertToWorld = false )
+	private Vector3[] getEndPoints()
+	{
+		return getEndPoints( false );
+	}
+	
+	private Vector3[] getEndPoints( bool convertToWorld )
 	{
 
 		var offset = pivot.TransformToUpperLeft( Size );

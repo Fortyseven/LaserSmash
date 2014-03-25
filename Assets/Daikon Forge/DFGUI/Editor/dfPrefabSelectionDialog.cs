@@ -55,8 +55,16 @@ public class dfPrefabSelectionDialog : ScriptableWizard
 
 	#region Static methods
 
-	public static dfPrefabSelectionDialog Show( string title, Type componentType, SelectionCallback callback, PreviewCallback previewCallback, FilterCallback filterCallback = null )
+	public static dfPrefabSelectionDialog Show( string title, Type componentType, SelectionCallback callback, PreviewCallback previewCallback )
 	{
+		return Show ( title, componentType, callback, previewCallback, null );
+	}
+
+	public static dfPrefabSelectionDialog Show( string title, Type componentType, SelectionCallback callback, PreviewCallback previewCallback, FilterCallback filterCallback )
+	{
+
+		if( componentType == null )
+			throw new Exception( "Component type cannot be null" );
 
 		var dialog = ScriptableWizard.DisplayWizard<dfPrefabSelectionDialog>( title );
 		dialog.previewSize = DEFAULT_PREVIEW_SIZE;
@@ -261,7 +269,7 @@ public class dfPrefabSelectionDialog : ScriptableWizard
 		foreach( var item in allPrefabsInProject )
 		{
 
-			if( item.GetComponent( componentType ) == null )
+			if( item == null || item.GetComponent( componentType ) == null )
 				continue;
 
 			try

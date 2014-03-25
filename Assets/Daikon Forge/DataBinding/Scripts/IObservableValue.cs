@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-public interface IObservableValue
+﻿public interface IObservableValue
 {
 	object Value { get; }
 	bool HasChanged { get; }

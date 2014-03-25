@@ -318,7 +318,12 @@ public class dfMarkupBox
 
 	#region Private utility methods
 
-	public void FitToContents( bool recursive = false )
+	public void FitToContents()
+	{
+		FitToContents( false );
+	}
+
+	public void FitToContents( bool recursive )
 	{
 
 		if( this.children.Count == 0 )
@@ -490,7 +495,12 @@ public class dfMarkupBox
 
 	}
 
-	private void endCurrentLine( bool removeEmpty = false )
+	private void endCurrentLine()
+	{
+		endCurrentLine( false );
+	}
+
+	private void endCurrentLine( bool removeEmpty )
 	{
 
 		if( currentLine == null )

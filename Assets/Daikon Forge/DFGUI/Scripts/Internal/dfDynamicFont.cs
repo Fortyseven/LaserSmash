@@ -19,7 +19,6 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 
-using UnityObject = UnityEngine.Object;
 using UnityMaterial = UnityEngine.Material;
 using UnityFont = UnityEngine.Font;
 using UnityShader = UnityEngine.Shader;
@@ -63,13 +62,6 @@ public class dfDynamicFont : dfFontBase
 
 	[SerializeField]
 	private int lineHeight = 0;
-
-	#endregion
-
-	#region Private runtime variables
-
-	private bool invalidatingDependentControls = false;
-	private bool wasFontAtlasRebuilt = false;
 
 	#endregion
 
@@ -326,13 +318,18 @@ public class dfDynamicFont : dfFontBase
 		// instance variable reset when the game starts, but Unity does reset the 
 		// static variables of a prefab. This fact can be (ab)used to detect when the 
 		// game is started and perform startup initialization. In this case, we want
-		// to ensure that we only subscribe to the textureRebuildCallback event once.
+		// to ensure that we only subscribe to the textureRebuildCallback event once
+		// per dynamic font instance.
 		// Note that this fact also works in reverse: Going from play mode back to 
 		// edit mode also resets the static variables
 		if( !loadedFonts.Contains( this ) )
 		{
+
+			this.baseFont.characterInfo = null;
+
 			this.baseFont.textureRebuildCallback += onFontAtlasRebuilt;
 			loadedFonts.Add( this );
+
 		}
 
 		// Request the characters and retrieve the glyph data
@@ -352,75 +349,35 @@ public class dfDynamicFont : dfFontBase
 
 	private void onFontAtlasRebuilt()
 	{
-		wasFontAtlasRebuilt = true;
-		OnFontChanged();
-	}
 
-	private void OnFontChanged()
-	{
-
-		//@Profiler.BeginSample( "Dynamic font rebuilding..." );
-		try
+		foreach( var manager in dfGUIManager.ActiveManagers )
 		{
 
-			if( invalidatingDependentControls )
-				return;
-
-			dfGUIManager.RenderCallback callback = null;
-
-			callback = ( manager ) =>
+			// All controls that render dynamic font text will use the 
+			// IDFMultiRender interface. Find all IDFMultiRender controls
+			// and invalidate them to ensure that they get rendered on 
+			// the next pass with the new dynamic font atlas
+			var allControls = manager.GetComponentsInChildren<dfControl>( false );
+			for( int i = 0; i < allControls.Length; i++ )
 			{
-
-				dfGUIManager.AfterRender -= callback;
-				invalidatingDependentControls = true;
-
-				try
+				if( allControls[ i ] is IDFMultiRender )
 				{
-
-					//@Profiler.BeginSample( "Invalidating dynamic font consumers" );
-
-					if( wasFontAtlasRebuilt )
-					{
-						// TODO: Is there a *real* way to invalidate character info?
-						//this.baseFont.characterInfo = null;
-					}
-
-					// All controls that render dynamic font text will use the 
-					// IDFMultiRender interface. Find all IDFMultiRender controls
-					// and invalidate them to ensure that they get rendered on 
-					// the next pass with the new dynamic font atlas
-					var dependantControls = FindObjectsOfType( typeof( dfControl ) )
-						.Where( x => x is IDFMultiRender )
-						.Cast<dfControl>()
-						.OrderBy( x => x.RenderOrder )
-						.ToList();
-
-					for( int i = 0; i < dependantControls.Count; i++ )
-					{
-						dependantControls[ i ].Invalidate();
-					}
-
-					if( wasFontAtlasRebuilt )
-					{
-						manager.Render();
-					}
-
+					allControls[ i ].Invalidate();
 				}
-				finally
-				{
-					wasFontAtlasRebuilt = false;
-					invalidatingDependentControls = false;
-					//@Profiler.EndSample();
-				}
+			}
 
-			};
+			// NOTE: When this was written, dfGUIManager.LateUpdate cleared the dirty flag
+			// before calling Render(), so if the dfGUIManager.Invalidate() method was called
+			// on an instance that was currently already rendering, it would set the dirty
+			// flag and essentially force it to re-render on the next frame. If dfGUIManager
+			// is ever refactored to not clear the isDirty flag until after rendering is 
+			// completed, then this will no longer work.
+			// ALSO NOTE: This will likely result in "flicker" when the now-invalid fonts are
+			// rendered, before they are re-rendered on the next frame, but there does not
+			// appear to be anything that can be done about this.
+			manager.AbortRender();
+			manager.Invalidate();
 
-			dfGUIManager.AfterRender += callback;
-
-		}
-		finally
-		{
-			//@Profiler.EndSample();
 		}
 
 	}

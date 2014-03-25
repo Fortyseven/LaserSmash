@@ -39,12 +39,9 @@ public class dfSpriteSelectionDialog : ScriptableWizard
 		if( atlas == null )
 			throw new Exception( "No Texture Atlas was specified" );
 
-		#region Detect whether the user has deleted the textures after adding them to the Atlas
-
+		// Detect whether the user has deleted the textures after adding them to the Atlas
 		if( atlas.Texture == null )
 			throw new Exception( "The Texture Atlas does not have a texture or the texture was deleted" );
-
-		#endregion
 
 		var dialog = ScriptableWizard.DisplayWizard<dfSpriteSelectionDialog>( title );
 		dialog.atlas = atlas;
@@ -204,7 +201,7 @@ public class dfSpriteSelectionDialog : ScriptableWizard
 		if( !string.IsNullOrEmpty( name ) && sprite == null )
 		{
 			labelStyle = "minibutton";
-			GUI.color = Color.red;
+			GUI.color = EditorGUIUtility.isProSkin ? Color.yellow : Color.red;
 		}
 
 		var labelRect = new Rect( rect.x, rect.y + rect.height, rect.width, 18f );

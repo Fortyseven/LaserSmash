@@ -60,7 +60,7 @@ public class dfPanGesture : dfGestureBase
 
 	#region Input events
 
-	protected void OnMouseDown( dfControl source, dfMouseEventArgs args )
+	public void OnMouseDown( dfControl source, dfMouseEventArgs args )
 	{
 		StartPosition = CurrentPosition = args.Position;
 		State = dfGestureState.Possible;
@@ -68,7 +68,7 @@ public class dfPanGesture : dfGestureBase
 		Delta = Vector2.zero;
 	}
 
-	protected void OnMouseMove( dfControl source, dfMouseEventArgs args )
+	public void OnMouseMove( dfControl source, dfMouseEventArgs args )
 	{
 		
 		if( State == dfGestureState.Possible )
@@ -101,18 +101,18 @@ public class dfPanGesture : dfGestureBase
 
 	}
 
-	protected void OnMouseUp( dfControl source, dfMouseEventArgs args )
+	public void OnMouseUp( dfControl source, dfMouseEventArgs args )
 	{
 		endPanGesture();
 	}
 
-	protected void OnMultiTouchEnd()
+	public void OnMultiTouchEnd()
 	{
 		endPanGesture();
 		multiTouchMode = false;
 	}
 
-	protected void OnMultiTouch( dfControl source, dfTouchEventArgs args )
+	public void OnMultiTouch( dfControl source, dfTouchEventArgs args )
 	{
 
 		var center = getCenter( args.Touches );

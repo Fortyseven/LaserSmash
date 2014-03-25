@@ -11,7 +11,6 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 
-using UnityObject = UnityEngine.Object;
 using UnityMaterial = UnityEngine.Material;
 using UnityFont = UnityEngine.Font;
 

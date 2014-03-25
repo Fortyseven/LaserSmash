@@ -76,7 +76,7 @@ public class dfGUIManagerInspector : Editor
 		{
 
 			if( view.RenderCamera == null )
-				GUI.color = Color.red;
+				GUI.color = EditorGUIUtility.isProSkin ? Color.yellow : Color.red;
 
 			var camera = EditorGUILayout.ObjectField( "Render Camera", view.RenderCamera, typeof( Camera ), true ) as Camera;
 			if( camera != view.RenderCamera )
@@ -93,6 +93,13 @@ public class dfGUIManagerInspector : Editor
 			{
 				dfEditorUtil.MarkUndo( view, "Change RenderQueue Base Value" );
 				view.RenderQueueBase = renderQueue;
+			}
+
+			var activeViews = FindObjectsOfType( typeof( dfGUIManager ) ) as dfGUIManager[];
+			var duplicateCheck = activeViews.Count( v => v.RenderQueueBase == renderQueue );
+			if( duplicateCheck > 1 )
+			{
+				EditorGUILayout.HelpBox( "There is more than one UI Root in this scene with the same Render Queue value", MessageType.Warning );
 			}
 
 			var renderModes = new string[] { "Orthographic", "Perspective" };
@@ -148,6 +155,11 @@ public class dfGUIManagerInspector : Editor
 			{
 				dfEditorUtil.MarkUndo( view, "Change 'Consume Mouse Events' property" );
 				view.ConsumeMouseEvents = eatMouseEvents;
+			}
+
+			if( view.ConsumeMouseEvents )
+			{
+				EditorGUILayout.HelpBox( "Using the 'Consume Mouse' feature is likely to result in reduced performance on mobile platforms", MessageType.Info );
 			}
 
 		}
@@ -1397,7 +1409,12 @@ public class dfGUIManagerInspector : Editor
 		return property.GetValue( control, null );
 	}
 
-	protected internal static void SelectTextureAtlas( string label, dfGUIManager view, string propertyName, bool readOnly, bool colorizeIfMissing, int labelWidth = 95 )
+	protected internal static void SelectTextureAtlas( string label, dfGUIManager view, string propertyName, bool readOnly, bool colorizeIfMissing )
+	{
+		SelectTextureAtlas( label, view, propertyName, readOnly, colorizeIfMissing, 95 );
+	}
+
+	protected internal static void SelectTextureAtlas( string label, dfGUIManager view, string propertyName, bool readOnly, bool colorizeIfMissing, int labelWidth )
 	{
 
 		var savedColor = GUI.color;
@@ -1411,7 +1428,7 @@ public class dfGUIManagerInspector : Editor
 			GUI.enabled = !readOnly;
 
 			if( atlas == null && colorizeIfMissing )
-				GUI.color = Color.red;
+				GUI.color = EditorGUIUtility.isProSkin ? Color.yellow : Color.red;
 
 			dfPrefabSelectionDialog.SelectionCallback selectionCallback = delegate( GameObject item )
 			{
@@ -1489,7 +1506,12 @@ public class dfGUIManagerInspector : Editor
 
 	}
 
-	protected internal static void SelectFontDefinition( string label, dfAtlas atlas, dfGUIManager view, string propertyName, bool colorizeIfMissing, int labelWidth = 95 )
+	protected internal static void SelectFontDefinition( string label, dfAtlas atlas, dfGUIManager view, string propertyName, bool colorizeIfMissing )
+	{
+		SelectFontDefinition( label, atlas, view, propertyName, colorizeIfMissing, 95 );
+	}
+
+	protected internal static void SelectFontDefinition( string label, dfAtlas atlas, dfGUIManager view, string propertyName, bool colorizeIfMissing, int labelWidth )
 	{
 
 		var savedColor = GUI.color;
@@ -1503,7 +1525,7 @@ public class dfGUIManagerInspector : Editor
 			var value = (dfFontBase)getValue( view, propertyName );
 
 			if( value == null && colorizeIfMissing )
-				GUI.color = Color.red;
+				GUI.color = EditorGUIUtility.isProSkin ? Color.yellow : Color.red;
 
 			dfPrefabSelectionDialog.FilterCallback filterCallback = delegate( GameObject item )
 			{

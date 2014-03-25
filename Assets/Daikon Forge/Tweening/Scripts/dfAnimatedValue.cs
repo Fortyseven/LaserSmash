@@ -367,11 +367,11 @@ public abstract class dfAnimatedValue<T> where T: struct
 	/// <summary>
 	/// Performs a linear interpolation of the base value.
 	/// </summary>
-	/// <param name="startValue">The start value</param>
-	/// <param name="endValue">The end value</param>
+	/// <param name="start">The start value</param>
+	/// <param name="end">The end value</param>
 	/// <param name="time">The time (between 0 and 1) to interpolate</param>
 	/// <returns></returns>
-	protected abstract T Lerp( T startValue, T endValue, float time );
+	protected abstract T Lerp( T start, T end, float time );
 
 	#endregion
 

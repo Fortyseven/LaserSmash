@@ -101,6 +101,9 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 	[SerializeField]
 	protected bool useScrollMomentum = false;
 
+	[SerializeField]
+	protected bool autoHeight = false;
+
 	#endregion
 
 	#region Private variables 
@@ -125,6 +128,24 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 	#endregion
 
 	#region Public properties
+
+	/// <summary>
+	/// Gets or sets whether the label will be automatically
+	/// resized vertically to contain the rendered text.
+	/// </summary>
+	public bool AutoHeight
+	{
+		get { return this.autoHeight; }
+		set
+		{
+			if( this.autoHeight != value )
+			{
+				this.autoHeight = value;
+				scrollPosition = Vector2.zero;
+				Invalidate();
+			}
+		}
+	}
 
 	/// <summary>
 	/// The <see cref="dfAtlas">Texture Atlas</see> containing the images used by 
@@ -327,7 +348,7 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 		set
 		{
 
-			if( !allowScrolling )
+			if( !allowScrolling || autoHeight )
 				value = Vector2.zero;
 
 			var maxPosition = ContentSize - Size;
@@ -443,7 +464,7 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 
 		base.Update();
 
-		if( useScrollMomentum && !isMouseDown && scrollMomentum.magnitude > 0.1f )
+		if( useScrollMomentum && !isMouseDown && scrollMomentum.magnitude > 0.5f )
 		{
 			ScrollPosition += scrollMomentum;
 			scrollMomentum *= ( 0.95f - Time.deltaTime );
@@ -470,7 +491,7 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 
 		Invalidate();
 
-		Signal( "OnTextChanged", this.text );
+		Signal( "OnTextChanged", this, this.text );
 
 		if( TextChanged != null )
 		{
@@ -487,7 +508,7 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 		// scroll position
 		base.Invalidate();
 
-		SignalHierarchy( "OnScrollPositionChanged", this.ScrollPosition );
+		SignalHierarchy( "OnScrollPositionChanged", this, this.ScrollPosition );
 
 		if( ScrollPositionChanged != null )
 		{
@@ -581,7 +602,7 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 				if( linkTag is dfMarkupTagAnchor )
 				{
 
-					Signal( "OnLinkClicked", linkTag );
+					Signal( "OnLinkClicked", this, linkTag );
 
 					if( this.LinkClicked != null )
 					{
@@ -604,7 +625,7 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 
 		base.OnMouseMove( args );
 
-		if( !allowScrolling )
+		if( !allowScrolling || autoHeight )
 			return;
 
 		var scrollWithDrag =
@@ -647,7 +668,7 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 		try
 		{
 
-			if( args.Used || !allowScrolling )
+			if( args.Used || !allowScrolling || autoHeight )
 				return;
 
 			var wheelAmount = this.UseScrollMomentum ? 1 : 3;
@@ -657,7 +678,7 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 			scrollMomentum = new Vector2( 0, -amount * args.WheelDelta );
 
 			args.Use();
-			Signal( "OnMouseWheel", args );
+			Signal( "OnMouseWheel", this, args );
 
 		}
 		finally
@@ -716,20 +737,15 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 		if( !this.isControlInvalidated && viewportBox != null )
 		{
 
-			//@Profiler.BeginSample( "Re-use existing buffers" );
-
 			for( int i = 0; i < buffers.Count; i++ )
 			{
 				buffers[ i ].Transform = transform.localToWorldMatrix;
 			}
 
-			Profiler.EndSample();
-
 			return this.buffers;
 
 		}
 
-		//@Profiler.BeginSample( "Render " + this.name );
 		try
 		{
 
@@ -745,12 +761,19 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 			// the viewport box will be used to update scrollbars and 
 			// determine max scroll position.
 			viewportBox.FitToContents();
+
+			// Perform auto-sizing if indicated
+			if( autoHeight )
+			{
+				this.Height = viewportBox.Height;
+			}
+
+			// Update scrollbars to match rendered height 
 			updateScrollbars();
 
 			//@Profiler.BeginSample( "Gather markup render buffers" );
 			buffers.Clear();
 			gatherRenderBuffers( viewportBox, this.buffers );
-			Profiler.EndSample();
 
 			return this.buffers;
 
@@ -758,7 +781,6 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 		finally
 		{
 			this.isControlInvalidated = false;
-			Profiler.EndSample();
 			updateCollider();
 		}
 
@@ -821,7 +843,6 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 			Size = this.Size
 		};
 
-		//@Profiler.BeginSample( "Perform layout on markup" );
 		for( int i = 0; i < elements.Count; i++ )
 		{
 			var child = elements[ i ];
@@ -830,7 +851,6 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 				child.PerformLayout( viewportBox, style );
 			}
 		}
-		Profiler.EndSample();
 
 	}
 
@@ -1010,8 +1030,6 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 	private void clipToViewport( dfRenderData renderData )
 	{
 
-		//@Profiler.BeginSample( "Clip markup box to viewport" );
-
 		var planes = getViewportClippingPlanes();
 
 		var material = renderData.Material;
@@ -1024,8 +1042,6 @@ public class dfRichTextLabel : dfControl, IDFMultiRender
 		renderData.Merge( clipBuffer, false );
 		renderData.Material = material;
 		renderData.Transform = matrix;
-
-		Profiler.EndSample();
 
 	}
 
