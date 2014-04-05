@@ -6,10 +6,10 @@ public class AsteroidControl : MonoBehaviour
 {   
     public bool isLargeRock = false;
     
-    [Range(0.05f, 1.0f)]
-    public float DropSpeedMax = 0.5f;
-    [Range(0.05f, 1.0f)]
-    public float DropSpeedMin = 0.05f;
+//    [Range(0.05f, 1.0f)]
+//    public float DropSpeedMax = 0.5f;
+//    [Range(0.05f, 1.0f)]
+//    public float DropSpeedMin = 0.05f;
 
     [Range(0f,100f)]
     public float PercentChanceOfLRock = 50.0f;
@@ -33,8 +33,10 @@ public class AsteroidControl : MonoBehaviour
     public GameObject ParticleTrail = null;
 
     private Player mPlayer = null;
-    private float mDropspeed = 0.5f;
-    
+    //private float mDropspeed = 0.5f;
+
+    private float mGravityMultiplier = 0.0f;
+
     private GameControl mGameControl = null;
 
     private GameObject mParticleTrail = null;
@@ -44,6 +46,11 @@ public class AsteroidControl : MonoBehaviour
         mGameControl = FindObjectOfType<GameControl>();
         mPlayer = FindObjectOfType<Player>();
         mAudioSource = GetComponent<AudioSource>();
+
+        mGravityMultiplier = Random.Range(0, 4.0f);
+        rigidbody2D.gravityScale = rigidbody2D.gravityScale * mGravityMultiplier;
+
+        Debug.Log("Gravity = " + rigidbody2D.gravityScale);
 
         mParticleTrail = Instantiate(ParticleTrail, transform.position, Quaternion.identity) as GameObject;
 

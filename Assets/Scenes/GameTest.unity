@@ -618,6 +618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderCamera: {fileID: 359821147}
   useTouch: 1
+  useMouse: 1
   useJoystick: 0
   joystickClickButton: 0
   horizontalAxis: Horizontal
@@ -1038,6 +1039,7 @@ MonoBehaviour:
   clipChildren: 0
   tabIndex: -1
   canFocus: 0
+  autoFocus: 0
   layout:
     anchorStyle: 5
     margins:
@@ -1480,6 +1482,7 @@ MonoBehaviour:
   clipChildren: 0
   tabIndex: -1
   canFocus: 0
+  autoFocus: 0
   layout:
     anchorStyle: 5
     margins:
@@ -1601,6 +1604,7 @@ MonoBehaviour:
   clipChildren: 0
   tabIndex: -1
   canFocus: 0
+  autoFocus: 0
   layout:
     anchorStyle: 10
     margins:
@@ -1820,6 +1824,7 @@ MonoBehaviour:
   clipChildren: 0
   tabIndex: -1
   canFocus: 0
+  autoFocus: 0
   layout:
     anchorStyle: 5
     margins:
@@ -1964,6 +1969,7 @@ MonoBehaviour:
   clipChildren: 0
   tabIndex: -1
   canFocus: 0
+  autoFocus: 0
   layout:
     anchorStyle: 6
     margins:
@@ -2089,6 +2095,7 @@ MonoBehaviour:
   clipChildren: 0
   tabIndex: -1
   canFocus: 0
+  autoFocus: 0
   layout:
     anchorStyle: 9
     margins:
