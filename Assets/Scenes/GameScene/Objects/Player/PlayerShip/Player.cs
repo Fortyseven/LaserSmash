@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 
     private GameObject mSceneStars = null;
     private GameObject mSceneSurface = null;
-    private Vector3 mSceneStarsPosition;
+//    private Vector3 mSceneStarsPosition;
     private Vector3 mSceneSurfacePosition;
     
     void Start()
@@ -35,8 +35,8 @@ public class Player : MonoBehaviour
             mAutoFireEnabled = true;
         }
         
-        mSceneStars = GameObject.Find("BackgroundStars");
-        mSceneStarsPosition = mSceneStars.transform.position;
+//        mSceneStars = GameObject.Find("BackgroundStars");
+//        mSceneStarsPosition = mSceneStars.transform.position;
         mSceneSurface = GameObject.Find("Surface");
         mSceneSurfacePosition = mSceneSurface.transform.position;
     }
@@ -105,8 +105,8 @@ public class Player : MonoBehaviour
         if (mAutoFireEnabled) Fire();
         else if(Input.GetButton("Fire1")) Fire();
 
-        mSceneStarsPosition.x = transform.position.x * 0.03f;
-        mSceneStars.transform.position = mSceneStarsPosition;
+//        mSceneStarsPosition.x = transform.position.x * 0.03f;
+//        mSceneStars.transform.position = mSceneStarsPosition;
         
         mSceneSurfacePosition.x = transform.position.x * 0.02f;
         mSceneSurface.transform.position = mSceneSurfacePosition;

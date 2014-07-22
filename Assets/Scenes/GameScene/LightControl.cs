@@ -3,7 +3,6 @@ using System.Collections;
 
 public class LightControl : MonoBehaviour
 {
-
     // Use this for initialization
     void Start()
     {

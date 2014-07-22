@@ -4,12 +4,22 @@ using Game;
 
 public class GameTestControls : MonoBehaviour
 {
-    public GameObject[] EnemyObjects;
+//    /public GameObject[] EnemyObjects;
+    public GameObject GOAsteroidLarge;
+    public GameObject GOAsteroidSmall;
+    public GameObject GOUFO;
+    public GameObject GOBombLG;
+    public GameObject GOBombSM;
+    public GameObject GOSatellite;
+
+
+    ObjectPool _PoolAsteroidLG;
+
 
     // Use this for initialization
     void Start()
     {
-    
+        _PoolAsteroidLG = new ObjectPool(GOAsteroidLarge, 10);
     }
     
     // Update is called once per frame
@@ -38,30 +48,30 @@ public class GameTestControls : MonoBehaviour
     void SpawnAsteroidLarge()
     {
         Vector3 where = new Vector3( Random.Range( -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS ), GameConstants.SCREEN_Y_GEN_OFFSET, 0 );
-        Instantiate( EnemyObjects[0], where, Quaternion.identity );
+        //Instantiate( GOAsteroidLarge, where, Quaternion.identity );
+        _PoolAsteroidLG.GetInstance(where, Quaternion.identity);
     }
 
     void SpawnAsteroidSmall()
     {
         Vector3 where = new Vector3( Random.Range( -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS ), GameConstants.SCREEN_Y_GEN_OFFSET, 0 );
-        Instantiate( EnemyObjects[1], where, Quaternion.identity );
+        Instantiate( GOAsteroidSmall, where, Quaternion.identity );
     }
-
 
     void SpawnUFO()
     {
         Vector3 where = new Vector3( Random.Range( -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS ), GameConstants.SCREEN_Y_GEN_OFFSET, 0 );
-        Instantiate( EnemyObjects[2], where, Quaternion.identity );
+        Instantiate( GOUFO, where, Quaternion.identity );
     }
 
     void SpawnBombLg()
     {
-        Instantiate(EnemyObjects[3], new Vector3(Random.Range(-GameConstants.SCREEN_X_BOUNDS,GameConstants.SCREEN_X_BOUNDS), GameConstants.SCREEN_Y_GEN_OFFSET, 0), Quaternion.identity);
+        Instantiate(GOBombLG, new Vector3(Random.Range(-GameConstants.SCREEN_X_BOUNDS,GameConstants.SCREEN_X_BOUNDS), GameConstants.SCREEN_Y_GEN_OFFSET, 0), Quaternion.identity);
     }
 
     void SpawnBombSm()
     {
-        Instantiate(EnemyObjects[4], new Vector3(Random.Range(-GameConstants.SCREEN_X_BOUNDS,GameConstants.SCREEN_X_BOUNDS), GameConstants.SCREEN_Y_GEN_OFFSET, 0), Quaternion.identity);
+        Instantiate(GOBombSM, new Vector3(Random.Range(-GameConstants.SCREEN_X_BOUNDS,GameConstants.SCREEN_X_BOUNDS), GameConstants.SCREEN_Y_GEN_OFFSET, 0), Quaternion.identity);
     }
 
     void SpawnSatellite()

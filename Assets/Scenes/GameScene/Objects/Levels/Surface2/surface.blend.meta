@@ -1,13 +1,57 @@
 fileFormatVersion: 2
 guid: fe6878380b098c946b169fb05532ffcf
 ModelImporter:
-  serializedVersion: 15
+  serializedVersion: 16
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Grid
+    100004: Grid_001
+    100006: Grid_001_MeshPart0
+    100008: Grid_001_MeshPart1
+    100010: Grid_001_MeshPart2
+    100012: Grid_001_MeshPart3
+    100014: Grid_001_MeshPart4
+    100016: Grid_001_MeshPart5
+    100018: Grid_001_MeshPart6
     400000: //RootNode
+    400002: Grid
+    400004: Grid_001
+    400006: Grid_001_MeshPart0
+    400008: Grid_001_MeshPart1
+    400010: Grid_001_MeshPart2
+    400012: Grid_001_MeshPart3
+    400014: Grid_001_MeshPart4
+    400016: Grid_001_MeshPart5
+    400018: Grid_001_MeshPart6
     2300000: //RootNode
+    2300002: Grid
+    2300004: Grid_001_MeshPart0
+    2300006: Grid_001_MeshPart1
+    2300008: Grid_001_MeshPart2
+    2300010: Grid_001_MeshPart3
+    2300012: Grid_001
+    2300014: Grid_001_MeshPart4
+    2300016: Grid_001_MeshPart5
+    2300018: Grid_001_MeshPart6
     3300000: //RootNode
+    3300002: Grid
+    3300004: Grid_001_MeshPart0
+    3300006: Grid_001_MeshPart1
+    3300008: Grid_001_MeshPart2
+    3300010: Grid_001_MeshPart3
+    3300012: Grid_001
+    3300014: Grid_001_MeshPart4
+    3300016: Grid_001_MeshPart5
+    3300018: Grid_001_MeshPart6
     4300000: Grid
+    4300002: Grid_001_MeshPart0
+    4300004: Grid_001_MeshPart1
+    4300006: Grid_001_MeshPart2
+    4300008: Grid_001_MeshPart3
+    4300010: Grid_001
+    4300012: Grid_001_MeshPart4
+    4300014: Grid_001_MeshPart5
+    4300016: Grid_001_MeshPart6
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -18,6 +62,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     optimizeGameObjects: 0
+    motionNodeName: 
     animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
@@ -61,4 +106,5 @@ ModelImporter:
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
+  additionalBone: 0
   userData: 

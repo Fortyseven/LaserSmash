@@ -25,14 +25,14 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _BumpMap
+          name: _Control
         second:
-          m_Texture: {fileID: 2800000, guid: 600abaa2b552ba24fa93fc7ac2e55e66, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Control
+          name: _BumpMap
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -42,6 +42,13 @@ Material:
           name: _Detail
         second:
           m_Texture: {fileID: 2800000, guid: 600abaa2b552ba24fa93fc7ac2e55e66, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 2800000, guid: 4a056241e2722dc46a7262a8e7073fd9, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -109,13 +116,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Ramp
-        second:
-          m_Texture: {fileID: 2800000, guid: 4a056241e2722dc46a7262a8e7073fd9, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _ToonShade
         second:
           m_Texture: {fileID: 8900000, guid: b995d4bd9d11078d11005b9844295342, type: 3}
@@ -124,16 +124,20 @@ Material:
     m_Floats:
       data:
         first:
-          name: _InvFade
-        second: 1
+          name: _Shininess
+        second: .279528737
       data:
         first:
-          name: _Shininess
+          name: _InvFade
         second: 1
       data:
         first:
           name: _BumpAmt
         second: 10
+      data:
+        first:
+          name: _Outline
+        second: .00300000026
       data:
         first:
           name: _Heat
@@ -142,10 +146,6 @@ Material:
         first:
           name: _Radius
         second: 1
-      data:
-        first:
-          name: _Outline
-        second: .00300000026
     m_Colors:
       data:
         first:
@@ -154,12 +154,12 @@ Material:
       data:
         first:
           name: _SpecColor
-        second: {r: .154411793, g: .154411793, b: .154411793, a: 1}
-      data:
-        first:
-          name: _SpherePos
-        second: {r: 0, g: 0, b: 0, a: 0}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _OutlineColor
         second: {r: 0, g: 0, b: 0, a: 1}
+      data:
+        first:
+          name: _SpherePos
+        second: {r: 0, g: 0, b: 0, a: 0}

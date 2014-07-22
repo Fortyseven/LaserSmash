@@ -30,7 +30,7 @@ public class AsteroidControl : MonoBehaviour
     public GameObject PlayerObject = null;
     public GameObject AsteroidSmallPrefab = null;
 
-    public GameObject ParticleTrail = null;
+    //public GameObject ParticleTrail = null;
 
     private Player mPlayer = null;
     //private float mDropspeed = 0.5f;
@@ -39,7 +39,7 @@ public class AsteroidControl : MonoBehaviour
 
     private GameControl mGameControl = null;
 
-    private GameObject mParticleTrail = null;
+    //private GameObject mParticleTrail = null;
     
     void Start()
     {
@@ -50,12 +50,12 @@ public class AsteroidControl : MonoBehaviour
         mGravityMultiplier = Random.Range(0, 4.0f);
         rigidbody2D.gravityScale = rigidbody2D.gravityScale * mGravityMultiplier;
 
-        Debug.Log("Gravity = " + rigidbody2D.gravityScale);
+        //Debug.Log("Gravity = " + rigidbody2D.gravityScale);
 
-        mParticleTrail = Instantiate(ParticleTrail, transform.position, Quaternion.identity) as GameObject;
+//        mParticleTrail = Instantiate(ParticleTrail, transform.position, Quaternion.identity) as GameObject;
 
         if (!isLargeRock) {
-            ParticleEmitter p = mParticleTrail.GetComponent<ParticleEmitter>();
+            ParticleEmitter p = GetComponentInChildren<ParticleEmitter>();
             p.minSize = 0.5f;
             p.maxSize = 1.0f;
         } else {
@@ -71,7 +71,7 @@ public class AsteroidControl : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        mParticleTrail.transform.position = transform.position;
+//        mParticleTrail.transform.position = transform.position;
 
         // Did we go off screen? Sweep it under the rug.
         if (Mathf.Abs(transform.position.x) > GameConstants.SCREEN_X_BOUNDS ) {
@@ -92,8 +92,9 @@ public class AsteroidControl : MonoBehaviour
     private void Done()
     {
         Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
-        Destroy( mParticleTrail.gameObject );
-        Destroy(this.gameObject);
+//        Destroy( mParticleTrail.gameObject );
+        //Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 
     public void Explode()
@@ -127,7 +128,6 @@ public class AsteroidControl : MonoBehaviour
     {
         mGameControl.getGameState().Score += GameConstants.SCORE_ASTEROID_BYLASER;
         Destroy( laser.gameObject );
-
         Explode();
     }
 }
