@@ -180,7 +180,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 84d422626517537469cda2d9c72b6d9f, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 84d422626517537469cda2d9c72b6d9f, type: 2}
@@ -443,6 +443,14 @@ Prefab:
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 2ff575b047ff12341bb45d33b5f130d6, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 400004, guid: 2ff575b047ff12341bb45d33b5f130d6, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2ff575b047ff12341bb45d33b5f130d6, type: 2}
   m_RootGameObject: {fileID: 951836115}
@@ -568,7 +576,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 359821146}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .00130208337, z: -1.7320509}
+  m_LocalPosition: {x: .00130208337, y: .00130208337, z: -1.7320509}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 432363758}
@@ -623,7 +631,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 372399291}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .653811812, y: 11.5251083, z: 0}
+  m_LocalPosition: {x: 18, y: 11.5251083, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2134977970}
@@ -740,6 +748,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnlyDeactivate: 0
 --- !u!1 &411653393
 GameObject:
   m_ObjectHideFlags: 0
@@ -901,13 +910,19 @@ MonoBehaviour:
   DebugSplitOnStart: 1
   PercentChanceOfLRock: 50
   PercentChanceOfRRock: 50
+  MinSplitRockForce: .100000001
+  MaxSplitRockForce: .5
   SoundHitSurface: {fileID: 8300000, guid: 8fc2f45abdf0c9f4ab417af7952c2142, type: 3}
+  mAudioSource: {fileID: 0}
   ExplosionPrefab: {fileID: 100000, guid: 13266a9cf8da28e41bfa61b378dfabc5, type: 2}
   HitSurfacePrefab: {fileID: 100000, guid: 0a81f725d78e3a7478b849205fa9087c, type: 2}
   PlayerObject: {fileID: 100002, guid: 2ff575b047ff12341bb45d33b5f130d6, type: 2}
   AsteroidSmallPrefab: {fileID: 100000, guid: b903225e39fbd154b9fac745dc352046, type: 2}
   ParticleEmitterPrefab: {fileID: 100000, guid: cfd782d1e25cec6469c1c2c0fadf2cbd,
     type: 2}
+  mPlayer: {fileID: 0}
+  mGravityMultiplier: 0
+  mParticleTrail: {fileID: 0}
 --- !u!4 &411653399
 Transform:
   m_ObjectHideFlags: 0
@@ -984,8 +999,8 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 81de899a396d04f4f9e16d4b1d49dba1, type: 3}
+  - {fileID: 2100000, guid: f5d6f1b85ae41f647863fa0a7f6b2440, type: 2}
   - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
@@ -1242,7 +1257,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 84d422626517537469cda2d9c72b6d9f, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 84d422626517537469cda2d9c72b6d9f, type: 2}
       propertyPath: DebugSplitOnStart
@@ -1454,8 +1469,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LaserbeamPrefab: {fileID: 100000, guid: 7323540a3fc444140a38c4fb6ff92f21, type: 2}
   deathExplosionPrefab: {fileID: 0}
+  mLastFire: -1
+  mLastFireGO: {fileID: 0}
   panelLeft: {fileID: 1985176207}
   panelRight: {fileID: 1494050456}
+  mTouchXAxis: 0
+  mGuiKeyRight: 0
+  mGuiKeyLeft: 0
+  mAutoFireEnabled: 0
+  mSceneStars: {fileID: 0}
+  mSceneSurface: {fileID: 0}
+  mSceneSurfacePosition: {x: 0, y: 0, z: 0}
 --- !u!1 &958272025
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,6 +1960,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc603cd4dc024a45894e98189646f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mXRotSpeed: 0
+  mYRotSpeed: 0
 --- !u!23 &1406372855
 Renderer:
   m_ObjectHideFlags: 0
@@ -2272,7 +2298,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentDifficulty:
-    AmbienceColor: {r: 0, g: 0, b: 0, a: 0}
+    AmbienceColor:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
     ScoreThreshold: 0
     NewEnemyFrequencyMin: 0
     NewEnemyFrequencyMax: 0
@@ -2542,13 +2572,19 @@ MonoBehaviour:
   DebugSplitOnStart: 0
   PercentChanceOfLRock: 50
   PercentChanceOfRRock: 50
+  MinSplitRockForce: .100000001
+  MaxSplitRockForce: .5
   SoundHitSurface: {fileID: 8300000, guid: 8fc2f45abdf0c9f4ab417af7952c2142, type: 3}
+  mAudioSource: {fileID: 0}
   ExplosionPrefab: {fileID: 100000, guid: 13266a9cf8da28e41bfa61b378dfabc5, type: 2}
   HitSurfacePrefab: {fileID: 100000, guid: 0a81f725d78e3a7478b849205fa9087c, type: 2}
   PlayerObject: {fileID: 100002, guid: 2ff575b047ff12341bb45d33b5f130d6, type: 2}
   AsteroidSmallPrefab: {fileID: 100000, guid: b903225e39fbd154b9fac745dc352046, type: 2}
   ParticleEmitterPrefab: {fileID: 100000, guid: cfd782d1e25cec6469c1c2c0fadf2cbd,
     type: 2}
+  mPlayer: {fileID: 0}
+  mGravityMultiplier: 0
+  mParticleTrail: {fileID: 0}
 --- !u!58 &1721780991
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3027,6 +3063,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc603cd4dc024a45894e98189646f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mXRotSpeed: 0
+  mYRotSpeed: 0
 --- !u!23 &2108965670
 Renderer:
   m_ObjectHideFlags: 0
@@ -3130,7 +3168,8 @@ Transform:
 --- !u!111 &2134977971
 Animation:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 11100002, guid: 98e4506e1986da74f895c24f6046fd2c,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2134977967}
   m_Enabled: 1
