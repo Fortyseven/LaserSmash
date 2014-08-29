@@ -45,6 +45,7 @@ public class AsteroidLGControl : MonoBehaviour
 
     private GameObject mParticleTrail = null;
     
+    /*****************************/
     void Start()
     {
 //        mGameControl = FindObjectOfType<GameControl>();
@@ -74,11 +75,9 @@ public class AsteroidLGControl : MonoBehaviour
         if (DebugSplitOnStart) Explode();
     }       
         
-    // Update is called once per frame
+    /*****************************/
     void FixedUpdate()
     {
-//        mParticleTrail.transform.position = transform.position;
-
         // Did we go off screen? Sweep it under the rug.
         if (Mathf.Abs(transform.position.x) > GameConstants.SCREEN_X_BOUNDS ) {
             Explode();
@@ -94,10 +93,11 @@ public class AsteroidLGControl : MonoBehaviour
             return;
         }
 
-        mParticleTrail.transform.position = this.transform.position;
-
+        if (mParticleTrail != null)
+            mParticleTrail.transform.position = this.transform.position;
     }
 
+    /*****************************/
     private void Done()
     {
         Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
@@ -106,12 +106,21 @@ public class AsteroidLGControl : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    /*****************************/
+    public void HitByLaser( Laserbeam laser )
+    {
+        GameController.instance.AdjustScore(GameConstants.SCORE_ASTEROID_BYLASER);
+        Destroy( laser.gameObject );
+        Explode();
+    }
+
+    /*****************************/
     public void Explode()
     {
         // There's a chance to split off one or two small rocks if we're large
         if (isLargeRock) {
             GameObject sm_rock;
-
+            
             if (Random.Range(0,100) >= PercentChanceOfLRock) {
                 float sm_rock_driftforce_x = Random.Range(MinSplitRockForce, MaxSplitRockForce) * 150.0f;
                 float sm_rock_driftforce_y = Random.Range(MinSplitRockForce, MaxSplitRockForce) * 50.0f;
@@ -134,10 +143,4 @@ public class AsteroidLGControl : MonoBehaviour
         Done();
     }
 
-    public void HitByLaser( Laserbeam laser )
-    {
-        GameController.instance.AdjustScore(GameConstants.SCORE_ASTEROID_BYLASER);
-        Destroy( laser.gameObject );
-        Explode();
-    }
 }

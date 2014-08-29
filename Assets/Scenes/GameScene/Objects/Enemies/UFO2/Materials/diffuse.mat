@@ -39,6 +39,13 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 2800000, guid: b8d24d717d892f24ebefcb7c6a7ac7a7, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _Detail
         second:
           m_Texture: {fileID: 2800000, guid: e83bb538b1e49a54aa6c2b206e929e77, type: 3}
@@ -46,16 +53,9 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _RampTex
+          name: _Cube
         second:
-          m_Texture: {fileID: 2800000, guid: de25a418e52274482b51702fff566bcd, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Ramp
-        second:
-          m_Texture: {fileID: 2800000, guid: b8d24d717d892f24ebefcb7c6a7ac7a7, type: 3}
+          m_Texture: {fileID: 8900000, guid: b995d4bd9d11078d11005b9844295342, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -67,9 +67,9 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Cube
+          name: _RampTex
         second:
-          m_Texture: {fileID: 8900000, guid: b995d4bd9d11078d11005b9844295342, type: 3}
+          m_Texture: {fileID: 2800000, guid: de25a418e52274482b51702fff566bcd, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -93,8 +93,16 @@ Material:
         second: .491383314
       data:
         first:
+          name: _Outline
+        second: .00600000005
+      data:
+        first:
           name: _BumpAmt
         second: 23.7142849
+      data:
+        first:
+          name: _Parallax
+        second: .0799999982
       data:
         first:
           name: _Heat
@@ -103,14 +111,6 @@ Material:
         first:
           name: _Radius
         second: 1
-      data:
-        first:
-          name: _Outline
-        second: .00600000005
-      data:
-        first:
-          name: _Parallax
-        second: .0799999982
       data:
         first:
           name: _SquashAmount
@@ -122,24 +122,24 @@ Material:
         second: {r: .227450982, g: .227450982, b: .227450982, a: 1}
       data:
         first:
-          name: _SpecColor
-        second: {r: .501960814, g: .501960814, b: .501960814, a: 1}
+          name: _Emission
+        second: {r: 0, g: 0, b: 0, a: 0}
       data:
         first:
-          name: _SpherePos
-        second: {r: 0, g: 0, b: 0, a: 0}
+          name: _SpecColor
+        second: {r: .501960814, g: .501960814, b: .501960814, a: 1}
       data:
         first:
           name: _OutlineColor
         second: {r: 0, g: 0, b: 0, a: 1}
       data:
         first:
-          name: _Emission
-        second: {r: 0, g: 0, b: 0, a: 0}
-      data:
-        first:
           name: _ReflectColor
         second: {r: 1, g: 1, b: 1, a: .5}
+      data:
+        first:
+          name: _SpherePos
+        second: {r: 0, g: 0, b: 0, a: 0}
       data:
         first:
           name: _Scale

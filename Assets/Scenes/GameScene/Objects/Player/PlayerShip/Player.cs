@@ -95,22 +95,22 @@ public class Player : MonoBehaviour
     void Update()
     {
         updateGUIKeys();
-                
+
         Vector3 pos = transform.position;
-                                
+
         pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
         pos.x += mTouchXAxis * SHIP_SPEED * Time.deltaTime;
         pos.x = Mathf.Clamp( pos.x, -SHIP_X_BOUNDS, SHIP_X_BOUNDS );
-            
+
         if (mAutoFireEnabled) Fire();
         else if(Input.GetButton("Fire1")) Fire();
 
 //        mSceneStarsPosition.x = transform.position.x * 0.03f;
 //        mSceneStars.transform.position = mSceneStarsPosition;
-        
+
         mSceneSurfacePosition.x = transform.position.x * 0.02f;
         mSceneSurface.transform.position = mSceneSurfacePosition;
-        
+
         transform.position = pos;
     }
         
