@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     
     void Start()
     {
-        if (GameObject.Find("Game").GetComponent<GameControl>().isMobileMode) {
+        if (GameController.instance.isMobileMode) {
             mAutoFireEnabled = true;
         }
         

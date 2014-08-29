@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: asteroid
-  m_Shader: {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 6, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -77,7 +77,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: .241757885
+        second: .0661035553
       data:
         first:
           name: _BumpAmt
@@ -110,7 +110,7 @@ Material:
       data:
         first:
           name: _Emission
-        second: {r: .507352948, g: .507352948, b: .507352948, a: 0}
+        second: {r: 0, g: 0, b: 0, a: 0}
       data:
         first:
           name: _SpecColor
