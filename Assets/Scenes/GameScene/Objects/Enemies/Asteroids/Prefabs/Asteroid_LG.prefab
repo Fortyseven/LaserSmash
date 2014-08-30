@@ -32,7 +32,6 @@ GameObject:
   - 4: {fileID: 400002}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
-  - 114: {fileID: 11400000}
   m_Layer: 8
   m_Name: mesh
   m_TagString: Untagged
@@ -115,7 +114,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Radius: .980000019
   m_Center: {x: .0599999987, y: -.0599999987}
 --- !u!58 &5800002
@@ -126,7 +125,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Radius: .850000024
   m_Center: {x: -.779999971, y: -.119999997}
 --- !u!58 &5800004
@@ -137,7 +136,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Radius: .819999993
   m_Center: {x: 1.09000003, y: 0}
 --- !u!82 &8200000
@@ -233,19 +232,6 @@ Light:
   m_ShadowAngle: 0
   m_IndirectIntensity: 1
   m_AreaSize: {x: 1, y: 1}
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fc603cd4dc024a45894e98189646f6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mXRotSpeed: 0
-  mYRotSpeed: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

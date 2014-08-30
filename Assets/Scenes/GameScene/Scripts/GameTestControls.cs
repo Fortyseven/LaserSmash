@@ -60,7 +60,7 @@ public class GameTestControls : MonoBehaviour
 
     void SpawnUFO()
     {
-        Vector3 where = new Vector3( Random.Range( -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS ), GameConstants.SCREEN_Y_GEN_OFFSET, 0 );
+        Vector3 where = new Vector3( 0,0,0 );
         Instantiate( GOUFO, where, Quaternion.identity );
     }
 

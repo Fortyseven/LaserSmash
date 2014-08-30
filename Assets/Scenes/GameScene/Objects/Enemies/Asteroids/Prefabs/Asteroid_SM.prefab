@@ -13,6 +13,7 @@ GameObject:
   - 50: {fileID: 5000000}
   - 82: {fileID: 8200000}
   - 108: {fileID: 10800000}
+  - 58: {fileID: 5800002}
   m_Layer: 8
   m_Name: Asteroid_SM
   m_TagString: Untagged
@@ -81,7 +82,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.46102214, y: 20.13381, z: 0}
+  m_LocalPosition: {x: -3.85996175, y: 5.38127661, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -349,9 +350,20 @@ CircleCollider2D:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Radius: .400000006
-  m_Center: {x: 0, y: .0500000007}
+  m_IsTrigger: 1
+  m_Radius: .280000001
+  m_Center: {x: 0, y: -.109999999}
+--- !u!58 &5800002
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Radius: .241990566
+  m_Center: {x: 0, y: .25999999}
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1

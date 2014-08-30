@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     public GameObject deathExplosionPrefab = null;
     
     
-    float mLastFire = -1.0f;
+//    float mLastFire = -1.0f;
 
     GameObject mLastFireGO = null;
     
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     private bool mGuiKeyLeft = false;
     private bool mAutoFireEnabled = false;
 
-    private GameObject mSceneStars = null;
+//    private GameObject mSceneStars = null;
     private GameObject mSceneSurface = null;
 //    private Vector3 mSceneStarsPosition;
     private Vector3 mSceneSurfacePosition;

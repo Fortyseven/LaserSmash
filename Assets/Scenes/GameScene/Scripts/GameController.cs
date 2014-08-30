@@ -16,10 +16,15 @@ public class GameController : MonoBehaviour
 
     /*---------------------------------------------------------*/
 
-    public dfLabel mGUIScoreValue = null;
-    public dfLabel mGUILivesValue = null;
+    public dfLabel mGUIScoreValue;
+    public dfLabel mGUILivesValue;
     public bool isMobileMode = false;
-    private GameState _gameState = null;
+
+    private GameState _gameState;
+    private GameObject _playerShip;
+    public GameObject PlayerShip {
+        get {return _playerShip; }
+    }
 
 //    private WaveGenerator mWaveGenerator = null ;
 
@@ -43,18 +48,23 @@ public class GameController : MonoBehaviour
     /***************************************************************************/
     void Start()
     {
+        _playerShip = GameObject.Find("PlayerShip") as GameObject;
+        if(_playerShip == null) throw new UnityException("Could not find PlayerShip object");
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"));
         ConfigureGame();
         
-//        mWaveGenerator = GetComponent<WaveGenerator>() as WaveGenerator;
-//        mWaveGenerator.init( this );
-                
+        //        mWaveGenerator = GetComponent<WaveGenerator>() as WaveGenerator;
+        //        mWaveGenerator.init( this );
+        
         _gameState = new GameState();
-        _gameState.Reset();
+        _gameState.Reset();    
     }
     
     /***************************************************************************/
     public void AdjustScore( int score_offset )
     {
+        Debug.Log(score_offset + " - " + _gameState);
         _gameState.Score += score_offset;
         mGUIScoreValue.Text = _gameState.Score.ToString();
         //CurrentDifficulty = UpdateDifficultyValues();

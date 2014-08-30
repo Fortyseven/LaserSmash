@@ -4,7 +4,7 @@ using System.Collections;
 public class AsteroidAnimation : MonoBehaviour
 {
     private float mXRotSpeed = 0;
-    private float mYRotSpeed = 0;
+//    private float mYRotSpeed = 0;
 
     void Start()
     {
