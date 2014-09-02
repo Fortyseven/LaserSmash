@@ -1,0 +1,151 @@
+fileFormatVersion: 2
+guid: 16137e59ec068df42bf8e3ebece58486
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Barrel
+    100004: Body
+    100006: Cube
+    100008: Cylinder
+    100010: Base
+    100012: Circle
+    100014: Circle_001
+    100016: Circle_002
+    100018: Circle_003
+    100020: Cylinder_001
+    100022: Cylinder_002
+    100024: Cylinder_003
+    100026: MidBase
+    100028: Barrel_001
+    100030: Cylinder_004
+    100032: Wing_Thing
+    100034: Treads
+    400000: //RootNode
+    400002: Barrel
+    400004: Body
+    400006: Cube
+    400008: Cylinder
+    400010: Base
+    400012: Circle
+    400014: Circle_001
+    400016: Circle_002
+    400018: Circle_003
+    400020: Cylinder_001
+    400022: Cylinder_002
+    400024: Cylinder_003
+    400026: MidBase
+    400028: Barrel_001
+    400030: Cylinder_004
+    400032: Wing_Thing
+    400034: Treads
+    2300000: //RootNode
+    2300002: Barrel
+    2300004: Body
+    2300006: Cube
+    2300008: Cylinder
+    2300010: Base
+    2300012: Circle
+    2300014: Circle_001
+    2300016: Circle_002
+    2300018: Circle_003
+    2300020: Cylinder_001
+    2300022: Cylinder_002
+    2300024: Cylinder_003
+    2300026: MidBase
+    2300028: Barrel_001
+    2300030: Cylinder_004
+    2300032: Wing_Thing
+    2300034: Treads
+    3300000: //RootNode
+    3300002: Barrel
+    3300004: Body
+    3300006: Cube
+    3300008: Cylinder
+    3300010: Base
+    3300012: Circle
+    3300014: Circle_001
+    3300016: Circle_002
+    3300018: Circle_003
+    3300020: Cylinder_001
+    3300022: Cylinder_002
+    3300024: Cylinder_003
+    3300026: MidBase
+    3300028: Barrel_001
+    3300030: Cylinder_004
+    3300032: Wing_Thing
+    3300034: Treads
+    4300000: Plane
+    4300002: Barrel
+    4300004: Body
+    4300006: Cube
+    4300008: Cylinder
+    4300010: Base
+    4300012: Cylinder_003
+    4300014: Circle_003
+    4300016: Circle_002
+    4300018: Cylinder_002
+    4300020: Cylinder_001
+    4300022: Circle_001
+    4300024: Circle
+    4300026: MidBase
+    4300028: Cylinder_004
+    4300030: Barrel_001
+    4300032: Wing_Thing
+    4300034: Treads
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .300000012
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 0
+    normalImportMode: 1
+    tangentImportMode: 2
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  additionalBone: 0
+  userData: 

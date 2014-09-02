@@ -44,6 +44,8 @@ public class AsteroidLGControl : MonoBehaviour
 //    private GameController mGameControl = null;
 
     private GameObject mParticleTrail = null;
+
+    bool _hit_surface;
     
     /*****************************/
     void Start()
@@ -72,6 +74,8 @@ public class AsteroidLGControl : MonoBehaviour
             }
         }
 
+        _hit_surface = false;
+
         if (DebugSplitOnStart) Explode();
     }       
         
@@ -88,7 +92,7 @@ public class AsteroidLGControl : MonoBehaviour
         if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
             //GameController.instance.AdjustScore(-SCORE_PENALTY_BASE);
             mPlayer.Hurt();
-            mAudioSource.PlayOneShot(SoundHitSurface);
+            _hit_surface = true;
             Explode();
             return;
         }
