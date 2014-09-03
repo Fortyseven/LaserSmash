@@ -9,11 +9,7 @@ public class Player : MonoBehaviour
     private const float LASER_Y_OFFSET_FROM_SHIP = 2.0f;
     
     public GameObject LaserbeamPrefab = null;
-    //public GameObject PainPrefab = null;
-    public GameObject deathExplosionPrefab = null;
-    
-    
-//    float mLastFire = -1.0f;
+    public GameObject DeathExplosionPrefab = null;
 
     GameObject mLastFireGO = null;
     
@@ -24,23 +20,25 @@ public class Player : MonoBehaviour
     private bool mGuiKeyLeft = false;
     private bool mAutoFireEnabled = false;
 
-//    private GameObject mSceneStars = null;
     private GameObject mSceneSurface = null;
-//    private Vector3 mSceneStarsPosition;
     private Vector3 mSceneSurfacePosition;
     
+    /**************************************/
     void Start()
     {
         if (GameController.instance.isMobileMode) {
             mAutoFireEnabled = true;
         }
         
-//        mSceneStars = GameObject.Find("BackgroundStars");
-//        mSceneStarsPosition = mSceneStars.transform.position;
         mSceneSurface = GameObject.Find("Surface");
+        if (mSceneSurface == null) {
+            throw new UnityException("Could not find stage surface");
+        }
+
         mSceneSurfacePosition = mSceneSurface.transform.position;
     }
 
+#region Input
     public void OnMouseUp( dfControl control, dfMouseEventArgs mouseEvent )
     {
         if ( control.name == "moveLeft" ) {
@@ -91,7 +89,9 @@ public class Player : MonoBehaviour
         
         mTouchXAxis = Mathf.Clamp( mTouchXAxis, -1.0f, 1.0f );
     }
-        
+#endregion
+
+    /**************************************/
     void Update()
     {
         updateGUIKeys();
@@ -113,24 +113,35 @@ public class Player : MonoBehaviour
 
         transform.position = pos;
     }
-        
+
+    /**************************************/
     void Fire()
     {               
         if ( mLastFireGO == null )              
             mLastFireGO = SpawnLaserbeam();             
     }
-    
+
+    /**************************************/
     void Kill()
     {
-        Instantiate( deathExplosionPrefab, transform.position, Quaternion.identity );   
-        enabled = false;
+        Destroy(Instantiate( DeathExplosionPrefab, transform.position, Quaternion.identity ), 3.0f);
+        GetComponent<AudioSource>().Play();
+        this.gameObject.SetActive(false);
     }
-        
+
+    /**************************************/
     public void Hurt()
     {
         //Instantiate( PainPrefab, transform.position, Quaternion.identity );
     }
-        
+
+    /**************************************/
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        PlayerKilled();
+    }
+
+    /**************************************/
     GameObject SpawnLaserbeam()
     {
         Vector3 newpos = transform.position;
@@ -138,5 +149,12 @@ public class Player : MonoBehaviour
         return Instantiate( LaserbeamPrefab, newpos, Quaternion.identity ) as GameObject;
     }
 
+    /**************************************/
+    private void PlayerKilled()
+    {
+        Kill();
+        GameController.instance.getGameState().Lives--;
+        //GameController.PlayerRespawnIn(500);
+    }
 }
 

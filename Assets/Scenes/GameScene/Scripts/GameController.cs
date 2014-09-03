@@ -99,4 +99,10 @@ public class GameController : MonoBehaviour
         pan = GameObject.Find( "moveRight" ) as GameObject;
         pan.GetComponent<dfPanel>().enabled = false;
     }
+
+    /***************************************************************************/
+    public void OnGameOver()
+    {
+        Debug.Log("GAME OVER");
+    }
 }
