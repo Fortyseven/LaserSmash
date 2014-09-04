@@ -13,8 +13,8 @@ public class Player : MonoBehaviour
 
     GameObject mLastFireGO = null;
     
-    public dfPanel panelLeft = null;
-    public dfPanel panelRight = null;
+//    public dfPanel panelLeft = null;
+//    public dfPanel panelRight = null;
     private float mTouchXAxis = 0.0f;   
     private bool mGuiKeyRight = false;
     private bool mGuiKeyLeft = false;
@@ -39,46 +39,46 @@ public class Player : MonoBehaviour
     }
 
 #region Input
-    public void OnMouseUp( dfControl control, dfMouseEventArgs mouseEvent )
-    {
-        if ( control.name == "moveLeft" ) {
-            mGuiKeyLeft = false;
-            if ( mGuiKeyRight )
-                mTouchXAxis -= mTouchXAxis;
-            else
-                mTouchXAxis = 0.0f;
-            //mTouchXAxis += TOUCH_MOVE_SPEED;
-                        
-        }
-        if ( control.name == "moveRight" ) {
-            mGuiKeyRight = false;
-            if ( mGuiKeyLeft )
-                mTouchXAxis -= mTouchXAxis;
-            else
-                mTouchXAxis = 0.0f;
-            //mTouchXAxis -= TOUCH_MOVE_SPEED;
-        }
-    }
+//    public void OnMouseUp( dfControl control, dfMouseEventArgs mouseEvent )
+//    {
+//        if ( control.name == "moveLeft" ) {
+//            mGuiKeyLeft = false;
+//            if ( mGuiKeyRight )
+//                mTouchXAxis -= mTouchXAxis;
+//            else
+//                mTouchXAxis = 0.0f;
+//            //mTouchXAxis += TOUCH_MOVE_SPEED;
+//                        
+//        }
+//        if ( control.name == "moveRight" ) {
+//            mGuiKeyRight = false;
+//            if ( mGuiKeyLeft )
+//                mTouchXAxis -= mTouchXAxis;
+//            else
+//                mTouchXAxis = 0.0f;
+//            //mTouchXAxis -= TOUCH_MOVE_SPEED;
+//        }
+//    }
 
-    public void OnMouseDown( dfControl control, dfMouseEventArgs mouseEvent )
-    {
-        if ( control.name == "moveLeft" ) {
-            mGuiKeyLeft = true;
-            if ( mGuiKeyRight ) {
-                mTouchXAxis = Mathf.Abs( mTouchXAxis );
-                mGuiKeyRight = false;
-            }
-            
-        }
-        if ( control.name == "moveRight" ) {
-            mGuiKeyRight = true;
-            if ( mGuiKeyLeft ) {
-                mTouchXAxis = -Mathf.Abs( mTouchXAxis );
-                mGuiKeyLeft = false;
-            }
-        }
-        
-    }
+//    public void OnMouseDown( dfControl control, dfMouseEventArgs mouseEvent )
+//    {
+//        if ( control.name == "moveLeft" ) {
+//            mGuiKeyLeft = true;
+//            if ( mGuiKeyRight ) {
+//                mTouchXAxis = Mathf.Abs( mTouchXAxis );
+//                mGuiKeyRight = false;
+//            }
+//            
+//        }
+//        if ( control.name == "moveRight" ) {
+//            mGuiKeyRight = true;
+//            if ( mGuiKeyLeft ) {
+//                mTouchXAxis = -Mathf.Abs( mTouchXAxis );
+//                mGuiKeyLeft = false;
+//            }
+//        }
+//        
+//    }
 
     private void updateGUIKeys()
     {

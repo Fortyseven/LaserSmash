@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using UnityEngine.UI;
+
 public class GameController : MonoBehaviour
 {
     public static GameController instance = null;
@@ -16,15 +18,21 @@ public class GameController : MonoBehaviour
 
     /*---------------------------------------------------------*/
 
-    public dfLabel mGUIScoreValue;
-    public dfLabel mGUILivesValue;
+    public Text _UIScoreValue;
+    public Text _UILivesValue;
     public bool isMobileMode = false;
-
     private GameState _gameState;
     private GameObject _playerShip;
+
+#region properties
     public GameObject PlayerShip {
-        get {return _playerShip; }
+        get { return _playerShip; }
     }
+
+    public GameState State {
+        get { return _gameState; }
+    }
+#endregion
 
 //    private WaveGenerator mWaveGenerator = null ;
 
@@ -45,36 +53,30 @@ public class GameController : MonoBehaviour
     {
         GameController.instance = this;
     }
+
     /***************************************************************************/
     void Start()
     {
-        _playerShip = GameObject.Find("PlayerShip") as GameObject;
-        if(_playerShip == null) throw new UnityException("Could not find PlayerShip object");
+        _playerShip = GameObject.Find( "PlayerShip" ) as GameObject;
+        if ( _playerShip == null )
+            throw new UnityException( "Could not find PlayerShip object" );
 
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"));
+        Physics2D.IgnoreLayerCollision( LayerMask.NameToLayer( "Enemy" ), LayerMask.NameToLayer( "Enemy" ) );
         ConfigureGame();
         
         //        mWaveGenerator = GetComponent<WaveGenerator>() as WaveGenerator;
         //        mWaveGenerator.init( this );
         
         _gameState = new GameState();
-        _gameState.Reset();    
+        _gameState.Reset();
     }
-    
+
     /***************************************************************************/
-    public void AdjustScore( int score_offset )
+    public void SetScoreValue( int score )
     {
-        Debug.Log(score_offset + " - " + _gameState);
-        _gameState.Score += score_offset;
-        mGUIScoreValue.Text = _gameState.Score.ToString();
-        //CurrentDifficulty = UpdateDifficultyValues();
+        _UIScoreValue.text = score.ToString();
     }
-    /***************************************************************************/
-//    void Update()
-//    {
-//
-//    }
-        
+
     /***************************************************************************/
     public GameState getGameState()
     {
@@ -84,25 +86,32 @@ public class GameController : MonoBehaviour
     /***************************************************************************/
     private void ConfigureGame()
     {
-        if ( !isMobileMode ) {
-            DisableOnScreenControls();
-        }
-
         DifficultyController.Load();
+
+#if !UNITY_ANDROID
+        DisableOnScreenControls();
+#endif
     }
-    
+
+#if !UNITY_ANDROID
     /***************************************************************************/
     private void DisableOnScreenControls()
     {
-        GameObject pan = GameObject.Find( "moveLeft" ) as GameObject;
-        pan.GetComponent<dfPanel>().enabled = false;
-        pan = GameObject.Find( "moveRight" ) as GameObject;
-        pan.GetComponent<dfPanel>().enabled = false;
+        GameObject pan = GameObject.Find( "Input_Left" ) as GameObject;
+        pan.SetActive(false);
+        pan = GameObject.Find( "Input_Right" ) as GameObject;
+        pan.SetActive(false);
     }
+#endif
 
     /***************************************************************************/
     public void OnGameOver()
     {
-        Debug.Log("GAME OVER");
+        Debug.Log( "GAME OVER" );
+    }
+
+    public void OnClick()
+    {
+
     }
 }

@@ -164,7 +164,7 @@ public class UFO : MonoBehaviour
     /*****************************/
     public void HitByLaser( Laserbeam laser )
     {
-        GameController.instance.AdjustScore(GameConstants.SCORE_ASTEROID_BYLASER);
+        GameController.instance.State.AdjustScore(GameConstants.SCORE_ASTEROID_BYLASER);
         Destroy( laser.gameObject );
         Explode();
     }
