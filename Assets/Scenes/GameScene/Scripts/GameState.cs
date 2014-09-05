@@ -40,6 +40,12 @@ public class GameState
             GameController.instance.SetScoreValue(value);
         }
     }
+
+    public int PeakScore {
+        get {
+            return _peak_score;
+        }
+    }
 #endregion
 
 

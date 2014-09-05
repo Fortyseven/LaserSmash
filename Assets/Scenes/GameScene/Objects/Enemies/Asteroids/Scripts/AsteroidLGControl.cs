@@ -36,14 +36,14 @@ public class AsteroidLGControl : MonoBehaviour
 
     //public GameObject ParticleTrail = null;
 
-    private Player mPlayer = null;
+    private Player _player = null;
     //private float mDropspeed = 0.5f;
 
-    private float mGravityMultiplier = 0.0f;
+    private float _gravity_multiplier = 0.0f;
 
 //    private GameController mGameControl = null;
 
-    private GameObject mParticleTrail = null;
+    private GameObject _particle_trail = null;
 
     bool _hit_surface;
     
@@ -51,18 +51,18 @@ public class AsteroidLGControl : MonoBehaviour
     void Start()
     {
 //        mGameControl = FindObjectOfType<GameControl>();
-        mPlayer = FindObjectOfType<Player>();
+        _player = FindObjectOfType<Player>();
         mAudioSource = GetComponent<AudioSource>();
 
-        mGravityMultiplier = Random.Range(0, 4.0f);
-        rigidbody2D.gravityScale = rigidbody2D.gravityScale * mGravityMultiplier;
+        _gravity_multiplier = Random.Range(0, 4.0f);
+        rigidbody2D.gravityScale = rigidbody2D.gravityScale * _gravity_multiplier;
 
         //Debug.Log("Gravity = " + rigidbody2D.gravityScale);
 
-        mParticleTrail = Instantiate(ParticleEmitterPrefab, transform.position, Quaternion.identity) as GameObject;
+        _particle_trail = Instantiate(ParticleEmitterPrefab, transform.position, Quaternion.identity) as GameObject;
 
         if (!isLargeRock) {
-            ParticleEmitter p = mParticleTrail.GetComponentInChildren<ParticleEmitter>();
+            ParticleEmitter p = _particle_trail.GetComponentInChildren<ParticleEmitter>();
             p.minSize = 0.5f;
             p.maxSize = 1.0f;
         } else {
@@ -91,14 +91,13 @@ public class AsteroidLGControl : MonoBehaviour
         // Did we hit the ground? Punish player, make noises, explode
         if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
             //GameController.instance.AdjustScore(-SCORE_PENALTY_BASE);
-            mPlayer.Hurt();
             _hit_surface = true;
             Explode();
             return;
         }
 
-        if (mParticleTrail != null)
-            mParticleTrail.transform.position = this.transform.position;
+        if (_particle_trail != null)
+            _particle_trail.transform.position = this.transform.position;
     }
 
     /*****************************/
@@ -143,7 +142,7 @@ public class AsteroidLGControl : MonoBehaviour
                 sm_rock.rigidbody2D.AddForce(new Vector2(0.0f, sm_rock_driftforce_y));
             }
         }
-        Destroy(mParticleTrail, 1.0f);
+        Destroy(_particle_trail, 1.0f);
         Done();
     }
 

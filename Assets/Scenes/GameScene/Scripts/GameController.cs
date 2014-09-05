@@ -20,9 +20,13 @@ public class GameController : MonoBehaviour
 
     public Text _UIScoreValue;
     public Text _UILivesValue;
-    public bool isMobileMode = false;
+    public Text _UIMultValue;
+
+    public  Canvas GameOverCanvas;
+
     private GameState _gameState;
     private GameObject _playerShip;
+
 
 #region properties
     public GameObject PlayerShip {
@@ -52,6 +56,7 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         GameController.instance = this;
+
     }
 
     /***************************************************************************/
@@ -68,6 +73,7 @@ public class GameController : MonoBehaviour
         //        mWaveGenerator.init( this );
         
         _gameState = new GameState();
+        GameOverCanvas.gameObject.SetActive(false);
         _gameState.Reset();
     }
 
@@ -108,6 +114,9 @@ public class GameController : MonoBehaviour
     public void OnGameOver()
     {
         Debug.Log( "GAME OVER" );
+        GameOverCanvas.gameObject.SetActive(true);
+        Text peak_score_value = GameObject.Find("PeakScoreValue").GetComponent<Text>();
+        peak_score_value.text = State.PeakScore.ToString();
     }
 
     public void OnClick()

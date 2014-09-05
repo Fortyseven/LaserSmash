@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     private const float SHIP_X_BOUNDS = 12.0f;
     private const float TOUCH_MOVE_SPEED = 0.05f;    
     private const float LASER_Y_OFFSET_FROM_SHIP = 2.0f;
+    private const float FIRE_DELAY = 0.5f;
     
     public GameObject LaserbeamPrefab = null;
     public GameObject DeathExplosionPrefab = null;
@@ -15,10 +16,10 @@ public class Player : MonoBehaviour
     
 //    public dfPanel panelLeft = null;
 //    public dfPanel panelRight = null;
-    private float mTouchXAxis = 0.0f;   
-    private bool mGuiKeyRight = false;
-    private bool mGuiKeyLeft = false;
-    private bool mAutoFireEnabled = false;
+    private float _touch_axis_x = 0.0f;   
+    private bool _gui_key_right = false;
+    private bool _gui_key_left = false;
+    private bool _autofire_enabled = false;
 
     private GameObject mSceneSurface = null;
     private Vector3 mSceneSurfacePosition;
@@ -26,9 +27,9 @@ public class Player : MonoBehaviour
     /**************************************/
     void Start()
     {
-        if (GameController.instance.isMobileMode) {
-            mAutoFireEnabled = true;
-        }
+#if UNITY_ANDROID
+            _autofire_enabled = true;
+#endif
         
         mSceneSurface = GameObject.Find("Surface");
         if (mSceneSurface == null) {
@@ -36,7 +37,32 @@ public class Player : MonoBehaviour
         }
 
         mSceneSurfacePosition = mSceneSurface.transform.position;
+
+        if(_autofire_enabled) {
+            StartCoroutine("AutoFireCoroutine");
+        }
     }
+
+    public void OnDirectionalInputClicked(int dir)
+    {
+        if (dir == -1) {
+            _gui_key_right = true;
+        }
+    }
+
+    IEnumerator AutoFireCoroutine()
+    {
+        float t = Time.time;
+//        while(true) {
+//            if (GameController.instance.State.IsRunning) {
+//                Fire();
+//            } else {
+//                break;
+//            }
+            yield return new WaitForSeconds(FIRE_DELAY);
+//        }
+    }
+
 
 #region Input
 //    public void OnMouseUp( dfControl control, dfMouseEventArgs mouseEvent )
@@ -82,12 +108,12 @@ public class Player : MonoBehaviour
 
     private void updateGUIKeys()
     {
-        if ( mGuiKeyRight )
-            mTouchXAxis += TOUCH_MOVE_SPEED;
-        if ( mGuiKeyLeft )
-            mTouchXAxis -= TOUCH_MOVE_SPEED;
+        if ( _gui_key_right )
+            _touch_axis_x += TOUCH_MOVE_SPEED;
+        if ( _gui_key_left )
+            _touch_axis_x -= TOUCH_MOVE_SPEED;
         
-        mTouchXAxis = Mathf.Clamp( mTouchXAxis, -1.0f, 1.0f );
+        _touch_axis_x = Mathf.Clamp( _touch_axis_x, -1.0f, 1.0f );
     }
 #endregion
 
@@ -99,14 +125,12 @@ public class Player : MonoBehaviour
         Vector3 pos = transform.position;
 
         pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
-        pos.x += mTouchXAxis * SHIP_SPEED * Time.deltaTime;
+        pos.x += _touch_axis_x * SHIP_SPEED * Time.deltaTime;
         pos.x = Mathf.Clamp( pos.x, -SHIP_X_BOUNDS, SHIP_X_BOUNDS );
 
-        if (mAutoFireEnabled) Fire();
-        else if(Input.GetButton("Fire1")) Fire();
-
-//        mSceneStarsPosition.x = transform.position.x * 0.03f;
-//        mSceneStars.transform.position = mSceneStarsPosition;
+        if (!_autofire_enabled && Input.GetButton("Fire1")) {
+            Fire();
+        }
 
         mSceneSurfacePosition.x = transform.position.x * 0.02f;
         mSceneSurface.transform.position = mSceneSurfacePosition;
@@ -130,10 +154,10 @@ public class Player : MonoBehaviour
     }
 
     /**************************************/
-    public void Hurt()
-    {
-        //Instantiate( PainPrefab, transform.position, Quaternion.identity );
-    }
+//    public void Hurt()
+//    {
+//        //Instantiate( PainPrefab, transform.position, Quaternion.identity );
+//    }
 
     /**************************************/
     void OnTriggerEnter2D(Collider2D col)
