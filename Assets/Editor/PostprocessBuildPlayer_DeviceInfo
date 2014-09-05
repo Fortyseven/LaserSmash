@@ -1,0 +1,8 @@
+#!/usr/bin/python
+from DeviceInfo import *
+
+def main():
+	DeviceInfo.unityAddImpact()
+
+if __name__ == "__main__":
+	main()
