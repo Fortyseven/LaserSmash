@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: c0a5045fba3ba0e40b714643e0c296db
+labels:
+- Enemy
 folderAsset: yes
 DefaultImporter:
   userData: 

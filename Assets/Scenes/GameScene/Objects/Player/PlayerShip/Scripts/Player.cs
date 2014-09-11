@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -16,13 +17,13 @@ public class Player : MonoBehaviour
     
 //    public dfPanel panelLeft = null;
 //    public dfPanel panelRight = null;
-    private float _touch_axis_x = 0.0f;   
-    private bool _gui_key_right = false;
-    private bool _gui_key_left = false;
-    private bool _autofire_enabled = false;
+    float _touch_axis_x = 0.0f;   
+    bool _gui_key_right = false;
+    bool _gui_key_left = false;
+    bool _autofire_enabled = false;
 
-    private GameObject mSceneSurface = null;
-    private Vector3 mSceneSurfacePosition;
+    GameObject mSceneSurface = null;
+    Vector3 mSceneSurfacePosition;
     
     /**************************************/
     void Start()
@@ -30,7 +31,7 @@ public class Player : MonoBehaviour
 #if UNITY_ANDROID
             _autofire_enabled = true;
 #endif
-        
+
         mSceneSurface = GameObject.Find("Surface");
         if (mSceneSurface == null) {
             throw new UnityException("Could not find stage surface");
@@ -53,14 +54,21 @@ public class Player : MonoBehaviour
     IEnumerator AutoFireCoroutine()
     {
         float t = Time.time;
-//        while(true) {
-//            if (GameController.instance.State.IsRunning) {
-//                Fire();
-//            } else {
-//                break;
-//            }
+        while(true) {
+            if (GameController.instance.State.IsRunning) {
+                Fire();
+            } else {
+                break;
+            }
             yield return new WaitForSeconds(FIRE_DELAY);
+        }
+
+//        UnityEngine.UI.Button _;
+//        if (_gui_key_left.IsInvoking()) {
+//
 //        }
+//        foo.OnDeselect
+
     }
 
 
@@ -106,21 +114,22 @@ public class Player : MonoBehaviour
 //        
 //    }
 
-    private void updateGUIKeys()
-    {
-        if ( _gui_key_right )
-            _touch_axis_x += TOUCH_MOVE_SPEED;
-        if ( _gui_key_left )
-            _touch_axis_x -= TOUCH_MOVE_SPEED;
-        
-        _touch_axis_x = Mathf.Clamp( _touch_axis_x, -1.0f, 1.0f );
-    }
+//    private void updateGUIKeys()
+//    {
+//        if ( _gui_key_right )
+//            _touch_axis_x += TOUCH_MOVE_SPEED;
+//        if ( _gui_key_left )
+//            _touch_axis_x -= TOUCH_MOVE_SPEED;
+//        
+//        _touch_axis_x = Mathf.Clamp( _touch_axis_x, -1.0f, 1.0f );
+//    }
 #endregion
 
     /**************************************/
     void Update()
     {
-        updateGUIKeys();
+//        updateGUIKeys();
+        if (GameController.instance.State.Paused) return;
 
         Vector3 pos = transform.position;
 
@@ -149,7 +158,7 @@ public class Player : MonoBehaviour
     void Kill()
     {
         Destroy(Instantiate( DeathExplosionPrefab, transform.position, Quaternion.identity ), 3.0f);
-        GetComponent<AudioSource>().Play();
+//        GetComponent<AudioSource>().Play();
         this.gameObject.SetActive(false);
     }
 

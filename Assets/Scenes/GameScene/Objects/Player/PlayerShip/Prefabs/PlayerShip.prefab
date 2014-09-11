@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .257896662, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -471,9 +471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LaserbeamPrefab: {fileID: 100000, guid: 7323540a3fc444140a38c4fb6ff92f21, type: 2}
-  deathExplosionPrefab: {fileID: 100004, guid: 169b10ce10f4327cb9f40f6b117ed8d7, type: 2}
-  panelLeft: {fileID: 0}
-  panelRight: {fileID: 0}
+  DeathExplosionPrefab: {fileID: 100000, guid: f7df1b1435682f04b882cc5baddb5ebb, type: 2}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

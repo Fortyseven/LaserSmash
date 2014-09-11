@@ -84,6 +84,18 @@ public class GameController : MonoBehaviour
     }
 
     /***************************************************************************/
+    public void SetMultValue( int mult )
+    {
+        _UIMultValue.text = mult.ToString() + "x";
+    }
+
+    /***************************************************************************/
+    public void SetLivesValue( int lives )
+    {
+        _UILivesValue.text = lives.ToString();
+    }
+
+    /***************************************************************************/
     public GameState getGameState()
     {
         return _gameState;
@@ -95,19 +107,19 @@ public class GameController : MonoBehaviour
         DifficultyController.Load();
 
 #if !UNITY_ANDROID
-        DisableOnScreenControls();
+//        DisableOnScreenControls();
 #endif
     }
 
 #if !UNITY_ANDROID
-    /***************************************************************************/
-    private void DisableOnScreenControls()
-    {
-        GameObject pan = GameObject.Find( "Input_Left" ) as GameObject;
-        pan.SetActive(false);
-        pan = GameObject.Find( "Input_Right" ) as GameObject;
-        pan.SetActive(false);
-    }
+//    /***************************************************************************/
+//    private void DisableOnScreenControls()
+//    {
+//        GameObject pan = GameObject.Find( "Input_Left" ) as GameObject;
+//        pan.SetActive(false);
+//        pan = GameObject.Find( "Input_Right" ) as GameObject;
+//        pan.SetActive(false);
+//    }
 #endif
 
     /***************************************************************************/
