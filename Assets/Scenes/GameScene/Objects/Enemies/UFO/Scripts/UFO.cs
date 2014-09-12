@@ -56,13 +56,13 @@ public class UFO : EnemyType
         _charging_flare_sprite.enabled = false;
 
         _audio = GetComponent<AudioSource>();
-
-        gameObject.SetActive(false);
     }
     
     /*****************************/
     void Update()
     {
+        if (!_is_ready) return;
+
         switch(_state) {
             case State.PASSIVE:
                 // Occasionally fire down hot death
@@ -156,7 +156,7 @@ public class UFO : EnemyType
     /*****************************/
     public void HitByLaser( Laserbeam laser )
     {
-        GameController.instance.State.AdjustScore(GameConstants.SCORE_ASTEROID_BYLASER);
+        GameController.instance.State.AdjustScore(GameConstants.SCORE_UFO);
         Destroy( laser.gameObject );
         Explode();
     }
@@ -173,6 +173,6 @@ public class UFO : EnemyType
             _newpos = new Vector3( X_RANGE_RIGHT, y, 0 );
         }
         transform.position = _newpos;
-        this.gameObject.SetActive(true);
+        _is_ready = true;
     }
 }

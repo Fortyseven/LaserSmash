@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     private const float SHIP_SPEED = 40.0f;
-    private const float SHIP_X_BOUNDS = 12.0f;
+    private const float SHIP_X_BOUNDS = 13.0f;
     private const float TOUCH_MOVE_SPEED = 0.05f;    
     private const float LASER_Y_OFFSET_FROM_SHIP = 2.0f;
     private const float FIRE_DELAY = 0.5f;
@@ -18,8 +18,8 @@ public class Player : MonoBehaviour
 //    public dfPanel panelLeft = null;
 //    public dfPanel panelRight = null;
     float _touch_axis_x = 0.0f;   
-    bool _gui_key_right = false;
-    bool _gui_key_left = false;
+//    bool _gui_key_right = false;
+//    bool _gui_key_left = false;
     bool _autofire_enabled = false;
 
     GameObject mSceneSurface = null;
@@ -44,32 +44,26 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void OnDirectionalInputClicked(int dir)
-    {
-        if (dir == -1) {
-            _gui_key_right = true;
-        }
-    }
-
-    IEnumerator AutoFireCoroutine()
-    {
-        float t = Time.time;
-        while(true) {
-            if (GameController.instance.State.IsRunning) {
-                Fire();
-            } else {
-                break;
-            }
-            yield return new WaitForSeconds(FIRE_DELAY);
-        }
-
-//        UnityEngine.UI.Button _;
-//        if (_gui_key_left.IsInvoking()) {
-//
+//    public void OnDirectionalInputClicked(int dir)
+//    {
+//        if (dir == -1) {
+//            _gui_key_right = true;
 //        }
-//        foo.OnDeselect
+//    }
 
-    }
+//    IEnumerator AutoFireCoroutine()
+//    {
+//        float t = Time.time;
+//        while(true) {
+//            if (GameController.instance.State.IsRunning) {
+//                Fire();
+//            } else {
+//                break;
+//            }
+//            yield return new WaitForSeconds(FIRE_DELAY);
+//        }
+//
+//    }
 
 
 #region Input

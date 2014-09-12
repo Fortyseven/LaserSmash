@@ -8,6 +8,7 @@ public class ObjectPool
     public int MaxCount;
     ArrayList _items;
 
+    /*****************************/
     public ObjectPool( GameObject gobj, int max_count )
     {
         GameObjectSource = gobj;
@@ -15,23 +16,26 @@ public class ObjectPool
         Awake();
     }
 
+    /*****************************/
     void Awake()
     {
         _items = new ArrayList( 0 );
     }
 
+    /*****************************/
     public GameObject GetInstance()
     {
         return GetInstance( new Vector3( 0, 0, 0 ), Quaternion.identity );
     }
 
-    public GameObject GetInstance( Vector3 position, Quaternion rot )
+    /*****************************/
+    public GameObject GetInstance( Vector3 position, Quaternion rot, bool call_respawn = true )
     {
         // Have we hit max allocation? Instantiate, add to the pool, and return
         if ( _items.Count < MaxCount ) {
 //            Debug.Log(string.Format("Creating new; currently have {0} allocated out of {1}.", _items.Count, MaxCount));
             GameObject obj = UnityEngine.GameObject.Instantiate( GameObjectSource, position, rot ) as GameObject;
-            obj.SendMessage("Respawn");
+            if (call_respawn) obj.SendMessage("Respawn");
             _items.Add( obj );
             return obj;
         }
@@ -41,7 +45,7 @@ public class ObjectPool
                 obj.transform.position = position;
                 obj.transform.rotation = rot;
                 obj.SetActive(true);
-                obj.SendMessage("Respawn");
+                if (call_respawn) obj.SendMessage("Respawn");
                 return obj;
             }
         }

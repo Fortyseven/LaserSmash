@@ -5,7 +5,7 @@ using System.Collections;
 public class PauseController : MonoBehaviour
 {
     public Canvas PauseCanvas;
-    bool is_paused = false;
+//    bool is_paused = false;
 
     void Awake()
     {
