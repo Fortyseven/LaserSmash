@@ -260,7 +260,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLargeRock: 1
-  DebugSplitOnStart: 0
   PercentChanceOfLRock: 50
   PercentChanceOfRRock: 50
   SoundHitSurface: {fileID: 0}

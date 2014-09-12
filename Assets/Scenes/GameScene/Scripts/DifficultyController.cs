@@ -63,7 +63,7 @@ public class DifficultyController
 //            dve.AmbienceColor.r = dif_entry["color"].list[0];
 //            dve.AmbienceColor.g = dif_entry["color"][1];
 //            dve.AmbienceColor.b = dif_entry["color"][2];
-            Debug.Log(dve.AmbienceColor);
+//            Debug.Log(dve.AmbienceColor);
         }
 
 

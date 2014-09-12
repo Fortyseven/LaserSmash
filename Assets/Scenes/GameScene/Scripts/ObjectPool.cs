@@ -29,8 +29,9 @@ public class ObjectPool
     {
         // Have we hit max allocation? Instantiate, add to the pool, and return
         if ( _items.Count < MaxCount ) {
-            Debug.Log(string.Format("Creating new; currently have {0} allocated out of {1}.", _items.Count, MaxCount));
+//            Debug.Log(string.Format("Creating new; currently have {0} allocated out of {1}.", _items.Count, MaxCount));
             GameObject obj = UnityEngine.GameObject.Instantiate( GameObjectSource, position, rot ) as GameObject;
+            obj.SendMessage("Respawn");
             _items.Add( obj );
             return obj;
         }
@@ -40,6 +41,7 @@ public class ObjectPool
                 obj.transform.position = position;
                 obj.transform.rotation = rot;
                 obj.SetActive(true);
+                obj.SendMessage("Respawn");
                 return obj;
             }
         }

@@ -31,7 +31,6 @@ GameObject:
   - 4: {fileID: 400002}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
-  - 114: {fileID: 11400000}
   m_Layer: 8
   m_Name: shitty_asteroid2
   m_TagString: Untagged
@@ -457,19 +456,6 @@ Light:
   m_ShadowAngle: 0
   m_IndirectIntensity: 1
   m_AreaSize: {x: 1, y: 1}
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fc603cd4dc024a45894e98189646f6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mXRotSpeed: 0
-  mYRotSpeed: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -482,7 +468,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLargeRock: 0
-  DebugSplitOnStart: 0
   PercentChanceOfLRock: 50
   PercentChanceOfRRock: 50
   SoundHitSurface: {fileID: 8300000, guid: 8fc2f45abdf0c9f4ab417af7952c2142, type: 3}

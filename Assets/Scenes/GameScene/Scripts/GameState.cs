@@ -3,7 +3,8 @@ using System.Collections;
 
 public class GameState
 {
-    public const int INITIAL_LIVES = 1;
+    public const int INITIAL_LIVES = 3;
+    public const int INITIAL_MULTIPLIER = 1;
 
 
     private int _score;
@@ -66,11 +67,10 @@ public class GameState
         set {
             _is_paused = value;
             Time.timeScale = _is_paused ? 0 : 1.0f;
+            IsRunning = !value;
         }
     }
-
 #endregion
-
 
     /***************************************************************************/
     public GameState()
@@ -82,9 +82,11 @@ public class GameState
     public void Reset()
     {
         Paused = false;
+
         Lives = INITIAL_LIVES;
         Score = 0;
-        Multiplier = 5;
+        Multiplier = INITIAL_MULTIPLIER;
+
         IsRunning = false;
         GameOver = false;
     }

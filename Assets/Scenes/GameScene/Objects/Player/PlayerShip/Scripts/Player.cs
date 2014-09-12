@@ -158,7 +158,6 @@ public class Player : MonoBehaviour
     void Kill()
     {
         Destroy(Instantiate( DeathExplosionPrefab, transform.position, Quaternion.identity ), 3.0f);
-//        GetComponent<AudioSource>().Play();
         this.gameObject.SetActive(false);
     }
 
@@ -183,7 +182,7 @@ public class Player : MonoBehaviour
     }
 
     /**************************************/
-    private void PlayerKilled()
+    public void PlayerKilled()
     {
         Kill();
         GameController.instance.getGameState().Lives--;

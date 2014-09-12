@@ -27,7 +27,6 @@ public class GameController : MonoBehaviour
     private GameState _gameState;
     private GameObject _playerShip;
 
-
 #region properties
     public GameObject PlayerShip {
         get { return _playerShip; }
@@ -37,8 +36,6 @@ public class GameController : MonoBehaviour
         get { return _gameState; }
     }
 #endregion
-
-//    private WaveGenerator mWaveGenerator = null ;
 
     /***************************************************************************/
 //    private DifficultyValues UpdateDifficultyValues()
@@ -56,25 +53,28 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         GameController.instance = this;
-
     }
 
     /***************************************************************************/
     void Start()
     {
         _playerShip = GameObject.Find( "PlayerShip" ) as GameObject;
-        if ( _playerShip == null )
-            throw new UnityException( "Could not find PlayerShip object" );
+//        if ( _playerShip == null )
+//            throw new UnityException( "Could not find PlayerShip object" );
 
         Physics2D.IgnoreLayerCollision( LayerMask.NameToLayer( "Enemy" ), LayerMask.NameToLayer( "Enemy" ) );
         ConfigureGame();
-        
-        //        mWaveGenerator = GetComponent<WaveGenerator>() as WaveGenerator;
-        //        mWaveGenerator.init( this );
-        
+
         _gameState = new GameState();
         GameOverCanvas.gameObject.SetActive(false);
         _gameState.Reset();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.End)) {
+            _playerShip.GetComponent<Player>().PlayerKilled();
+        }
     }
 
     /***************************************************************************/

@@ -4,13 +4,13 @@ using Game;
 
 /* TODO: Player should have split second ability to dodge laser; maybe 0.15ms delay? */
 
-public class UFO : MonoBehaviour
+public class UFO : EnemyType
 {
     public GameObject ExplosionPrefab = null;
     public GameObject ExplosionLaserGroundPrefab = null;
 
-    const float MAX_Y_SPAWN = 14.0f;
-    const float MIN_Y_SPAWN = 8.7f;
+    const float MAX_Y_SPAWN = 13.0f;
+    const float MIN_Y_SPAWN = 6.0f;
     const float X_RANGE_RIGHT = 15.0f;
     const float X_RANGE_LEFT = -16.0f;
     const int DIR_RIGHT = 1; // r-t-l
@@ -46,16 +46,6 @@ public class UFO : MonoBehaviour
     void Awake()
     {
         // Pick a side of the screen to fly out of
-        float y = Random.Range(MIN_Y_SPAWN, MAX_Y_SPAWN);
-        if (Random.Range(0,2) == 0) {
-            _direction = DIR_RIGHT;
-            _newpos = new Vector3( X_RANGE_LEFT, y, 0 );
-        } else {
-            _direction = DIR_LEFT;
-            _newpos = new Vector3( X_RANGE_RIGHT, y, 0 );
-        }
-        transform.position = _newpos;
-
         _laser = GetComponentInChildren<LineRenderer>();
         _laser.gameObject.SetActive(false);
 
@@ -66,6 +56,8 @@ public class UFO : MonoBehaviour
         _charging_flare_sprite.enabled = false;
 
         _audio = GetComponent<AudioSource>();
+
+        gameObject.SetActive(false);
     }
     
     /*****************************/
@@ -145,11 +137,11 @@ public class UFO : MonoBehaviour
         // Did we fly off the screen?
         if (_direction == DIR_RIGHT) {
             if (_newpos.x >= X_RANGE_RIGHT ) {
-                Destroy(this.gameObject);
+                Hibernate();
             }
         } else if (_direction == DIR_LEFT) {
             if (_newpos.x <= X_RANGE_LEFT ) {
-                Destroy(this.gameObject);
+                Hibernate();
             }
         }
     }
@@ -158,7 +150,7 @@ public class UFO : MonoBehaviour
     void Explode()
     {
         Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
-        Destroy(this.gameObject);
+        Hibernate();
     }
 
     /*****************************/
@@ -167,5 +159,20 @@ public class UFO : MonoBehaviour
         GameController.instance.State.AdjustScore(GameConstants.SCORE_ASTEROID_BYLASER);
         Destroy( laser.gameObject );
         Explode();
+    }
+
+    /*****************************/
+    public override void Respawn ()
+    {
+        float y = Random.Range(MIN_Y_SPAWN, MAX_Y_SPAWN);
+        if (Random.Range(0,2) == 0) {
+            _direction = DIR_RIGHT;
+            _newpos = new Vector3( X_RANGE_LEFT, y, 0 );
+        } else {
+            _direction = DIR_LEFT;
+            _newpos = new Vector3( X_RANGE_RIGHT, y, 0 );
+        }
+        transform.position = _newpos;
+        this.gameObject.SetActive(true);
     }
 }

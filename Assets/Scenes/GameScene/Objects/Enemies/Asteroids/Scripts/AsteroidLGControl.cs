@@ -2,16 +2,13 @@
 using System.Collections;
 using Game;
 
-public class AsteroidLGControl : MonoBehaviour
+public class AsteroidLGControl : EnemyType
 {   
     public bool isLargeRock = false;
 
-    public bool DebugSplitOnStart = false;
-
-//    [Range(0.05f, 1.0f)]
-//    public float DropSpeedMax = 0.5f;
-//    [Range(0.05f, 1.0f)]
-//    public float DropSpeedMin = 0.05f;
+    private const float Y_SPAWN_OFFSET = 15.5f;
+    private const float MAX_X_OFFSET = -13f;
+    private const float MIN_X_OFFSET = 13f;
 
     [Range(0f,100f)]
     public float PercentChanceOfLRock = 50.0f;
@@ -21,9 +18,6 @@ public class AsteroidLGControl : MonoBehaviour
     private float MinSplitRockForce = 0.1f;    
     private float MaxSplitRockForce = 0.5f;
 
-//    public int SCORE_PENALTY_BASE = 200;
-    //public int SCORE_AWARD_BASE = 100;
-    
     public AudioClip SoundHitSurface = null;
     private AudioSource mAudioSource = null;
     
@@ -34,14 +28,9 @@ public class AsteroidLGControl : MonoBehaviour
 
     public GameObject ParticleEmitterPrefab = null;
 
-    //public GameObject ParticleTrail = null;
-
     private Player _player = null;
-    //private float mDropspeed = 0.5f;
 
     private float _gravity_multiplier = 0.0f;
-
-//    private GameController mGameControl = null;
 
     private GameObject _particle_trail = null;
 
@@ -50,41 +39,23 @@ public class AsteroidLGControl : MonoBehaviour
     /*****************************/
     void Start()
     {
-//        mGameControl = FindObjectOfType<GameControl>();
         _player = FindObjectOfType<Player>();
         mAudioSource = GetComponent<AudioSource>();
-
-        _gravity_multiplier = Random.Range(0, 4.0f);
-        rigidbody2D.gravityScale = rigidbody2D.gravityScale * _gravity_multiplier;
-
-        //Debug.Log("Gravity = " + rigidbody2D.gravityScale);
-
-        _particle_trail = Instantiate(ParticleEmitterPrefab, transform.position, Quaternion.identity) as GameObject;
-
-        if (!isLargeRock) {
-            ParticleEmitter p = _particle_trail.GetComponentInChildren<ParticleEmitter>();
-            p.minSize = 0.5f;
-            p.maxSize = 1.0f;
-        } else {
-            int dir = Random.Range(0,3);
-            switch(dir) {
-                case 0: rigidbody2D.AddForce(new Vector2(Random.Range(MinSplitRockForce, MaxSplitRockForce) * 250.0f, 0.0f)); break;
-                case 1: break;
-                case 2: rigidbody2D.AddForce(-new Vector2(Random.Range(MinSplitRockForce, MaxSplitRockForce) * 250.0f, 0.0f)); break;
-            }
-        }
-
-        _hit_surface = false;
-
-        if (DebugSplitOnStart) Explode();
+        gameObject.SetActive(false);
+        _is_ready = false;
     }       
         
     /*****************************/
-    void FixedUpdate()
+    void Update()
     {
+        if (!_is_ready) {
+            Debug.Log("Was not ready");
+            return;
+        }
+
         // Did we go off screen? Sweep it under the rug.
         if (Mathf.Abs(transform.position.x) > GameConstants.SCREEN_X_BOUNDS ) {
-            Explode();
+            Done();
             return;
         }
         
@@ -92,7 +63,7 @@ public class AsteroidLGControl : MonoBehaviour
         if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
             //GameController.instance.AdjustScore(-SCORE_PENALTY_BASE);
             _hit_surface = true;
-            Explode();
+            Done();
             return;
         }
 
@@ -103,10 +74,14 @@ public class AsteroidLGControl : MonoBehaviour
     /*****************************/
     private void Done()
     {
+        rigidbody2D.velocity =  new Vector2(0,0);
+
         Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
-//        Destroy( mParticleTrail.gameObject );
-        //Destroy(this.gameObject);
-        this.gameObject.SetActive(false);
+
+        if (_particle_trail != null) {
+            Destroy(_particle_trail, 1.0f);
+        }
+        Hibernate();
     }
 
     /*****************************/
@@ -142,8 +117,35 @@ public class AsteroidLGControl : MonoBehaviour
                 sm_rock.rigidbody2D.AddForce(new Vector2(0.0f, sm_rock_driftforce_y));
             }
         }
-        Destroy(_particle_trail, 1.0f);
         Done();
     }
 
+    /*****************************/
+    public override void Respawn()
+    {
+        Vector3 start_pos = new Vector3(Random.Range(MIN_X_OFFSET, MAX_X_OFFSET), Y_SPAWN_OFFSET, 0);
+        transform.position = start_pos;
+        //transform.position.Set(9090,9090,9090);
+
+        _gravity_multiplier = Random.Range(0, 4.0f);
+        //rigidbody2D.gravityScale = rigidbody2D.gravityScale * _gravity_multiplier;
+
+        _particle_trail = Instantiate(ParticleEmitterPrefab, transform.position, Quaternion.identity) as GameObject;
+        
+        if (!isLargeRock) {
+            ParticleEmitter p = _particle_trail.GetComponentInChildren<ParticleEmitter>();
+            p.minSize = 0.5f;
+            p.maxSize = 1.0f;
+        } else {
+            int dir = Random.Range(0,3);
+            switch(dir) {
+                case 0: rigidbody2D.AddForce(new Vector2(Random.Range(MinSplitRockForce, MaxSplitRockForce) * 250.0f, 0.0f)); break;
+                case 1: break;
+                case 2: rigidbody2D.AddForce(-new Vector2(Random.Range(MinSplitRockForce, MaxSplitRockForce) * 250.0f, 0.0f)); break;
+            }
+        }
+        
+        _hit_surface = false;
+        _is_ready = true;
+    }
 }

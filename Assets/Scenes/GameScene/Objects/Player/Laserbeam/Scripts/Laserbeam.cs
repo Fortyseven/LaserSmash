@@ -7,7 +7,6 @@ public class Laserbeam : MonoBehaviour
 
     public void OnTriggerEnter2D( Collider2D other )
     {
-        Debug.Log("I hit something: " + other.name);
         other.SendMessage( "HitByLaser", this );
     }
         
