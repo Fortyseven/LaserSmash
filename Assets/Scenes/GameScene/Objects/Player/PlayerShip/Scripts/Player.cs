@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    private const float SHIP_SPEED = 40.0f;
+    private const float SHIP_SPEED = 30.0f;
     private const float SHIP_X_BOUNDS = 13.0f;
     private const float TOUCH_MOVE_SPEED = 0.05f;    
     private const float LASER_Y_OFFSET_FROM_SHIP = 2.0f;
@@ -13,7 +13,13 @@ public class Player : MonoBehaviour
     public GameObject LaserbeamPrefab = null;
     public GameObject DeathExplosionPrefab = null;
 
+    public Image DeathPanel;
+
     GameObject mLastFireGO = null;
+
+    Vector3 _starting_position;
+
+    public GameObject My_Mesh;
     
 //    public dfPanel panelLeft = null;
 //    public dfPanel panelRight = null;
@@ -24,6 +30,8 @@ public class Player : MonoBehaviour
 
     GameObject mSceneSurface = null;
     Vector3 mSceneSurfacePosition;
+
+    bool _is_alive = false;
     
     /**************************************/
     void Start()
@@ -42,6 +50,11 @@ public class Player : MonoBehaviour
         if(_autofire_enabled) {
             StartCoroutine("AutoFireCoroutine");
         }
+
+        _starting_position = transform.position;
+
+        Reset();
+        enabled = true;
     }
 
 //    public void OnDirectionalInputClicked(int dir)
@@ -123,7 +136,14 @@ public class Player : MonoBehaviour
     void Update()
     {
 //        updateGUIKeys();
-        if (GameController.instance.State.Paused) return;
+        if (!enabled) {
+            Debug.Log("not enabled");
+            return;
+        }
+        if (GameController.instance.State.Paused) {
+            Debug.Log("is paused");
+            return;
+        }
 
         Vector3 pos = transform.position;
 
@@ -149,13 +169,6 @@ public class Player : MonoBehaviour
     }
 
     /**************************************/
-    void Kill()
-    {
-        Destroy(Instantiate( DeathExplosionPrefab, transform.position, Quaternion.identity ), 3.0f);
-        this.gameObject.SetActive(false);
-    }
-
-    /**************************************/
 //    public void Hurt()
 //    {
 //        //Instantiate( PainPrefab, transform.position, Quaternion.identity );
@@ -164,7 +177,7 @@ public class Player : MonoBehaviour
     /**************************************/
     void OnTriggerEnter2D(Collider2D col)
     {
-        PlayerKilled();
+        if (_is_alive) PlayerKilled();
     }
 
     /**************************************/
@@ -178,9 +191,41 @@ public class Player : MonoBehaviour
     /**************************************/
     public void PlayerKilled()
     {
-        Kill();
-        GameController.instance.getGameState().Lives--;
+        _is_alive = false;
+        My_Mesh.SetActive(false);
+        enabled = false;
+
+        Destroy(Instantiate( DeathExplosionPrefab, transform.position, Quaternion.identity ), 3.0f);
+
+        GameController.instance.State.Lives--;
+
+        if (GameController.instance.State.Lives <= 0) {
+            gameObject.SetActive(false);
+            GameController.instance.OnGameOver();
+        } else {
+            DeathPanel.gameObject.SetActive(true);
+            GameController.instance.WaveCon.Paused = true;
+            GameController.instance.WaveCon.Reset();
+            StartCoroutine("PlayerRespawnTimeout");
+        }
         //GameController.PlayerRespawnIn(500);
+    }
+
+    /**************************************/
+    public IEnumerator PlayerRespawnTimeout()
+    {
+        yield return new WaitForSeconds(3.0f);
+        transform.position = _starting_position;
+        Reset();
+    }
+
+    public void Reset()
+    {
+        DeathPanel.gameObject.SetActive(false);
+        My_Mesh.SetActive(true);
+        enabled = true;
+        _is_alive = true;
+        GameController.instance.WaveCon.Paused = false;
     }
 }
 

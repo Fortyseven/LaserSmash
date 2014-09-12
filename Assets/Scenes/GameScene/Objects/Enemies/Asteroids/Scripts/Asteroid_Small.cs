@@ -5,8 +5,8 @@ using Game;
 public class Asteroid_Small : EnemyType
 {   
     private const float Y_SPAWN_OFFSET = 15.5f;
-    private const float MAX_X_OFFSET = -13f;
-    private const float MIN_X_OFFSET = 13f;
+    private const float MAX_X_OFFSET = -12f;
+    private const float MIN_X_OFFSET = 12f;
 
     public AudioClip SoundHitSurface = null;
     private AudioSource _audio = null;
@@ -42,7 +42,36 @@ public class Asteroid_Small : EnemyType
         _is_fragment = false;
         _is_ready = false;
     }       
+
+    /*****************************/
+    public override void Respawn()
+    {
+        // Our spawner will take care of positioning us if we're a fragment
+        if (!_is_fragment) {
+            Vector3 start_pos = new Vector3(Random.Range(MIN_X_OFFSET, MAX_X_OFFSET), Y_SPAWN_OFFSET, 0);
+            transform.position = start_pos;
+            
+            _gravity_multiplier = Random.Range(0, 5.0f);
+            rigidbody2D.gravityScale = _base_gravityscale * _gravity_multiplier;
+        }
         
+        _particle_trail = Instantiate(ParticleEmitterPrefab, transform.position, Quaternion.identity) as GameObject;
+        
+        ParticleEmitter p = _particle_trail.GetComponentInChildren<ParticleEmitter>();
+        p.minSize = 0.5f;
+        p.maxSize = 1.0f;
+        
+        _hit_surface = false;
+        _is_fragment = false;
+        _is_ready = true;
+    }
+    
+    public void RespawnFragment()
+    {
+        _is_fragment = true;
+        Respawn();
+    }
+
     /*****************************/
     void Update()
     {
@@ -90,32 +119,9 @@ public class Asteroid_Small : EnemyType
         Done();
     }
 
-    /*****************************/
-    public override void Respawn()
+    public override void InstaKill ()
     {
-        // Our spawner will take care of positioning us
-        if (!_is_fragment) {
-            Vector3 start_pos = new Vector3(Random.Range(MIN_X_OFFSET, MAX_X_OFFSET), Y_SPAWN_OFFSET, 0);
-            transform.position = start_pos;
-
-            _gravity_multiplier = Random.Range(0, 4.0f);
-            rigidbody2D.gravityScale = _base_gravityscale * _gravity_multiplier;
-        }
-
-        _particle_trail = Instantiate(ParticleEmitterPrefab, transform.position, Quaternion.identity) as GameObject;
-        
-        ParticleEmitter p = _particle_trail.GetComponentInChildren<ParticleEmitter>();
-        p.minSize = 0.5f;
-        p.maxSize = 1.0f;
-
-        _hit_surface = false;
-        _is_fragment = false;
-        _is_ready = true;
+        Done(false);
     }
 
-    public void RespawnFragment()
-    {
-        _is_fragment = true;
-        Respawn();
-    }
 }

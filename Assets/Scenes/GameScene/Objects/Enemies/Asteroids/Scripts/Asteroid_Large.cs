@@ -5,8 +5,8 @@ using Game;
 public class Asteroid_Large : EnemyType
 {   
     private const float Y_SPAWN_OFFSET = 15.5f;
-    private const float MAX_X_OFFSET = -13f;
-    private const float MIN_X_OFFSET = 13f;
+    private const float MAX_X_OFFSET = -12f;
+    private const float MIN_X_OFFSET = 12f;
 
     [Range(0f,100f)]
     public float PercentChanceOfLRock = 50.0f;
@@ -42,7 +42,30 @@ public class Asteroid_Large : EnemyType
         _base_gravityscale = rigidbody2D.gravityScale;
         _ast_small_objectpool = GameController.instance.GetComponent<WaveController>().GetPoolForName("Asteroid Small");
         _is_ready = false;
-    }       
+    }
+
+    /*****************************/
+    public override void Respawn()
+    {
+        Vector3 start_pos = new Vector3(Random.Range(MIN_X_OFFSET, MAX_X_OFFSET), Y_SPAWN_OFFSET, 0);
+        transform.position = start_pos;
+        
+        _gravity_multiplier = Random.Range(1.0f, 15.0f);
+        rigidbody2D.gravityScale = _base_gravityscale * _gravity_multiplier;
+        
+        _particle_trail = Instantiate(ParticleEmitterPrefab, transform.position, Quaternion.identity) as GameObject;
+        
+        int dir = Random.Range(0,3);
+        switch(dir) {
+            case 0: rigidbody2D.AddForce(new Vector2(Random.Range(MinSplitRockForce, MaxSplitRockForce) * 250.0f, 0.0f)); break;
+            case 1: break;
+            case 2: rigidbody2D.AddForce(-new Vector2(Random.Range(MinSplitRockForce, MaxSplitRockForce) * 250.0f, 0.0f)); break;
+        }
+        
+        _hit_surface = false;
+        _is_ready = true;
+    }
+
         
     /*****************************/
     void Update()
@@ -128,24 +151,8 @@ public class Asteroid_Large : EnemyType
     }
 
     /*****************************/
-    public override void Respawn()
+    public override void InstaKill ()
     {
-        Vector3 start_pos = new Vector3(Random.Range(MIN_X_OFFSET, MAX_X_OFFSET), Y_SPAWN_OFFSET, 0);
-        transform.position = start_pos;
-
-        _gravity_multiplier = Random.Range(0, 4.0f);
-        rigidbody2D.gravityScale = _base_gravityscale * _gravity_multiplier;
-
-        _particle_trail = Instantiate(ParticleEmitterPrefab, transform.position, Quaternion.identity) as GameObject;
-        
-        int dir = Random.Range(0,3);
-        switch(dir) {
-            case 0: rigidbody2D.AddForce(new Vector2(Random.Range(MinSplitRockForce, MaxSplitRockForce) * 250.0f, 0.0f)); break;
-            case 1: break;
-            case 2: rigidbody2D.AddForce(-new Vector2(Random.Range(MinSplitRockForce, MaxSplitRockForce) * 250.0f, 0.0f)); break;
-        }
-
-        _hit_surface = false;
-        _is_ready = true;
+        Done(false);
     }
 }

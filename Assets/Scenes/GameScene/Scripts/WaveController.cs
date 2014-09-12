@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Game;
 
 public class WaveController : MonoBehaviour
 {
@@ -18,11 +19,14 @@ public class WaveController : MonoBehaviour
 
 //    private ObjectPool[] _pools;
 
-    float _next_spawn_time;
+    bool _is_paused = false;
+    float _curSpawnTimeout;
 
-    public WaveController( GameObject parent_go )
-    {
+    public bool Paused {
+        set { _is_paused = value; }
     }
+
+    float _next_spawn_time;
 
     /*****************************/
     public void Awake()
@@ -34,7 +38,11 @@ public class WaveController : MonoBehaviour
     /*****************************/
     public void Reset()
     {
-        _next_spawn_time = Time.time + 0.25f;
+        _curSpawnTimeout = GameConstants.MULT_TIMEOUT_RAMP[0];
+        _next_spawn_time = Time.time + _curSpawnTimeout ;
+        for(int i = 0; i < Waves.Length; i++) {
+            Waves[i].Pool.Reset();
+        }
     }
 
     /*****************************/
@@ -60,30 +68,52 @@ public class WaveController : MonoBehaviour
     /*****************************/
     public void Update()
     {
-#if UNITY_EDITOR
+        if (_is_paused) return;
+
+        _curSpawnTimeout = GameConstants.MULT_TIMEOUT_RAMP[GameController.instance.State.Multiplier-1];
+//        Debug.Log(_curSpawnTimeout);
+
+//#if UNITY_EDITOR
+//        if (Input.GetKeyDown(KeyCode.Alpha1)) {
+//            Waves[0].Pool.GetInstance();
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha2)) {
+//            Waves[1].Pool.GetInstance();
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha3)) {
+//            Waves[2].Pool.GetInstance();
+//        }
+//        if (Input.GetKeyDown(KeyCode.Alpha4)) {
+//            Waves[3].Pool.GetInstance();
+//        }
+//
+//#else
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            Waves[0].Pool.GetInstance();
+            GameController.instance.State.Multiplier = 1;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2)) {
-            Waves[1].Pool.GetInstance();
+            GameController.instance.State.Multiplier = 2;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3)) {
-            Waves[2].Pool.GetInstance();
+            GameController.instance.State.Multiplier = 3;
         }
         if (Input.GetKeyDown(KeyCode.Alpha4)) {
-            Waves[3].Pool.GetInstance();
+            GameController.instance.State.Multiplier = 4;
         }
+        if (Input.GetKeyDown(KeyCode.Alpha5)) {
+            GameController.instance.State.Multiplier = 5;
+        }
+//#endif
 
-#endif
 
         if (Time.time <= _next_spawn_time) return;
 
-        _next_spawn_time = Time.time + 0.25f;
+        _next_spawn_time = Time.time + _curSpawnTimeout;
 
         for(int i = 0; i < Waves.Length; i++) {
             float chance = Random.Range(Waves[i].LevelFrequencyLow[0], Waves[i].LevelFrequencyHigh[0]);
 
-            Debug.Log(chance + "% chance of " + Waves[i].Name);
+//            Debug.Log(chance + "% chance of " + Waves[i].Name);
             if (Random.Range(0, 100) <= chance) {
                 GameObject g = Waves[i].Pool.GetInstance();
                 if (g == null) break;

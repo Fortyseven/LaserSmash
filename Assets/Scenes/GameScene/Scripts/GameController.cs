@@ -26,8 +26,12 @@ public class GameController : MonoBehaviour
 
     private GameState _gameState;
     private GameObject _playerShip;
+    private WaveController _wave_controller;
 
 #region properties
+    public WaveController WaveCon {
+        get {return _wave_controller; }
+    }
     public GameObject PlayerShip {
         get { return _playerShip; }
     }
@@ -65,9 +69,9 @@ public class GameController : MonoBehaviour
         Physics2D.IgnoreLayerCollision( LayerMask.NameToLayer( "Enemy" ), LayerMask.NameToLayer( "Enemy" ) );
         ConfigureGame();
 
+        _wave_controller = GetComponent<WaveController>();
         _gameState = new GameState();
-        GameOverCanvas.gameObject.SetActive(false);
-        _gameState.Reset();
+        NewGame();
     }
 
     void Update()
@@ -126,13 +130,17 @@ public class GameController : MonoBehaviour
     public void OnGameOver()
     {
         Debug.Log( "GAME OVER" );
+        State.GameOver = true;
         GameOverCanvas.gameObject.SetActive(true);
         Text peak_score_value = GameObject.Find("PeakScoreValue").GetComponent<Text>();
         peak_score_value.text = State.PeakScore.ToString();
     }
 
-    public void OnClick()
+    public void NewGame()
     {
-
+        GameOverCanvas.gameObject.SetActive(false);
+        _gameState.Reset();
+        PlayerShip.GetComponent<Player>().Reset();
+        PlayerShip.GetComponent<Player>().enabled = true;
     }
 }

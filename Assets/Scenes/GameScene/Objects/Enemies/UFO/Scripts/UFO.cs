@@ -102,7 +102,7 @@ public class UFO : EnemyType
         float del = LASER_FADE_TIME * LASER_FADE_GRANULARITY;
 
         for(float i = 0; i < 1.0f; i+=LASER_FADE_GRANULARITY) {
-            Debug.Log(i);
+//            Debug.Log(i);
             col.a = 1.0f - i;
             _laser.material.SetColor("_TintColor", col);
             yield return new WaitForSeconds(del);
@@ -159,6 +159,12 @@ public class UFO : EnemyType
         GameController.instance.State.AdjustScore(GameConstants.SCORE_UFO);
         Destroy( laser.gameObject );
         Explode();
+    }
+
+    /*****************************/
+    public override void InstaKill ()
+    {
+        this.gameObject.SetActive(false);
     }
 
     /*****************************/

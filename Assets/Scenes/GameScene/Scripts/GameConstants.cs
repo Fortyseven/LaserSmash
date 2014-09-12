@@ -28,6 +28,8 @@ namespace Game
         public static int SCORE_BOMB_SM = 80;
         public static int SCORE_KILLSAT = 50;
         public static int SCORE_UFO = 100;
+
+        public static float[] MULT_TIMEOUT_RAMP = {1.0f, 0.55f, 0.25f, 0.10f, 0.05f};
     }
 }
 

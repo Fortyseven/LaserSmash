@@ -23,6 +23,15 @@ public class ObjectPool
     }
 
     /*****************************/
+    public void Reset()
+    {
+        for(int i = 0; i < _items.Count; i++) {
+            ((GameObject)(_items[i])).GetComponent<EnemyType>().InstaKill();
+            ((GameObject)(_items[i])).SetActive(false);
+        }
+    }
+
+    /*****************************/
     public GameObject GetInstance()
     {
         return GetInstance( new Vector3( 0, 0, 0 ), Quaternion.identity );

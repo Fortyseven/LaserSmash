@@ -11,7 +11,6 @@ GameObject:
   - 114: {fileID: 11400000}
   - 61: {fileID: 6100000}
   - 68: {fileID: 6800000}
-  - 82: {fileID: 8200000}
   m_Layer: 0
   m_Name: PlayerShip
   m_TagString: Untagged
@@ -317,64 +316,6 @@ EdgeCollider2D:
   - {x: .79293561, y: 1.7195797}
   - {x: .827416837, y: .677619994}
   - {x: 1.24612164, y: .189491153}
---- !u!82 &8200000
-AudioSource:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: ea9d824ba0a84d740a57812192d0a50b, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 1
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -388,6 +329,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LaserbeamPrefab: {fileID: 100000, guid: 7323540a3fc444140a38c4fb6ff92f21, type: 2}
   DeathExplosionPrefab: {fileID: 100000, guid: e524f040c884a2147a8e2788ab89dc67, type: 2}
+  DeathPanel: {fileID: 0}
+  My_Mesh: {fileID: 100010}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

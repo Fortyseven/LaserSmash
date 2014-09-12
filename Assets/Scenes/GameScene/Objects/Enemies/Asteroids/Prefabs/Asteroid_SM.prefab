@@ -9,7 +9,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400002}
-  - 58: {fileID: 5800000}
   - 50: {fileID: 5000000}
   - 82: {fileID: 8200000}
   - 108: {fileID: 10800000}
@@ -81,7 +80,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.85996175, y: 5.38127661, z: 0}
+  m_LocalPosition: {x: -3.4677999, y: 8.61900043, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -341,17 +340,6 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
---- !u!58 &5800000
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Radius: .280000001
-  m_Center: {x: 0, y: -.109999999}
 --- !u!58 &5800002
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -361,8 +349,8 @@ CircleCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Radius: .241990566
-  m_Center: {x: 0, y: .25999999}
+  m_Radius: .49000001
+  m_Center: {x: 0, y: 0}
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1
@@ -467,9 +455,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47329354a21cd4c4d86adcd3f3bff9df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isLargeRock: 0
-  PercentChanceOfLRock: 50
-  PercentChanceOfRRock: 50
   SoundHitSurface: {fileID: 8300000, guid: 8fc2f45abdf0c9f4ab417af7952c2142, type: 3}
   ExplosionPrefab: {fileID: 100000, guid: 13266a9cf8da28e41bfa61b378dfabc5, type: 2}
   HitSurfacePrefab: {fileID: 100000, guid: 0a81f725d78e3a7478b849205fa9087c, type: 2}

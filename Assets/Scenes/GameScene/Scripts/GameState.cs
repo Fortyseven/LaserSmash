@@ -28,7 +28,7 @@ public class GameState
             // at zero, only a Reset() will unlock it
             if ( !GameOver ) {
                 _lives = value;
-                ValidateLives();
+//                ValidateLives();
             }
             GameController.instance.SetLivesValue(value);
         }
@@ -75,7 +75,7 @@ public class GameState
     /***************************************************************************/
     public GameState()
     {
-        Reset();
+//        Reset();
     }
 
     /***************************************************************************/
@@ -92,17 +92,18 @@ public class GameState
     }
 
     /***************************************************************************/
-    public void ValidateLives()
-    {
-        if ( Lives == 0 ) {
-            GameController.instance.OnGameOver();
-        }
-    }
+//    public void ValidateLives()
+//    {
+//        if ( Lives == 0 ) {
+//            GameController.instance.OnGameOver();
+//        }
+//    }
 
     /***************************************************************************/
     public void AdjustScore( int score_offset )
     {
-        Debug.Log("SCORE ADJ: " + score_offset);
+        if (GameOver) return;
+
         Score += score_offset * Multiplier;
 
         if (Score > _peak_score) {
