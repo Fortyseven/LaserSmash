@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#define TESTMODE
+
+using UnityEngine;
 using System.Collections;
 using Game;
 
@@ -68,10 +70,10 @@ public class WaveController : MonoBehaviour
     /*****************************/
     public void Update()
     {
+#if !TESTMODE
         if (_is_paused) return;
-
         _curSpawnTimeout = GameConstants.MULT_TIMEOUT_RAMP[GameController.instance.State.Multiplier-1];
-//        Debug.Log(_curSpawnTimeout);
+#endif
 
 //#if UNITY_EDITOR
 //        if (Input.GetKeyDown(KeyCode.Alpha1)) {
@@ -88,6 +90,7 @@ public class WaveController : MonoBehaviour
 //        }
 //
 //#else
+#if !TESTMODE
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
             GameController.instance.State.Multiplier = 1;
         }
@@ -103,6 +106,7 @@ public class WaveController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha5)) {
             GameController.instance.State.Multiplier = 5;
         }
+#endif
 //#endif
 
 

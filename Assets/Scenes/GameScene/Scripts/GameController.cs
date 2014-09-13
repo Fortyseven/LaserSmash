@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#define TESTMODE
+
+using UnityEngine;
 using System.Collections;
 
 using UnityEngine.UI;
@@ -9,7 +11,7 @@ public class GameController : MonoBehaviour
 
 
 //    public DifficultyValues[]   Difficulty;
-    public DifficultyValueEntry     CurrentDifficulty;//;; {
+//    public DifficultyValueEntry     CurrentDifficulty;//;; {
 //        get {
 ////            DifficultyController.instance
 //        }
@@ -69,11 +71,12 @@ public class GameController : MonoBehaviour
         Physics2D.IgnoreLayerCollision( LayerMask.NameToLayer( "Enemy" ), LayerMask.NameToLayer( "Enemy" ) );
         ConfigureGame();
 
-        _wave_controller = GetComponent<WaveController>();
+        _wave_controller = GetComponentInChildren<WaveController>();
         _gameState = new GameState();
         NewGame();
     }
 
+    /***************************************************************************/
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.End)) {
@@ -108,7 +111,7 @@ public class GameController : MonoBehaviour
     /***************************************************************************/
     private void ConfigureGame()
     {
-        DifficultyController.Load();
+//        DifficultyController.Load();
 
 #if !UNITY_ANDROID
 //        DisableOnScreenControls();
@@ -138,7 +141,9 @@ public class GameController : MonoBehaviour
 
     public void NewGame()
     {
+#if !TESTMODE
         GameOverCanvas.gameObject.SetActive(false);
+#endif
         _gameState.Reset();
         PlayerShip.GetComponent<Player>().Reset();
         PlayerShip.GetComponent<Player>().enabled = true;

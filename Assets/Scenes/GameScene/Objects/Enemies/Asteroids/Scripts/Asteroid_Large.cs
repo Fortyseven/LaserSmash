@@ -40,7 +40,7 @@ public class Asteroid_Large : EnemyType
     {
         _audio = GetComponent<AudioSource>();
         _base_gravityscale = rigidbody2D.gravityScale;
-        _ast_small_objectpool = GameController.instance.GetComponent<WaveController>().GetPoolForName("Asteroid Small");
+        _ast_small_objectpool = GameController.instance.WaveCon.GetPoolForName("Asteroid Small");
         _is_ready = false;
     }
 
@@ -80,7 +80,7 @@ public class Asteroid_Large : EnemyType
         
         // Did we hit the ground? Punish player, make noises, explode
         if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
-            GameController.instance.State.AdjustScore(-GameConstants.SCORE_ASTEROID_LG);
+            GameController.instance.State.AdjustScore(-(GameConstants.SCORE_ASTEROID_LG/2));
             _hit_surface = true;
             Done();
             return;

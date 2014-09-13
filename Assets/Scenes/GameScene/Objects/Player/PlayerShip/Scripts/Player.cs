@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿#define TESTMODE
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    private const float SHIP_SPEED = 30.0f;
+    private const float SHIP_SPEED = 13.0f;
     private const float SHIP_X_BOUNDS = 13.0f;
     private const float TOUCH_MOVE_SPEED = 0.05f;    
     private const float LASER_Y_OFFSET_FROM_SHIP = 2.0f;
@@ -140,11 +142,12 @@ public class Player : MonoBehaviour
             Debug.Log("not enabled");
             return;
         }
+#if !TESTMODE
         if (GameController.instance.State.Paused) {
             Debug.Log("is paused");
             return;
         }
-
+#endif
         Vector3 pos = transform.position;
 
         pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
@@ -191,6 +194,9 @@ public class Player : MonoBehaviour
     /**************************************/
     public void PlayerKilled()
     {
+#if TESTMODE
+        return;
+#endif
         _is_alive = false;
         My_Mesh.SetActive(false);
         enabled = false;
@@ -221,11 +227,15 @@ public class Player : MonoBehaviour
 
     public void Reset()
     {
+#if !TESTMODE
         DeathPanel.gameObject.SetActive(false);
+#endif
         My_Mesh.SetActive(true);
         enabled = true;
         _is_alive = true;
+#if !TESTMODE
         GameController.instance.WaveCon.Paused = false;
+#endif
     }
 }
 

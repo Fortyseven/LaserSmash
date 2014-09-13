@@ -85,7 +85,7 @@ public class Asteroid_Small : EnemyType
         
         // Did we hit the ground? Punish player, make noises, explode
         if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
-            GameController.instance.State.AdjustScore(-GameConstants.SCORE_ASTEROID_SM);
+            GameController.instance.State.AdjustScore(-(GameConstants.SCORE_ASTEROID_SM/2));
             _hit_surface = true;
             Done();
             return;
