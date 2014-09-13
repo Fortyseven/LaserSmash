@@ -3312,6 +3312,34 @@ MonoBehaviour:
     - 10
     - 10
     - 10
+  - Name: Bomb Large
+    GameObjectPrefab: {fileID: 100006, guid: d11d2ea210c889544977a61e1d173ff0, type: 2}
+    LevelFrequencyLow:
+    - 5
+    - 5
+    - 5
+    - 5
+    - 1
+    LevelFrequencyHigh:
+    - 10
+    - 10
+    - 10
+    - 10
+    - 10
+  - Name: Bomb Small
+    GameObjectPrefab: {fileID: 100006, guid: 730cb164e2cf95042808b2c915fdbaf2, type: 2}
+    LevelFrequencyLow:
+    - 5
+    - 5
+    - 5
+    - 5
+    - 1
+    LevelFrequencyHigh:
+    - 10
+    - 10
+    - 10
+    - 10
+    - 10
 --- !u!1 &1914970437
 GameObject:
   m_ObjectHideFlags: 0
@@ -3321,7 +3349,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1914970441}
   - 114: {fileID: 1914970440}
-  - 114: {fileID: 1914970439}
   - 114: {fileID: 1914970438}
   m_Layer: 0
   m_Name: Game
@@ -3342,60 +3369,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseCanvas: {fileID: 710541373}
---- !u!114 &1914970439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1914970437}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43ce4422cb83a104bbdb30d603d155a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Waves:
-  - Name: Asteroid Large
-    GameObjectPrefab: {fileID: 100000, guid: 84d422626517537469cda2d9c72b6d9f, type: 2}
-    LevelFrequencyLow:
-    - 20
-    - 20
-    - 20
-    - 20
-    - 20
-    LevelFrequencyHigh:
-    - 40
-    - 40
-    - 40
-    - 40
-    - 40
-  - Name: Asteroid Small
-    GameObjectPrefab: {fileID: 100000, guid: b903225e39fbd154b9fac745dc352046, type: 2}
-    LevelFrequencyLow:
-    - 10
-    - 10
-    - 10
-    - 10
-    - 10
-    LevelFrequencyHigh:
-    - 30
-    - 30
-    - 30
-    - 30
-    - 30
-  - Name: UFO
-    GameObjectPrefab: {fileID: 100000, guid: 98e4506e1986da74f895c24f6046fd2c, type: 2}
-    LevelFrequencyLow:
-    - 5
-    - 5
-    - 5
-    - 5
-    - 1
-    LevelFrequencyHigh:
-    - 10
-    - 10
-    - 10
-    - 10
-    - 10
 --- !u!114 &1914970440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3407,11 +3380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f795ee7f4d67124991348099f91d89a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentDifficulty:
-    AmbienceColor: {r: 0, g: 0, b: 0, a: 0}
-    ScoreThreshold: 0
-    NewEnemyFrequencyMin: 0
-    NewEnemyFrequencyMax: 0
   _UIScoreValue: {fileID: 2038726748}
   _UILivesValue: {fileID: 2003989312}
   _UIMultValue: {fileID: 1746251729}

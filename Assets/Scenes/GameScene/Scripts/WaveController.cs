@@ -1,4 +1,4 @@
-﻿#define TESTMODE
+﻿//#define TESTMODE
 
 using UnityEngine;
 using System.Collections;
@@ -18,8 +18,6 @@ public class WaveController : MonoBehaviour
     }
 
     public WaveDefinition[] Waves;
-
-//    private ObjectPool[] _pools;
 
     bool _is_paused = false;
     float _curSpawnTimeout;
@@ -106,6 +104,9 @@ public class WaveController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha5)) {
             GameController.instance.State.Multiplier = 5;
         }
+        if (Input.GetKeyDown(KeyCode.Alpha6)) {
+            GameController.instance.State.Multiplier = 6;
+        }
 #endif
 //#endif
 
@@ -117,7 +118,6 @@ public class WaveController : MonoBehaviour
         for(int i = 0; i < Waves.Length; i++) {
             float chance = Random.Range(Waves[i].LevelFrequencyLow[0], Waves[i].LevelFrequencyHigh[0]);
 
-//            Debug.Log(chance + "% chance of " + Waves[i].Name);
             if (Random.Range(0, 100) <= chance) {
                 GameObject g = Waves[i].Pool.GetInstance();
                 if (g == null) break;

@@ -1,8 +1,9 @@
-﻿#define TESTMODE
+﻿//#define TESTMODE
 
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Game;
 
 public class Player : MonoBehaviour
 {
@@ -204,6 +205,7 @@ public class Player : MonoBehaviour
         Destroy(Instantiate( DeathExplosionPrefab, transform.position, Quaternion.identity ), 3.0f);
 
         GameController.instance.State.Lives--;
+        GameController.instance.State.AdjustScore(GameConstants.SCORE_PLAYERDEATH);
 
         if (GameController.instance.State.Lives <= 0) {
             gameObject.SetActive(false);
@@ -214,7 +216,6 @@ public class Player : MonoBehaviour
             GameController.instance.WaveCon.Reset();
             StartCoroutine("PlayerRespawnTimeout");
         }
-        //GameController.PlayerRespawnIn(500);
     }
 
     /**************************************/

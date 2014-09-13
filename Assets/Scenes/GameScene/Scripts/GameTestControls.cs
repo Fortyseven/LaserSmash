@@ -27,14 +27,14 @@ public class GameTestControls : MonoBehaviour
 
         Debug.Log(_wavecon);
 
-        _pools = new ObjectPool[5];
+        _pools = new ObjectPool[6];
 
         _pools[0] = _wavecon.GetPoolForName("Asteroid Large");
         _pools[1] = _wavecon.GetPoolForName("Asteroid Small");
         _pools[2] = _wavecon.GetPoolForName("UFO");
         _pools[3] = _wavecon.GetPoolForName("Bomb Large");
-        _pools[4] = _wavecon.GetPoolForName("Asteroid Large");
-
+        _pools[4] = _wavecon.GetPoolForName("Bomb Small");
+        _pools[5] = _wavecon.GetPoolForName("Asteroid Large");
     }
     
     // Update is called once per frame

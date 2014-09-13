@@ -82,6 +82,34 @@ MonoBehaviour:
     - 10
     - 10
     - 10
+  - Name: Bomb Large
+    GameObjectPrefab: {fileID: 100006, guid: d11d2ea210c889544977a61e1d173ff0, type: 2}
+    LevelFrequencyLow:
+    - 5
+    - 5
+    - 5
+    - 5
+    - 1
+    LevelFrequencyHigh:
+    - 10
+    - 10
+    - 10
+    - 10
+    - 10
+  - Name: Bomb Small
+    GameObjectPrefab: {fileID: 100006, guid: 730cb164e2cf95042808b2c915fdbaf2, type: 2}
+    LevelFrequencyLow:
+    - 5
+    - 5
+    - 5
+    - 5
+    - 1
+    LevelFrequencyHigh:
+    - 10
+    - 10
+    - 10
+    - 10
+    - 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

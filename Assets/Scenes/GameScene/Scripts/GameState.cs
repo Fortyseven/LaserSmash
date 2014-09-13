@@ -26,10 +26,9 @@ public class GameState
         set {
             // Only adjust lives when the game is running; once it's
             // at zero, only a Reset() will unlock it
-            if ( !GameOver ) {
-                _lives = value;
-//                ValidateLives();
-            }
+            if (GameOver) return;
+
+            _lives = value;
             GameController.instance.SetLivesValue(value);
         }
     }

@@ -2,13 +2,21 @@
 using System.Collections;
 using Game;
 
+//TODO: bring down pitch slightly for larger bomb
+//TODO: geiger counter sound?
+
 public class Bomb : EnemyType 
 {
-    const float Y_OFFSET = 14.1f;
+    const float Y_OFFSET_SM = 15.0f;
+    const float Y_OFFSET_LG = 16.0f;
     const float Y_OFFSET_FLOOR = 1.0f;
     const float X_OFFSET_MAX = 11.0f;
 
     public GameObject ExplosionPrefab;
+    public GameObject NukePrefab;
+
+    public bool IsLarge = false;
+
     AudioSource _audio;
 
     float _base_gravity_mult;
@@ -35,13 +43,11 @@ public class Bomb : EnemyType
         
         // Did we hit the ground? Punish player, make noises, explode
         if ( transform.position.y < Y_OFFSET_FLOOR ) {
-            GameController.instance.State.AdjustScore(-(GameConstants.SCORE_BOMB_LG /2));
-            _hit_surface = true;
-            Done();
+            OnGroundHit();
             return;
         }
 
-        _audio.pitch = transform.position.y / Y_OFFSET;
+        _audio.pitch = transform.position.y / Y_OFFSET_LG;
     }
 
     /******************************************************************/
@@ -60,18 +66,38 @@ public class Bomb : EnemyType
     /******************************************************************/
     public void HitByLaser( Laserbeam laser )
     {
-        GameController.instance.State.AdjustScore(GameConstants.SCORE_BOMB_LG);
+        if (IsLarge) {
+            GameController.instance.State.AdjustScore(GameConstants.SCORE_BOMB_LG);
+        }
+        else {
+            GameController.instance.State.AdjustScore(GameConstants.SCORE_BOMB_SM);
+        }
         Destroy( laser.gameObject );
+        Done();
+    }
+
+    /******************************************************************/
+    void OnGroundHit()
+    {
+        Instantiate( NukePrefab, transform.position, Quaternion.identity );
+        GameController.instance.PlayerComponent.PlayerKilled();
+        _hit_surface = true;
         Done();
     }
 
     /******************************************************************/
     public override void Respawn ()
     {
-        Vector3 spawn_pos = new Vector3( Random.Range(-X_OFFSET_MAX, X_OFFSET_MAX), Y_OFFSET,0 );
+        Vector3 spawn_pos = new Vector3( Random.Range(-X_OFFSET_MAX, X_OFFSET_MAX), (IsLarge?Y_OFFSET_LG:Y_OFFSET_SM),0 );
         transform.position = spawn_pos;
 
-        rigidbody2D.gravityScale = _base_gravity_mult * Random.Range(2.0f, 20.0f);
+        // Larger bombs move slower, less of threat
+        if (IsLarge) {
+            rigidbody2D.gravityScale = _base_gravity_mult * Random.Range(2.0f, 20.0f);
+        } else {
+            rigidbody2D.gravityScale = _base_gravity_mult * Random.Range(5.0f, 30.0f);
+        }
+
         _audio.Play();
         _hit_surface = false;
         _is_ready = true;

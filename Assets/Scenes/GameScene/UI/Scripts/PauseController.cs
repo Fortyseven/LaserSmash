@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
+//TODO: Add [1] and [9] pause easter egg
+
 public class PauseController : MonoBehaviour
 {
     public Canvas PauseCanvas;

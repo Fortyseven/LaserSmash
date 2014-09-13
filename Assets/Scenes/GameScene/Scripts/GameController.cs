@@ -1,4 +1,4 @@
-﻿#define TESTMODE
+﻿//#define TESTMODE
 
 using UnityEngine;
 using System.Collections;
@@ -29,6 +29,7 @@ public class GameController : MonoBehaviour
     private GameState _gameState;
     private GameObject _playerShip;
     private WaveController _wave_controller;
+    private Player _player_component;
 
 #region properties
     public WaveController WaveCon {
@@ -37,7 +38,9 @@ public class GameController : MonoBehaviour
     public GameObject PlayerShip {
         get { return _playerShip; }
     }
-
+    public Player PlayerComponent {
+        get {return _player_component; }
+    }
     public GameState State {
         get { return _gameState; }
     }
@@ -65,6 +68,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         _playerShip = GameObject.Find( "PlayerShip" ) as GameObject;
+        _player_component = _playerShip.GetComponent<Player>();
 //        if ( _playerShip == null )
 //            throw new UnityException( "Could not find PlayerShip object" );
 
