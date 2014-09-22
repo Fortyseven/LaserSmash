@@ -8,6 +8,8 @@ public class Asteroid_Large : EnemyType
     private const float MAX_X_OFFSET = -12f;
     private const float MIN_X_OFFSET = 12f;
 
+    private Vector3 SURFACE_HIT_OFFSET = new Vector3(0.0f,-1.75f,0.0f);
+
     [Range(0f,100f)]
     public float PercentChanceOfLRock = 50.0f;
     [Range(0f,100f)]
@@ -145,7 +147,7 @@ public class Asteroid_Large : EnemyType
 
         if (explode) Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
 
-        if (_hit_surface) Instantiate( HitSurfacePrefab, transform.position, Quaternion.identity );
+        if (_hit_surface) Instantiate( HitSurfacePrefab, transform.position + SURFACE_HIT_OFFSET, Quaternion.identity );
 
         Hibernate();
     }

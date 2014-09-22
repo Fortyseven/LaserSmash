@@ -8,6 +8,8 @@ public class Asteroid_Small : EnemyType
     private const float MAX_X_OFFSET = -12f;
     private const float MIN_X_OFFSET = 12f;
 
+    private Vector3 SURFACE_HIT_OFFSET = new Vector3(0.0f,-0.75f,0.0f);
+
     public AudioClip SoundHitSurface = null;
     private AudioSource _audio = null;
     
@@ -114,7 +116,7 @@ public class Asteroid_Small : EnemyType
                 
         if (explode) Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
 
-        if (_hit_surface) Instantiate( HitSurfacePrefab, transform.position + new Vector3(0,-1,0), Quaternion.identity );
+        if (_hit_surface) Instantiate( HitSurfacePrefab, transform.position + SURFACE_HIT_OFFSET, Quaternion.identity );
 
         Hibernate();
     }
