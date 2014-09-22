@@ -207,6 +207,8 @@ public class Player : MonoBehaviour
         GameController.instance.State.Lives--;
         GameController.instance.State.AdjustScore(GameConstants.SCORE_PLAYERDEATH);
 
+        GameController.instance.State.Mode = GameState.GameMode.POSTDEATH;
+
         if (GameController.instance.State.Lives <= 0) {
             gameObject.SetActive(false);
             GameController.instance.OnGameOver();
@@ -234,6 +236,7 @@ public class Player : MonoBehaviour
         My_Mesh.SetActive(true);
         enabled = true;
         _is_alive = true;
+        GameController.instance.State.Mode = GameState.GameMode.RUNNING;
 #if !TESTMODE
         GameController.instance.WaveCon.Paused = false;
 #endif

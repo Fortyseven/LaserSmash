@@ -2,8 +2,6 @@
 using System.Collections;
 using Game;
 
-/* TODO: Player should have split second ability to dodge laser; maybe 0.15ms delay? */
-
 public class UFO : EnemyType
 {
     public GameObject ExplosionPrefab = null;
@@ -67,7 +65,7 @@ public class UFO : EnemyType
         switch(_state) {
             case State.PASSIVE:
                 // Occasionally fire down hot death
-                if (!GameController.instance.State.GameOver && Random.Range(0, 250) == 0) {
+                if (GameController.instance.State.Mode == GameState.GameMode.RUNNING && Random.Range(0, 250) == 0) {
                     _state = State.CHARGING;
                     _charging_flare_sprite.enabled = true;
                     _charging_light.enabled = true;
@@ -111,8 +109,10 @@ public class UFO : EnemyType
         /* We COULD check if this is the player being hit, but all the enemies are on layer 8, and
            nothing else with a collider exists on any other layer but the player. */
 
-        if (/*hit = */Physics2D.Raycast(r.origin, r.direction, Mathf.Infinity, 1|8)) {
-            GameController.instance.PlayerComponent.PlayerKilled();
+        if (GameController.instance.State.Mode == GameState.GameMode.RUNNING) {
+            if (/*hit = */Physics2D.Raycast(r.origin, r.direction, Mathf.Infinity, 1|8)) {
+                GameController.instance.PlayerComponent.PlayerKilled();
+            }
         }
 
         // Fade out the beam over LASER_FADE_TIME seconds

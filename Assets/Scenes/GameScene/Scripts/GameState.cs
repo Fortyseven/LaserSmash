@@ -11,12 +11,24 @@ public class GameState
     private int _peak_score;
     private int _mult;
 
+    public enum GameMode {
+        RUNNING,
+        PAUSED,
+        POSTDEATH,
+        GAMEOVER
+    }
 
-    public bool IsRunning;
-    public bool GameOver;  // FIXME: is this and IsRunning redundant?
-            
+
+    //public bool IsRunning;
+//    public bool PostDeath;
+//    public bool GameOver;  // FIXME: is this and IsRunning redundant?
+        
+    public GameMode _mode;
+
     int _lives = 0;
     bool _is_paused = false;
+
+
 
 #region properties
     public int Lives {
@@ -26,10 +38,19 @@ public class GameState
         set {
             // Only adjust lives when the game is running; once it's
             // at zero, only a Reset() will unlock it
-            if (GameOver) return;
+            if (Mode == GameMode.GAMEOVER) return;
 
             _lives = value;
             GameController.instance.SetLivesValue(value);
+        }
+    }
+
+    public GameMode Mode {
+        get {
+            return _mode;
+        }
+        set {
+            _mode = value;
         }
     }
 
@@ -66,7 +87,7 @@ public class GameState
         set {
             _is_paused = value;
             Time.timeScale = _is_paused ? 0 : 1.0f;
-            IsRunning = !value;
+//            IsRunning = !value;
         }
     }
 #endregion
@@ -86,8 +107,7 @@ public class GameState
         Score = 0;
         Multiplier = INITIAL_MULTIPLIER;
 
-        IsRunning = false;
-        GameOver = false;
+        Mode = GameMode.RUNNING;
     }
 
     /***************************************************************************/
@@ -101,7 +121,7 @@ public class GameState
     /***************************************************************************/
     public void AdjustScore( int score_offset )
     {
-        if (GameOver) return;
+        if (Mode == GameMode.GAMEOVER) return;
 
         Score += score_offset * Multiplier;
 

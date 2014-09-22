@@ -62,6 +62,7 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         GameController.instance = this;
+//        Application.targetFrameRate = 30;
     }
 
     /***************************************************************************/
@@ -137,7 +138,7 @@ public class GameController : MonoBehaviour
     public void OnGameOver()
     {
         Debug.Log( "GAME OVER" );
-        State.GameOver = true;
+        GameController.instance.State.Mode = GameState.GameMode.GAMEOVER;
         GameOverCanvas.gameObject.SetActive(true);
         Text peak_score_value = GameObject.Find("PeakScoreValue").GetComponent<Text>();
         peak_score_value.text = State.PeakScore.ToString();
