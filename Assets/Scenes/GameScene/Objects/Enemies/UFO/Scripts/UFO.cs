@@ -11,8 +11,8 @@ public class UFO : EnemyType
 
     const float MAX_Y_SPAWN = 13.0f;
     const float MIN_Y_SPAWN = 6.0f;
-    const float X_RANGE_RIGHT = 15.0f;
-    const float X_RANGE_LEFT = -16.0f;
+    const float X_RANGE_RIGHT = 18.0f;
+    const float X_RANGE_LEFT = -18.0f;
     const int DIR_RIGHT = 1; // r-t-l
     const int DIR_LEFT = -1; // l-t-r
     const float CHARGING_PITCH = 0.75f;
@@ -21,6 +21,7 @@ public class UFO : EnemyType
     const float LASER_FADE_GRANULARITY = 0.05f;
 
     const float CHARGING_TIME = 1.0f;
+    const float TARGET_LOCK_TIME = 0.75f;
 
     int _direction = 0;
     float _speed = 10.0f;
@@ -66,17 +67,17 @@ public class UFO : EnemyType
         switch(_state) {
             case State.PASSIVE:
                 // Occasionally fire down hot death
-                if (Random.Range(0, 250) == 0) {
+                if (!GameController.instance.State.GameOver && Random.Range(0, 250) == 0) {
                     _state = State.CHARGING;
                     _charging_flare_sprite.enabled = true;
                     _charging_light.enabled = true;
                     _time_started_charging = Time.time;
+                    StartCoroutine("AcquireTargetLock");
                     _audio.pitch = CHARGING_PITCH;
                 }
                 break;
             case State.CHARGING:
                 if (Time.time - _time_started_charging  > CHARGING_TIME) {
-                    _player_target_position = GameController.instance.PlayerShip.transform.position;
                     StartCoroutine("Fire");
                 }
                 break;             
@@ -90,6 +91,13 @@ public class UFO : EnemyType
     }
 
     /*****************************/
+    IEnumerator AcquireTargetLock()
+    {
+        yield return new WaitForSeconds(TARGET_LOCK_TIME);
+        _player_target_position = GameController.instance.PlayerShip.transform.position;
+    }
+
+    /*****************************/
     IEnumerator Fire()
     {
         _state = State.FIRING;
@@ -97,22 +105,37 @@ public class UFO : EnemyType
 
         Instantiate(ExplosionLaserGroundPrefab, _player_target_position, Quaternion.identity);
 
+        // Check for collision
+        Ray2D r = new Ray2D(transform.position, (_player_target_position - transform.position) * 15);
+
+        /* We COULD check if this is the player being hit, but all the enemies are on layer 8, and
+           nothing else with a collider exists on any other layer but the player. */
+
+        if (/*hit = */Physics2D.Raycast(r.origin, r.direction, Mathf.Infinity, 1|8)) {
+            GameController.instance.PlayerComponent.PlayerKilled();
+        }
+
         // Fade out the beam over LASER_FADE_TIME seconds
         Color col = _laser.material.GetColor("_TintColor");
         float del = LASER_FADE_TIME * LASER_FADE_GRANULARITY;
 
-        for(float i = 0; i < 1.0f; i+=LASER_FADE_GRANULARITY) {
-//            Debug.Log(i);
+        for (float i = 0; i < 1.0f; i+=LASER_FADE_GRANULARITY) {
             col.a = 1.0f - i;
             _laser.material.SetColor("_TintColor", col);
             yield return new WaitForSeconds(del);
         }
 
-        _laser.gameObject.SetActive(false);
+        ShutDownLaser();
+    }
 
+    /*****************************/
+    void ShutDownLaser()
+    {
+        _laser.gameObject.SetActive(false);
+        
         _charging_flare_sprite.enabled = false;
         _charging_light.enabled = false;
-
+        
         _state = State.PASSIVE;
         _audio.pitch = PASSIVE_PITCH;
     }
@@ -137,11 +160,11 @@ public class UFO : EnemyType
         // Did we fly off the screen?
         if (_direction == DIR_RIGHT) {
             if (_newpos.x >= X_RANGE_RIGHT ) {
-                Hibernate();
+                Done();
             }
         } else if (_direction == DIR_LEFT) {
             if (_newpos.x <= X_RANGE_LEFT ) {
-                Hibernate();
+                Done();
             }
         }
     }
@@ -162,9 +185,23 @@ public class UFO : EnemyType
     }
 
     /*****************************/
-    public override void InstaKill ()
+    void Done()
     {
-        this.gameObject.SetActive(false);
+        ShutDownLaser();
+        Hibernate();
+    }
+
+    /*****************************/
+    public new void InstaKill()
+    {
+        StartCoroutine("InstaKillDelay");
+    }
+
+    /*****************************/
+    public IEnumerator InstaKillDelay()
+    {
+        yield return new WaitForSeconds(3.0f);
+        Done();
     }
 
     /*****************************/
@@ -179,6 +216,7 @@ public class UFO : EnemyType
             _newpos = new Vector3( X_RANGE_RIGHT, y, 0 );
         }
         transform.position = _newpos;
+        _state = State.PASSIVE;
         _is_ready = true;
     }
 }

@@ -4,7 +4,16 @@ using System.Collections;
 public abstract class EnemyType : MonoBehaviour
 {
     public abstract void Respawn();
-    public abstract void InstaKill();
+
+
+    /* Ordinarily we'd just hibernate, and get the hell out of the way, but if there's any special
+     * cleanup required first, you can overload this.  This is mostly used for keeping the UFO on 
+     * screen as it's firing, since killing the player InstaKills everything on the screen. */
+
+    public void InstaKill()
+    {
+        Hibernate();
+    }
 
     protected bool _is_ready = false;
 

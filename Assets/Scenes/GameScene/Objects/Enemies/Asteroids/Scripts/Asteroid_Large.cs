@@ -91,22 +91,6 @@ public class Asteroid_Large : EnemyType
     }
 
     /*****************************/
-    private void Done(bool explode = true)
-    {
-        //if (_hit_surface)
-
-        rigidbody2D.velocity =  new Vector2(0,0);
-
-        if (explode) Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
-
-        if (_particle_trail != null) {
-            Destroy(_particle_trail, 1.0f);
-        }
-
-        Hibernate();
-    }
-
-    /*****************************/
     public void HitByLaser( Laserbeam laser )
     {
         GameController.instance.State.AdjustScore(GameConstants.SCORE_ASTEROID_LG);
@@ -151,7 +135,23 @@ public class Asteroid_Large : EnemyType
     }
 
     /*****************************/
-    public override void InstaKill ()
+    private void Done(bool explode = true)
+    {
+        //if (_hit_surface)
+        
+        rigidbody2D.velocity =  new Vector2(0,0);
+        
+        if (explode) Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
+        
+        if (_particle_trail != null) {
+            Destroy(_particle_trail, 1.0f);
+        }
+        
+        Hibernate();
+    }
+
+    /*****************************/
+    public new void InstaKill ()
     {
         Done(false);
     }

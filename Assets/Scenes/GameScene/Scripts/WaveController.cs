@@ -15,6 +15,7 @@ public class WaveController : MonoBehaviour
         public float[] LevelFrequencyLow;
         public float[] LevelFrequencyHigh;
         public ObjectPool Pool;
+        public bool Disabled;
     }
 
     public WaveDefinition[] Waves;
@@ -116,6 +117,7 @@ public class WaveController : MonoBehaviour
         _next_spawn_time = Time.time + _curSpawnTimeout;
 
         for(int i = 0; i < Waves.Length; i++) {
+            if (Waves[i].Disabled) continue;
             float chance = Random.Range(Waves[i].LevelFrequencyLow[0], Waves[i].LevelFrequencyHigh[0]);
 
             if (Random.Range(0, 100) <= chance) {

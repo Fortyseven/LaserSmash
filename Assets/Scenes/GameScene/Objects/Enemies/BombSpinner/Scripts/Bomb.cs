@@ -102,10 +102,4 @@ public class Bomb : EnemyType
         _hit_surface = false;
         _is_ready = true;
     }
-
-    /******************************************************************/
-    public override void InstaKill ()
-    {
-        this.gameObject.SetActive(false);
-    }
 }

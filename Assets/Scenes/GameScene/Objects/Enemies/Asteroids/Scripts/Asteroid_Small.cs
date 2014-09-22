@@ -96,6 +96,14 @@ public class Asteroid_Small : EnemyType
     }
 
     /*****************************/
+    public void HitByLaser( Laserbeam laser )
+    {
+        GameController.instance.State.AdjustScore(GameConstants.SCORE_ASTEROID_SM);
+        Destroy( laser.gameObject );
+        Done();
+    }
+
+    /*****************************/
     private void Done(bool explode = true)
     {
         //if (_hit_surface)
@@ -112,14 +120,7 @@ public class Asteroid_Small : EnemyType
     }
 
     /*****************************/
-    public void HitByLaser( Laserbeam laser )
-    {
-        GameController.instance.State.AdjustScore(GameConstants.SCORE_ASTEROID_SM);
-        Destroy( laser.gameObject );
-        Done();
-    }
-
-    public override void InstaKill ()
+    public new void InstaKill ()
     {
         Done(false);
     }

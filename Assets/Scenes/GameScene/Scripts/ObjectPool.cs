@@ -26,8 +26,9 @@ public class ObjectPool
     public void Reset()
     {
         for(int i = 0; i < _items.Count; i++) {
-            ((GameObject)(_items[i])).GetComponent<EnemyType>().InstaKill();
-            ((GameObject)(_items[i])).SetActive(false);
+            GameObject g = ((GameObject)(_items[i]));
+            if (g.activeInHierarchy) g.SendMessage("InstaKill");
+            //((GameObject)(_items[i])).GetComponent<EnemyType>().InstaKill();
         }
     }
 
@@ -42,7 +43,7 @@ public class ObjectPool
     {
         // Have we hit max allocation? Instantiate, add to the pool, and return
         if ( _items.Count < MaxCount ) {
-//            Debug.Log(string.Format("Creating new; currently have {0} allocated out of {1}.", _items.Count, MaxCount));
+            // Debug.Log(string.Format("Creating new; currently have {0} allocated out of {1}.", _items.Count, MaxCount));
             GameObject obj = UnityEngine.GameObject.Instantiate( GameObjectSource, position, rot ) as GameObject;
             if (call_respawn) obj.SendMessage("Respawn");
             _items.Add( obj );
