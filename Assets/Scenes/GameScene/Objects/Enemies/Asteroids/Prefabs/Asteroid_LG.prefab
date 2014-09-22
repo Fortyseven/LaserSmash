@@ -259,12 +259,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b2b77bf4294e4f44ba688d95968a61c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isLargeRock: 1
   PercentChanceOfLRock: 50
   PercentChanceOfRRock: 50
-  SoundHitSurface: {fileID: 0}
+  SoundHitSurface: {fileID: 8300000, guid: 46481754b9cbfd04f9b5668eebc3ce24, type: 3}
   ExplosionPrefab: {fileID: 100000, guid: 13266a9cf8da28e41bfa61b378dfabc5, type: 2}
-  HitSurfacePrefab: {fileID: 100000, guid: 0a81f725d78e3a7478b849205fa9087c, type: 2}
+  HitSurfacePrefab: {fileID: 100000, guid: 044087ce14ca806428e833359da082c4, type: 2}
   PlayerObject: {fileID: 100002, guid: 2ff575b047ff12341bb45d33b5f130d6, type: 2}
   AsteroidSmallPrefab: {fileID: 100000, guid: b903225e39fbd154b9fac745dc352046, type: 2}
   ParticleEmitterPrefab: {fileID: 100000, guid: cfd782d1e25cec6469c1c2c0fadf2cbd,

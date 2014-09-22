@@ -455,9 +455,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47329354a21cd4c4d86adcd3f3bff9df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SoundHitSurface: {fileID: 8300000, guid: 8fc2f45abdf0c9f4ab417af7952c2142, type: 3}
+  SoundHitSurface: {fileID: 8300000, guid: 46481754b9cbfd04f9b5668eebc3ce24, type: 3}
   ExplosionPrefab: {fileID: 100000, guid: 13266a9cf8da28e41bfa61b378dfabc5, type: 2}
-  HitSurfacePrefab: {fileID: 100000, guid: 0a81f725d78e3a7478b849205fa9087c, type: 2}
+  HitSurfacePrefab: {fileID: 100000, guid: b27006199f8cdbf419f99fd8e653c07a, type: 2}
   PlayerObject: {fileID: 100002, guid: 2ff575b047ff12341bb45d33b5f130d6, type: 2}
   AsteroidSmallPrefab: {fileID: 100000}
   ParticleEmitterPrefab: {fileID: 100000, guid: cfd782d1e25cec6469c1c2c0fadf2cbd,

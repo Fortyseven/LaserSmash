@@ -87,7 +87,7 @@ public class Asteroid_Small : EnemyType
         if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
             GameController.instance.State.AdjustScore(-(GameConstants.SCORE_ASTEROID_SM/2));
             _hit_surface = true;
-            Done();
+            Done(false);
             return;
         }
 
@@ -106,15 +106,15 @@ public class Asteroid_Small : EnemyType
     /*****************************/
     private void Done(bool explode = true)
     {
-        //if (_hit_surface)
-
         rigidbody2D.velocity =  new Vector2(0,0);
 
+        if (_particle_trail != null) {
+            Destroy(_particle_trail);
+        }
+                
         if (explode) Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
 
-        if (_particle_trail != null) {
-            Destroy(_particle_trail, 1.0f);
-        }
+        if (_hit_surface) Instantiate( HitSurfacePrefab, transform.position + new Vector3(0,-1,0), Quaternion.identity );
 
         Hibernate();
     }
