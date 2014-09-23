@@ -304,7 +304,7 @@ AudioSource:
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 981fbf23fd0bde24ca473da66e18c6f7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: .300000012
+  m_Volume: .200000003
   m_Pitch: 1.20000005
   Loop: 1
   Mute: 0
@@ -313,7 +313,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
