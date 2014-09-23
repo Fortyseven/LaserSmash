@@ -26,6 +26,8 @@ public class GameController : MonoBehaviour
 
     public  Canvas GameOverCanvas;
 
+    public Camera Egg_CockpitCamera;
+
     private GameState _gameState;
     private GameObject _playerShip;
     private WaveController _wave_controller;
@@ -88,6 +90,11 @@ public class GameController : MonoBehaviour
             case GameState.GameMode.GAMEOVER:
                 if (Input.anyKeyDown) {
                     NewGame();
+                }
+                break;
+            case GameState.GameMode.RUNNING:
+                if (Input.GetKeyDown(KeyCode.F5)) {
+                    Egg_CockpitCamera.enabled = !Egg_CockpitCamera.enabled;
                 }
                 break;
         }
@@ -155,6 +162,7 @@ public class GameController : MonoBehaviour
 #if !TESTMODE
         GameOverCanvas.gameObject.SetActive(false);
 #endif
+        Egg_CockpitCamera.enabled = false;
         State.Reset();
         _wave_controller.Reset();
         PlayerComponent.Reset();
