@@ -48,12 +48,15 @@ MonoBehaviour:
     - 20
     - 20
     - 20
+    - 20
     LevelFrequencyHigh:
-    - 40
-    - 40
-    - 40
-    - 40
-    - 40
+    - 60
+    - 60
+    - 60
+    - 60
+    - 60
+    - 60
+    Disabled: 0
   - Name: Asteroid Small
     GameObjectPrefab: {fileID: 100000, guid: b903225e39fbd154b9fac745dc352046, type: 2}
     LevelFrequencyLow:
@@ -62,12 +65,15 @@ MonoBehaviour:
     - 10
     - 10
     - 10
+    - 10
     LevelFrequencyHigh:
     - 30
     - 30
     - 30
     - 30
     - 30
+    - 30
+    Disabled: 0
   - Name: UFO
     GameObjectPrefab: {fileID: 100000, guid: 98e4506e1986da74f895c24f6046fd2c, type: 2}
     LevelFrequencyLow:
@@ -76,12 +82,15 @@ MonoBehaviour:
     - 5
     - 5
     - 1
+    - 1
     LevelFrequencyHigh:
-    - 10
-    - 10
-    - 10
-    - 10
-    - 10
+    - 5
+    - 5
+    - 5
+    - 5
+    - 5
+    - 5
+    Disabled: 0
   - Name: Bomb Large
     GameObjectPrefab: {fileID: 100006, guid: d11d2ea210c889544977a61e1d173ff0, type: 2}
     LevelFrequencyLow:
@@ -90,12 +99,15 @@ MonoBehaviour:
     - 5
     - 5
     - 1
+    - 1
     LevelFrequencyHigh:
     - 10
     - 10
     - 10
     - 10
     - 10
+    - 10
+    Disabled: 1
   - Name: Bomb Small
     GameObjectPrefab: {fileID: 100006, guid: 730cb164e2cf95042808b2c915fdbaf2, type: 2}
     LevelFrequencyLow:
@@ -104,12 +116,15 @@ MonoBehaviour:
     - 5
     - 5
     - 1
+    - 1
     LevelFrequencyHigh:
     - 10
     - 10
     - 10
     - 10
     - 10
+    - 10
+    Disabled: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -3443,6 +3443,7 @@ MonoBehaviour:
   _UIMultValue: {fileID: 1746251729}
   GameOverCanvas: {fileID: 1704113705}
   Egg_CockpitCamera: {fileID: 2078110173}
+  TopLight: {fileID: 1791707370}
 --- !u!4 &1914970441
 Transform:
   m_ObjectHideFlags: 0
