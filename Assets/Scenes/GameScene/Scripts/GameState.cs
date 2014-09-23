@@ -6,6 +6,19 @@ public class GameState
     public const int INITIAL_LIVES = 3;
     public const int INITIAL_MULTIPLIER = 1;
 
+/*
+    1x  level : Black background : Score up to 999
+    2x  level : Blue background : Score 1,000-4,999
+    3x  level : Purple background : Score 5,000-19,999
+    4x  level : Turquoise background : Score 20,000-49,999
+    5x  level : Gray background : Score 50,000-99,999
+    6x  level : Black background : Score 100,000 and over
+*/
+    private const int THRESH_LEVEL_1 = 1000;
+    private const int THRESH_LEVEL_2 = 5000;
+    private const int THRESH_LEVEL_3 = 20000;
+    private const int THRESH_LEVEL_4 = 50000;
+    private const int THRESH_LEVEL_5 = 100000;
 
     private int _score;
     private int _peak_score;
@@ -61,6 +74,7 @@ public class GameState
         set {
             _score = value;
             GameController.instance.SetScoreValue(value);
+            AdjustMultplier();
         }
     }
 
@@ -77,6 +91,7 @@ public class GameState
         set {
             _mult = value;
             GameController.instance.SetMultValue(_mult);
+            OnMultChange();
         }
     }
 
@@ -117,14 +132,6 @@ public class GameState
     }
 
     /***************************************************************************/
-//    public void ValidateLives()
-//    {
-//        if ( Lives == 0 ) {
-//            GameController.instance.OnGameOver();
-//        }
-//    }
-
-    /***************************************************************************/
     public void AdjustScore( int score_offset )
     {
         if (Mode == GameMode.GAMEOVER) return;
@@ -134,6 +141,33 @@ public class GameState
         if (Score > _peak_score) {
             _peak_score = Score;
         }
-        //CurrentDifficulty = UpdateDifficultyValues();
+    }
+
+    private void AdjustMultplier()
+    {
+        if (Score < THRESH_LEVEL_1) {
+            Multiplier = 1;
+        } 
+        else if (Score < THRESH_LEVEL_2) {
+            Multiplier = 2;
+        }
+        else if (Score < THRESH_LEVEL_3) {
+            Multiplier = 3;
+        }
+        else if (Score < THRESH_LEVEL_4) {
+            Multiplier = 4;
+        }
+        else if (Score < THRESH_LEVEL_5) {
+            Multiplier = 5;
+        }
+        else {
+            Multiplier = 6;
+        }
+    }
+
+
+    private void OnMultChange()
+    {
+
     }
  }
