@@ -30,6 +30,8 @@ public class GameController : MonoBehaviour
 
     public Camera Egg_CockpitCamera;
 
+    public Light TopLight;
+
     private GameState _gameState;
     private GameObject _playerShip;
     private WaveController _wave_controller;
@@ -37,6 +39,8 @@ public class GameController : MonoBehaviour
 
     private float _gameOverTimeout;
     private bool _game_over_message_enabled;
+
+    private Color _prevcolor, _newcolor;
 
 #region properties
     public WaveController WaveCon {
@@ -69,6 +73,7 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         GameController.instance = this;
+        _prevcolor = TopLight.color;
 //        Application.targetFrameRate = 30;
     }
 
@@ -102,7 +107,6 @@ public class GameController : MonoBehaviour
                 break;
 
             case GameState.GameMode.RUNNING:
-
                 // Cheeky FPS easter egg
                 if (Input.GetKeyDown(KeyCode.F5)) {
                     Egg_CockpitCamera.camera.enabled = !Egg_CockpitCamera.camera.enabled;
@@ -190,5 +194,30 @@ public class GameController : MonoBehaviour
         State.Reset();
         _wave_controller.Reset();
         PlayerComponent.Reset();
+    }
+
+
+    public void DoLevelTransition(Color new_color)
+    {
+//        _prevcolor = TopLight.color;
+//        _newcolor = new_color;
+        StartCoroutine("TransitionBackgroundColor", new_color);
+    }
+
+    IEnumerator TransitionBackgroundColor(Color new_color)
+    {
+        Color cur_light_color = TopLight.color;
+
+        Debug.Log("Transition from " + cur_light_color + " to " + new_color);
+
+        TopLight.color = Color.red;
+
+        for(int i = 0; i < 1000; i += 20) {
+            Color foo = Color.Lerp(cur_light_color, new_color, i/1000.0f);
+            TopLight.color = foo;
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        yield return null;
     }
 }

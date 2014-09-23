@@ -22,6 +22,7 @@ public class GameState
 
     private int _score;
     private int _peak_score;
+    private int _last_life_peak_score;
     private int _mult;
 
     public enum GameMode {
@@ -74,7 +75,7 @@ public class GameState
         set {
             _score = value;
             GameController.instance.SetScoreValue(value);
-            AdjustMultplier();
+            ValidateMultplier();
         }
     }
 
@@ -91,7 +92,6 @@ public class GameState
         set {
             _mult = value;
             GameController.instance.SetMultValue(_mult);
-            OnMultChange();
         }
     }
 
@@ -140,11 +140,20 @@ public class GameState
 
         if (Score > _peak_score) {
             _peak_score = Score;
+            if (_peak_score - _last_life_peak_score > 1000) {
+                _last_life_peak_score = _peak_score;
+                Lives++;
+                //TODO: Add 1UP noise
+            }
+
         }
     }
 
-    private void AdjustMultplier()
+    /***************************************************************************/
+    private void ValidateMultplier()
     {
+        int cur_mult = Multiplier;
+
         if (Score < THRESH_LEVEL_1) {
             Multiplier = 1;
         } 
@@ -163,11 +172,38 @@ public class GameState
         else {
             Multiplier = 6;
         }
+
+        if (cur_mult != Multiplier) OnMultChange();
     }
 
-
+    /***************************************************************************/
     private void OnMultChange()
     {
+//        1x  level : Black background : Score up to 999
 
+//                2x  level : Blue background : Score 1,000-4,999
+//                3x  level : Purple background : Score 5,000-19,999
+//                4x  level : Turquoise background : Score 20,000-49,999
+//                5x  level : Gray background : Score 50,000-99,999
+
+//                6x  level : Black background : Score 100,000 and over
+
+        switch(Multiplier) {
+            case 2:
+                GameController.instance.DoLevelTransition(new Color(0,0, 1.0f, 1.0f));
+                break;
+            case 3:
+                GameController.instance.DoLevelTransition(new Color(1.0f, 0, 1.0f, 1.0f));
+                break;
+            case 4:
+                GameController.instance.DoLevelTransition(new Color(0, 1.0f, 1.0f, 1.0f));
+                break;
+            case 5:
+                GameController.instance.DoLevelTransition(new Color(1.0f, 0.75f, 0, 1.0f));
+                break;
+            default:
+                GameController.instance.DoLevelTransition(new Color(0.5f, 0.5f, 0.5f, 1.0f));
+                break;
+        }
     }
  }
