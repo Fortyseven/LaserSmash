@@ -26,7 +26,7 @@ public class GameState
     public GameMode _mode;
 
     int _lives = 0;
-    bool _is_paused = false;
+//    bool _is_paused = false;
 
 
 
@@ -80,13 +80,21 @@ public class GameState
         }
     }
 
+    GameMode _paused_previous_mode = GameMode.RUNNING;
+
     public bool Paused {
         get {
-            return _is_paused;
+            return Mode == GameMode.PAUSED;
         }
         set {
-            _is_paused = value;
-            Time.timeScale = _is_paused ? 0 : 1.0f;
+            if (value == true) {
+                _paused_previous_mode = Mode;
+                Mode = GameMode.PAUSED;
+            } else {
+                Mode = _paused_previous_mode;
+            }
+
+            Time.timeScale = Paused ? 0 : 1.0f;
 //            IsRunning = !value;
         }
     }

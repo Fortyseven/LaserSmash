@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    private const float GAMEOVER_TIMEOUT = 4.0f;
+
     public static GameController instance = null;
 
 
@@ -32,6 +34,9 @@ public class GameController : MonoBehaviour
     private GameObject _playerShip;
     private WaveController _wave_controller;
     private Player _player_component;
+
+    private float _gameOverTimeout;
+    private bool _game_over_message_enabled;
 
 #region properties
     public WaveController WaveCon {
@@ -72,8 +77,6 @@ public class GameController : MonoBehaviour
     {
         _playerShip = GameObject.Find( "PlayerShip" ) as GameObject;
         _player_component = _playerShip.GetComponent<Player>();
-//        if ( _playerShip == null )
-//            throw new UnityException( "Could not find PlayerShip object" );
 
         Physics2D.IgnoreLayerCollision( LayerMask.NameToLayer( "Enemy" ), LayerMask.NameToLayer( "Enemy" ) );
         ConfigureGame();
@@ -88,16 +91,24 @@ public class GameController : MonoBehaviour
     {
         switch(State.Mode) {
             case GameState.GameMode.GAMEOVER:
-                if (Input.anyKeyDown) {
+
+                if (Time.time >= _gameOverTimeout && !_game_over_message_enabled) {
+                    GameOverCanvas.GetComponentInChildren<Flash>().Go();
+                    _game_over_message_enabled = true;
+                }
+                if (Input.anyKeyDown && (Time.time >= _gameOverTimeout)) {
                     NewGame();
                 }
                 break;
+
             case GameState.GameMode.RUNNING:
+
                 if (Input.GetKeyDown(KeyCode.F5)) {
-                    Egg_CockpitCamera.enabled = !Egg_CockpitCamera.enabled;
+                    Egg_CockpitCamera.camera.enabled = !Egg_CockpitCamera.camera.enabled;
                 }
                 break;
         }
+
         if (Input.GetKeyDown(KeyCode.End)) {
             _playerShip.GetComponent<Player>().PlayerKilled();
         }
@@ -155,6 +166,8 @@ public class GameController : MonoBehaviour
         GameOverCanvas.gameObject.SetActive(true);
         Text peak_score_value = GameObject.Find("PeakScoreValue").GetComponent<Text>();
         peak_score_value.text = State.PeakScore.ToString();
+        _gameOverTimeout = Time.time + GAMEOVER_TIMEOUT;
+        _game_over_message_enabled = false;
     }
 
     public void NewGame()
@@ -162,6 +175,9 @@ public class GameController : MonoBehaviour
 #if !TESTMODE
         GameOverCanvas.gameObject.SetActive(false);
 #endif
+        Flash f = GameOverCanvas.GetComponentInChildren<Flash>();
+        if (f) f.ResetFlashers();
+
         Egg_CockpitCamera.enabled = false;
         State.Reset();
         _wave_controller.Reset();

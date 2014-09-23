@@ -145,12 +145,11 @@ public class Player : MonoBehaviour
     {
 //        updateGUIKeys();
         if (!enabled) {
-            Debug.Log("not enabled");
+//            Debug.Log("not enabled");
             return;
         }
 #if !TESTMODE
-        if (GameController.instance.State.Paused) {
-            Debug.Log("is paused");
+        if (GameController.instance.State.Mode == GameState.GameMode.PAUSED) {
             return;
         }
 #endif
@@ -237,7 +236,6 @@ public class Player : MonoBehaviour
     {
 #if !TESTMODE
         DeathPanel.gameObject.SetActive(false);
-        Debug.Log(_starting_position);
         transform.position = _starting_position;
 #endif
         this.gameObject.SetActive(true);

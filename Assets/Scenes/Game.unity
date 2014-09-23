@@ -389,7 +389,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: a1ce6cd7ec7e9d1458fd0da1bbd91ea7, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: a1ce6cd7ec7e9d1458fd0da1bbd91ea7, type: 2}
       propertyPath: m_Name
@@ -1944,8 +1944,9 @@ GameObject:
   - 222: {fileID: 1151708517}
   - 114: {fileID: 1151708516}
   - 114: {fileID: 1151708515}
+  - 114: {fileID: 1151708518}
   m_Layer: 5
-  m_Name: Continue
+  m_Name: ContinueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2020,6 +2021,19 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1151708513}
+--- !u!114 &1151708518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1151708513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6aa5b84d8f4213428f22fd3844b9e21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashDelayInSeconds: 1
+  StartEnabled: 0
 --- !u!1 &1242081574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2691,7 +2705,7 @@ GameObject:
   m_Icon: {fileID: -1003283189, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1704113703
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3428,6 +3442,7 @@ MonoBehaviour:
   _UILivesValue: {fileID: 2003989312}
   _UIMultValue: {fileID: 1746251729}
   GameOverCanvas: {fileID: 1704113705}
+  Egg_CockpitCamera: {fileID: 2078110173}
 --- !u!4 &1914970441
 Transform:
   m_ObjectHideFlags: 0
@@ -3870,7 +3885,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2078110169
 Transform:
   m_ObjectHideFlags: 0
@@ -3900,7 +3915,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: .00999999978
-  far clip plane: 5000
+  far clip plane: 6000
   field of view: 90
   orthographic: 0
   orthographic size: 1.10000002
