@@ -304,8 +304,8 @@ AudioSource:
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 981fbf23fd0bde24ca473da66e18c6f7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: .300000012
+  m_Pitch: 1.20000005
   Loop: 1
   Mute: 0
   Priority: 0
@@ -415,6 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExplosionPrefab: {fileID: 100000, guid: a0df06eebcd09a840a2f745bcdf86f17, type: 2}
   NukePrefab: {fileID: 100000, guid: f7df1b1435682f04b882cc5baddb5ebb, type: 2}
+  IsLarge: 0
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

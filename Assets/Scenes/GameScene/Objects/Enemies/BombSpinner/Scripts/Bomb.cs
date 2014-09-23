@@ -12,6 +12,11 @@ public class Bomb : EnemyType
     const float Y_OFFSET_FLOOR = 1.0f;
     const float X_OFFSET_MAX = 11.0f;
 
+    const float MIN_WEIGHT_LG = 15.0f;
+    const float MAX_WEIGHT_LG = 40.0f;
+    const float MIN_WEIGHT_SM = 20.0f;
+    const float MAX_WEIGHT_SM = 40.0f;
+
     public GameObject ExplosionPrefab;
     public GameObject NukePrefab;
 
@@ -93,9 +98,9 @@ public class Bomb : EnemyType
 
         // Larger bombs move slower, less of threat
         if (IsLarge) {
-            rigidbody2D.gravityScale = _base_gravity_mult * Random.Range(2.0f, 20.0f);
+            rigidbody2D.gravityScale = _base_gravity_mult * Random.Range(MIN_WEIGHT_LG, MAX_WEIGHT_LG);
         } else {
-            rigidbody2D.gravityScale = _base_gravity_mult * Random.Range(5.0f, 30.0f);
+            rigidbody2D.gravityScale = _base_gravity_mult * Random.Range(MIN_WEIGHT_SM, MAX_WEIGHT_LG);
         }
 
         _audio.Play();
