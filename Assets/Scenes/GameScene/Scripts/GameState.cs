@@ -102,12 +102,10 @@ public class GameState
     public void Reset()
     {
         Paused = false;
-
+        Mode = GameMode.RUNNING;
         Lives = INITIAL_LIVES;
         Score = 0;
         Multiplier = INITIAL_MULTIPLIER;
-
-        Mode = GameMode.RUNNING;
     }
 
     /***************************************************************************/
