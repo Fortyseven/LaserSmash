@@ -84,6 +84,13 @@ public class GameController : MonoBehaviour
     /***************************************************************************/
     void Update()
     {
+        switch(State.Mode) {
+            case GameState.GameMode.GAMEOVER:
+                if (Input.anyKeyDown) {
+                    NewGame();
+                }
+                break;
+        }
         if (Input.GetKeyDown(KeyCode.End)) {
             _playerShip.GetComponent<Player>().PlayerKilled();
         }
@@ -137,7 +144,6 @@ public class GameController : MonoBehaviour
     /***************************************************************************/
     public void OnGameOver()
     {
-        Debug.Log( "GAME OVER" );
         GameController.instance.State.Mode = GameState.GameMode.GAMEOVER;
         GameOverCanvas.gameObject.SetActive(true);
         Text peak_score_value = GameObject.Find("PeakScoreValue").GetComponent<Text>();
@@ -149,8 +155,8 @@ public class GameController : MonoBehaviour
 #if !TESTMODE
         GameOverCanvas.gameObject.SetActive(false);
 #endif
-        _gameState.Reset();
-        PlayerShip.GetComponent<Player>().Reset();
-        PlayerShip.GetComponent<Player>().enabled = true;
+        State.Reset();
+        _wave_controller.Reset();
+        PlayerComponent.Reset();
     }
 }

@@ -35,7 +35,13 @@ public class Player : MonoBehaviour
     Vector3 mSceneSurfacePosition;
 
     bool _is_alive = false;
-    
+
+    void Awake()
+    {
+        _starting_position = transform.position;
+
+    }
+
     /**************************************/
     void Start()
     {
@@ -54,7 +60,6 @@ public class Player : MonoBehaviour
             StartCoroutine("AutoFireCoroutine");
         }
 
-        _starting_position = transform.position;
 
         Reset();
         enabled = true;
@@ -224,15 +229,18 @@ public class Player : MonoBehaviour
     public IEnumerator PlayerRespawnTimeout()
     {
         yield return new WaitForSeconds(3.0f);
-        transform.position = _starting_position;
         Reset();
     }
 
+    /**************************************/
     public void Reset()
     {
 #if !TESTMODE
         DeathPanel.gameObject.SetActive(false);
+        Debug.Log(_starting_position);
+        transform.position = _starting_position;
 #endif
+        this.gameObject.SetActive(true);
         My_Mesh.SetActive(true);
         enabled = true;
         _is_alive = true;
