@@ -103,14 +103,22 @@ public class GameController : MonoBehaviour
 
             case GameState.GameMode.RUNNING:
 
+                // Cheeky FPS easter egg
                 if (Input.GetKeyDown(KeyCode.F5)) {
                     Egg_CockpitCamera.camera.enabled = !Egg_CockpitCamera.camera.enabled;
                 }
-                break;
-        }
 
-        if (Input.GetKeyDown(KeyCode.End)) {
-            _playerShip.GetComponent<Player>().PlayerKilled();
+                // DEBUG: Artificially increase score
+                if (Input.GetKeyDown(KeyCode.Home)) {
+                    State.AdjustScore(250);
+                }
+
+                // DEBUG: Kill player
+                if (Input.GetKeyDown(KeyCode.End)) {
+                    _playerShip.GetComponent<Player>().PlayerKilled();
+                }
+
+                break;
         }
     }
 
