@@ -24,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.0478119999, y: -.254420012, z: -7.21799994}
+  m_LocalPosition: {x: -2.1665926, y: -.803038597, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4007f1233a9b74fa9be42583fafba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 8
+  size: 12
   color: {r: .448275924, g: 1, b: 0, a: .501960814}
   explodeOnStart: 1
   duration: 3
@@ -109,11 +109,11 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 0}
   fireballAMaterial: {fileID: 2100000, guid: 8c91e115a8f2ae640b71ec1885380b55, type: 2}
   fireballBMaterial: {fileID: 2100000, guid: 8c91e115a8f2ae640b71ec1885380b55, type: 2}
-  smokeAMaterial: {fileID: 2100000, guid: f89a53f13e64bbbd73bd6eb9f8509a09, type: 2}
-  smokeBMaterial: {fileID: 2100000, guid: f89a53f13e64bbbd73bd6eb9f8509a09, type: 2}
+  smokeAMaterial: {fileID: 0}
+  smokeBMaterial: {fileID: 0}
   shockwaveMaterial: {fileID: 0}
-  sparksMaterial: {fileID: 2100000, guid: 7c98ffa948c8d43d5ac42a3e9f0ea897, type: 2}
-  glowMaterial: {fileID: 0}
+  sparksMaterial: {fileID: 2100000, guid: 62cb3727bd5b87b4085de517ee39b39b, type: 2}
+  glowMaterial: {fileID: 2100000, guid: 8c91e115a8f2ae640b71ec1885380b55, type: 2}
   heatwaveMaterial: {fileID: 0}
   autoCreateFireball: 1
   autoCreateSparks: 1
