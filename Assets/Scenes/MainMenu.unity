@@ -74,6 +74,89 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
+--- !u!1 &10734819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 10734820}
+  - 222: {fileID: 10734823}
+  - 114: {fileID: 10734822}
+  - 114: {fileID: 10734821}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &10734820
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 10734819}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 758405403}
+  m_RootOrder: 4
+  m_AnchorMin: {x: 0, y: .518680871}
+  m_AnchorMax: {x: 1, y: .518680871}
+  m_AnchoredPosition: {x: -120, y: -155}
+  m_SizeDelta: {x: -394, y: 64}
+  m_Pivot: {x: .5, y: .5}
+--- !u!114 &10734821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 10734819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: .5}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
+--- !u!114 &10734822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 10734819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Mat: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 81de899a396d04f4f9e16d4b1d49dba1, type: 3}
+    m_FontSize: 24
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 5
+    m_MaxSize: 22
+    m_Alignment: 3
+    m_RichText: 0
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Use A/D or LEFT/RIGHT to move.
+
+    CTRL or MOUS1 to Fire.'
+--- !u!222 &10734823
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 10734819}
 --- !u!1 &758405400
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,6 +220,7 @@ RectTransform:
   - {fileID: 1329667079}
   - {fileID: 1580096234}
   - {fileID: 1820504421}
+  - {fileID: 10734820}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
@@ -257,11 +341,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'UNTITLED
-
-    ASTROSMASH
-
-    CLONE'
+  m_Text: LASERSMASH
 --- !u!222 &1329667078
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -282,8 +362,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: .518680871}
   m_AnchorMax: {x: 1, y: .518680871}
-  m_AnchoredPosition: {x: -22, y: 163}
-  m_SizeDelta: {x: -100, y: 175}
+  m_AnchoredPosition: {x: 0, y: 203}
+  m_SizeDelta: {x: -100, y: 98}
   m_Pivot: {x: .5, y: .5}
 --- !u!1 &1404143466
 GameObject:
@@ -541,7 +621,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: 0, y: .518680871}
   m_AnchorMax: {x: 1, y: .518680871}
-  m_AnchoredPosition: {x: -169, y: 0}
+  m_AnchoredPosition: {x: -120, y: -70}
   m_SizeDelta: {x: -394, y: 64}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1820504422
@@ -569,7 +649,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: This is a work in progress with lots of temporary placeholder art and concepts.
+  m_Text: This ALPHA is a work in progress with lots of temporary placeholder art
+    and concepts.
 --- !u!222 &1820504423
 CanvasRenderer:
   m_ObjectHideFlags: 0
