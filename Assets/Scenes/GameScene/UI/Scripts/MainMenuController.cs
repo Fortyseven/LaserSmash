@@ -8,4 +8,9 @@ public class MainMenuController : MonoBehaviour
     {
         Application.LoadLevel( "Game" );
     }
+
+    public void Menu_HELP()
+    {
+        Application.LoadLevel("Help");
+    }
 }
