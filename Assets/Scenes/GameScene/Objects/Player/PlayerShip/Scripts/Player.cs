@@ -24,31 +24,22 @@ public class Player : MonoBehaviour
 
     public GameObject My_Mesh;
     
-//    public dfPanel panelLeft = null;
-//    public dfPanel panelRight = null;
     float _touch_axis_x = 0.0f;   
-//    bool _gui_key_right = false;
-//    bool _gui_key_left = false;
-    bool _autofire_enabled = false;
 
     GameObject mSceneSurface = null;
     Vector3 mSceneSurfacePosition;
 
     bool _is_alive = false;
 
+    /**************************************/
     void Awake()
     {
         _starting_position = transform.position;
-
     }
 
     /**************************************/
     void Start()
     {
-#if UNITY_ANDROID
-            _autofire_enabled = true;
-#endif
-
         mSceneSurface = GameObject.Find("Surface");
         if (mSceneSurface == null) {
             throw new UnityException("Could not find stage surface");
@@ -56,98 +47,17 @@ public class Player : MonoBehaviour
 
         mSceneSurfacePosition = mSceneSurface.transform.position;
 
-        if(_autofire_enabled) {
-            StartCoroutine("AutoFireCoroutine");
-        }
-
-
         Reset();
         enabled = true;
     }
 
-//    public void OnDirectionalInputClicked(int dir)
-//    {
-//        if (dir == -1) {
-//            _gui_key_right = true;
-//        }
-//    }
-
-//    IEnumerator AutoFireCoroutine()
-//    {
-//        float t = Time.time;
-//        while(true) {
-//            if (GameController.instance.State.IsRunning) {
-//                Fire();
-//            } else {
-//                break;
-//            }
-//            yield return new WaitForSeconds(FIRE_DELAY);
-//        }
-//
-//    }
-
-
-#region Input
-//    public void OnMouseUp( dfControl control, dfMouseEventArgs mouseEvent )
-//    {
-//        if ( control.name == "moveLeft" ) {
-//            mGuiKeyLeft = false;
-//            if ( mGuiKeyRight )
-//                mTouchXAxis -= mTouchXAxis;
-//            else
-//                mTouchXAxis = 0.0f;
-//            //mTouchXAxis += TOUCH_MOVE_SPEED;
-//                        
-//        }
-//        if ( control.name == "moveRight" ) {
-//            mGuiKeyRight = false;
-//            if ( mGuiKeyLeft )
-//                mTouchXAxis -= mTouchXAxis;
-//            else
-//                mTouchXAxis = 0.0f;
-//            //mTouchXAxis -= TOUCH_MOVE_SPEED;
-//        }
-//    }
-
-//    public void OnMouseDown( dfControl control, dfMouseEventArgs mouseEvent )
-//    {
-//        if ( control.name == "moveLeft" ) {
-//            mGuiKeyLeft = true;
-//            if ( mGuiKeyRight ) {
-//                mTouchXAxis = Mathf.Abs( mTouchXAxis );
-//                mGuiKeyRight = false;
-//            }
-//            
-//        }
-//        if ( control.name == "moveRight" ) {
-//            mGuiKeyRight = true;
-//            if ( mGuiKeyLeft ) {
-//                mTouchXAxis = -Mathf.Abs( mTouchXAxis );
-//                mGuiKeyLeft = false;
-//            }
-//        }
-//        
-//    }
-
-//    private void updateGUIKeys()
-//    {
-//        if ( _gui_key_right )
-//            _touch_axis_x += TOUCH_MOVE_SPEED;
-//        if ( _gui_key_left )
-//            _touch_axis_x -= TOUCH_MOVE_SPEED;
-//        
-//        _touch_axis_x = Mathf.Clamp( _touch_axis_x, -1.0f, 1.0f );
-//    }
-#endregion
-
     /**************************************/
     void Update()
     {
-//        updateGUIKeys();
         if (!enabled) {
-//            Debug.Log("not enabled");
             return;
         }
+
 #if !TESTMODE
         if (GameController.instance.State.Mode == GameState.GameMode.PAUSED) {
             return;
@@ -159,7 +69,7 @@ public class Player : MonoBehaviour
         pos.x += _touch_axis_x * SHIP_SPEED * Time.deltaTime;
         pos.x = Mathf.Clamp( pos.x, -SHIP_X_BOUNDS, SHIP_X_BOUNDS );
 
-        if (!_autofire_enabled && Input.GetButton("Fire1")) {
+        if (Input.GetButton("Fire1")) {
             Fire();
         }
 
@@ -175,12 +85,6 @@ public class Player : MonoBehaviour
         if ( mLastFireGO == null )              
             mLastFireGO = SpawnLaserbeam();             
     }
-
-    /**************************************/
-//    public void Hurt()
-//    {
-//        //Instantiate( PainPrefab, transform.position, Quaternion.identity );
-//    }
 
     /**************************************/
     void OnTriggerEnter2D(Collider2D col)
