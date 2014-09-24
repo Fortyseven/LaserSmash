@@ -64,12 +64,12 @@ Material:
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _Emission
-        second: {r: 0, g: 1, b: .710344791, a: 0}
-      data:
-        first:
           name: _SpecColor
         second: {r: .229435682, g: .301470578, b: .0266003534, a: 1}
+      data:
+        first:
+          name: _Emission
+        second: {r: 0, g: 1, b: .710344791, a: 0}
       data:
         first:
           name: _ReflectColor

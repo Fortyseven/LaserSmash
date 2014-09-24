@@ -31,20 +31,13 @@ public class GameState
         POSTDEATH,
         GAMEOVER
     }
-
-
-    //public bool IsRunning;
-//    public bool PostDeath;
-//    public bool GameOver;  // FIXME: is this and IsRunning redundant?
-        
+            
     public GameMode _mode;
 
     int _lives = 0;
-//    bool _is_paused = false;
-
-
 
 #region properties
+    /***********************************/
     public int Lives {
         get {
             return _lives;
@@ -59,6 +52,7 @@ public class GameState
         }
     }
 
+    /***********************************/
     public GameMode Mode {
         get {
             return _mode;
@@ -68,6 +62,7 @@ public class GameState
         }
     }
 
+    /***********************************/
     public int Score {
         get {
             return _score;
@@ -79,12 +74,14 @@ public class GameState
         }
     }
 
+    /***********************************/
     public int PeakScore {
         get {
             return _peak_score;
         }
     }
 
+    /***********************************/
     public int Multiplier {
         get {
             return _mult;
@@ -95,6 +92,7 @@ public class GameState
         }
     }
 
+    /***********************************/
     GameMode _paused_previous_mode = GameMode.RUNNING;
 
     public bool Paused {
@@ -179,29 +177,20 @@ public class GameState
     /***************************************************************************/
     private void OnMultChange()
     {
-//        1x  level : Black background : Score up to 999
-
-//                2x  level : Blue background : Score 1,000-4,999
-//                3x  level : Purple background : Score 5,000-19,999
-//                4x  level : Turquoise background : Score 20,000-49,999
-//                5x  level : Gray background : Score 50,000-99,999
-
-//                6x  level : Black background : Score 100,000 and over
-
         switch(Multiplier) {
-            case 2:
+            case 2: // Blue
                 GameController.instance.DoLevelTransition(new Color(0,0, 1.0f, 1.0f));
                 break;
-            case 3:
+            case 3: // Purple
                 GameController.instance.DoLevelTransition(new Color(1.0f, 0, 1.0f, 1.0f));
                 break;
-            case 4:
+            case 4: // Cyan
                 GameController.instance.DoLevelTransition(new Color(0, 1.0f, 1.0f, 1.0f));
                 break;
-            case 5:
+            case 5: // Gray
                 GameController.instance.DoLevelTransition(new Color(1.0f, 0.75f, 0, 1.0f));
                 break;
-            default:
+            default: // "Black"
                 GameController.instance.DoLevelTransition(new Color(0.5f, 0.5f, 0.5f, 1.0f));
                 break;
         }

@@ -39,13 +39,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Ramp
-        second:
-          m_Texture: {fileID: 2800000, guid: b8d24d717d892f24ebefcb7c6a7ac7a7, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _Detail
         second:
           m_Texture: {fileID: 2800000, guid: e83bb538b1e49a54aa6c2b206e929e77, type: 3}
@@ -53,9 +46,9 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Cube
+          name: _Ramp
         second:
-          m_Texture: {fileID: 8900000, guid: b995d4bd9d11078d11005b9844295342, type: 3}
+          m_Texture: {fileID: 2800000, guid: b8d24d717d892f24ebefcb7c6a7ac7a7, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -63,6 +56,13 @@ Material:
           name: _ParallaxMap
         second:
           m_Texture: {fileID: 2800000, guid: 9fa31b7852e612c4090ebb943837fd53, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Cube
+        second:
+          m_Texture: {fileID: 8900000, guid: b995d4bd9d11078d11005b9844295342, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -90,7 +90,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: .491383314
+        second: .0604285598
       data:
         first:
           name: _Outline
@@ -122,12 +122,12 @@ Material:
         second: {r: .227450982, g: .227450982, b: .227450982, a: 1}
       data:
         first:
-          name: _Emission
-        second: {r: 0, g: 0, b: 0, a: 0}
-      data:
-        first:
           name: _SpecColor
         second: {r: .501960814, g: .501960814, b: .501960814, a: 1}
+      data:
+        first:
+          name: _Emission
+        second: {r: 0, g: 0, b: 0, a: 0}
       data:
         first:
           name: _OutlineColor
