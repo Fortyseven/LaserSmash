@@ -42,6 +42,7 @@ public class PauseController : MonoBehaviour
 
     public void OnClickQuit()
     {
+        Time.timeScale = 1.0f;
         Application.LoadLevel("MainMenu");
 #if UNITY_EDITOR
         //UnityEditor.EditorApplication.Beep();
