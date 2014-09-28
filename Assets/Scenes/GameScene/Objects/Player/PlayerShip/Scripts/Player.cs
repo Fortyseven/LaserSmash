@@ -77,6 +77,10 @@ public class Player : MonoBehaviour
         mSceneSurface.transform.position = mSceneSurfacePosition;
 
         transform.position = pos;
+
+        if (Input.GetKeyDown(KeyCode.W)) {
+            Hyperspace();
+        }
     }
 
     /**************************************/
@@ -84,6 +88,15 @@ public class Player : MonoBehaviour
     {               
         if ( mLastFireGO == null )              
             mLastFireGO = SpawnLaserbeam();             
+    }
+
+    /**************************************/
+    void Hyperspace()
+    {
+        // TODO: beaming animation, from and to, sfx
+        Vector3 pos = transform.position;
+        pos.x = Random.Range(-SHIP_X_BOUNDS, SHIP_X_BOUNDS);
+        transform.position = pos;
     }
 
     /**************************************/
