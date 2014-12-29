@@ -3,14 +3,14 @@ using UnityEditor;
 
 public class FindMissingScriptsRecursively : EditorWindow
 {
-    static int go_count = 0, components_count = 0, missing_count = 0;
-    
-    [MenuItem("Window/FindMissingScriptsRecursively")]
+    static int _go_count = 0, _components_count = 0, _missing_count = 0;
+
+    [MenuItem( "Window/FindMissingScriptsRecursively" )]
     public static void ShowWindow()
     {
-        EditorWindow.GetWindow( typeof(FindMissingScriptsRecursively) );
+        EditorWindow.GetWindow( typeof( FindMissingScriptsRecursively ) );
     }
-    
+
     public void OnGUI()
     {
         if ( GUILayout.Button( "Find Missing Scripts in selected GameObjects" ) ) {
@@ -21,23 +21,23 @@ public class FindMissingScriptsRecursively : EditorWindow
     private static void FindInSelected()
     {
         GameObject[] go = Selection.gameObjects;
-        go_count = 0;
-        components_count = 0;
-        missing_count = 0;
+        _go_count = 0;
+        _components_count = 0;
+        _missing_count = 0;
         foreach ( GameObject g in go ) {
             FindInGO( g );
         }
-        Debug.Log( string.Format( "Searched {0} GameObjects, {1} components, found {2} missing", go_count, components_count, missing_count ) );
+        Debug.Log( string.Format( "Searched {0} GameObjects, {1} components, found {2} missing", _go_count, _components_count, _missing_count ) );
     }
-    
+
     private static void FindInGO( GameObject g )
     {
-        go_count++;
+        _go_count++;
         Component[] components = g.GetComponents<Component>();
         for ( int i = 0; i < components.Length; i++ ) {
-            components_count++;
+            _components_count++;
             if ( components[ i ] == null ) {
-                missing_count++;
+                _missing_count++;
                 string s = g.name;
                 Transform t = g.transform;
                 while ( t.parent != null ) {
@@ -48,9 +48,9 @@ public class FindMissingScriptsRecursively : EditorWindow
             }
         }
         // Now recurse through each child GO (if there are any):
-        foreach ( Transform childT in g.transform ) {
+        foreach ( Transform child_t in g.transform ) {
             //Debug.Log("Searching " + childT.name  + " " );
-            FindInGO( childT.gameObject );
+            FindInGO( child_t.gameObject );
         }
     }
 }

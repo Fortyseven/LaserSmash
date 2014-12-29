@@ -1,19 +1,16 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 
 //TODO: Add [1] and [9] pause easter egg
 
 public class PauseController : MonoBehaviour
 {
     public Canvas PauseCanvas;
-//    bool is_paused = false;
+    //    bool is_paused = false;
 
     void Awake()
     {
         PauseCanvas.gameObject.SetActive( false );
     }
-
 
     void Update()
     {
@@ -43,7 +40,7 @@ public class PauseController : MonoBehaviour
     public void OnClickQuit()
     {
         Time.timeScale = 1.0f;
-        Application.LoadLevel("MainMenu");
+        Application.LoadLevel( "MainMenu" );
 #if UNITY_EDITOR
         //UnityEditor.EditorApplication.Beep();
 #else

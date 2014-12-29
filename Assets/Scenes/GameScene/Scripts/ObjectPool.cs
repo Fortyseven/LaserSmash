@@ -25,9 +25,10 @@ public class ObjectPool
     /*****************************/
     public void Reset()
     {
-        for(int i = 0; i < _items.Count; i++) {
-            GameObject g = ((GameObject)(_items[i]));
-            if (g.activeInHierarchy) g.SendMessage("InstaKill");
+        for ( int i = 0; i < _items.Count; i++ ) {
+            GameObject g = ( (GameObject)( _items[ i ] ) );
+            if ( g.activeInHierarchy )
+                g.SendMessage( "InstaKill" );
             //((GameObject)(_items[i])).GetComponent<EnemyType>().InstaKill();
         }
     }
@@ -44,8 +45,9 @@ public class ObjectPool
         // Have we hit max allocation? Instantiate, add to the pool, and return
         if ( _items.Count < MaxCount ) {
             // Debug.Log(string.Format("Creating new; currently have {0} allocated out of {1}.", _items.Count, MaxCount));
-            GameObject obj = UnityEngine.GameObject.Instantiate( GameObjectSource, position, rot ) as GameObject;
-            if (call_respawn) obj.SendMessage("Respawn");
+            GameObject obj = GameObject.Instantiate( GameObjectSource, position, rot ) as GameObject;
+            if ( call_respawn )
+                obj.SendMessage( "Respawn" );
             _items.Add( obj );
             return obj;
         }
@@ -54,8 +56,9 @@ public class ObjectPool
             if ( !obj.activeInHierarchy ) {
                 obj.transform.position = position;
                 obj.transform.rotation = rot;
-                obj.SetActive(true);
-                if (call_respawn) obj.SendMessage("Respawn");
+                obj.SetActive( true );
+                if ( call_respawn )
+                    obj.SendMessage( "Respawn" );
                 return obj;
             }
         }

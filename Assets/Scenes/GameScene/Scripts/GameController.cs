@@ -12,13 +12,13 @@ public class GameController : MonoBehaviour
     public static GameController instance = null;
 
 
-//    public DifficultyValues[]   Difficulty;
-//    public DifficultyValueEntry     CurrentDifficulty;//;; {
-//        get {
-////            DifficultyController.instance
-//        }
-//    };
-//    private DifficultyValues    _lastDifficulty = null;
+    //    public DifficultyValues[]   Difficulty;
+    //    public DifficultyValueEntry     CurrentDifficulty;//;; {
+    //        get {
+    ////            DifficultyController.instance
+    //        }
+    //    };
+    //    private DifficultyValues    _lastDifficulty = null;
 
     /*---------------------------------------------------------*/
 
@@ -32,94 +32,98 @@ public class GameController : MonoBehaviour
 
     public Light TopLight;
 
-    private GameState _gameState;
-    private GameObject _playerShip;
+    private GameState _game_state;
+    private GameObject _player_ship;
     private WaveController _wave_controller;
     private Player _player_component;
 
-    private float _gameOverTimeout;
+    private float _game_over_timeout;
     private bool _game_over_message_enabled;
 
     private Color _prevcolor, _newcolor;
 
-#region properties
-    public WaveController WaveCon {
-        get {return _wave_controller; }
+    #region properties
+    public WaveController WaveCon
+    {
+        get { return _wave_controller; }
     }
-    public GameObject PlayerShip {
-        get { return _playerShip; }
+    public GameObject PlayerShip
+    {
+        get { return _player_ship; }
     }
-    public Player PlayerComponent {
-        get {return _player_component; }
+    public Player PlayerComponent
+    {
+        get { return _player_component; }
     }
-    public GameState State {
-        get { return _gameState; }
+    public GameState State
+    {
+        get { return _game_state; }
     }
-#endregion
+    #endregion
 
     /***************************************************************************/
-//    private DifficultyValues UpdateDifficultyValues()
-//    {
-//        for ( int i = Difficulty.Length - 1; i >= 0; i-- ) {
-//            DifficultyValues diff = ( (DifficultyValues)( Difficulty[ i ] ) );
-//            if ( _gameState.Score >= diff.ScoreThreshold ) {
-//                return diff;
-//            }
-//        }
-//        return Difficulty[ 0 ];
-//    }
+    //    private DifficultyValues UpdateDifficultyValues()
+    //    {
+    //        for ( int i = Difficulty.Length - 1; i >= 0; i-- ) {
+    //            DifficultyValues diff = ( (DifficultyValues)( Difficulty[ i ] ) );
+    //            if ( _gameState.Score >= diff.ScoreThreshold ) {
+    //                return diff;
+    //            }
+    //        }
+    //        return Difficulty[ 0 ];
+    //    }
 
     /***************************************************************************/
     void Awake()
     {
         GameController.instance = this;
         _prevcolor = TopLight.color;
-//        Application.targetFrameRate = 30;
+        //        Application.targetFrameRate = 30;
     }
 
     /***************************************************************************/
     void Start()
     {
-        _playerShip = GameObject.Find( "PlayerShip" ) as GameObject;
-        _player_component = _playerShip.GetComponent<Player>();
+        _player_ship = GameObject.Find( "PlayerShip" ) as GameObject;
+        _player_component = _player_ship.GetComponent<Player>();
 
         Physics2D.IgnoreLayerCollision( LayerMask.NameToLayer( "Enemy" ), LayerMask.NameToLayer( "Enemy" ) );
         ConfigureGame();
 
         _wave_controller = GetComponentInChildren<WaveController>();
-        _gameState = new GameState();
+        _game_state = new GameState();
         NewGame();
     }
 
     /***************************************************************************/
     void Update()
     {
-        switch(State.Mode) {
+        switch ( State.Mode ) {
             case GameState.GameMode.GAMEOVER:
 
-                if (Time.time >= _gameOverTimeout && !_game_over_message_enabled) {
+                if ( Time.time >= _game_over_timeout && !_game_over_message_enabled ) {
                     GameOverCanvas.GetComponentInChildren<Flash>().Go();
                     _game_over_message_enabled = true;
                 }
-                if (Input.anyKeyDown && (Time.time >= _gameOverTimeout)) {
+                if ( Input.anyKeyDown && ( Time.time >= _game_over_timeout ) ) {
                     NewGame();
                 }
                 break;
 
             case GameState.GameMode.RUNNING:
                 // Cheeky FPS easter egg
-                if (Input.GetKeyDown(KeyCode.F5)) {
+                if ( Input.GetKeyDown( KeyCode.F5 ) ) {
                     Egg_CockpitCamera.camera.enabled = !Egg_CockpitCamera.camera.enabled;
                 }
 
                 // DEBUG: Artificially increase score
-                if (Input.GetKeyDown(KeyCode.Home)) {
-                    State.AdjustScore(250);
+                if ( Input.GetKeyDown( KeyCode.Home ) ) {
+                    State.AdjustScore( 250 );
                 }
 
                 // DEBUG: Kill player
-                if (Input.GetKeyDown(KeyCode.End)) {
-                    _playerShip.GetComponent<Player>().PlayerKilled();
+                if ( Input.GetKeyDown( KeyCode.End ) ) {
+                    _player_ship.GetComponent<Player>().PlayerKilled();
                 }
 
                 break;
@@ -147,48 +151,49 @@ public class GameController : MonoBehaviour
     /***************************************************************************/
     public GameState getGameState()
     {
-        return _gameState;
+        return _game_state;
     }
-    
+
     /***************************************************************************/
     private void ConfigureGame()
     {
-//        DifficultyController.Load();
+        //        DifficultyController.Load();
 
 #if !UNITY_ANDROID
-//        DisableOnScreenControls();
+        //        DisableOnScreenControls();
 #endif
     }
 
 #if !UNITY_ANDROID
-//    /***************************************************************************/
-//    private void DisableOnScreenControls()
-//    {
-//        GameObject pan = GameObject.Find( "Input_Left" ) as GameObject;
-//        pan.SetActive(false);
-//        pan = GameObject.Find( "Input_Right" ) as GameObject;
-//        pan.SetActive(false);
-//    }
+    //    /***************************************************************************/
+    //    private void DisableOnScreenControls()
+    //    {
+    //        GameObject pan = GameObject.Find( "Input_Left" ) as GameObject;
+    //        pan.SetActive(false);
+    //        pan = GameObject.Find( "Input_Right" ) as GameObject;
+    //        pan.SetActive(false);
+    //    }
 #endif
 
     /***************************************************************************/
     public void OnGameOver()
     {
         GameController.instance.State.Mode = GameState.GameMode.GAMEOVER;
-        GameOverCanvas.gameObject.SetActive(true);
-        Text peak_score_value = GameObject.Find("PeakScoreValue").GetComponent<Text>();
+        GameOverCanvas.gameObject.SetActive( true );
+        Text peak_score_value = GameObject.Find( "PeakScoreValue" ).GetComponent<Text>();
         peak_score_value.text = State.PeakScore.ToString();
-        _gameOverTimeout = Time.time + GAMEOVER_TIMEOUT;
+        _game_over_timeout = Time.time + GAMEOVER_TIMEOUT;
         _game_over_message_enabled = false;
     }
 
     public void NewGame()
     {
 #if !TESTMODE
-        GameOverCanvas.gameObject.SetActive(false);
+        GameOverCanvas.gameObject.SetActive( false );
 #endif
         Flash f = GameOverCanvas.GetComponentInChildren<Flash>();
-        if (f) f.ResetFlashers();
+        if ( f )
+            f.ResetFlashers();
 
         Egg_CockpitCamera.enabled = false;
         State.Reset();
@@ -197,25 +202,25 @@ public class GameController : MonoBehaviour
     }
 
 
-    public void DoLevelTransition(Color new_color)
+    public void DoLevelTransition( Color new_color )
     {
-//        _prevcolor = TopLight.color;
-//        _newcolor = new_color;
-        StartCoroutine("TransitionBackgroundColor", new_color);
+        //        _prevcolor = TopLight.color;
+        //        _newcolor = new_color;
+        StartCoroutine( "TransitionBackgroundColor", new_color );
     }
 
-    IEnumerator TransitionBackgroundColor(Color new_color)
+    IEnumerator TransitionBackgroundColor( Color new_color )
     {
         Color cur_light_color = TopLight.color;
 
-        Debug.Log("Transition from " + cur_light_color + " to " + new_color);
+        Debug.Log( "Transition from " + cur_light_color + " to " + new_color );
 
         TopLight.color = Color.red;
 
-        for(int i = 0; i < 1000; i += 20) {
-            Color foo = Color.Lerp(cur_light_color, new_color, i/1000.0f);
+        for ( int i = 0; i < 1000; i += 20 ) {
+            Color foo = Color.Lerp( cur_light_color, new_color, i / 1000.0f );
             TopLight.color = foo;
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds( 0.02f );
         }
 
         yield return null;

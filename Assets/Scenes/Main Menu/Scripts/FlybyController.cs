@@ -1,16 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class FlybyController : MonoBehaviour
 {
     public GameObject[] Meshes;
-    int cur_mesh;
+    int _cur_mesh;
 
     /************************************************/
     // Use this for initialization
     void Start()
     {
-        cur_mesh = -1;
+        _cur_mesh = -1;
         NextMesh();
     }
     
@@ -24,10 +23,10 @@ public class FlybyController : MonoBehaviour
     /************************************************/
     void NextMesh()
     {
-        cur_mesh++;
+        _cur_mesh++;
 
         for ( int i = 0; i < Meshes.Length; i++ ) {
-            if ( i == (cur_mesh % Meshes.Length) ) {
+            if ( i == (_cur_mesh % Meshes.Length) ) {
                 Meshes[ i ].SetActive( true );
             }
             else {

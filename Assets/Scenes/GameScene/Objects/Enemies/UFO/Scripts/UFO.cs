@@ -32,7 +32,8 @@ public class UFO : EnemyType
     SpriteRenderer _charging_flare_sprite;
     AudioSource _audio;
 
-    private enum State {
+    private enum State
+    {
         PASSIVE,
         CHARGING,
         FIRING
@@ -46,7 +47,7 @@ public class UFO : EnemyType
     {
         // Pick a side of the screen to fly out of
         _laser = GetComponentInChildren<LineRenderer>();
-        _laser.gameObject.SetActive(false);
+        _laser.gameObject.SetActive( false );
 
         _charging_light = GetComponentInChildren<Light>();
         _charging_light.enabled = false;
@@ -56,42 +57,43 @@ public class UFO : EnemyType
 
         _audio = GetComponent<AudioSource>();
     }
-    
+
     /*****************************/
     void Update()
     {
-        if (!_is_ready) return;
+        if ( !_is_ready )
+            return;
 
-        switch(_state) {
+        switch ( _state ) {
             case State.PASSIVE:
                 // Occasionally fire down hot death
-                if (GameController.instance.State.Mode == GameState.GameMode.RUNNING && Random.Range(0, 250) == 0) {
+                if ( GameController.instance.State.Mode == GameState.GameMode.RUNNING && Random.Range( 0, 250 ) == 0 ) {
                     _state = State.CHARGING;
                     _charging_flare_sprite.enabled = true;
                     _charging_light.enabled = true;
                     _time_started_charging = Time.time;
-                    StartCoroutine("AcquireTargetLock");
+                    StartCoroutine( "AcquireTargetLock" );
                     _audio.pitch = CHARGING_PITCH;
                 }
                 break;
             case State.CHARGING:
-                if (Time.time - _time_started_charging  > CHARGING_TIME) {
-                    StartCoroutine("Fire");
+                if ( Time.time - _time_started_charging > CHARGING_TIME ) {
+                    StartCoroutine( "Fire" );
                 }
-                break;             
+                break;
             case State.FIRING:
-                _laser.SetPosition(1, transform.position);
-                _laser.SetPosition(0, _player_target_position);
+                _laser.SetPosition( 1, transform.position );
+                _laser.SetPosition( 0, _player_target_position );
                 break;
         }
 
-        updateMovement();
+        UpdateMovement();
     }
 
     /*****************************/
     IEnumerator AcquireTargetLock()
     {
-        yield return new WaitForSeconds(TARGET_LOCK_TIME);
+        yield return new WaitForSeconds( TARGET_LOCK_TIME );
         _player_target_position = GameController.instance.PlayerShip.transform.position;
     }
 
@@ -99,30 +101,30 @@ public class UFO : EnemyType
     IEnumerator Fire()
     {
         _state = State.FIRING;
-        _laser.gameObject.SetActive(true);
+        _laser.gameObject.SetActive( true );
 
-        Instantiate(ExplosionLaserGroundPrefab, _player_target_position, Quaternion.identity);
+        Instantiate( ExplosionLaserGroundPrefab, _player_target_position, Quaternion.identity );
 
         // Check for collision
-        Ray2D r = new Ray2D(transform.position, (_player_target_position - transform.position) * 15);
+        Ray2D r = new Ray2D( transform.position, ( _player_target_position - transform.position ) * 15 );
 
         /* We COULD check if this is the player being hit, but all the enemies are on layer 8, and
            nothing else with a collider exists on any other layer but the player. */
 
-        if (GameController.instance.State.Mode == GameState.GameMode.RUNNING) {
-            if (/*hit = */Physics2D.Raycast(r.origin, r.direction, Mathf.Infinity, 1|8)) {
+        if ( GameController.instance.State.Mode == GameState.GameMode.RUNNING ) {
+            if (/*hit = */Physics2D.Raycast( r.origin, r.direction, Mathf.Infinity, 1 | 8 ) ) {
                 GameController.instance.PlayerComponent.PlayerKilled();
             }
         }
 
         // Fade out the beam over LASER_FADE_TIME seconds
-        Color col = _laser.material.GetColor("_TintColor");
+        Color col = _laser.material.GetColor( "_TintColor" );
         float del = LASER_FADE_TIME * LASER_FADE_GRANULARITY;
 
-        for (float i = 0; i < 1.0f; i+=LASER_FADE_GRANULARITY) {
+        for ( float i = 0; i < 1.0f; i += LASER_FADE_GRANULARITY ) {
             col.a = 1.0f - i;
-            _laser.material.SetColor("_TintColor", col);
-            yield return new WaitForSeconds(del);
+            _laser.material.SetColor( "_TintColor", col );
+            yield return new WaitForSeconds( del );
         }
 
         ShutDownLaser();
@@ -131,20 +133,20 @@ public class UFO : EnemyType
     /*****************************/
     void ShutDownLaser()
     {
-        _laser.gameObject.SetActive(false);
-        
+        _laser.gameObject.SetActive( false );
+
         _charging_flare_sprite.enabled = false;
         _charging_light.enabled = false;
-        
+
         _state = State.PASSIVE;
         _audio.pitch = PASSIVE_PITCH;
     }
 
     /*****************************/
-    void updateMovement()
+    void UpdateMovement()
     {
         float speed;
-        switch(_state) {
+        switch ( _state ) {
             case State.CHARGING:
                 speed = _charging_speed;
                 break;
@@ -154,16 +156,17 @@ public class UFO : EnemyType
         }
         _newpos = transform.position;
         _newpos.x += _direction * speed * Time.deltaTime;
-        
+
         transform.position = _newpos;
-        
+
         // Did we fly off the screen?
-        if (_direction == DIR_RIGHT) {
-            if (_newpos.x >= X_RANGE_RIGHT ) {
+        if ( _direction == DIR_RIGHT ) {
+            if ( _newpos.x >= X_RANGE_RIGHT ) {
                 Done();
             }
-        } else if (_direction == DIR_LEFT) {
-            if (_newpos.x <= X_RANGE_LEFT ) {
+        }
+        else if ( _direction == DIR_LEFT ) {
+            if ( _newpos.x <= X_RANGE_LEFT ) {
                 Done();
             }
         }
@@ -172,14 +175,14 @@ public class UFO : EnemyType
     /*****************************/
     void Explode()
     {
-        Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+        Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
         Hibernate();
     }
 
     /*****************************/
     public void HitByLaser( Laserbeam laser )
     {
-        GameController.instance.State.AdjustScore(GameConstants.SCORE_UFO);
+        GameController.instance.State.AdjustScore( GameConstants.SCORE_UFO );
         Destroy( laser.gameObject );
         Explode();
     }
@@ -194,24 +197,25 @@ public class UFO : EnemyType
     /*****************************/
     public new void InstaKill()
     {
-        StartCoroutine("InstaKillDelay");
+        StartCoroutine( "InstaKillDelay" );
     }
 
     /*****************************/
     public IEnumerator InstaKillDelay()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds( 3.0f );
         Done();
     }
 
     /*****************************/
-    public override void Respawn ()
+    public override void Respawn()
     {
-        float y = Random.Range(MIN_Y_SPAWN, MAX_Y_SPAWN);
-        if (Random.Range(0,2) == 0) {
+        float y = Random.Range( MIN_Y_SPAWN, MAX_Y_SPAWN );
+        if ( Random.Range( 0, 2 ) == 0 ) {
             _direction = DIR_RIGHT;
             _newpos = new Vector3( X_RANGE_LEFT, y, 0 );
-        } else {
+        }
+        else {
             _direction = DIR_LEFT;
             _newpos = new Vector3( X_RANGE_RIGHT, y, 0 );
         }
