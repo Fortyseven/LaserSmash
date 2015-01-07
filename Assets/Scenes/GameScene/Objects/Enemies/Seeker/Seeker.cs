@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using Game;
+﻿using Game;
+using UnityEngine;
 
 public class Seeker : EnemyType
 {
@@ -15,11 +14,11 @@ public class Seeker : EnemyType
     {
         Respawn();
     }
-    
+
     /************************/
-    float c = 0;
-    float base_rot;
-    bool lock_mode;
+    float _c = 0;
+    float _base_rot;
+    bool _lock_mode;
 
     /************************/
     void Update()
@@ -27,7 +26,7 @@ public class Seeker : EnemyType
         Transform player = GameController.instance.PlayerShip.transform;
         Vector3 pos = transform.position;
 
-        if ( pos.y > SURFACE_Y && !lock_mode ) {
+        if ( pos.y > SURFACE_Y && !_lock_mode ) {
             pos = Vector3.MoveTowards( pos, player.position, Time.deltaTime * 0.25f );
             pos += transform.forward * Time.deltaTime * 4f;
             transform.position = pos;
@@ -38,17 +37,31 @@ public class Seeker : EnemyType
         }
 
         //TODO: This should lerp into position, not snap, but whatever...
-        if ( pos.y <= SURFACE_Y && !lock_mode ) {
+        if ( pos.y <= SURFACE_Y && !_lock_mode ) {
             transform.LookAt( player.position + new Vector3( 0, 0.8f, 0 ) );
-            lock_mode = true;
+            _lock_mode = true;
+
+            Vector3 rot = transform.rotation.eulerAngles;
+            rot.x = 0f;
+
+            if ( transform.rotation.eulerAngles.y > 135 ) {
+                rot.y = 270.0f;
+
+            }
+            else {
+                rot.y = 90.0f;
+            }
+            transform.rotation = Quaternion.Euler( rot );
         }
 
-        if ( lock_mode ) {
+        if ( _lock_mode ) {
             pos += transform.forward * Time.deltaTime * 4f;
             transform.position = pos;
+
+
         }
 
-        c++;
+        _c++;
     }
 
     /************************/
@@ -81,10 +94,10 @@ public class Seeker : EnemyType
     /************************/
     public override void Respawn()
     {
-        Debug.Log("Resp");
+        Debug.Log( "Resp" );
         transform.LookAt( Vector3.down );
         transform.position.Set( -10.0f, Y_OFFSET, 0 );
-        lock_mode = false;
-        base_rot = transform.rotation.eulerAngles.y;
+        _lock_mode = false;
+        _base_rot = transform.rotation.eulerAngles.y;
     }
 }

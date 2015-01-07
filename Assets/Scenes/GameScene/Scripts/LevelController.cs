@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class LevelController : MonoBehaviour
 {
@@ -7,7 +6,7 @@ public class LevelController : MonoBehaviour
     public GameObject LightAmbience;
     public GameObject LightToplight;
 
-    void Start()
+    public void Start()
     {
         iTween.Init( this.gameObject );
 
@@ -20,7 +19,7 @@ public class LevelController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         // Debug
         if ( Input.GetKey( "1" ) ) {

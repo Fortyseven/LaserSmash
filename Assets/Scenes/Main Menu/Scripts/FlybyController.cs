@@ -7,17 +7,10 @@ public class FlybyController : MonoBehaviour
 
     /************************************************/
     // Use this for initialization
-    void Start()
+    public void Start()
     {
         _cur_mesh = -1;
         NextMesh();
-    }
-    
-    /************************************************/
-    // Update is called once per frame
-    void Update()
-    {
-    
     }
 
     /************************************************/
@@ -26,7 +19,7 @@ public class FlybyController : MonoBehaviour
         _cur_mesh++;
 
         for ( int i = 0; i < Meshes.Length; i++ ) {
-            if ( i == (_cur_mesh % Meshes.Length) ) {
+            if ( i == ( _cur_mesh % Meshes.Length ) ) {
                 Meshes[ i ].SetActive( true );
             }
             else {
