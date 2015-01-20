@@ -5,7 +5,7 @@ public class Laserbeam : MonoBehaviour
 {
     const float SPEED = 50.0f;
 
-    public void OnTriggerEnter2D( Collider2D other )
+    public void OnTriggerEnter( Collider other )
     {
         other.transform.root.BroadcastMessage( "HitByLaser", this );
     }

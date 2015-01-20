@@ -65,6 +65,18 @@ ModelImporter:
     4300018: Cylinder
     4300020: Base
     4300022: Body
+    6400000: Barrel
+    6400002: Base
+    6400004: Body
+    6400006: Circle
+    6400008: Circle_001
+    6400010: Circle_002
+    6400012: Circle_003
+    6400014: Cylinder
+    6400016: Cylinder_001
+    6400018: Cylinder_002
+    6400020: Cylinder_003
+    6400022: MidBase
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -87,8 +99,8 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 0
-    addColliders: 0
+    meshCompression: 1
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0

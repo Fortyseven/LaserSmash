@@ -54,9 +54,10 @@ public class Player : MonoBehaviour
     /**************************************/
     void Update()
     {
-        if ( !enabled ) {
+        UpdateBackgroundSurface();
+
+        if ( !GameController.instance.SceneReady || !enabled )
             return;
-        }
 
 #if !TESTMODE
         if ( GameController.instance.State.Mode == GameState.GameMode.PAUSED ) {
@@ -73,14 +74,17 @@ public class Player : MonoBehaviour
             Fire();
         }
 
-        _scene_surface_position.x = transform.position.x * 0.02f;
-        _scene_surface.transform.position = _scene_surface_position;
-
         transform.position = pos;
 
         if ( Input.GetKeyDown( KeyCode.W ) ) {
             Hyperspace();
         }
+    }
+
+    private void UpdateBackgroundSurface()
+    {
+        _scene_surface_position.x = transform.position.x * 0.02f;
+        _scene_surface.transform.position = _scene_surface_position;
     }
 
     /**************************************/

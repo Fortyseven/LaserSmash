@@ -10,7 +10,7 @@ public class Asteroid_Small : EnemyType
     private Vector3 SURFACE_HIT_OFFSET = new Vector3( 0.0f, -0.75f, 0.0f );
 
     public AudioClip SoundHitSurface = null;
-    private AudioSource _audio = null;
+    //private AudioSource _audio = null;
 
     public GameObject ExplosionPrefab = null;
     public GameObject HitSurfacePrefab = null;
@@ -40,7 +40,7 @@ public class Asteroid_Small : EnemyType
     /*****************************/
     void Awake()
     {
-        _audio = GetComponent<AudioSource>();
+        //_audio = GetComponent<AudioSource>();
         _base_gravityscale = rigidbody2D.gravityScale;
         _is_fragment = false;
         _is_ready = false;

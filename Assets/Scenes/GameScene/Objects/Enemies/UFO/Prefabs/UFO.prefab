@@ -9,10 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 82: {fileID: 8200000}
-  - 61: {fileID: 6100002}
-  - 61: {fileID: 6100000}
   - 114: {fileID: 11400000}
-  - 50: {fileID: 5000000}
+  - 54: {fileID: 5408794}
+  - 65: {fileID: 6508794}
   m_Layer: 8
   m_Name: UFO
   m_TagString: Untagged
@@ -109,7 +108,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0565079711, y: 6.23045063, z: 0}
+  m_LocalPosition: {x: 3.45672083, y: .943527043, z: -2.83496094}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400010}
@@ -206,43 +205,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_Mesh: {fileID: 4300000, guid: f0487fdadd5719743bde436fd5bd039d, type: 3}
---- !u!50 &5000000
-Rigidbody2D:
+--- !u!54 &5408794
+Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
+  serializedVersion: 2
   m_Mass: 1
-  m_LinearDrag: 0
+  m_Drag: 0
   m_AngularDrag: .0500000007
-  m_GravityScale: 1
-  m_FixedAngle: 0
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_Constraints: 0
   m_CollisionDetection: 0
---- !u!61 &6100000
-BoxCollider2D:
+--- !u!65 &6508794
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 0
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Size: {x: 1.61023057, y: 4.24995041}
-  m_Center: {x: .141688168, y: 1.68880415}
---- !u!61 &6100002
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Size: {x: 4.02124405, y: .896917343}
-  m_Center: {x: -.0851054192, y: .299517155}
+  serializedVersion: 2
+  m_Size: {x: 4.34000015, y: .649999976, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1

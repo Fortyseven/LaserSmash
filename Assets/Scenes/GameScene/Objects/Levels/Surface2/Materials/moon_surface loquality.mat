@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: moon_surface loquality
-  m_Shader: {fileID: 6, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -73,17 +73,17 @@ Material:
       data:
         first:
           name: _Shininess
-        second: 1
+        second: .0503016673
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: .0431372561, g: .0431372561, b: .0431372561, a: 1}
+        second: {r: .00784313772, g: .00784313679, b: 0, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: .0230065361, g: .0429515466, b: .0666666701, a: 1}
       data:
         first:
           name: _Emission
         second: {r: 0, g: 0, b: 0, a: 0}
-      data:
-        first:
-          name: _SpecColor
-        second: {r: 0, g: 0, b: 0, a: 1}

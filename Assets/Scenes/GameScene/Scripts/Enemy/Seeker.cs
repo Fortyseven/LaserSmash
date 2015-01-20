@@ -1,14 +1,17 @@
 ﻿using Game;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class Seeker : EnemyType
 {
     public GameObject ExplosionPrefab;
-    private const float MAX_X_OFFSET = -12.0f;
-    private const float MIN_X_OFFSET = 12.0f;
+    private const float MIN_X_OFFSET = -12.0f;
+    private const float MAX_X_OFFSET = 12.0f;
     private const float Y_OFFSET = 16.0f;
     private const float SURFACE_Y = 0.2f;
     private const float SPEED = 5.0f;
+
+    private const float LOCK_POINT_Y = 2.0f;
 
     void Awake()
     {
@@ -16,17 +19,17 @@ public class Seeker : EnemyType
     }
 
     /************************/
-    float _c = 0;
+    //float _c = 0;
     float _base_rot;
-    bool _lock_mode;
+    bool _lock_to_surface;
 
     /************************/
-    void Update()
+    public void Update()
     {
         Transform player = GameController.instance.PlayerShip.transform;
         Vector3 pos = transform.position;
 
-        if ( pos.y > SURFACE_Y && !_lock_mode ) {
+        if ( pos.y > SURFACE_Y && !_lock_to_surface ) {
             pos = Vector3.MoveTowards( pos, player.position, Time.deltaTime * 0.25f );
             pos += transform.forward * Time.deltaTime * 4f;
             transform.position = pos;
@@ -37,37 +40,39 @@ public class Seeker : EnemyType
         }
 
         //TODO: This should lerp into position, not snap, but whatever...
-        if ( pos.y <= SURFACE_Y && !_lock_mode ) {
+        if ( pos.y <= SURFACE_Y && !_lock_to_surface ) {
             transform.LookAt( player.position + new Vector3( 0, 0.8f, 0 ) );
-            _lock_mode = true;
+            _lock_to_surface = true;
 
             Vector3 rot = transform.rotation.eulerAngles;
             rot.x = 0f;
+            rot.y = ( transform.rotation.eulerAngles.y > 135 ) ? 270.0f : 90.0f;
 
-            if ( transform.rotation.eulerAngles.y > 135 ) {
-                rot.y = 270.0f;
-
-            }
-            else {
-                rot.y = 90.0f;
-            }
             transform.rotation = Quaternion.Euler( rot );
         }
 
-        if ( _lock_mode ) {
+        if ( _lock_to_surface ) {
             pos += transform.forward * Time.deltaTime * 4f;
             transform.position = pos;
-
-
         }
 
-        _c++;
+        if ( IsOffScreen() ) {
+            Done();
+        }
+
+        //_c++;
+    }
+
+    private bool IsOffScreen()
+    {
+        return ( ( transform.position.x < ( MIN_X_OFFSET - 10.0f ) ) ||
+                 ( transform.position.x > ( MAX_X_OFFSET + 10.0f ) ) );
     }
 
     /************************/
-    public void OnTriggerEnter2D( Collider2D col )
+    public void OnTriggerEnter( Collider col )
     {
-        Done();
+        //Done();
     }
 
     /************************/
@@ -96,8 +101,9 @@ public class Seeker : EnemyType
     {
         Debug.Log( "Resp" );
         transform.LookAt( Vector3.down );
-        transform.position.Set( -10.0f, Y_OFFSET, 0 );
-        _lock_mode = false;
+        transform.position = new Vector3( Random.Range( MIN_X_OFFSET, MAX_X_OFFSET ), Y_OFFSET, 0 );
+
+        _lock_to_surface = false;
         _base_rot = transform.rotation.eulerAngles.y;
     }
 }

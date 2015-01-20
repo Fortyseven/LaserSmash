@@ -59,6 +59,9 @@ public class GameController : MonoBehaviour
     {
         get { return _game_state; }
     }
+
+    public bool SceneReady { get; private set; }
+
     #endregion
 
     /***************************************************************************/
@@ -98,6 +101,9 @@ public class GameController : MonoBehaviour
     /***************************************************************************/
     void Update()
     {
+        if ( !SceneReady )
+            return;
+
         switch ( State.Mode ) {
             case GameState.GameMode.GAMEOVER:
 
@@ -199,6 +205,7 @@ public class GameController : MonoBehaviour
         State.Reset();
         _wave_controller.Reset();
         PlayerComponent.Reset();
+        SceneReady = false;
     }
 
 
@@ -224,5 +231,10 @@ public class GameController : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    public void OnSceneReady()
+    {
+        SceneReady = true;
     }
 }

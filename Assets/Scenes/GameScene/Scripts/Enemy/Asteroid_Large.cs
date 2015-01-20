@@ -18,7 +18,7 @@ public class Asteroid_Large : EnemyType
     private float MaxSplitRockForce = 0.5f;
 
     public AudioClip SoundHitSurface = null;
-    private AudioSource _audio = null;
+    //private AudioSource _audio = null;
 
     public GameObject ExplosionPrefab = null;
     public GameObject HitSurfacePrefab = null;
@@ -39,7 +39,7 @@ public class Asteroid_Large : EnemyType
     /*****************************/
     void Awake()
     {
-        _audio = GetComponent<AudioSource>();
+        //_audio = GetComponent<AudioSource>();
         _base_gravityscale = rigidbody2D.gravityScale;
         _ast_small_objectpool = GameController.instance.WaveCon.GetPoolForName( "Asteroid Small" );
         _is_ready = false;
