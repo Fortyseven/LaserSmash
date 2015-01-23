@@ -1,16 +1,15 @@
 ﻿//#define TESTMODE
 
 using System;
-using UnityEngine;
-using System.Collections;
 using Game;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class WaveController : MonoBehaviour
 {
     public const int MAX_OBJECT_PER_WAVEDEF = 20;
 
-    [System.Serializable]
+    [Serializable]
     public class WaveDefinition
     {
         public string Name;
@@ -60,17 +59,17 @@ public class WaveController : MonoBehaviour
     }
 
     /*****************************/
-    public ObjectPool GetPoolForName( string name )
+    public ObjectPool GetPoolForName( string pool_name )
     {
-        if ( name == null )
-            throw new ArgumentNullException( "name" );
+        if ( pool_name == null )
+            throw new ArgumentNullException( "pool_name" );
 
         for ( int i = 0; i < Waves.Length; i++ ) {
-            if ( Waves[ i ].Name.Equals( name ) ) {
+            if ( Waves[ i ].Name.Equals( pool_name ) ) {
                 return Waves[ i ].Pool;
             }
         }
-        throw new UnityException( "Could not provide object pool for " + name );
+        throw new UnityException( "Could not provide object pool for " + pool_name );
     }
 
     /*****************************/
