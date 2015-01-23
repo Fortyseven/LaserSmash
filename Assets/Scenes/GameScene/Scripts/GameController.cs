@@ -129,7 +129,7 @@ public class GameController : MonoBehaviour
 
                 // DEBUG: Kill player
                 if ( Input.GetKeyDown( KeyCode.End ) ) {
-                    _player_ship.GetComponent<Player>().PlayerKilled();
+                    _player_ship.GetComponent<Player>().Kill();
                 }
 
                 break;

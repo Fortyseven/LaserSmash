@@ -81,6 +81,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    /**************************************/
     private void UpdateBackgroundSurface()
     {
         _scene_surface_position.x = transform.position.x * 0.02f;
@@ -104,13 +105,6 @@ public class Player : MonoBehaviour
     }
 
     /**************************************/
-    void OnTriggerEnter2D( Collider2D col )
-    {
-        if ( _is_alive )
-            PlayerKilled();
-    }
-
-    /**************************************/
     GameObject SpawnLaserbeam()
     {
         Vector3 newpos = transform.position;
@@ -119,7 +113,7 @@ public class Player : MonoBehaviour
     }
 
     /**************************************/
-    public void PlayerKilled()
+    public void Kill()
     {
 #if TESTMODE
         return;

@@ -1,27 +1,27 @@
 ﻿using Game;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
-public class Seeker : EnemyType
+public class Seeker : GenericEnemy
 {
-    public GameObject ExplosionPrefab;
-    private const float MIN_X_OFFSET = -12.0f;
-    private const float MAX_X_OFFSET = 12.0f;
-    private const float Y_OFFSET = 16.0f;
+    protected override float SpawnMaxX { get { return 12.0f; } }
+    protected override float SpawnMinX { get { return -12.0f; } }
+
+    protected override int BaseScore { get { return GameConstants.SCORE_KILLSAT; } }
+
     private const float SURFACE_Y = 0.2f;
+
     private const float SPEED = 5.0f;
 
-    private const float LOCK_POINT_Y = 2.0f;
+    //private const float LOCK_POINT_Y = 2.0f;
 
-    void Awake()
+    private float _base_rot;
+    private bool _lock_to_surface;
+
+    /************************/
+    public void Awake()
     {
         Respawn();
     }
-
-    /************************/
-    //float _c = 0;
-    float _base_rot;
-    bool _lock_to_surface;
 
     /************************/
     public void Update()
@@ -57,51 +57,24 @@ public class Seeker : EnemyType
         }
 
         if ( IsOffScreen() ) {
-            Done();
+            InstaKill();
         }
-
         //_c++;
     }
 
+    /************************/
     private bool IsOffScreen()
     {
-        return ( ( transform.position.x < ( MIN_X_OFFSET - 10.0f ) ) ||
-                 ( transform.position.x > ( MAX_X_OFFSET + 10.0f ) ) );
-    }
-
-    /************************/
-    public void OnTriggerEnter( Collider col )
-    {
-        //Done();
-    }
-
-    /************************/
-    public void HitByLaser( Laserbeam laser )
-    {
-        GameController.instance.State.AdjustScore( GameConstants.SCORE_KILLSAT );
-        Destroy( laser.gameObject );
-        Explode();
-    }
-
-    /************************/
-    void Explode()
-    {
-        Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
-        Done();
-    }
-
-    /************************/
-    void Done()
-    {
-        Hibernate();
+        return ( ( transform.position.x < ( SpawnMinX - 10.0f ) ) ||
+                 ( transform.position.x > ( SpawnMaxX + 10.0f ) ) );
     }
 
     /************************/
     public override void Respawn()
     {
         Debug.Log( "Resp" );
+        base.Respawn();
         transform.LookAt( Vector3.down );
-        transform.position = new Vector3( Random.Range( MIN_X_OFFSET, MAX_X_OFFSET ), Y_OFFSET, 0 );
 
         _lock_to_surface = false;
         _base_rot = transform.rotation.eulerAngles.y;
