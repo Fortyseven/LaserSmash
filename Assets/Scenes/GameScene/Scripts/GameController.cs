@@ -61,6 +61,7 @@ public class GameController : MonoBehaviour
     }
 
     public bool SceneReady { get; private set; }
+    public bool DebugMode { get; private set; }
 
     #endregion
 
@@ -96,6 +97,9 @@ public class GameController : MonoBehaviour
         _wave_controller = GetComponentInChildren<WaveController>();
         _game_state = new GameState();
         NewGame();
+        if ( Application.loadedLevelName.Equals( "GameTest" ) ) {
+            DebugMode = true;
+        }
     }
 
     /***************************************************************************/
