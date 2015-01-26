@@ -5,6 +5,10 @@ using Game;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+/*
+ * HOW TO USE: The prefab with this component attached defines all of the enemies 
+ * that will be spawned, and creates pools for them on initialization. 
+ */
 public class WaveController : MonoBehaviour
 {
     public const int MAX_OBJECT_PER_WAVEDEF = 20;
@@ -12,25 +16,20 @@ public class WaveController : MonoBehaviour
     [Serializable]
     public class WaveDefinition
     {
-        public string Name;
-        public GameObject GameObjectPrefab;
-        public float[] LevelFrequencyLow;
-        public float[] LevelFrequencyHigh;
-        public ObjectPool Pool;
-        public bool Disabled;
+        public string Name;                 // Textual description of enemy
+        public GameObject GameObjectPrefab; // Prefab associated with enemy 
+        public float[] LevelFrequencyLow;   // Lower bound of random % chance of spawning per level
+        public float[] LevelFrequencyHigh;  // Upper bound of random % chance of spawning per level
+        public ObjectPool Pool;             // not exposed in editor //TODO:Should this be private?
+        public bool Disabled;               // Will disable this enemy for debugging purposes
     }
 
     public WaveDefinition[] Waves;
 
-    bool _is_paused = false;
-    float _cur_spawn_timeout;
+    public bool Paused { get; set; }
 
-    public bool Paused
-    {
-        set { _is_paused = value; }
-    }
-
-    float _next_spawn_time;
+    private float _cur_spawn_timeout;
+    private float _next_spawn_time;
 
     /*****************************/
     public void Awake()
@@ -52,7 +51,6 @@ public class WaveController : MonoBehaviour
     /*****************************/
     void CreatePools()
     {
-        //        _pools = new ObjectPool[Waves.Length];
         for ( int i = 0; i < Waves.Length; i++ ) {
             Waves[ i ].Pool = new ObjectPool( Waves[ i ].GameObjectPrefab, MAX_OBJECT_PER_WAVEDEF );
         }
@@ -76,26 +74,11 @@ public class WaveController : MonoBehaviour
     public void Update()
     {
 #if !TESTMODE
-        if ( _is_paused )
+        if ( Paused )
             return;
         _cur_spawn_timeout = GameConstants.MULT_TIMEOUT_RAMP[ GameController.instance.State.Multiplier - 1 ];
 #endif
 
-        //#if UNITY_EDITOR
-        //        if (Input.GetKeyDown(KeyCode.Alpha1)) {
-        //            Waves[0].Pool.GetInstance();
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha2)) {
-        //            Waves[1].Pool.GetInstance();
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha3)) {
-        //            Waves[2].Pool.GetInstance();
-        //        }
-        //        if (Input.GetKeyDown(KeyCode.Alpha4)) {
-        //            Waves[3].Pool.GetInstance();
-        //        }
-        //
-        //#else
 #if !TESTMODE
         if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
             GameController.instance.State.Multiplier = 1;
