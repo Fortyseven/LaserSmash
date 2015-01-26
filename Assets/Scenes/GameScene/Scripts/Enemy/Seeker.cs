@@ -72,7 +72,6 @@ public class Seeker : GenericEnemy
     /************************/
     public override void Respawn()
     {
-        Debug.Log( "Resp" );
         base.Respawn();
         transform.LookAt( Vector3.down );
 

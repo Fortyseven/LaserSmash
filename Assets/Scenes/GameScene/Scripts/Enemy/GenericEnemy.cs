@@ -22,8 +22,9 @@ namespace Game
             }
         }
 
-        public virtual void HitByLaser(Laserbeam laser)
+        public virtual void HitByLaser( Laserbeam laser )
         {
+            Debug.Log( "HitByLaser: " + this.gameObject.name );
             GameController.instance.State.AdjustScore( BaseScore );
             Destroy( laser.gameObject );
             ExplodeAndRecycle();
