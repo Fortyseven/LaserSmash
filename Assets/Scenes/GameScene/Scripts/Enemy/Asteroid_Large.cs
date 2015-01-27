@@ -33,20 +33,20 @@ public class Asteroid_Large : BaseAsteroid
         //Vector3 start_pos = new Vector3( Random.Range( SpawnMinX, SpawnMaxX ), Y_SPAWN_OFFSET, 0 );
         //        transform.position = start_pos;
 
-        _gravity_multiplier = Random.Range( 1.0f, 15.0f );
-        rigidbody2D.gravityScale = _base_gravityscale * _gravity_multiplier;
+        //_gravity_multiplier = Random.Range( 1.0f, 15.0f );
+        //rigidbody2D.gravityScale = _base_gravityscale * _gravity_multiplier;
 
         _particle_trail = Instantiate( ParticleEmitterPrefab, transform.position, Quaternion.identity ) as GameObject;
 
         int dir = Random.Range( 0, 3 );
         switch ( dir ) {
             case 0:
-                rigidbody2D.AddForce( new Vector2( Random.Range( MIN_SPLIT_ROCK_FORCE, MAX_SPLIT_ROCK_FORCE ) * 250.0f, 0.0f ) );
+                rigidbody.AddForce( new Vector3( Random.Range( MIN_SPLIT_ROCK_FORCE, MAX_SPLIT_ROCK_FORCE ) * 250.0f, 0.0f, 0.0f ) );
                 break;
             case 1:
                 break;
             case 2:
-                rigidbody2D.AddForce( -new Vector2( Random.Range( MIN_SPLIT_ROCK_FORCE, MAX_SPLIT_ROCK_FORCE ) * 250.0f, 0.0f ) );
+                rigidbody.AddForce( -new Vector3( Random.Range( MIN_SPLIT_ROCK_FORCE, MAX_SPLIT_ROCK_FORCE ) * 250.0f, 0.0f, 0.0f ) );
                 break;
         }
 
@@ -99,8 +99,8 @@ public class Asteroid_Large : BaseAsteroid
             sm_rock = _ast_small_objectpool.GetInstance( transform.position, Quaternion.identity, false );
 
             if ( sm_rock != null ) {
-                sm_rock.rigidbody2D.AddForce( new Vector2( sm_rock_driftforce_x, 0.0f ) );
-                sm_rock.rigidbody2D.AddForce( -new Vector2( 0.0f, sm_rock_driftforce_y ) );
+                sm_rock.rigidbody.AddForce( new Vector3( sm_rock_driftforce_x, 0.0f, 0.0f ) );
+                sm_rock.rigidbody.AddForce( -new Vector3( 0.0f, sm_rock_driftforce_y, 0.0f ) );
                 sm_rock.SendMessage( "RespawnFragment" );
             }
         }
@@ -113,8 +113,8 @@ public class Asteroid_Large : BaseAsteroid
             sm_rock = _ast_small_objectpool.GetInstance( transform.position, Quaternion.identity, false );
 
             if ( sm_rock != null ) {
-                sm_rock.rigidbody2D.AddForce( -new Vector2( sm_rock_driftforce_x, 0.0f ) );
-                sm_rock.rigidbody2D.AddForce( new Vector2( 0.0f, sm_rock_driftforce_y ) );
+                sm_rock.rigidbody.AddForce( -new Vector3( sm_rock_driftforce_x, 0.0f, 0.0f ) );
+                sm_rock.rigidbody.AddForce( new Vector3( 0.0f, sm_rock_driftforce_y, 0.0f ) );
                 sm_rock.SendMessage( "RespawnFragment" );
             }
         }

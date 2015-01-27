@@ -22,8 +22,8 @@ public class Asteroid_Small : BaseAsteroid
         if ( !IsFragment ) {
             base.Respawn();
 
-            _gravity_multiplier = Random.Range( 0, 5.0f );
-            rigidbody2D.gravityScale = _base_gravityscale * _gravity_multiplier;
+            //_gravity_multiplier = Random.Range( 0, 5.0f );
+            //rigidbody2D.gravityScale = _base_gravityscale * _gravity_multiplier;
         }
 
         _particle_trail = Instantiate( ParticleEmitterPrefab, transform.position, Quaternion.identity ) as GameObject;

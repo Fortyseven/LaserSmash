@@ -21,19 +21,20 @@ namespace Game
         protected float _gravity_multiplier = 0.0f;
         protected GameObject _particle_trail = null;
         protected bool _hit_surface;
-        protected float _base_gravityscale;
+        //protected float _base_gravityscale;
 
         /*****************************/
         protected virtual void Awake()
         {
-            _base_gravityscale = rigidbody2D.gravityScale;
+            //_base_gravityscale = rigidbody.mass;
+            rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
             IsReady = false;
         }
 
         /*****************************/
         protected void Done( bool explode = true )
         {
-            rigidbody2D.velocity = new Vector2( 0, 0 );
+            rigidbody.velocity = new Vector3( 0, 0, 0 );
 
             if ( _particle_trail != null ) {
                 Destroy( _particle_trail );

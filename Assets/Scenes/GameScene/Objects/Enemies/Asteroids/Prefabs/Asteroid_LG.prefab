@@ -9,12 +9,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400002}
-  - 50: {fileID: 5000000}
   - 82: {fileID: 8200000}
   - 108: {fileID: 10800000}
-  - 58: {fileID: 5800004}
-  - 58: {fileID: 5800002}
-  - 58: {fileID: 5800000}
+  - 54: {fileID: 5447502}
+  - 136: {fileID: 13647502}
   m_Layer: 8
   m_Name: Asteroid_LG
   m_TagString: Untagged
@@ -47,7 +45,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 13.6365757, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -92,54 +90,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_Mesh: {fileID: 4300002, guid: 1ad7fe4cf23c48c4f8b479fd78ee70b3, type: 3}
---- !u!50 &5000000
-Rigidbody2D:
+--- !u!54 &5447502
+Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
+  serializedVersion: 2
   m_Mass: 1
-  m_LinearDrag: .0500000007
+  m_Drag: 0
   m_AngularDrag: .0500000007
-  m_GravityScale: .0500000007
-  m_FixedAngle: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_Constraints: 0
   m_CollisionDetection: 0
---- !u!58 &5800000
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Radius: .980000019
-  m_Center: {x: .0599999987, y: -.0599999987}
---- !u!58 &5800002
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Radius: .850000024
-  m_Center: {x: -.779999971, y: -.119999997}
---- !u!58 &5800004
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Radius: .819999993
-  m_Center: {x: 1.09000003, y: 0}
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1
@@ -259,15 +224,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b2b77bf4294e4f44ba688d95968a61c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PercentChanceOfLRock: 50
-  PercentChanceOfRRock: 50
-  SoundHitSurface: {fileID: 8300000, guid: 46481754b9cbfd04f9b5668eebc3ce24, type: 3}
   ExplosionPrefab: {fileID: 100000, guid: 13266a9cf8da28e41bfa61b378dfabc5, type: 2}
+  SoundHitSurface: {fileID: 8300000, guid: 46481754b9cbfd04f9b5668eebc3ce24, type: 3}
   HitSurfacePrefab: {fileID: 100000, guid: 044087ce14ca806428e833359da082c4, type: 2}
   PlayerObject: {fileID: 100002, guid: 2ff575b047ff12341bb45d33b5f130d6, type: 2}
   AsteroidSmallPrefab: {fileID: 100000, guid: b903225e39fbd154b9fac745dc352046, type: 2}
   ParticleEmitterPrefab: {fileID: 100000, guid: cfd782d1e25cec6469c1c2c0fadf2cbd,
     type: 2}
+  PercentChanceOfLRock: 50
+  PercentChanceOfRRock: 50
+--- !u!136 &13647502
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.07422936
+  m_Height: 3.4000001
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
