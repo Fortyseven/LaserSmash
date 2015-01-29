@@ -1,6 +1,5 @@
 ﻿using Game;
 using UnityEngine;
-using Debug = System.Diagnostics.Debug;
 
 public class Asteroid_Small : BaseAsteroid
 {
@@ -22,15 +21,15 @@ public class Asteroid_Small : BaseAsteroid
         // Our spawner will take care of positioning us if we're a fragment, otherwise
         // we need to roll our own particle trail
         if ( IsFragment ) {
+            Debug.Log( "SM: Spawned as fragment" );
             SpawnParticleTrail();
         }
         else {
+            Debug.Log( "SM: Spawned as normal small rock" );
             base.Respawn();
         }
 
-        ParticleEmitter p = _particle_trail.GetComponentInChildren<ParticleEmitter>();
-
-        Debug.Assert( p != null, "p != null" );
+        ParticleEmitter p = _particle_trail.GetComponentInChildren<ParticleEmitter>();      
 
         p.minSize = 0.5f;
         p.maxSize = 1.0f;

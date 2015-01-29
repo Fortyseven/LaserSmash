@@ -8,7 +8,7 @@ public class Asteroid_Large : BaseAsteroid
     protected override int BaseScore { get { return GameConstants.SCORE_ASTEROID_LG; } }
     protected override Vector3 SurfaceHitOffset { get { return new Vector3( 0.0f, -1.75f, 0.0f ); } }
 
-    private const float FORCE_DOWNWARD_LIMIT = 30000.0f;
+    private const float FORCE_DOWNWARD_LIMIT = 400.0f;
 
     [Range( 0f, 100f )]
     public float PercentChanceOfLRock = 60.0f;
@@ -17,6 +17,9 @@ public class Asteroid_Large : BaseAsteroid
 
     private const float MIN_SPLIT_ROCK_FORCE = 0.1f;
     private const float MAX_SPLIT_ROCK_FORCE = 0.5f;
+
+    private const int PERCENT_CHANCE_OF_BONUS_LROCK = 10;
+    private const int PERCENT_CHANCE_OF_BONUS_RROCK = 10;
 
     // We'll spawn our children from this pool
     ObjectPool _ast_small_objectpool;
@@ -42,47 +45,54 @@ public class Asteroid_Large : BaseAsteroid
     /*****************************/
     public override void HitByLaser( Laserbeam laser )
     {
-        base.HitByLaser( laser );
+        //base.HitByLaser( laser );
         Fragment();
         Done();
     }
 
     /*****************************/
+    private enum Direction
+    {
+        DIRECTION_LEFT,
+        DIRECTION_RIGHT
+    }
+
     public void Fragment()
     {
         // There's a chance to split off one or two small rocks
 
         // Left Fragment
         if ( Random.Range( 0, 100 ) < PercentChanceOfLRock ) {
-            SpawnSmalLRock( true );
-
-            if ( Random.Range( 0, 100 ) < 10 ) { // Tiny chance of further splintering
-                SpawnSmalLRock( true );
+            SpawnSmalLRock( Direction.DIRECTION_LEFT );
+            if ( Random.Range( 0, 100 ) < PERCENT_CHANCE_OF_BONUS_LROCK ) { // Tiny chance of further splintering
+                SpawnSmalLRock( Direction.DIRECTION_LEFT );
             }
         }
 
         // Right Fragment
         if ( Random.Range( 0, 100 ) < PercentChanceOfRRock ) {
-            SpawnSmalLRock( false );
-            if ( Random.Range( 0, 100 ) < 10 ) { // Tiny chance of further splintering
-                SpawnSmalLRock( false );
+            SpawnSmalLRock( Direction.DIRECTION_RIGHT );
+            if ( Random.Range( 0, 100 ) < PERCENT_CHANCE_OF_BONUS_RROCK ) { // Tiny chance of further splintering
+                SpawnSmalLRock( Direction.DIRECTION_RIGHT );
             }
         }
     }
 
     /*****************************/
-    private void SpawnSmalLRock( bool drifts_left )
+    private void SpawnSmalLRock( Direction drift_direction )
     {
         GameObject sm_rock = _ast_small_objectpool.GetInstance( transform.position, Quaternion.identity, false );
 
         if ( sm_rock != null ) {
-            int dir = drifts_left ? -1 : 1;
+            int dir = ( drift_direction == Direction.DIRECTION_LEFT ) ? -1 : 1;
             float force_downward = Random.Range( -FORCE_DOWNWARD_LIMIT, FORCE_DOWNWARD_LIMIT );
 
             Asteroid_Small as_small = sm_rock.GetComponent<Asteroid_Small>();
             as_small.IsFragment = true;
             as_small.Respawn();
-            sm_rock.rigidbody.AddForce( new Vector3( dir * 40000, force_downward, 0.0f ) );
+            float force_sideways = dir * Random.Range( 0.0f, 1.0f ) * 300;
+
+            sm_rock.rigidbody.AddForce( new Vector3( force_sideways, force_downward, 0.0f ) );
         }
     }
 }
