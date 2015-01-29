@@ -7,14 +7,20 @@ public class Laserbeam : MonoBehaviour
 
     public void OnTriggerEnter( Collider other )
     {
-        other.transform.root.BroadcastMessage( "HitByLaser", this );
+        Debug.Log( "laser collide with " + other.gameObject.name + " -- " + other.gameObject.GetType() );
+        //other.transform.root.BroadcastMessage( "HitByLaser", this );
+        GenericEnemy ge = other.gameObject.GetComponent<GenericEnemy>();
+        if (ge != null) {
+            ge.HitByLaser(this);
+            Destroy(this.gameObject);
+        }
     }
 
-    void Update()
+    public void Update()
     {
         transform.Translate( new Vector3( 0.0f, SPEED * Time.deltaTime, 0.0f ), transform );
 
         if ( transform.position.y > GameConstants.SCREEN_Y_GEN_OFFSET )
-            Destroy( this.gameObject );
+            Destroy( gameObject );
     }
 }
