@@ -99,6 +99,9 @@ public class GameController : MonoBehaviour
         NewGame();
         if ( Application.loadedLevelName.Equals( "GameTest" ) ) {
             DebugMode = true;
+            if ( gameObject.GetComponent<GameTestControls>() == null ) {
+                gameObject.AddComponent<GameTestControls>();
+            }
         }
     }
 
@@ -107,6 +110,11 @@ public class GameController : MonoBehaviour
     {
         if ( !SceneReady )
             return;
+
+        if ( DebugMode ) {
+            //DebugModeUpdate();
+            return;
+        }
 
         switch ( State.Mode ) {
             case GameState.GameMode.GAMEOVER:

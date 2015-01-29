@@ -73,34 +73,32 @@ public class WaveController : MonoBehaviour
     /*****************************/
     public void Update()
     {
-#if !TESTMODE
-        if ( Paused )
-            return;
-        _cur_spawn_timeout = GameConstants.MULT_TIMEOUT_RAMP[ GameController.instance.State.Multiplier - 1 ];
-#endif
+        if ( !GameController.instance.DebugMode ) {
 
-#if !TESTMODE
-        if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
-            GameController.instance.State.Multiplier = 1;
-        }
-        if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
-            GameController.instance.State.Multiplier = 2;
-        }
-        if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
-            GameController.instance.State.Multiplier = 3;
-        }
-        if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
-            GameController.instance.State.Multiplier = 4;
-        }
-        if ( Input.GetKeyDown( KeyCode.Alpha5 ) ) {
-            GameController.instance.State.Multiplier = 5;
-        }
-        if ( Input.GetKeyDown( KeyCode.Alpha6 ) ) {
-            GameController.instance.State.Multiplier = 6;
-        }
-#endif
-        //#endif
+            if ( Paused )
+                return;
 
+            _cur_spawn_timeout = GameConstants.MULT_TIMEOUT_RAMP[ GameController.instance.State.Multiplier - 1 ];
+
+            if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
+                GameController.instance.State.Multiplier = 1;
+            }
+            if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
+                GameController.instance.State.Multiplier = 2;
+            }
+            if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
+                GameController.instance.State.Multiplier = 3;
+            }
+            if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
+                GameController.instance.State.Multiplier = 4;
+            }
+            if ( Input.GetKeyDown( KeyCode.Alpha5 ) ) {
+                GameController.instance.State.Multiplier = 5;
+            }
+            if ( Input.GetKeyDown( KeyCode.Alpha6 ) ) {
+                GameController.instance.State.Multiplier = 6;
+            }
+        }
 
         if ( Time.time <= _next_spawn_time )
             return;
@@ -119,5 +117,4 @@ public class WaveController : MonoBehaviour
             }
         }
     }
-
 }

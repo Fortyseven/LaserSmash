@@ -17,28 +17,23 @@ public class Player : MonoBehaviour
     public GameObject DeathExplosionPrefab = null;
 
     public Image DeathPanel;
-
-    GameObject _m_last_fire_go = null;
-
-    Vector3 _starting_position;
-
     public GameObject My_Mesh;
 
-    float _touch_axis_x = 0.0f;
-
-    GameObject _scene_surface = null;
-    Vector3 _scene_surface_position;
-
-    bool _is_alive = false;
-
+    private GameObject _last_fire_go;
+    private Vector3 _starting_position;
+    private float _touch_axis_x = 0.0f;
+    private GameObject _scene_surface;
+    private Vector3 _scene_surface_position;
+    //private bool _is_alive = false;
+    public bool IsAlive { get; set; }
     /**************************************/
-    void Awake()
+    public void Awake()
     {
         _starting_position = transform.position;
     }
 
     /**************************************/
-    void Start()
+    public void Start()
     {
         _scene_surface = GameObject.Find( "Surface" );
         if ( _scene_surface == null ) {
@@ -52,7 +47,7 @@ public class Player : MonoBehaviour
     }
 
     /**************************************/
-    void Update()
+    public void Update()
     {
         UpdateBackgroundSurface();
 
@@ -67,7 +62,7 @@ public class Player : MonoBehaviour
         Vector3 pos = transform.position;
 
         pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
-        pos.x += _touch_axis_x * SHIP_SPEED * Time.deltaTime;
+        //pos.x += _touch_axis_x * SHIP_SPEED * Time.deltaTime;
         pos.x = Mathf.Clamp( pos.x, -SHIP_X_BOUNDS, SHIP_X_BOUNDS );
 
         if ( Input.GetButton( "Fire1" ) ) {
@@ -91,8 +86,8 @@ public class Player : MonoBehaviour
     /**************************************/
     void Fire()
     {
-        if ( _m_last_fire_go == null )
-            _m_last_fire_go = SpawnLaserbeam();
+        if ( _last_fire_go == null )
+            _last_fire_go = SpawnLaserbeam();
     }
 
     /**************************************/
@@ -105,7 +100,7 @@ public class Player : MonoBehaviour
     }
 
     /**************************************/
-    GameObject SpawnLaserbeam()
+    private GameObject SpawnLaserbeam()
     {
         Vector3 newpos = transform.position;
         newpos.y += LASER_Y_OFFSET_FROM_SHIP;
@@ -118,7 +113,7 @@ public class Player : MonoBehaviour
 #if TESTMODE
         return;
 #endif
-        _is_alive = false;
+        IsAlive = false;
         My_Mesh.SetActive( false );
         enabled = false;
 
@@ -155,10 +150,10 @@ public class Player : MonoBehaviour
         DeathPanel.gameObject.SetActive( false );
         transform.position = _starting_position;
 #endif
-        this.gameObject.SetActive( true );
+        gameObject.SetActive( true );
         My_Mesh.SetActive( true );
         enabled = true;
-        _is_alive = true;
+        IsAlive = true;
         GameController.instance.State.Mode = GameState.GameMode.RUNNING;
 #if !TESTMODE
         GameController.instance.WaveCon.Paused = false;
