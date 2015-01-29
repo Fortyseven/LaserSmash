@@ -122,7 +122,7 @@ MonoBehaviour:
   autoCreateSmoke: 0
   autoCreateGlow: 1
   autoCreateLight: 1
-  autoCreateForce: 1
+  autoCreateForce: 0
   autoCreateHeatwave: 0
 --- !u!1002 &11400001
 EditorExtensionImpl:

@@ -117,12 +117,12 @@ MonoBehaviour:
   glowMaterial: {fileID: 2100000, guid: 35c8aea4fddc3f842bd829a8fd3d7e1c, type: 2}
   heatwaveMaterial: {fileID: 2100000, guid: 21588279b895eef48a0448f7f2519813, type: 2}
   autoCreateFireball: 1
-  autoCreateSparks: 0
+  autoCreateSparks: 1
   autoCreateShockwave: 0
   autoCreateSmoke: 0
   autoCreateGlow: 1
   autoCreateLight: 1
-  autoCreateForce: 1
+  autoCreateForce: 0
   autoCreateHeatwave: 0
 --- !u!1002 &11400001
 EditorExtensionImpl:
