@@ -24,11 +24,21 @@ namespace Game
         //protected float _base_gravityscale;
 
         /*****************************/
-        protected virtual void Awake()
+        public virtual void Awake()
         {
             //_base_gravityscale = rigidbody.mass;
+            int enemy_layer = LayerMask.NameToLayer( "Enemy" );
+            Physics.IgnoreLayerCollision( enemy_layer, enemy_layer, true );
+
             rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
             IsReady = false;
+        }
+
+        /*****************************/
+        public override void HitByLaser( Laserbeam laser )
+        {
+            //base.HitByLaser( laser );
+            Done();
         }
 
         /*****************************/
@@ -40,11 +50,14 @@ namespace Game
                 Destroy( _particle_trail );
             }
 
-            if ( explode )
-                Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
-
             if ( _hit_surface )
                 Instantiate( HitSurfacePrefab, transform.position + SurfaceHitOffset, Quaternion.identity );
+
+            if ( explode ) {
+                //Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+                ExplodeAndRecycle();
+                GameController.instance.State.AdjustScore( BaseScore );
+            }
 
             Hibernate();
         }
@@ -52,25 +65,45 @@ namespace Game
         /*****************************/
         protected virtual void Update()
         {
+
             if ( !IsReady )
                 return;
 
             // Did we go off screen? Sweep it under the rug.
             if ( Mathf.Abs( transform.position.x ) > GameConstants.SCREEN_X_BOUNDS ) {
+                Debug.Log( "Exceeded screen bounds" );
                 Done( false );
                 return;
             }
 
             // Did we hit the ground? Punish player, make noises, explode
             if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
+                Debug.Log( "Hit surface" );
                 GameController.instance.State.AdjustScore( -( BaseScore / 2 ) );
                 _hit_surface = true;
                 Done( false );
-                return;
             }
+        }
 
-            if ( _particle_trail != null )
-                _particle_trail.transform.position = transform.position;
+        /*****************************/
+        public override void Respawn()
+        {
+            base.Respawn();
+            Debug.Log( "We're doing this. " + GetType() );
+            rigidbody.velocity = Vector3.zero;
+            float xpush = Random.Range( -1.0f, 1.0f ) * 150.0f;
+            float ypush = -Random.Range( 50.0f, 400.0f );
+
+            rigidbody.AddForce( xpush, ypush, 0.0f );
+
+            SpawnParticleTrail();
+        }
+
+        /*****************************/
+        protected void SpawnParticleTrail()
+        {
+            _particle_trail = Instantiate( ParticleEmitterPrefab, transform.position, Quaternion.identity ) as GameObject;
+            _particle_trail.transform.parent = this.transform;
         }
     }
 }

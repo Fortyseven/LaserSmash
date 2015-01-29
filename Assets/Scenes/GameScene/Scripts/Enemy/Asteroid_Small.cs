@@ -9,26 +9,24 @@ public class Asteroid_Small : BaseAsteroid
     public bool IsFragment { get; set; }
 
     /*****************************/
-    protected override void Awake()
+    public override void Awake()
     {
         base.Awake();
         IsFragment = false;
     }
 
     /*****************************/
+    // We're respawned manually by Asteroid_Large, or by the WaveGenerator
     public override void Respawn()
     {
-        // Our spawner will take care of positioning us if we're a fragment
-        if ( !IsFragment ) {
-            base.Respawn();
-
-            //_gravity_multiplier = Random.Range( 0, 5.0f );
-            //rigidbody2D.gravityScale = _base_gravityscale * _gravity_multiplier;
+        // Our spawner will take care of positioning us if we're a fragment, otherwise
+        // we need to roll our own particle trail
+        if ( IsFragment ) {
+            SpawnParticleTrail();
         }
-
-        _particle_trail = Instantiate( ParticleEmitterPrefab, transform.position, Quaternion.identity ) as GameObject;
-
-        Debug.Assert( _particle_trail != null, "_particle_trail != null" );
+        else {
+            base.Respawn();
+        }
 
         ParticleEmitter p = _particle_trail.GetComponentInChildren<ParticleEmitter>();
 
@@ -41,13 +39,4 @@ public class Asteroid_Small : BaseAsteroid
         IsFragment = false;
         IsReady = true;
     }
-
-    /*****************************/
-    public void RespawnFragment()
-    {
-        IsFragment = true;
-        Respawn();
-    }
-
-    /*****************************/
 }

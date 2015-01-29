@@ -10,6 +10,8 @@ namespace Game
 
         protected abstract int BaseScore { get; }
 
+        public bool IsReady { get; set; }
+
         public GameObject ExplosionPrefab;
 
         /*
@@ -24,10 +26,9 @@ namespace Game
 
         public virtual void HitByLaser( Laserbeam laser )
         {
-            Debug.Log( "HitByLaser: " + this.gameObject.name );
-            GameController.instance.State.AdjustScore( BaseScore );
-            Destroy( laser.gameObject );
+            //Debug.Log( "HitByLaser says " + gameObject.name );
             ExplodeAndRecycle();
+            GameController.instance.State.AdjustScore( BaseScore );
         }
 
         protected void KillPlayer()
@@ -42,6 +43,7 @@ namespace Game
         /// </summary>
         protected void ExplodeAndRecycle()
         {
+            //Debug.Log("Exploding and recycling: " + name);
             if ( ExplosionPrefab != null ) {
                 Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
             }
@@ -65,8 +67,6 @@ namespace Game
         {
             Hibernate();
         }
-
-        public bool IsReady { get; set; }
 
         /// <summary>
         /// Immediately deactivates object and puts it back into the pool for recycling.
