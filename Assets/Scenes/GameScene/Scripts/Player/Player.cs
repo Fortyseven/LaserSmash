@@ -9,9 +9,8 @@ public class Player : MonoBehaviour
 {
     private const float SHIP_SPEED = 13.0f;
     private const float SHIP_X_BOUNDS = 13.0f;
-    private const float TOUCH_MOVE_SPEED = 0.05f;
     private const float LASER_Y_OFFSET_FROM_SHIP = 2.0f;
-    private const float FIRE_DELAY = 0.5f;
+    private const float FIRE_DELAY = 0.33f;
 
     public GameObject LaserbeamPrefab = null;
     public GameObject DeathExplosionPrefab = null;
@@ -19,17 +18,17 @@ public class Player : MonoBehaviour
     public Image DeathPanel;
     public GameObject My_Mesh;
 
-    private GameObject _last_fire_go;
+    private float _next_fire_time;
     private Vector3 _starting_position;
-    private float _touch_axis_x = 0.0f;
     private GameObject _scene_surface;
     private Vector3 _scene_surface_position;
-    //private bool _is_alive = false;
     public bool IsAlive { get; set; }
+
     /**************************************/
     public void Awake()
     {
         _starting_position = transform.position;
+        _next_fire_time = Time.time + FIRE_DELAY;
     }
 
     /**************************************/
@@ -86,8 +85,10 @@ public class Player : MonoBehaviour
     /**************************************/
     void Fire()
     {
-        if ( _last_fire_go == null )
-            _last_fire_go = SpawnLaserbeam();
+        if ( Time.time >= _next_fire_time ) {
+            SpawnLaserbeam();
+            _next_fire_time = Time.time + FIRE_DELAY;
+        }
     }
 
     /**************************************/
@@ -100,11 +101,11 @@ public class Player : MonoBehaviour
     }
 
     /**************************************/
-    private GameObject SpawnLaserbeam()
+    private void SpawnLaserbeam()
     {
         Vector3 newpos = transform.position;
         newpos.y += LASER_Y_OFFSET_FROM_SHIP;
-        return Instantiate( LaserbeamPrefab, newpos, Quaternion.identity ) as GameObject;
+        Instantiate( LaserbeamPrefab, newpos, Quaternion.identity );
     }
 
     /**************************************/
