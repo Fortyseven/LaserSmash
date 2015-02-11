@@ -59,12 +59,12 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400006}
-  - 50: {fileID: 5000000}
-  - 58: {fileID: 5800000}
   - 114: {fileID: 11400000}
   - 111: {fileID: 11100000}
   - 82: {fileID: 8200000}
   - 108: {fileID: 10800000}
+  - 54: {fileID: 5426082}
+  - 135: {fileID: 13526082}
   m_Layer: 8
   m_Name: Bomb_Small
   m_TagString: Untagged
@@ -133,7 +133,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.64651048, y: 6.54997635, z: 0}
+  m_LocalPosition: {x: 3.23000002, y: 10.1499996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -268,32 +268,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_Mesh: {fileID: 4300000, guid: d569b66aaef5e1a4191f606841666871, type: 3}
---- !u!50 &5000000
-Rigidbody2D:
+--- !u!54 &5426082
+Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
-  m_Mass: 1
-  m_LinearDrag: 0
+  serializedVersion: 2
+  m_Mass: 3
+  m_Drag: 0
   m_AngularDrag: .0500000007
-  m_GravityScale: .00999999978
-  m_FixedAngle: 0
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_Constraints: 8
   m_CollisionDetection: 0
---- !u!58 &5800000
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Radius: 1.09547997
-  m_Center: {x: 0, y: -.0500000007}
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1
@@ -415,6 +404,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExplosionPrefab: {fileID: 100000, guid: a0df06eebcd09a840a2f745bcdf86f17, type: 2}
   NukePrefab: {fileID: 100000, guid: f7df1b1435682f04b882cc5baddb5ebb, type: 2}
+--- !u!135 &13526082
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: .620000005
+  m_Center: {x: 0, y: -.419999987, z: 0}
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
