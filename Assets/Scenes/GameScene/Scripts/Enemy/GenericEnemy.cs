@@ -26,7 +26,6 @@ namespace Game
 
         public virtual void HitByLaser( Laserbeam laser )
         {
-            //Debug.Log( "HitByLaser says " + gameObject.name );
             ExplodeAndRecycle();
             GameController.instance.State.AdjustScore( BaseScore );
         }

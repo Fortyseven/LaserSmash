@@ -771,28 +771,32 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
       propertyPath: Waves.Array.data[0].Disabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
       propertyPath: Waves.Array.data[1].Disabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
       propertyPath: Waves.Array.data[2].Disabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
       propertyPath: Waves.Array.data[3].Disabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
       propertyPath: Waves.Array.data[5].Disabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
       propertyPath: Waves.Array.data[4].Disabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
+      propertyPath: AudioClipThrob
+      value: 
+      objectReference: {fileID: 8300000, guid: e7d50172771a10e4a8ba271d2a80dfd5, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
   m_RootGameObject: {fileID: 1891132530}
@@ -3473,6 +3477,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1891132531}
   - 114: {fileID: 1891132532}
+  - 82: {fileID: 1891132533}
   m_Layer: 0
   m_Name: WaveCon
   m_TagString: Untagged
@@ -3521,7 +3526,7 @@ MonoBehaviour:
     - 90
     - 100
     - 100
-    Disabled: 1
+    Disabled: 0
   - Name: Asteroid Small
     GameObjectPrefab: {fileID: 100000, guid: b903225e39fbd154b9fac745dc352046, type: 2}
     LevelFrequencyLow:
@@ -3538,7 +3543,7 @@ MonoBehaviour:
     - 80
     - 90
     - 100
-    Disabled: 1
+    Disabled: 0
   - Name: UFO
     GameObjectPrefab: {fileID: 100000, guid: 98e4506e1986da74f895c24f6046fd2c, type: 2}
     LevelFrequencyLow:
@@ -3555,7 +3560,7 @@ MonoBehaviour:
     - 6
     - 7
     - 10
-    Disabled: 1
+    Disabled: 0
   - Name: Bomb Large
     GameObjectPrefab: {fileID: 100006, guid: d11d2ea210c889544977a61e1d173ff0, type: 2}
     LevelFrequencyLow:
@@ -3572,7 +3577,7 @@ MonoBehaviour:
     - 10
     - 10
     - 10
-    Disabled: 1
+    Disabled: 0
   - Name: Bomb Small
     GameObjectPrefab: {fileID: 100006, guid: 730cb164e2cf95042808b2c915fdbaf2, type: 2}
     LevelFrequencyLow:
@@ -3589,7 +3594,7 @@ MonoBehaviour:
     - 10
     - 10
     - 10
-    Disabled: 1
+    Disabled: 0
   - Name: Seeker
     GameObjectPrefab: {fileID: 100002, guid: 7a40d764f58b47a4a99f83d8bec320ce, type: 2}
     LevelFrequencyLow:
@@ -3606,7 +3611,65 @@ MonoBehaviour:
     - 5
     - 6
     - 8
-    Disabled: 1
+    Disabled: 0
+--- !u!82 &1891132533
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1891132530}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: e7d50172771a10e4a8ba271d2a80dfd5, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 255
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1914970437
 GameObject:
   m_ObjectHideFlags: 0

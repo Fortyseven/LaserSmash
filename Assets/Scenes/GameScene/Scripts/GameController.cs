@@ -11,15 +11,6 @@ public class GameController : MonoBehaviour
 
     public static GameController instance = null;
 
-
-    //    public DifficultyValues[]   Difficulty;
-    //    public DifficultyValueEntry     CurrentDifficulty;//;; {
-    //        get {
-    ////            DifficultyController.instance
-    //        }
-    //    };
-    //    private DifficultyValues    _lastDifficulty = null;
-
     /*---------------------------------------------------------*/
 
     public Text _UIScoreValue;
@@ -65,17 +56,6 @@ public class GameController : MonoBehaviour
 
     #endregion
 
-    /***************************************************************************/
-    //    private DifficultyValues UpdateDifficultyValues()
-    //    {
-    //        for ( int i = Difficulty.Length - 1; i >= 0; i-- ) {
-    //            DifficultyValues diff = ( (DifficultyValues)( Difficulty[ i ] ) );
-    //            if ( _gameState.Score >= diff.ScoreThreshold ) {
-    //                return diff;
-    //            }
-    //        }
-    //        return Difficulty[ 0 ];
-    //    }
 
     /***************************************************************************/
     void Awake()
@@ -118,33 +98,41 @@ public class GameController : MonoBehaviour
 
         switch ( State.Mode ) {
             case GameState.GameMode.GAMEOVER:
-
-                if ( Time.time >= _game_over_timeout && !_game_over_message_enabled ) {
-                    GameOverCanvas.GetComponentInChildren<Flash>().Go();
-                    _game_over_message_enabled = true;
-                }
-                if ( Input.anyKeyDown && ( Time.time >= _game_over_timeout ) ) {
-                    NewGame();
-                }
+                UpdateGameOver();
                 break;
 
             case GameState.GameMode.RUNNING:
-                // Cheeky FPS easter egg
-                if ( Input.GetKeyDown( KeyCode.F5 ) ) {
-                    Egg_CockpitCamera.camera.enabled = !Egg_CockpitCamera.camera.enabled;
-                }
-
-                // DEBUG: Artificially increase score
-                if ( Input.GetKeyDown( KeyCode.Home ) ) {
-                    State.AdjustScore( 250 );
-                }
-
-                // DEBUG: Kill player
-                if ( Input.GetKeyDown( KeyCode.End ) ) {
-                    _player_ship.GetComponent<Player>().Kill();
-                }
-
+                UpdateRunning();
                 break;
+        }
+    }
+    /***************************************************************************/
+    private void UpdateRunning()
+    {
+        // Cheeky FPS easter egg
+        if ( Input.GetKeyDown( KeyCode.F5 ) ) {
+            Egg_CockpitCamera.camera.enabled = !Egg_CockpitCamera.camera.enabled;
+        }
+
+        // DEBUG: Artificially increase score
+        if ( Input.GetKeyDown( KeyCode.Home ) ) {
+            State.AdjustScore( 250 );
+        }
+
+        // DEBUG: Kill player
+        if ( Input.GetKeyDown( KeyCode.End ) ) {
+            _player_ship.GetComponent<Player>().Kill();
+        }
+    }
+    /***************************************************************************/
+    private void UpdateGameOver()
+    {
+        if ( Time.time >= _game_over_timeout && !_game_over_message_enabled ) {
+            GameOverCanvas.GetComponentInChildren<Flash>().Go();
+            _game_over_message_enabled = true;
+        }
+        if ( Input.anyKeyDown && ( Time.time >= _game_over_timeout ) ) {
+            NewGame();
         }
     }
 

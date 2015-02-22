@@ -1,22 +1,19 @@
-﻿using System;
-using Game;
+﻿using Game;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Asteroid_Large : BaseAsteroid
 {
     protected override int BaseScore { get { return GameConstants.SCORE_ASTEROID_LG; } }
     protected override Vector3 SurfaceHitOffset { get { return new Vector3( 0.0f, -1.75f, 0.0f ); } }
 
-    private const float FORCE_DOWNWARD_LIMIT = 400.0f;
+    private const float FRAGMENT_Y_FORCE_MAX = 400.0f;
+    private const float FRAGMENT_Y_FORCE_MIN = 100.0f;
+
 
     [Range( 0f, 100f )]
     public float PercentChanceOfLRock = 60.0f;
     [Range( 0f, 100f )]
     public float PercentChanceOfRRock = 60.0f;
-
-    private const float MIN_SPLIT_ROCK_FORCE = 0.1f;
-    private const float MAX_SPLIT_ROCK_FORCE = 0.5f;
 
     private const int PERCENT_CHANCE_OF_BONUS_LROCK = 10;
     private const int PERCENT_CHANCE_OF_BONUS_RROCK = 10;
@@ -57,6 +54,7 @@ public class Asteroid_Large : BaseAsteroid
         DIRECTION_RIGHT
     }
 
+    /*****************************/
     public void Fragment()
     {
         // There's a chance to split off one or two small rocks
@@ -85,7 +83,7 @@ public class Asteroid_Large : BaseAsteroid
 
         if ( sm_rock != null ) {
             int dir = ( drift_direction == Direction.DIRECTION_LEFT ) ? -1 : 1;
-            float force_downward = Random.Range( -FORCE_DOWNWARD_LIMIT, FORCE_DOWNWARD_LIMIT );
+            float force_downward = -Random.Range( FRAGMENT_Y_FORCE_MIN, FRAGMENT_Y_FORCE_MAX );
 
             Asteroid_Small as_small = sm_rock.GetComponent<Asteroid_Small>();
             as_small.IsFragment = true;

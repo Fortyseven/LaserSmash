@@ -21,7 +21,6 @@ namespace Game
         protected float _gravity_multiplier = 0.0f;
         protected GameObject _particle_trail = null;
         protected bool _hit_surface;
-        //protected float _base_gravityscale;
 
         /*****************************/
         public virtual void Awake()
@@ -37,7 +36,6 @@ namespace Game
         /*****************************/
         public override void HitByLaser( Laserbeam laser )
         {
-            //base.HitByLaser( laser );
             Done();
         }
 
@@ -54,7 +52,6 @@ namespace Game
                 Instantiate( HitSurfacePrefab, transform.position + SurfaceHitOffset, Quaternion.identity );
 
             if ( explode ) {
-                //Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
                 ExplodeAndRecycle();
                 GameController.instance.State.AdjustScore( BaseScore );
             }
@@ -65,20 +62,19 @@ namespace Game
         /*****************************/
         protected virtual void Update()
         {
-
             if ( !IsReady )
                 return;
 
             // Did we go off screen? Sweep it under the rug.
             if ( Mathf.Abs( transform.position.x ) > GameConstants.SCREEN_X_BOUNDS ) {
-                Debug.Log( "Exceeded screen bounds" );
+                //Debug.Log( "Exceeded screen bounds" );
                 Done( false );
                 return;
             }
 
             // Did we hit the ground? Punish player, make noises, explode
             if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
-                Debug.Log( "Hit surface" );
+                //Debug.Log( "Hit surface" );
                 GameController.instance.State.AdjustScore( -( BaseScore / 2 ) );
                 _hit_surface = true;
                 Done( false );
@@ -89,10 +85,11 @@ namespace Game
         public override void Respawn()
         {
             base.Respawn();
-            Debug.Log( "We're doing this. " + GetType() );
+
             rigidbody.velocity = Vector3.zero;
             float xpush = Random.Range( -1.0f, 1.0f ) * 150.0f;
-            float ypush = -Random.Range( 50.0f, 400.0f );
+            //float ypush = -Random.Range( 50.0f, 400.0f );
+            float ypush = -Random.Range( 75.0f, 300.0f );
 
             rigidbody.AddForce( xpush, ypush, 0.0f );
 
@@ -103,7 +100,8 @@ namespace Game
         protected void SpawnParticleTrail()
         {
             _particle_trail = Instantiate( ParticleEmitterPrefab, transform.position, Quaternion.identity ) as GameObject;
-            _particle_trail.transform.parent = this.transform;
+            if ( _particle_trail )
+                _particle_trail.transform.parent = this.transform;
         }
     }
 }

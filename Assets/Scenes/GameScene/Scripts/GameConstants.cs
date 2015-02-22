@@ -15,6 +15,7 @@ namespace Game
         public static int SCORE_UFO = 100;
         public static int SCORE_PLAYERDEATH = -100;
         public static int MAX_MULTIPLIER = 6;
-        public static float[] MULT_TIMEOUT_RAMP = { 1.0f, 0.75f, 0.65f, 0.55f, 0.40f, 0.30f };
+        //public static float[] MULT_TIMEOUT_RAMP = { 1.0f, 0.75f, 0.65f, 0.55f, 0.40f, 0.30f };
+        public static float[] MULT_TIMEOUT_RAMP = { 1.0f, 0.875f, 0.750f, 0.600f, 0.475f, 0.350f };
     }
 }

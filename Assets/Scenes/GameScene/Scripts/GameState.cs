@@ -14,11 +14,12 @@ public class GameState
         5x  level : Gray background : Score 50,000-99,999
         6x  level : Black background : Score 100,000 and over
     */
-    private const int THRESH_LEVEL_1 = 1000;
-    private const int THRESH_LEVEL_2 = 5000;
-    private const int THRESH_LEVEL_3 = 20000;
-    private const int THRESH_LEVEL_4 = 50000;
-    private const int THRESH_LEVEL_5 = 100000;
+    public const int SCORE_THRESH_1X = 0;
+    public const int SCORE_THRESH_2X = 1000;
+    public const int SCORE_THRESH_3X = 5000;
+    public const int SCORE_THRESH_4X = 20000;
+    public const int SCORE_THRESH_5X = 50000;
+    public const int SCORE_THRESH_6X = 100000;
 
     private int _score;
     private int _peak_score;
@@ -164,7 +165,6 @@ public class GameState
                 Lives++;
                 //TODO: Add 1UP noise
             }
-
         }
     }
 
@@ -173,19 +173,19 @@ public class GameState
     {
         int cur_mult = Multiplier;
 
-        if ( Score < THRESH_LEVEL_1 ) {
+        if ( Score < SCORE_THRESH_2X ) {
             Multiplier = 1;
         }
-        else if ( Score < THRESH_LEVEL_2 ) {
+        else if ( Score < SCORE_THRESH_3X ) {
             Multiplier = 2;
         }
-        else if ( Score < THRESH_LEVEL_3 ) {
+        else if ( Score < SCORE_THRESH_4X ) {
             Multiplier = 3;
         }
-        else if ( Score < THRESH_LEVEL_4 ) {
+        else if ( Score < SCORE_THRESH_5X ) {
             Multiplier = 4;
         }
-        else if ( Score < THRESH_LEVEL_5 ) {
+        else if ( Score < SCORE_THRESH_6X ) {
             Multiplier = 5;
         }
         else {
