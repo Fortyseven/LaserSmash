@@ -12,7 +12,7 @@ namespace Assets.Scenes.GameScene.Scripts.Enemy
     {
         protected override float SpawnMaxX { get { return 11.0f; } }
         protected override float SpawnMinX { get { return -11.0f; } }
-        
+
         protected abstract float MinForce { get; }
         protected abstract float MaxForce { get; }
 
@@ -29,10 +29,23 @@ namespace Assets.Scenes.GameScene.Scripts.Enemy
         /******************************************************************/
         public void Awake()
         {
+            base.Awake();
             _rigidbody = GetComponent<Rigidbody>();
             _base_mass_mult = _rigidbody.mass;
             IsReady = false;
             _audio = GetComponent<AudioSource>();
+        }
+
+        /******************************************************************/
+        public override void OnPause()
+        {
+            _audio.Pause();
+        }
+
+        /******************************************************************/
+        public override void OnResume()
+        {
+            _audio.Play();
         }
 
         /******************************************************************/

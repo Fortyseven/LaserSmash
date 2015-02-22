@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game;
+using UnityEngine;
 
 //TODO: Add [1] and [9] pause easter egg
 
@@ -7,14 +8,13 @@ public class PauseController : MonoBehaviour
     public Canvas PauseCanvas;
     //    bool is_paused = false;
 
-    void Awake()
+    public void Awake()
     {
         PauseCanvas.gameObject.SetActive( false );
     }
 
-    void Update()
+    public void Update()
     {
-
         if ( Input.GetKeyDown( KeyCode.Escape ) ) {
             if ( GameController.instance.State.Paused ) {
                 OnPauseLeave();
@@ -29,12 +29,22 @@ public class PauseController : MonoBehaviour
     {
         GameController.instance.State.Paused = true;
         PauseCanvas.gameObject.SetActive( true );
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag( "Enemy" );
+        for ( int i = 0; i < enemies.Length; i++ ) {
+            enemies[ i ].GetComponent<GenericEnemy>().OnPause();
+        }
     }
 
     private void OnPauseLeave()
     {
         GameController.instance.State.Paused = false;
         PauseCanvas.gameObject.SetActive( false );
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag( "Enemy" );
+        for ( int i = 0; i < enemies.Length; i++ ) {
+            enemies[ i ].GetComponent<GenericEnemy>().OnResume();
+        }
     }
 
     public void OnClickQuit()

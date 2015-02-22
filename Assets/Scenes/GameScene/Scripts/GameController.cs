@@ -58,7 +58,7 @@ public class GameController : MonoBehaviour
 
 
     /***************************************************************************/
-    void Awake()
+    public void Awake()
     {
         GameController.instance = this;
         _prevcolor = TopLight.color;
@@ -66,9 +66,9 @@ public class GameController : MonoBehaviour
     }
 
     /***************************************************************************/
-    void Start()
+    public void Start()
     {
-        _player_ship = GameObject.Find( "PlayerShip" ) as GameObject;
+        _player_ship = GameObject.Find( "PlayerShip" );
         _player_component = _player_ship.GetComponent<Player>();
 
         Physics2D.IgnoreLayerCollision( LayerMask.NameToLayer( "Enemy" ), LayerMask.NameToLayer( "Enemy" ) );
@@ -86,7 +86,7 @@ public class GameController : MonoBehaviour
     }
 
     /***************************************************************************/
-    void Update()
+    public void Update()
     {
         if ( !SceneReady )
             return;
@@ -106,6 +106,7 @@ public class GameController : MonoBehaviour
                 break;
         }
     }
+
     /***************************************************************************/
     private void UpdateRunning()
     {
@@ -152,12 +153,6 @@ public class GameController : MonoBehaviour
     public void SetLivesValue( int lives )
     {
         _UILivesValue.text = lives.ToString();
-    }
-
-    /***************************************************************************/
-    public GameState getGameState()
-    {
-        return _game_state;
     }
 
     /***************************************************************************/

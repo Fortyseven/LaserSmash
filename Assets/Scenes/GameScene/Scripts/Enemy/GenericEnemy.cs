@@ -14,6 +14,11 @@ namespace Game
 
         public GameObject ExplosionPrefab;
 
+        public virtual void Awake()
+        {
+            tag = "Enemy";
+        }
+
         /*
          * By default, if an enemy collides with the player ship. Player dies. We die.
          */
@@ -22,6 +27,16 @@ namespace Game
             if ( col.name.Equals( "PlayerShip" ) ) {
                 KillPlayer();
             }
+        }
+
+        public virtual void OnPause()
+        {
+            ;
+        }
+
+        public virtual void OnResume()
+        {
+            ;
         }
 
         public virtual void HitByLaser( Laserbeam laser )
