@@ -11,7 +11,7 @@ public class DropAll : ScriptableObject
         for ( int i = 0; i < all.Length; i++ ) {
 
             //Check the base first
-            if ( all[ i ].collider != null )
+            if ( all[ i ].GetComponent<Collider>() != null )
                 CheckCollider( all[ i ] );
 
             //Then, check the children
@@ -25,7 +25,7 @@ public class DropAll : ScriptableObject
     static void CheckCollider( Transform input )
     {
         RaycastHit[] hits = 
-                Physics.RaycastAll( new Vector3( input.position.x, input.position.y - input.gameObject.collider.bounds.size.y / 2, input.position.z ),
+                Physics.RaycastAll( new Vector3( input.position.x, input.position.y - input.gameObject.GetComponent<Collider>().bounds.size.y / 2, input.position.z ),
                                     -Vector3.up,
                                     1000.0F );
         int z = 0;

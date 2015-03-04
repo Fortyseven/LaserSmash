@@ -7,13 +7,13 @@ public class AsteroidAnimation : MonoBehaviour
 
     void Start()
     {
-        Color c = gameObject.renderer.material.color;
+        Color c = gameObject.GetComponent<Renderer>().material.color;
 
         c.r = Random.Range( 0.1f, 0.6f );
         c.g = Random.Range( 0.1f, 0.6f );
         c.b = Random.Range( 0.1f, 0.6f );
 
-        gameObject.renderer.material.color = c;
+        gameObject.GetComponent<Renderer>().material.color = c;
 
         _m_x_rot_speed = Random.Range( -90.0f, 90.0f );
         //mYRotSpeed = Random.Range (-mXRotSpeed, mXRotSpeed);

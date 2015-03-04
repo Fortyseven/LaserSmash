@@ -90,7 +90,7 @@ public class Asteroid_Large : BaseAsteroid
             as_small.Respawn();
             float force_sideways = dir * Random.Range( 0.0f, 1.0f ) * 300;
 
-            sm_rock.rigidbody.AddForce( new Vector3( force_sideways, force_downward, 0.0f ) );
+            sm_rock.GetComponent<Rigidbody>().AddForce( new Vector3( force_sideways, force_downward, 0.0f ) );
         }
     }
 }

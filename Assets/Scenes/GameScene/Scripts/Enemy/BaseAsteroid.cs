@@ -29,7 +29,7 @@ namespace Game
             int enemy_layer = LayerMask.NameToLayer( "Enemy" );
             Physics.IgnoreLayerCollision( enemy_layer, enemy_layer, true );
 
-            rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ;
             IsReady = false;
         }
 
@@ -42,7 +42,7 @@ namespace Game
         /*****************************/
         protected void Done( bool explode = true )
         {
-            rigidbody.velocity = new Vector3( 0, 0, 0 );
+            GetComponent<Rigidbody>().velocity = new Vector3( 0, 0, 0 );
 
             if ( _particle_trail != null ) {
                 Destroy( _particle_trail );
@@ -86,12 +86,12 @@ namespace Game
         {
             base.Respawn();
 
-            rigidbody.velocity = Vector3.zero;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
             float xpush = Random.Range( -1.0f, 1.0f ) * 150.0f;
             //float ypush = -Random.Range( 50.0f, 400.0f );
             float ypush = -Random.Range( 75.0f, 300.0f );
 
-            rigidbody.AddForce( xpush, ypush, 0.0f );
+            GetComponent<Rigidbody>().AddForce( xpush, ypush, 0.0f );
 
             SpawnParticleTrail();
         }

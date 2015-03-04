@@ -112,7 +112,7 @@ public class GameController : MonoBehaviour
     {
         // Cheeky FPS easter egg
         if ( Input.GetKeyDown( KeyCode.F5 ) ) {
-            Egg_CockpitCamera.camera.enabled = !Egg_CockpitCamera.camera.enabled;
+            Egg_CockpitCamera.GetComponent<Camera>().enabled = !Egg_CockpitCamera.GetComponent<Camera>().enabled;
         }
 
         // DEBUG: Artificially increase score
