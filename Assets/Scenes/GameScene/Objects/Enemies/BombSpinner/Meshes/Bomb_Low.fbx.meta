@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: d569b66aaef5e1a4191f606841666871
 ModelImporter:
-  serializedVersion: 16
+  serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
@@ -25,26 +25,28 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 1
+    meshCompression: 2
     addColliders: 0
     importBlendShapes: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
+    keepQuads: 0
     weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
+    useFileScale: 0
   tangentSpace:
-    normalSmoothAngle: 60
+    normalSmoothAngle: 28
     splitTangentsAcrossUV: 1
-    normalImportMode: 0
+    normalImportMode: 1
     tangentImportMode: 1
   importAnimation: 1
   copyAvatar: 0
@@ -63,3 +65,5 @@ ModelImporter:
   animationType: 2
   additionalBone: 0
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 
