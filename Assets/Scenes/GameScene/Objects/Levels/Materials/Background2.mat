@@ -9,7 +9,7 @@ Material:
   m_Name: Background2
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 2
+  m_LightmapFlags: 0
   m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2
@@ -20,7 +20,7 @@ Material:
         second:
           m_Texture: {fileID: 2800000, guid: 6c56000cac6db2c4c873688d48f6ceef, type: 3}
           m_Scale: {x: 1.5, y: 1.5}
-          m_Offset: {x: .310000002, y: 0}
+          m_Offset: {x: .939999998, y: 0}
       data:
         first:
           name: _BumpMap
@@ -55,7 +55,7 @@ Material:
         second:
           m_Texture: {fileID: 2800000, guid: 6c56000cac6db2c4c873688d48f6ceef, type: 3}
           m_Scale: {x: 1.5, y: 1.5}
-          m_Offset: {x: .310000002, y: 0}
+          m_Offset: {x: .939999998, y: 0}
       data:
         first:
           name: _DetailMask
@@ -151,7 +151,7 @@ Material:
       data:
         first:
           name: _EmissionScaleUI
-        second: 2.80999994
+        second: 2.96000004
       data:
         first:
           name: _Mode
@@ -168,7 +168,7 @@ Material:
       data:
         first:
           name: _EmissionColor
-        second: {r: 2.80999994, g: 2.80999994, b: 2.80999994, a: 2.80999994}
+        second: {r: 2.96000004, g: 2.96000004, b: 2.96000004, a: 2.96000004}
       data:
         first:
           name: _Color
@@ -187,9 +187,9 @@ Material:
         second: {r: .368999988, g: .349000007, b: .340999991, a: 1}
       data:
         first:
-          name: _Emission
+          name: _EmissionColorUI
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _EmissionColorUI
+          name: _Emission
         second: {r: 1, g: 1, b: 1, a: 1}
