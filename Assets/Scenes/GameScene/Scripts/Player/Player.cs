@@ -8,7 +8,7 @@ using Game;
 public class Player : MonoBehaviour
 {
     private const float SHIP_SPEED = 13.0f;
-    private const float SHIP_X_BOUNDS = 13.0f;
+    //private const float SHIP_X_BOUNDS = 13.0f;
     private const float LASER_Y_OFFSET_FROM_SHIP = 2.0f;
     private const float FIRE_DELAY = 0.33f;
 
@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
 
         pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
         //pos.x += _touch_axis_x * SHIP_SPEED * Time.deltaTime;
-        pos.x = Mathf.Clamp( pos.x, -SHIP_X_BOUNDS, SHIP_X_BOUNDS );
+        pos.x = Mathf.Clamp( pos.x, -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
 
         if ( Input.GetButton( "Fire1" ) ) {
             Fire();
@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
     {
         // TODO: beaming animation, from and to, sfx
         Vector3 pos = transform.position;
-        pos.x = Random.Range( -SHIP_X_BOUNDS, SHIP_X_BOUNDS );
+        pos.x = Random.Range( -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
         transform.position = pos;
     }
 

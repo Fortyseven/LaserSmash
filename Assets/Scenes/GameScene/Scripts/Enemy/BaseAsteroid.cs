@@ -4,8 +4,8 @@ namespace Game
 {
     public abstract class BaseAsteroid : GenericEnemy
     {
-        protected override float SpawnMaxX { get { return 12.0f; } }
-        protected override float SpawnMinX { get { return -12.0f; } }
+        protected override float SpawnMaxX { get { return GameConstants.SCREEN_X_BOUNDS; } }
+        protected override float SpawnMinX { get { return -GameConstants.SCREEN_X_BOUNDS; } }
 
         protected override int BaseScore { get { return GameConstants.SCORE_ASTEROID_SM; } }
 
@@ -48,8 +48,9 @@ namespace Game
                 Destroy( _particle_trail );
             }
 
-            if ( _hit_surface )
+            if ( _hit_surface ) {
                 Instantiate( HitSurfacePrefab, transform.position + SurfaceHitOffset, Quaternion.identity );
+            }
 
             if ( explode ) {
                 ExplodeAndRecycle();

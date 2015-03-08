@@ -10,8 +10,8 @@ namespace Assets.Scenes.GameScene.Scripts.Enemy
     [RequireComponent( typeof( AudioSource ) )]
     public abstract class BaseBomb : GenericEnemy
     {
-        protected override float SpawnMaxX { get { return 11.0f; } }
-        protected override float SpawnMinX { get { return -11.0f; } }
+        protected override float SpawnMaxX { get { return GameConstants.SCREEN_X_BOUNDS; } }
+        protected override float SpawnMinX { get { return -GameConstants.SCREEN_X_BOUNDS; } }
 
         protected abstract float MinForce { get; }
         protected abstract float MaxForce { get; }
