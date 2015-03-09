@@ -1830,7 +1830,6 @@ GameObject:
   - 4: {fileID: 1684150042}
   - 33: {fileID: 1684150046}
   - 23: {fileID: 1684150045}
-  - 108: {fileID: 1684150044}
   m_Layer: 10
   m_Name: Sun
   m_TagString: Untagged
@@ -1850,38 +1849,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1506066609}
   m_RootOrder: 2
---- !u!108 &1684150044
-Light:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1684150041}
-  m_Enabled: 0
-  serializedVersion: 6
-  m_Type: 1
-  m_Color: {r: .999115229, g: 1, b: .682352901, a: 1}
-  m_Intensity: 3
-  m_Range: 50000
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_Strength: 1
-    m_Bias: .0500000007
-    m_NormalBias: .400000006
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 12100000, guid: 8541d94808d5849d8bfa480259334205, type: 2}
-  m_RenderMode: 2
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294966271
-  m_Lightmapping: 4
-  m_BounceIntensity: 1
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
-  m_AreaSize: {x: 1, y: 1}
 --- !u!23 &1684150045
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2566,7 +2533,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: fe6878380b098c946b169fb05532ffcf, type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: fe6878380b098c946b169fb05532ffcf, type: 3}
       propertyPath: m_StaticEditorFlags
