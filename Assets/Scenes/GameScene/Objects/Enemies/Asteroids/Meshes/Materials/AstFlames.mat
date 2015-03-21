@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: AstGlowMat
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: PIXELSNAP_ON _ALPHAPREMULTIPLY_ON
+  m_Name: AstFlames
+  m_Shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 5
   m_CustomRenderQueue: 3000
   m_SavedProperties:
@@ -84,10 +84,6 @@ Material:
         second: .5
       data:
         first:
-          name: PixelSnap
-        second: 1
-      data:
-        first:
           name: _SrcBlend
         second: 1
       data:
@@ -146,7 +142,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: .427450985}
+        second: {r: .800000012, g: .800000012, b: .800000012, a: 1}
       data:
         first:
           name: _EmissionColorUI
@@ -154,8 +150,4 @@ Material:
       data:
         first:
           name: _TintColor
-        second: {r: 1, g: 1, b: 1, a: .109803922}
-      data:
-        first:
-          name: _EmisColor
-        second: {r: .200000003, g: .200000003, b: .200000003, a: 0}
+        second: {r: .5, g: .5, b: .5, a: .5}
