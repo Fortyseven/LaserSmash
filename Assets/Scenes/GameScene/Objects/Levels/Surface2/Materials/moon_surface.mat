@@ -110,7 +110,7 @@ Material:
           name: _DetailAlbedoMap
         second:
           m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
+          m_Scale: {x: .5, y: .5}
           m_Offset: {x: 0, y: 0}
       data:
         first:
@@ -158,7 +158,7 @@ Material:
       data:
         first:
           name: _BumpScale
-        second: 1.09000003
+        second: 1.35000002
       data:
         first:
           name: _OcclusionStrength
@@ -166,7 +166,7 @@ Material:
       data:
         first:
           name: _DetailNormalMapScale
-        second: .959999979
+        second: .579999983
       data:
         first:
           name: _UVSec
