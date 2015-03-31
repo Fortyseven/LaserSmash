@@ -14,7 +14,7 @@ public class SkyboxLevelModifier : MonoBehaviour
         GetComponent<Skybox>().material = _skybox_mat;
         _skytint_start = _skybox_mat.GetColor( "_SkyTint" );
 
-        Debug.Log( _skytint_start );
+        //Debug.Log( _skytint_start );
         //ColorToHSV( _skytint_start, out h, out s, out v );
         //Debug.Log( h );
     }
@@ -22,10 +22,11 @@ public class SkyboxLevelModifier : MonoBehaviour
     public void Update()
     {
         int score = GameController.instance.State.Score;
-        double hue = ( 1.0d / 10000.0f ) * score;
+        float hue = (( 1.0f / 10000.0f ) * score) % 1.0f;
 
-        Color col = EditorGUIUtility.HSVToRGB( (float)hue, 1.0f, 1.0f );
-        //Debug.Log( hue + ", " + col );
+        Color col = EditorGUIUtility.HSVToRGB( (float)hue, 0.52f, 0.82f );
+        //Color col = ColorFromHSV( (float)hue, 0.52f, 0.82f );
+        Debug.Log( hue + ", " + col + " - " + score );
         //_skybox_mat.SetColor( "_SkyTint", col );
         RenderSettings.fogColor = col;
     }

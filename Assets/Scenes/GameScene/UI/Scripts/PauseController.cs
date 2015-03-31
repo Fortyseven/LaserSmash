@@ -15,7 +15,7 @@ public class PauseController : MonoBehaviour
 
     public void Update()
     {
-        if ( Input.GetKeyDown( KeyCode.Escape ) ) {
+        if ( Input.GetButtonDown("Pause") ) {
             if ( GameController.instance.State.Paused ) {
                 OnPauseLeave();
             }

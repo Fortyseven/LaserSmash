@@ -64,13 +64,13 @@ public class Player : MonoBehaviour
         //pos.x += _touch_axis_x * SHIP_SPEED * Time.deltaTime;
         pos.x = Mathf.Clamp( pos.x, -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
 
-        if ( Input.GetButton( "Fire1" ) ) {
+        if ( Input.GetButton( "Fire" ) ) {
             Fire();
         }
 
         transform.position = pos;
 
-        if ( Input.GetKeyDown( KeyCode.W ) ) {
+        if ( Input.GetButton( "Hyperspace" ) ) {
             Hyperspace();
         }
     }

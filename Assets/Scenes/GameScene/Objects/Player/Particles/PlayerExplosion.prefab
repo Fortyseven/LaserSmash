@@ -36,7 +36,8 @@ AudioSource:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fcfbb7648a1b4a94295b420c59fa983e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -87,6 +88,16 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,13 +118,13 @@ MonoBehaviour:
   destroyTime: 3
   useWorldSpace: 0
   direction: {x: 0, y: 0, z: 0}
-  fireballAMaterial: {fileID: 2100000, guid: 8c91e115a8f2ae640b71ec1885380b55, type: 2}
-  fireballBMaterial: {fileID: 2100000, guid: 8c91e115a8f2ae640b71ec1885380b55, type: 2}
+  fireballAMaterial: {fileID: 2100000, guid: 326f46474709cf4498f005a1106fbc02, type: 2}
+  fireballBMaterial: {fileID: 2100000, guid: 326f46474709cf4498f005a1106fbc02, type: 2}
   smokeAMaterial: {fileID: 0}
   smokeBMaterial: {fileID: 0}
   shockwaveMaterial: {fileID: 0}
   sparksMaterial: {fileID: 2100000, guid: 62cb3727bd5b87b4085de517ee39b39b, type: 2}
-  glowMaterial: {fileID: 2100000, guid: 8c91e115a8f2ae640b71ec1885380b55, type: 2}
+  glowMaterial: {fileID: 2100000, guid: 326f46474709cf4498f005a1106fbc02, type: 2}
   heatwaveMaterial: {fileID: 0}
   autoCreateFireball: 1
   autoCreateSparks: 1
@@ -134,4 +145,3 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
-  m_IsExploded: 1

@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: None__UV_Grid
-  m_Shader: {fileID: 4800000, guid: 6e44eafd7f8c99a449c9b421cf9b2324, type: 3}
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _EMISSION _NORMALMAP
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -93,14 +93,14 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Illum
+          name: _Cube
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Cube
+          name: _Illum
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -113,7 +113,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: .200000003
+        second: .25999999
       data:
         first:
           name: _SrcBlend
@@ -133,7 +133,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: .170000002
       data:
         first:
           name: _BumpScale
@@ -153,7 +153,7 @@ Material:
       data:
         first:
           name: _EmissionScaleUI
-        second: 1.16999996
+        second: 4.30000019
       data:
         first:
           name: _Mode
@@ -161,20 +161,20 @@ Material:
       data:
         first:
           name: _Metallic
-        second: 0
+        second: 1
+      data:
+        first:
+          name: _RimPower
+        second: .819999993
       data:
         first:
           name: _EmissionLM
         second: 0
-      data:
-        first:
-          name: _RimPower
-        second: 1.42999995
     m_Colors:
       data:
         first:
           name: _EmissionColor
-        second: {r: .621316671, g: 1.16999996, b: 0, a: 1.16999996}
+        second: {r: 2.28347158, g: 4.30000019, b: 0, a: 4.30000019}
       data:
         first:
           name: _Color

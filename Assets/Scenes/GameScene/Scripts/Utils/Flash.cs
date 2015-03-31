@@ -35,7 +35,6 @@ public class Flash : MonoBehaviour
 
     public void Go()
     {
-        Debug.Log( "Enabling Flashers" );
         _paused = false;
         _is_on = true;
         _renderer.enabled = true;
@@ -44,7 +43,6 @@ public class Flash : MonoBehaviour
 
     public void ResetFlashers()
     {
-        Debug.Log( "Resetting Flashers" );
         _is_on = StartEnabled;
         _paused = false;
 
