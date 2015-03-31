@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: None__UV_Grid
-  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 6e44eafd7f8c99a449c9b421cf9b2324, type: 3}
   m_ShaderKeywords: _EMISSION _NORMALMAP
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -60,7 +60,7 @@ Material:
         first:
           name: _EmissionMap
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: 2b8902991597e10418621d31a2c2fe65, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -113,7 +113,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: .0159016605
+        second: .200000003
       data:
         first:
           name: _SrcBlend
@@ -133,7 +133,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .721000016
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -153,7 +153,7 @@ Material:
       data:
         first:
           name: _EmissionScaleUI
-        second: .349999994
+        second: 1.16999996
       data:
         first:
           name: _Mode
@@ -166,11 +166,15 @@ Material:
         first:
           name: _EmissionLM
         second: 0
+      data:
+        first:
+          name: _RimPower
+        second: 1.42999995
     m_Colors:
       data:
         first:
           name: _EmissionColor
-        second: {r: .185863957, g: .349999994, b: 0, a: .349999994}
+        second: {r: .621316671, g: 1.16999996, b: 0, a: 1.16999996}
       data:
         first:
           name: _Color
@@ -178,16 +182,20 @@ Material:
       data:
         first:
           name: _SpecColor
-        second: {r: .16911763, g: .16911763, b: .16911763, a: 1}
-      data:
-        first:
-          name: _Emission
-        second: {r: 0, g: 1, b: .710344791, a: 0}
+        second: {r: .0654195622, g: .808823526, b: .224354327, a: 1}
       data:
         first:
           name: _EmissionColorUI
         second: {r: .53103447, g: 1, b: 0, a: 1}
       data:
         first:
+          name: _Emission
+        second: {r: 0, g: 1, b: .710344791, a: 0}
+      data:
+        first:
           name: _ReflectColor
         second: {r: 1, g: 1, b: 1, a: .5}
+      data:
+        first:
+          name: _RimColor
+        second: {r: 1, g: 1, b: 1, a: 0}

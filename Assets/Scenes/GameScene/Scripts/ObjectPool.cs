@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Game;
 using UnityEngine;
 
 //public class NewObjectPool
@@ -98,19 +98,23 @@ public class ObjectPool
         // Have we hit max allocation? Instantiate, add to the pool, and return
         if ( _items.Count < MaxCount ) {
             GameObject obj = GameObject.Instantiate( GameObjectSource, position, rot ) as GameObject;
+
             if ( call_respawn )
-                obj.SendMessage( "Respawn", SendMessageOptions.DontRequireReceiver );
+                obj.GetComponent<GenericEnemy>().Respawn();
+            //obj.SendMessage( "Respawn", SendMessageOptions.DontRequireReceiver );
             _items.Add( obj );
             return obj;
         }
         // Find an inactive gameobject
-        foreach ( GameObject obj in _items ) {
+        for ( int i = 0; i < _items.Count; i++ ) {
+            GameObject obj = _items[ i ];
             if ( !obj.activeInHierarchy ) {
                 obj.transform.position = position;
                 obj.transform.rotation = rot;
                 obj.SetActive( true );
                 if ( call_respawn )
-                    obj.SendMessage( "Respawn", SendMessageOptions.DontRequireReceiver );
+                    obj.GetComponent<GenericEnemy>().Respawn();
+                //obj.SendMessage( "Respawn", SendMessageOptions.DontRequireReceiver );
                 return obj;
             }
         }

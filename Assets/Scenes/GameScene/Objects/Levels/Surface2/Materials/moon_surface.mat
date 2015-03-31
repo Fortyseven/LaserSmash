@@ -154,11 +154,11 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .0390000008
+        second: .649999976
       data:
         first:
           name: _BumpScale
-        second: 4.67000008
+        second: 1.09000003
       data:
         first:
           name: _OcclusionStrength
@@ -191,7 +191,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .154411793, g: .154411793, b: .154411793, a: 1}
+        second: {r: .132352948, g: .132352948, b: .132352948, a: 1}
       data:
         first:
           name: _SpecColor

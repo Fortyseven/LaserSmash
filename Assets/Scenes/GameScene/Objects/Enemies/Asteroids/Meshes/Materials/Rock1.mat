@@ -7,8 +7,8 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Rock1
-  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 4800000, guid: 6e44eafd7f8c99a449c9b421cf9b2324, type: 3}
+  m_ShaderKeywords: _NORMALMAP
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -18,14 +18,14 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 6cc9ed02e60764448906a92bf36a9a22, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 2, y: 2}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: e08c295755c0885479ad19f518286ff2, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -91,6 +91,10 @@ Material:
         second: .5
       data:
         first:
+          name: _Shininess
+        second: .529999971
+      data:
+        first:
           name: _SrcBlend
         second: 1
       data:
@@ -112,7 +116,7 @@ Material:
       data:
         first:
           name: _BumpScale
-        second: 1
+        second: .879999995
       data:
         first:
           name: _OcclusionStrength
@@ -137,6 +141,10 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _RimPower
+        second: 1.25999999
     m_Colors:
       data:
         first:
@@ -145,12 +153,16 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .250980407, g: .250980407, b: .419607848, a: 1}
+        second: {r: 0, g: 0, b: 0, a: 1}
       data:
         first:
           name: _SpecColor
-        second: {r: .161764681, g: .161764681, b: .161764681, a: 1}
+        second: {r: .154411793, g: .154411793, b: .154411793, a: 1}
       data:
         first:
           name: _EmissionColorUI
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 1, g: .765517235, b: 0, a: 1}
+      data:
+        first:
+          name: _RimColor
+        second: {r: 1, g: 1, b: 1, a: 0}

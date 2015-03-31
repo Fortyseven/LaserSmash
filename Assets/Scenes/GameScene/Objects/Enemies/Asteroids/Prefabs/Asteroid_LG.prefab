@@ -52,6 +52,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &121666
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 462718}
+  - 119: {fileID: 11945110}
+  m_Layer: 0
+  m_Name: Projector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &132684
 GameObject:
   m_ObjectHideFlags: 1
@@ -77,7 +93,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.86638498, y: 10.3599997, z: 0}
+  m_LocalPosition: {x: 6.86638498, y: 2.29999995, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 463442}
@@ -95,6 +111,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 463442}
   m_RootOrder: 0
+--- !u!4 &462718
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 121666}
+  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 463442}
+  m_RootOrder: 2
 --- !u!4 &463442
 Transform:
   m_ObjectHideFlags: 1
@@ -107,6 +135,7 @@ Transform:
   m_Children:
   - {fileID: 408922}
   - {fileID: 486512}
+  - {fileID: 462718}
   m_Father: {fileID: 400000}
   m_RootOrder: 0
 --- !u!4 &486512
@@ -334,6 +363,24 @@ MonoBehaviour:
     type: 2}
   PercentChanceOfLRock: 50
   PercentChanceOfRRock: 50
+--- !u!119 &11945110
+Projector:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 121666}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_NearClipPlane: .100000001
+  m_FarClipPlane: 14.1999998
+  m_FieldOfView: 60
+  m_AspectRatio: .629999995
+  m_Orthographic: 1
+  m_OrthographicSize: 5.46000004
+  m_Material: {fileID: 2100000, guid: e30ff3588e719f34bbf0c66f22d97487, type: 2}
+  m_IgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!136 &13647502
 CapsuleCollider:
   m_ObjectHideFlags: 1

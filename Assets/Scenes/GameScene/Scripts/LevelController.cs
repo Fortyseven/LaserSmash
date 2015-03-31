@@ -62,10 +62,10 @@ public class LevelController : MonoBehaviour
                 break;
         }
 
-        Debug.Log("Tweening background");
-        iTween.ColorTo( LightAmbience, col, 1.0f );
-        iTween.ColorTo( LightUnderlight, col, 1.0f );
-        //mLightAccent.color = col;
+//        Debug.Log("Tweening background");
+        //iTween.ColorTo( LightAmbience, col, 1.0f );
+        //iTween.ColorTo( LightUnderlight, col, 1.0f );
+        ////mLightAccent.color = col;
         //mLightSide.color = col;
         //mLightTop.color = col;
     }
