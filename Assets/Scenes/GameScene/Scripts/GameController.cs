@@ -21,8 +21,6 @@ public class GameController : MonoBehaviour
 
     public Camera Egg_CockpitCamera;
 
-    public Light TopLight;
-
     private GameState _game_state;
     private GameObject _player_ship;
     private WaveController _wave_controller;
@@ -30,9 +28,6 @@ public class GameController : MonoBehaviour
 
     private float _game_over_timeout;
     private bool _game_over_message_enabled;
-
-    private Color //_prevcolor, 
-    _newcolor;
 
     #region properties
     public WaveController WaveCon
@@ -202,31 +197,6 @@ public class GameController : MonoBehaviour
         _wave_controller.Reset();
         PlayerComponent.Reset();
         SceneReady = false;
-    }
-
-
-    public void DoLevelTransition( Color new_color )
-    {
-        //        _prevcolor = TopLight.color;
-        //        _newcolor = new_color;
-        //StartCoroutine( "TransitionBackgroundColor", new_color );
-    }
-
-    IEnumerator TransitionBackgroundColor( Color new_color )
-    {
-        //Color cur_light_color = TopLight.color;
-
-        //Debug.Log( "Transition from " + cur_light_color + " to " + new_color );
-
-        //TopLight.color = Color.red;
-
-        //for ( int i = 0; i < 1000; i += 20 ) {
-        //    Color foo = Color.Lerp( cur_light_color, new_color, i / 1000.0f );
-        //    TopLight.color = foo;
-        //    yield return new WaitForSeconds( 0.02f );
-        //}
-
-        yield return null;
     }
 
     public void OnSceneReady()
