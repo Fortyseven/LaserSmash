@@ -44,7 +44,7 @@ public class Asteroid_Large : BaseAsteroid
     {
         //base.HitByLaser( laser );
         Fragment();
-        Done();
+        CleanUpAndHibernate();
     }
 
     /*****************************/

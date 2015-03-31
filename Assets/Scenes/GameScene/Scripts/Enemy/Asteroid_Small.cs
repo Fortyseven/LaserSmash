@@ -21,11 +21,11 @@ public class Asteroid_Small : BaseAsteroid
         // Our spawner will take care of positioning us if we're a fragment, otherwise
         // we need to roll our own particle trail
         if ( IsFragment ) {
-            Debug.Log( "SM: Spawned as fragment" );
+            //Debug.Log( "SM: Spawned as fragment" );
             SpawnParticleTrail();
         }
         else {
-            Debug.Log( "SM: Spawned as normal small rock" );
+            //Debug.Log( "SM: Spawned as normal small rock" );
             base.Respawn();
         }
 

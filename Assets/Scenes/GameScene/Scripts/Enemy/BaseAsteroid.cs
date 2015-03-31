@@ -11,57 +11,63 @@ namespace Game
 
         protected virtual Vector3 SurfaceHitOffset { get { return new Vector3( 0.0f, -0.75f, 0.0f ); } }
 
-        public AudioClip SoundHitSurface = null;
+        //public AudioClip SoundHitSurface = null;
 
         public GameObject HitSurfacePrefab = null;
-        public GameObject PlayerObject = null;
-        public GameObject AsteroidSmallPrefab = null;
+        //public GameObject PlayerObject = null;
+        //public GameObject AsteroidSmallPrefab = null;
         public GameObject ParticleEmitterPrefab = null;
 
-        protected float _gravity_multiplier = 0.0f;
+        //protected float _gravity_multiplier = 0.0f;
         protected GameObject _particle_trail = null;
         protected bool _hit_surface;
+        protected Rigidbody _rigidbody;
 
         /*****************************/
         public virtual void Awake()
         {
-            //_base_gravityscale = rigidbody.mass;
             int enemy_layer = LayerMask.NameToLayer( "Enemy" );
             Physics.IgnoreLayerCollision( enemy_layer, enemy_layer, true );
-
-            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ;
+            _rigidbody = GetComponent<Rigidbody>();
+            _rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
             IsReady = false;
         }
 
         /*****************************/
         public override void HitByLaser( Laserbeam laser )
         {
-            Done();
+            CleanUpAndHibernate();
         }
 
         /*****************************/
-        protected void Done( bool explode = true )
+        /// <summary>
+        /// This call performs pre-hibernation shutdown chores for the object, such as stopping 
+        /// movement, spawning ground puffs, destroying the particle trail, and optionally exploding.
+        /// </summary>
+        /// <param name="destroyed_by_player">If true, explode and add to the player score.</param>
+        protected void CleanUpAndHibernate( bool destroyed_by_player = true )
         {
-            GetComponent<Rigidbody>().velocity = new Vector3( 0, 0, 0 );
+            _rigidbody.velocity = new Vector3( 0, 0, 0 );
 
-            if ( _particle_trail != null ) {
-                Destroy( _particle_trail );
+            if ( _particle_trail ) {
+                Destroy( _particle_trail, 0.05f );
+            }
+
+            if ( destroyed_by_player ) {
+                GameController.instance.State.AdjustScore( BaseScore );
+                ExplodeAndHibernate();
+                return;
             }
 
             if ( _hit_surface ) {
                 Instantiate( HitSurfacePrefab, transform.position + SurfaceHitOffset, Quaternion.identity );
             }
 
-            if ( explode ) {
-                ExplodeAndRecycle();
-                GameController.instance.State.AdjustScore( BaseScore );
-            }
-
             Hibernate();
         }
 
         /*****************************/
-        protected virtual void Update()
+        protected void Update()
         {
             if ( !IsReady )
                 return;
@@ -69,7 +75,7 @@ namespace Game
             // Did we go off screen? Sweep it under the rug.
             if ( Mathf.Abs( transform.position.x ) > GameConstants.SCREEN_X_BOUNDS ) {
                 //Debug.Log( "Exceeded screen bounds" );
-                Done( false );
+                CleanUpAndHibernate( false );
                 return;
             }
 
@@ -78,7 +84,7 @@ namespace Game
                 //Debug.Log( "Hit surface" );
                 GameController.instance.State.AdjustScore( -( BaseScore / 2 ) );
                 _hit_surface = true;
-                Done( false );
+                CleanUpAndHibernate( false );
             }
         }
 
@@ -87,13 +93,15 @@ namespace Game
         {
             base.Respawn();
 
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            _rigidbody.velocity = Vector3.zero;
             float xpush = Random.Range( -1.0f, 1.0f ) * 150.0f;
             //float ypush = -Random.Range( 50.0f, 400.0f );
             float ypush = -Random.Range( 75.0f, 300.0f );
 
-            GetComponent<Rigidbody>().AddForce( xpush, ypush, 0.0f );
-
+            _rigidbody.AddForce( xpush, ypush, 0.0f );
+            if ( _particle_trail ) {
+                // I could delete it here, but let's dig deeper to find the REAL cause
+            }
             SpawnParticleTrail();
         }
 
@@ -101,8 +109,14 @@ namespace Game
         protected void SpawnParticleTrail()
         {
             _particle_trail = Instantiate( ParticleEmitterPrefab, transform.position, Quaternion.identity ) as GameObject;
-            if ( _particle_trail )
-                _particle_trail.transform.parent = this.transform;
+            _particle_trail.transform.SetParent( this.transform );
+            _particle_trail.name = "Trail from " + name;
+        }
+
+        protected override void InstaKill()
+        {
+            CleanUpAndHibernate( false );
+            base.InstaKill();
         }
     }
 }

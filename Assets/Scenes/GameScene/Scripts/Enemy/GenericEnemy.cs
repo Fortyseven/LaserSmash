@@ -19,9 +19,10 @@ namespace Game
             tag = "Enemy";
         }
 
-        /*
-         * By default, if an enemy collides with the player ship. Player dies. We die.
-         */
+        /// <summary>
+        /// By default, if an enemy collides with the player ship. Player dies. We die.
+        /// </summary>
+        /// <param name="col">Who colided with us.</param>
         public void OnTriggerEnter( Collider col )
         {
             if ( col.name.Equals( "PlayerShip" ) ) {
@@ -41,7 +42,7 @@ namespace Game
 
         public virtual void HitByLaser( Laserbeam laser )
         {
-            ExplodeAndRecycle();
+            ExplodeAndHibernate();
             GameController.instance.State.AdjustScore( BaseScore );
         }
 
@@ -55,9 +56,8 @@ namespace Game
         /// Spawns an explosion prefab object and hibernates object for later recycling in the object pool.
         /// ExplosionPrefab should be self-terminating.
         /// </summary>
-        protected void ExplodeAndRecycle()
+        protected void ExplodeAndHibernate()
         {
-            //Debug.Log("Exploding and recycling: " + name);
             if ( ExplosionPrefab != null ) {
                 Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
             }
@@ -72,10 +72,12 @@ namespace Game
             transform.position = new Vector3( Random.Range( SpawnMinX, SpawnMaxX ), SpawnYOffset, 0 );
         }
 
-        /* Ordinarily we'd just directly call Hibernate, and get the hell out of the way, but if 
-         * there's any special cleanup required first, you can overload this.  This is mostly used 
-         * for keeping the UFO on screen as it's firing, since killing the player InstaKills 
-         * everything on the screen. */
+        /// <summary>
+        /// Ordinarily we'd just directly call Hibernate, and get the hell out of the way, but if 
+        /// there's any special cleanup required first, you can overload this.  This is mostly used 
+        /// for keeping the UFO on screen as it's firing, since killing the player InstaKills 
+        /// everything on the screen.
+        /// </summary>
 
         protected virtual void InstaKill()
         {
@@ -87,6 +89,7 @@ namespace Game
         /// </summary>
         public void Hibernate()
         {
+
             gameObject.SetActive( false );
             transform.position.Set( 0, 0, 0 );
             IsReady = false;
