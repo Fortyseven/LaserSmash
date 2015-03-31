@@ -435,6 +435,10 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300010, guid: bdf4afb9aefaec544959ddb2a28448aa, type: 3}
+    - target: {fileID: 2300000, guid: fe6878380b098c946b169fb05532ffcf, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3a1a831787cea0c449160ac64709f4ed, type: 2}
     m_RemovedComponents:
     - {fileID: 9500000, guid: fe6878380b098c946b169fb05532ffcf, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: fe6878380b098c946b169fb05532ffcf, type: 3}
@@ -879,7 +883,7 @@ Transform:
   - {fileID: 261661046}
   - {fileID: 2078110169}
   m_Father: {fileID: 1914970441}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!65 &597805101
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2657,7 +2661,7 @@ Prefab:
     - target: {fileID: 2300000, guid: fe6878380b098c946b169fb05532ffcf, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: b646300fa55ef0745a222f700f098028, type: 2}
+      objectReference: {fileID: 2100000, guid: 3a1a831787cea0c449160ac64709f4ed, type: 2}
     - target: {fileID: 2300000, guid: fe6878380b098c946b169fb05532ffcf, type: 3}
       propertyPath: m_ReflectionProbeUsage
       value: 2
@@ -2734,7 +2738,6 @@ MonoBehaviour:
   _UIMultValue: {fileID: 1746251729}
   GameOverCanvas: {fileID: 1704113705}
   Egg_CockpitCamera: {fileID: 2078110173}
-  TopLight: {fileID: 0}
 --- !u!4 &1914970441
 Transform:
   m_ObjectHideFlags: 0
@@ -2746,9 +2749,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 193532053}
+  - {fileID: 2033822944}
   - {fileID: 597805100}
   - {fileID: 1891132531}
-  - {fileID: 2033822944}
   - {fileID: 976842458}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -2830,7 +2833,7 @@ Transform:
   - {fileID: 595244162}
   - {fileID: 470839003}
   m_Father: {fileID: 1914970441}
-  m_RootOrder: 3
+  m_RootOrder: 1
 --- !u!114 &2038726748 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11400030, guid: 33f1fc838fb76a140aeb336b8cd5f1d0,

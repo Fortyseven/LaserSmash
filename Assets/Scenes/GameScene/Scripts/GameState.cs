@@ -199,22 +199,22 @@ public class GameState
     /***************************************************************************/
     private void OnMultChange()
     {
-        switch ( Multiplier ) {
-            case 2: // Blue
-                GameController.instance.DoLevelTransition( new Color( 0, 0, 1.0f, 1.0f ) );
-                break;
-            case 3: // Purple
-                GameController.instance.DoLevelTransition( new Color( 1.0f, 0, 1.0f, 1.0f ) );
-                break;
-            case 4: // Cyan
-                GameController.instance.DoLevelTransition( new Color( 0, 1.0f, 1.0f, 1.0f ) );
-                break;
-            case 5: // Gray
-                GameController.instance.DoLevelTransition( new Color( 1.0f, 0.75f, 0, 1.0f ) );
-                break;
-            default: // "Black"
-                GameController.instance.DoLevelTransition( new Color( 0.5f, 0.5f, 0.5f, 1.0f ) );
-                break;
-        }
+        //switch ( Multiplier ) {
+        //    case 2: // Blue
+        //        GameController.instance.DoLevelTransition( new Color( 0, 0, 1.0f, 1.0f ) );
+        //        break;
+        //    case 3: // Purple
+        //        GameController.instance.DoLevelTransition( new Color( 1.0f, 0, 1.0f, 1.0f ) );
+        //        break;
+        //    case 4: // Cyan
+        //        GameController.instance.DoLevelTransition( new Color( 0, 1.0f, 1.0f, 1.0f ) );
+        //        break;
+        //    case 5: // Gray
+        //        GameController.instance.DoLevelTransition( new Color( 1.0f, 0.75f, 0, 1.0f ) );
+        //        break;
+        //    default: // "Black"
+        //        GameController.instance.DoLevelTransition( new Color( 0.5f, 0.5f, 0.5f, 1.0f ) );
+        //        break;
+        //}
     }
 }
