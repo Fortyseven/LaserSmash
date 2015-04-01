@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class PauseController : MonoBehaviour
 {
+    private const string INPUT_PAUSE = "Pause";
+
     public Canvas PauseCanvas;
-    //    bool is_paused = false;
 
     public void Awake()
     {
@@ -15,7 +16,7 @@ public class PauseController : MonoBehaviour
 
     public void Update()
     {
-        if ( Input.GetButtonDown("Pause") ) {
+        if ( Input.GetButtonDown( INPUT_PAUSE ) ) {
             if ( GameController.instance.State.Paused ) {
                 OnPauseLeave();
             }
