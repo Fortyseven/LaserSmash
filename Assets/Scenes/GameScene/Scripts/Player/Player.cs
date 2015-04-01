@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
 
         transform.position = pos;
 
-        if ( Input.GetButton( "Hyperspace" ) ) {
+        if ( Input.GetButtonDown( "Hyperspace" ) ) {
             Hyperspace();
         }
     }
