@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 public class SkyboxLevelModifier : MonoBehaviour
@@ -22,12 +23,12 @@ public class SkyboxLevelModifier : MonoBehaviour
     public void Update()
     {
         int score = GameController.instance.State.Score;
-        float hue = (( 1.0f / 10000.0f ) * score) % 1.0f;
 
-        Color col = EditorGUIUtility.HSVToRGB( (float)hue, 0.52f, 0.82f );
-        //Color col = ColorFromHSV( (float)hue, 0.52f, 0.82f );
-        Debug.Log( hue + ", " + col + " - " + score );
-        //_skybox_mat.SetColor( "_SkyTint", col );
+        float hue = ( 1.0f / 10000 ) * score;
+        float adj_hue = hue % 1.0f;
+
+        Color col = EditorGUIUtility.HSVToRGB( adj_hue, 0.52f, 0.82f );
+
         RenderSettings.fogColor = col;
     }
 
