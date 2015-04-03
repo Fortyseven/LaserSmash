@@ -24,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.1665926, y: -.803038597, z: 0}
+  m_LocalPosition: {x: 2.79999995, y: .769999981, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -110,10 +110,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 12
-  color: {r: .448275924, g: 1, b: 0, a: .501960814}
+  color: {r: 1, g: .724137902, b: 0, a: .501960814}
   explodeOnStart: 1
   duration: 3
-  detail: 10
+  detail: 8
   upwardsBias: 1.75
   destroyTime: 3
   useWorldSpace: 0

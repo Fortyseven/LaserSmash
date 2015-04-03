@@ -24,8 +24,8 @@ public class FindMissingScriptsRecursively : EditorWindow
         _go_count = 0;
         _components_count = 0;
         _missing_count = 0;
-        foreach ( GameObject g in go ) {
-            FindInGO( g );
+        for ( int i = 0; i < go.Length; i++ ) {
+            FindInGO( go[ i ] );
         }
         Debug.Log( string.Format( "Searched {0} GameObjects, {1} components, found {2} missing", _go_count, _components_count, _missing_count ) );
     }

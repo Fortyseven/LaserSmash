@@ -7,7 +7,7 @@ public class DropAll : ScriptableObject
     public static void DropAllObjects()
     {
         Transform[] all = Selection.transforms;
-        
+
         for ( int i = 0; i < all.Length; i++ ) {
 
             //Check the base first
@@ -15,7 +15,6 @@ public class DropAll : ScriptableObject
                 CheckCollider( all[ i ] );
 
             //Then, check the children
-
             foreach ( Transform child in all[ i ] ) {
                 CheckCollider( child );
             }
@@ -25,7 +24,10 @@ public class DropAll : ScriptableObject
     static void CheckCollider( Transform input )
     {
         RaycastHit[] hits = 
-                Physics.RaycastAll( new Vector3( input.position.x, input.position.y - input.gameObject.GetComponent<Collider>().bounds.size.y / 2, input.position.z ),
+                Physics.RaycastAll( new Vector3(
+                                            input.position.x,
+                                            input.position.y - input.gameObject.GetComponent<Collider>().bounds.size.y / 2,
+                                            input.position.z ),
                                     -Vector3.up,
                                     1000.0F );
         int z = 0;
