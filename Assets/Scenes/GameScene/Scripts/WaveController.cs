@@ -25,7 +25,7 @@ public class WaveController : MonoBehaviour
         public bool Disabled;               // Will disable this enemy for debugging purposes
     }
 
-    public WaveDefinition[] Waves;
+    public WaveDefinition[] Enemies;
 
     public bool Paused { get; set; }
 
@@ -47,16 +47,16 @@ public class WaveController : MonoBehaviour
     {
         _cur_spawn_timeout = GameConstants.MULT_TIMEOUT_RAMP[ 0 ];
         _next_spawn_time = Time.time + _cur_spawn_timeout;
-        for ( int i = 0; i < Waves.Length; i++ ) {
-            Waves[ i ].Pool.Reset();
+        for ( int i = 0; i < Enemies.Length; i++ ) {
+            Enemies[ i ].Pool.Reset();
         }
     }
 
     /*****************************/
     void CreatePools()
     {
-        for ( int i = 0; i < Waves.Length; i++ ) {
-            Waves[ i ].Pool = new ObjectPool( Waves[ i ].GameObjectPrefab, MAX_OBJECT_PER_WAVEDEF );
+        for ( int i = 0; i < Enemies.Length; i++ ) {
+            Enemies[ i ].Pool = new ObjectPool( Enemies[ i ].GameObjectPrefab, MAX_OBJECT_PER_WAVEDEF );
         }
     }
 
@@ -66,9 +66,9 @@ public class WaveController : MonoBehaviour
         if ( pool_name == null )
             throw new ArgumentNullException( "pool_name" );
 
-        for ( int i = 0; i < Waves.Length; i++ ) {
-            if ( Waves[ i ].Name.Equals( pool_name ) ) {
-                return Waves[ i ].Pool;
+        for ( int i = 0; i < Enemies.Length; i++ ) {
+            if ( Enemies[ i ].Name.Equals( pool_name ) ) {
+                return Enemies[ i ].Pool;
             }
         }
         throw new UnityException( "Could not provide object pool for " + pool_name );
@@ -108,6 +108,10 @@ public class WaveController : MonoBehaviour
                 //GameController.instance.State.Multiplier = 6;
                 GameController.instance.State.Score = GameState.SCORE_THRESH_6X;
             }
+
+            if ( Input.GetKeyDown( KeyCode.U ) ) {
+                GetPoolForName( "UFO" ).GetInstance();
+            }
         }
 
         if ( Time.time >= _next_spawn_time ) {
@@ -120,13 +124,13 @@ public class WaveController : MonoBehaviour
 
     private void SpawnTick()
     {
-        for ( int i = 0; i < Waves.Length; i++ ) {
-            if ( Waves[ i ].Disabled )
+        for ( int i = 0; i < Enemies.Length; i++ ) {
+            if ( Enemies[ i ].Disabled )
                 continue;
-            float chance = Random.Range( Waves[ i ].LevelFrequencyLow[ 0 ], Waves[ i ].LevelFrequencyHigh[ 0 ] );
+            float chance = Random.Range( Enemies[ i ].LevelFrequencyLow[ 0 ], Enemies[ i ].LevelFrequencyHigh[ 0 ] );
 
             if ( Random.Range( 0, 100 ) <= chance ) {
-                GameObject g = Waves[ i ].Pool.GetInstance();
+                GameObject g = Enemies[ i ].Pool.GetInstance();
                 if ( g != null )
                     return;
             }

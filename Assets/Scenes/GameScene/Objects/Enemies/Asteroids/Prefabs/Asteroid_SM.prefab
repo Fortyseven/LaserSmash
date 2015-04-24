@@ -88,7 +88,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &166700
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,7 +114,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.4522381, y: 7.78000021, z: 0}
+  m_LocalPosition: {x: .107149124, y: 1.31040478, z: -4.12662983}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 483480}
@@ -308,7 +308,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8c0bd3e18593c364d9c27ac8c6a171c6, type: 2}
+  - {fileID: 2100000, guid: e509008c3f1b81f4795e7652700d1b28, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -557,10 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExplosionPrefab: {fileID: 100000, guid: 13266a9cf8da28e41bfa61b378dfabc5, type: 2}
-  SoundHitSurface: {fileID: 8300000, guid: 46481754b9cbfd04f9b5668eebc3ce24, type: 3}
   HitSurfacePrefab: {fileID: 100000, guid: b27006199f8cdbf419f99fd8e653c07a, type: 2}
-  PlayerObject: {fileID: 0}
-  AsteroidSmallPrefab: {fileID: 100000}
   ParticleEmitterPrefab: {fileID: 100000, guid: cfd782d1e25cec6469c1c2c0fadf2cbd,
     type: 2}
 --- !u!119 &11937106

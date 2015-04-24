@@ -38,6 +38,7 @@ public class BT_UnusedAssetReport : ScriptableObject
                     continue;
                 Type prop_type = prop.GetType();
 
+                // Skip known types that would not have asset references
                 if (
                     ( prop.GetType() == typeof( Matrix4x4 ) ) ||
                     ( prop.GetType() == typeof( Vector2 ) ) ||

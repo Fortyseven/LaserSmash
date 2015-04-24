@@ -47,6 +47,8 @@ public class UFO : GenericEnemy
         FIRING
     };
 
+    private StateMachine _state_machine;
+
     float _time_started_charging;
     State _state = State.PASSIVE;
 
@@ -64,6 +66,10 @@ public class UFO : GenericEnemy
         _charging_flare_sprite.enabled = false;
 
         _audio = GetComponent<AudioSource>();
+
+        _state_machine = gameObject.AddComponent<StateMachine>();
+        _state_machine.Init<State>();
+        
     }
 
     /*****************************/

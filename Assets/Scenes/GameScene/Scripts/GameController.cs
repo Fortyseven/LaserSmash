@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
 
     public  Canvas GameOverCanvas;
 
-    public Camera Egg_CockpitCamera;
+    //public Camera Egg_CockpitCamera;
 
     private GameState _game_state;
     private GameObject _player_ship;
@@ -64,7 +64,7 @@ public class GameController : MonoBehaviour
     /***************************************************************************/
     public void Start()
     {
-        _player_ship = GameObject.Find( "PlayerShip" );
+        _player_ship = GameObject.Find( "PlayerBase" );
         _player_component = _player_ship.GetComponent<Player>();
 
         Physics2D.IgnoreLayerCollision( LayerMask.NameToLayer( "Enemy" ), LayerMask.NameToLayer( "Enemy" ) );
@@ -107,9 +107,9 @@ public class GameController : MonoBehaviour
     private void UpdateRunning()
     {
         // Cheeky FPS easter egg
-        if ( Input.GetKeyDown( KeyCode.F5 ) ) {
-            Egg_CockpitCamera.GetComponent<Camera>().enabled = !Egg_CockpitCamera.GetComponent<Camera>().enabled;
-        }
+        //if ( Input.GetKeyDown( KeyCode.F5 ) ) {
+        //    Egg_CockpitCamera.GetComponent<Camera>().enabled = !Egg_CockpitCamera.GetComponent<Camera>().enabled;
+        //}
 
         // DEBUG: Artificially increase score
         if ( Input.GetKeyDown( KeyCode.Home ) ) {
@@ -192,7 +192,7 @@ public class GameController : MonoBehaviour
         if ( f )
             f.ResetFlashers();
 
-        Egg_CockpitCamera.enabled = false;
+        //Egg_CockpitCamera.enabled = false;
         State.Reset();
         _wave_controller.Reset();
         PlayerComponent.Reset();

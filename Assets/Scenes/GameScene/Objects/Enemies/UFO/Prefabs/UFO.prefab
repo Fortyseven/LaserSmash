@@ -47,6 +47,7 @@ GameObject:
   - 4: {fileID: 400004}
   - 120: {fileID: 12000000}
   - 82: {fileID: 8200002}
+  - 114: {fileID: 11458164}
   m_Layer: 0
   m_Name: Laser Beam
   m_TagString: Untagged
@@ -108,7 +109,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.74897099, y: 5.47072172, z: -.899047852}
+  m_LocalPosition: {x: 0, y: 8.40999985, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400010}
@@ -191,7 +192,7 @@ MeshRenderer:
   - {fileID: 2100000, guid: a42464d06f49c5b46a029becfc3f02d6, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
+  m_UseLightProbes: 1
   m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
@@ -435,6 +436,22 @@ MonoBehaviour:
   ExplosionPrefab: {fileID: 100000, guid: 492f7b4514b88794dbb01ae06440c3a5, type: 2}
   ExplosionLaserGroundPrefab: {fileID: 100000, guid: 41bf82abdbd76f0439ffd4c6f37238f4,
     type: 2}
+--- !u!114 &11458164
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 409a7bba4ab96ce42ab25fb5bf02f40c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScrollSpeed: 1
+  MainOffsetX: 1
+  MainOffsetY: 0
+  UseCustomTex: {fileID: 0}
+  CustomTexName: 
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

@@ -93,14 +93,14 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Cube
+          name: _Illum
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Illum
+          name: _Cube
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -133,7 +133,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .170000002
+        second: .529999971
       data:
         first:
           name: _BumpScale
@@ -153,7 +153,7 @@ Material:
       data:
         first:
           name: _EmissionScaleUI
-        second: 4.30000019
+        second: 3.5
       data:
         first:
           name: _Mode
@@ -174,7 +174,7 @@ Material:
       data:
         first:
           name: _EmissionColor
-        second: {r: 2.28347158, g: 4.30000019, b: 0, a: 4.30000019}
+        second: {r: 1.8586396, g: 3.5, b: 0, a: 3.5}
       data:
         first:
           name: _Color
@@ -193,9 +193,9 @@ Material:
         second: {r: 0, g: 1, b: .710344791, a: 0}
       data:
         first:
-          name: _ReflectColor
-        second: {r: 1, g: 1, b: 1, a: .5}
-      data:
-        first:
           name: _RimColor
         second: {r: 1, g: 1, b: 1, a: 0}
+      data:
+        first:
+          name: _ReflectColor
+        second: {r: 1, g: 1, b: 1, a: .5}
