@@ -48,15 +48,17 @@ public class StateMachine : MonoBehaviour
 
     public void Update()
     {
-        if ( ActiveState == null )
+        if ( ActiveState == null || !gameObject.activeInHierarchy )
             return;
+
         _state_behaviors[ ActiveState ].OnUpdate();
     }
 
     public void FixedUpdate()
     {
-        if ( ActiveState == null )
+        if ( ActiveState == null || !gameObject.activeInHierarchy )
             return;
+
         _state_behaviors[ ActiveState ].OnFixedUpdate();
     }
 }
