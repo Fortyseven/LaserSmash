@@ -19,13 +19,16 @@ public class StateMachine : MonoBehaviour
         _owner = owner;
     }
 
-    public void SwitchStateTo( Enum state_enum )
+    public void SwitchStateTo( Enum new_state )
     {
-        if ( ActiveState != null ) {
-            _state_behaviors[ ActiveState ].OnExit();
+        Enum old_state = ActiveState;
+
+        if ( old_state != null ) {
+            _state_behaviors[ old_state ].OnExit( new_state );
         }
-        ActiveState = state_enum;
-        _state_behaviors[ ActiveState ].OnEnter();
+        _state_behaviors[ new_state ].OnEnter( old_state );
+
+        ActiveState = new_state;
     }
 
     public void Awake()

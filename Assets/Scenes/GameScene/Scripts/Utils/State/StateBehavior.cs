@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class StateBehavior : MonoBehaviour
 {
@@ -9,11 +10,11 @@ public class StateBehavior : MonoBehaviour
     {
     }
 
-    public virtual void OnEnter()
+    public virtual void OnEnter( Enum changing_from )
     {
     }
 
-    public virtual void OnExit()
+    public virtual void OnExit( Enum changing_to )
     {
     }
 

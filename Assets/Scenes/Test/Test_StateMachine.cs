@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Test_StateMachine : MonoBehaviour
 {
@@ -32,13 +33,15 @@ public class Test_StateMachine : MonoBehaviour
 
     private class Behavior_A : StateBehavior
     {
-        public override void OnEnter()
+        public override void OnEnter( Enum changing_from )
         {
+            IntegrationTest.Assert( changing_from == null );
             ( (Test_StateMachine)Parent ).Enter_A = true;
         }
 
-        public override void OnExit()
+        public override void OnExit( Enum changing_to )
         {
+            IntegrationTest.Assert( changing_to.Equals( BEHAVIORS.B ) );
             ( (Test_StateMachine)Parent ).Exit_A = true;
         }
 
@@ -65,13 +68,15 @@ public class Test_StateMachine : MonoBehaviour
 
     private class Behavior_B : StateBehavior
     {
-        public override void OnEnter()
+        public override void OnEnter( Enum changing_from )
         {
+            IntegrationTest.Assert( changing_from.Equals( BEHAVIORS.A ) );
             ( (Test_StateMachine)Parent ).Enter_B = true;
         }
 
-        public override void OnExit()
+        public override void OnExit( Enum changing_to )
         {
+            IntegrationTest.Assert( changing_to.Equals( BEHAVIORS.C ) );
             ( (Test_StateMachine)Parent ).Exit_B = true;
         }
 
@@ -98,12 +103,13 @@ public class Test_StateMachine : MonoBehaviour
 
     private class Behavior_C : StateBehavior
     {
-        public override void OnEnter()
+        public override void OnEnter( Enum changing_from )
         {
+            IntegrationTest.Assert( changing_from.Equals( BEHAVIORS.B ) );
             ( (Test_StateMachine)Parent ).Enter_C = true;
         }
 
-        public override void OnExit()
+        public override void OnExit( Enum changing_to )
         {
             ( (Test_StateMachine)Parent ).Exit_C = true;
         }
@@ -135,7 +141,7 @@ public class Test_StateMachine : MonoBehaviour
         C
     }
 
-    void Start()
+    public void Start()
     {
         _state_machine = GetComponent<StateMachine>();
 
