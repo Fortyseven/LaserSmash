@@ -2,6 +2,7 @@
 
 using System;
 using Game;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,17 +16,31 @@ public class WaveController : MonoBehaviour
     public const int MAX_OBJECT_PER_WAVEDEF = 20;
 
     [Serializable]
-    public class WaveDefinition
+    public struct WaveDefinition
     {
-        public string Name;                 // Textual description of enemy
-        public GameObject GameObjectPrefab; // Prefab associated with enemy 
-        public float[] LevelFrequencyLow;   // Lower bound of random % chance of spawning per level
-        public float[] LevelFrequencyHigh;  // Upper bound of random % chance of spawning per level
+        public readonly string Name;                 // Textual description of enemy
+        public readonly GameObject GameObjectPrefab; // Prefab associated with enemy 
+        public readonly float[] LevelFrequencyLow;   // Lower bound of random % chance of spawning per level
+        public readonly float[] LevelFrequencyHigh;  // Upper bound of random % chance of spawning per level
         public ObjectPool Pool;             // not exposed in editor //TODO:Should this be private?
         public bool Disabled;               // Will disable this enemy for debugging purposes
+
+        public WaveDefinition( string name, string asset_path, float[] level_freq_low, float[] level_freq_high, ObjectPool pool, bool disabled )
+        {
+            Name = name;
+            //GameObjectPrefab = (GameObject)AssetDatabase.LoadAssetAtPath( "Assets/Scenes/GameScene/Objects/Enemies/" + asset_path + ".prefab", typeof( GameObject ) );
+            GameObjectPrefab = Resources.Load<GameObject>( "Enemies/" + asset_path + "" );
+            if ( GameObjectPrefab == null ) {
+                Debug.LogError( "LoadAssetAtPath returned null" );
+            }
+            LevelFrequencyLow = level_freq_low;
+            LevelFrequencyHigh = level_freq_high;
+            Pool = pool;
+            Disabled = disabled;
+        }
     }
 
-    public WaveDefinition[] Enemies;
+    private WaveDefinition[] Enemies;
 
     public bool Paused { get; set; }
 
@@ -37,6 +52,15 @@ public class WaveController : MonoBehaviour
     /*****************************/
     public void Awake()
     {
+        Enemies = new WaveDefinition[ 1 ] {
+            new WaveDefinition("UFO", "UFO", 
+                                        new[] {100.0f, 100.0f, 1.0f, 1.0f, 1.0f }, new[] {100.0f, 100.0f, 100.0f, 1.0f, 1.0f }, null, false),
+            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
+            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
+            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
+            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
+            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false)
+        };
         _audio = GetComponent<AudioSource>();
         CreatePools();
         Reset();
