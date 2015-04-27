@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using Game;
+using Random = UnityEngine.Random;
 
 public class UFO : GenericEnemy
 {
@@ -65,7 +67,7 @@ public class UFO : GenericEnemy
         private Vector3 _player_target_position;
         private  bool _has_fired;
 
-        public override void OnEnter()
+        public override void OnEnter( Enum changing_from )
         {
             ( (UFO)Parent )._charging_flare_sprite.enabled = true;
             ( (UFO)Parent )._charging_light.enabled = true;
@@ -85,9 +87,7 @@ public class UFO : GenericEnemy
         public override void OnUpdate()
         {
             if ( ( Time.time - _time_started_charging ) > CHARGING_TIME && !_has_fired ) {
-
                 StartCoroutine( "Fire" );
-                _has_fired = true;
             }
             else {
                 // Laser source should follow ship's slow movement
@@ -111,6 +111,8 @@ public class UFO : GenericEnemy
         /// </summary>
         protected IEnumerator Fire()
         {
+            _has_fired = true;
+
             ( (UFO)Parent )._laser.SetPosition( 1, transform.position );
             ( (UFO)Parent )._laser.SetPosition( 0, _player_target_position );
 
@@ -140,8 +142,13 @@ public class UFO : GenericEnemy
                 yield return new WaitForSeconds( LASER_FADE_TIME * LASER_FADE_GRANULARITY );
             }
 
-            ( (UFO)Parent ).ShutDownLaser();
             Machine.SwitchStateTo( State.PASSIVE );
+        }
+
+        public override void OnExit( Enum changing_to )
+        {
+            ( (UFO)Parent ).ShutDownLaser();
+            _has_fired = false;
         }
     }
 
@@ -211,6 +218,7 @@ public class UFO : GenericEnemy
     /*****************************/
     void Done()
     {
+        _state_machine.SwitchStateTo( State.PASSIVE );
         ShutDownLaser();
         Hibernate();
     }
@@ -253,7 +261,7 @@ public class UFO : GenericEnemy
             _newpos = new Vector3( SpawnMaxX, y_offs, 0 );
         }
         transform.position = _newpos;
-        _state_machine.SwitchStateTo( State.PASSIVE );
+
         IsReady = true;
     }
 }
