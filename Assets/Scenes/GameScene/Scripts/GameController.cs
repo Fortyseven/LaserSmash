@@ -1,7 +1,6 @@
 ﻿//#define TESTMODE
 
 using UnityEngine;
-using System.Collections;
 
 using UnityEngine.UI;
 
@@ -56,7 +55,7 @@ public class GameController : MonoBehaviour
     /***************************************************************************/
     public void Awake()
     {
-        GameController.instance = this;
+        instance = this;
         //_prevcolor = TopLight.color;
         //        Application.targetFrameRate = 30;
     }
@@ -175,7 +174,7 @@ public class GameController : MonoBehaviour
     /***************************************************************************/
     public void OnGameOver()
     {
-        GameController.instance.State.Mode = GameState.GameMode.GAMEOVER;
+        instance.State.Mode = GameState.GameMode.GAMEOVER;
         GameOverCanvas.gameObject.SetActive( true );
         Text peak_score_value = GameObject.Find( "PeakScoreValue" ).GetComponent<Text>();
         peak_score_value.text = State.PeakScore.ToString();
