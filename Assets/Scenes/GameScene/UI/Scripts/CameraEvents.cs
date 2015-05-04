@@ -5,6 +5,6 @@ public class CameraEvents : MonoBehaviour
 {
     public void OnIntroCameraDone()
     {
-        GameController.instance.OnSceneReady();
+        GameController.instance.OnSceneIntroAnimationComplete();
     }
 }

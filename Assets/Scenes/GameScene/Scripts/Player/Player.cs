@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
 
         if ( GameController.instance.State.Lives <= 0 ) {
             gameObject.SetActive( false );
-            GameController.instance.OnGameOver();
+            GameController.instance.Machine.SwitchStateTo( GameController.NewGameState.GAMEOVER );
         }
         else {
             DeathPanel.gameObject.SetActive( true );

@@ -2,7 +2,6 @@
 
 using System;
 using Game;
-using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -106,7 +105,7 @@ public class WaveController : MonoBehaviour
 
         _cur_spawn_timeout = GameConstants.MULT_TIMEOUT_RAMP[ GameController.instance.State.Multiplier - 1 ];
 
-        if ( !GameController.instance.DebugMode ) {
+        if ( !GameController.DebugMode ) {
 
             if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
                 //GameController.instance.State.Multiplier = 1;
