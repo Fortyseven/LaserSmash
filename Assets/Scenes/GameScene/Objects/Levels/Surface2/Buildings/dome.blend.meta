@@ -13,6 +13,8 @@ ModelImporter:
     100010: Cube_004
     100012: Cube_005
     100014: Icosphere
+    100016: Dome
+    100018: glass
     400000: //RootNode
     400002: Cube
     400004: Cube_001
@@ -21,6 +23,8 @@ ModelImporter:
     400010: Cube_004
     400012: Cube_005
     400014: Icosphere
+    400016: Dome
+    400018: glass
     2300000: //RootNode
     2300002: Cube
     2300004: Cube_001
@@ -29,6 +33,8 @@ ModelImporter:
     2300010: Cube_004
     2300012: Cube_005
     2300014: Icosphere
+    2300016: Dome
+    2300018: glass
     3300000: //RootNode
     3300002: Cube
     3300004: Cube_001
@@ -37,6 +43,8 @@ ModelImporter:
     3300010: Cube_004
     3300012: Cube_005
     3300014: Icosphere
+    3300016: Dome
+    3300018: glass
     4300000: Icosphere
     4300002: Cube
     4300004: Cube_001
@@ -44,6 +52,8 @@ ModelImporter:
     4300008: Cube_003
     4300010: Cube_004
     4300012: Cube_005
+    4300014: Dome
+    4300016: glass
     7400000: Default Take
     9500000: //RootNode
   materials:
