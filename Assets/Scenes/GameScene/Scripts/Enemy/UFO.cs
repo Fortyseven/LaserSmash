@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using Game;
+using JetBrains.Annotations;
 using Random = UnityEngine.Random;
 
 public class UFO : GenericEnemy
@@ -22,27 +23,27 @@ public class UFO : GenericEnemy
         DIR_LEFT   // l-t-r
     }
 
-    protected  const float CHARGING_PITCH = 0.75f;
-    protected  const float PASSIVE_PITCH = -0.8f;
-    protected  const float LASER_FADE_TIME = 0.5f;
-    protected  const float LASER_FADE_GRANULARITY = 0.05f;
+    private const float CHARGING_PITCH = 0.75f;
+    private  const float PASSIVE_PITCH = -0.8f;
+    private  const float LASER_FADE_TIME = 0.5f;
+    private  const float LASER_FADE_GRANULARITY = 0.05f;
 
-    protected  const float CHARGING_TIME = 1.0f;
-    protected  const float TARGET_LOCK_TIME = 0.75f;
+    private  const float CHARGING_TIME = 1.0f;
+    private  const float TARGET_LOCK_TIME = 0.75f;
 
     protected Direction _direction = 0;
     protected float _speed = 10.0f;
     protected float _charging_speed = 3.0f;
     protected Vector3 _newpos;
 
-    protected LineRenderer _laser;
-    protected Light _charging_light;
-    protected SpriteRenderer _charging_flare_sprite;
-    protected AudioSource _audio;
+    private LineRenderer _laser;
+    private Light _charging_light;
+    private SpriteRenderer _charging_flare_sprite;
+    private AudioSource _audio;
 
     private StateMachine _state_machine;
 
-    protected enum State
+    private enum State
     {
         PASSIVE,
         ATTACK
@@ -100,7 +101,8 @@ public class UFO : GenericEnemy
         /// Wait for TARGET_LOCK_TIME seconds and then log where the player was; fire at that position.
         /// This is used so that there's a chance for the player to dodge the shot.
         /// </summary>
-        protected IEnumerator AcquireTargetLock()
+        [UsedImplicitly]
+        public IEnumerator AcquireTargetLock()
         {
             yield return new WaitForSeconds( TARGET_LOCK_TIME );
             _player_target_position = GameController.instance.PlayerShip.transform.position;
@@ -109,7 +111,8 @@ public class UFO : GenericEnemy
         /// <summary>
         /// I'm-a-firin' muh laz0r.
         /// </summary>
-        protected IEnumerator Fire()
+        [UsedImplicitly]
+        public IEnumerator Fire()
         {
             _has_fired = true;
 
