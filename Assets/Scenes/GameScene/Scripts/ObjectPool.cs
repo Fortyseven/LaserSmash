@@ -62,10 +62,12 @@ public class ObjectPool
     public int MaxCount;
     //ArrayList _items;
     private List<GameObject> _items;
+    private IGameEnvironment _game_environment;
 
     /*****************************/
-    public ObjectPool( GameObject gobj, int max_count )
+    public ObjectPool( GameObject gobj, int max_count, IGameEnvironment game_environment )
     {
+        _game_environment = game_environment;
         GameObjectSource = gobj;
         MaxCount = max_count;
         Awake();
@@ -95,10 +97,13 @@ public class ObjectPool
     /*****************************/
     public GameObject GetInstance( Vector3 position, Quaternion rot, bool call_respawn = true )
     {
+        if ( _game_environment == null ) {
+            Debug.Log( "Where is my environment?!" );
+        }
         // Have we hit max allocation? Instantiate, add to the pool, and return
         if ( _items.Count < MaxCount ) {
             GameObject obj = GameObject.Instantiate( GameObjectSource, position, rot ) as GameObject;
-
+            obj.GetComponent<GenericEnemy>().GameEnvironment = _game_environment;
             if ( call_respawn )
                 obj.GetComponent<GenericEnemy>().Respawn();
             //obj.SendMessage( "Respawn", SendMessageOptions.DontRequireReceiver );

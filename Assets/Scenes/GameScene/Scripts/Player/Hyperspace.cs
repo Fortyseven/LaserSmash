@@ -8,9 +8,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof (StateMachine))]
 public class Hyperspace : MonoBehaviour
 {
     public enum BEAM_STATE
@@ -21,7 +21,6 @@ public class Hyperspace : MonoBehaviour
     };
 
     public BEAM_STATE State { get; private set; }
-
 
     private struct MatState
     {
@@ -84,5 +83,4 @@ public class Hyperspace : MonoBehaviour
         State = BEAM_STATE.IDLE;
         yield return null;
     }
-
 }

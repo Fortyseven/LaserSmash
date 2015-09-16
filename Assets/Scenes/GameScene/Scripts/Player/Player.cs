@@ -22,11 +22,14 @@ public class Player : MonoBehaviour
     private Vector3 _starting_position;
     private GameObject _scene_surface;
     private Vector3 _scene_surface_position;
-    public bool IsAlive { get; set; }
+
+    private bool _ready = false;
+    private IGameEnvironment _game_environment = null;
 
     /**************************************/
     public void Awake()
     {
+        _ready = false;
         _starting_position = transform.position;
         _next_fire_time = Time.time + FIRE_DELAY;
     }
@@ -42,7 +45,21 @@ public class Player : MonoBehaviour
         _scene_surface_position = _scene_surface.transform.position;
 
         Reset();
-        enabled = true;
+        enabled = false;
+    }
+
+    /**************************************/
+    public void Init( IGameEnvironment environment )
+    {
+        _game_environment = environment;
+        _ready = true;
+    }
+
+    /**************************************/
+    public void Done()
+    {
+        _ready = false;
+        enabled = false;
     }
 
     /**************************************/
@@ -50,13 +67,13 @@ public class Player : MonoBehaviour
     {
         UpdateBackgroundSurface();
 
-        if ( !GameController.instance.SceneReady || !enabled )
+        if ( _ready || !enabled )
             return;
 
 #if !TESTMODE
-        if ( GameController.instance.State.Mode == GameState.GameMode.PAUSED ) {
-            return;
-        }
+        //if ( GameController.instance.Status.Mode == GameStatus.GameMode.PAUSED ) {
+        //    return;
+        //}
 #endif
         Vector3 pos = transform.position;
 
@@ -114,25 +131,24 @@ public class Player : MonoBehaviour
 #if TESTMODE
         return;
 #endif
-        IsAlive = false;
         My_Mesh.SetActive( false );
         enabled = false;
 
         Destroy( Instantiate( DeathExplosionPrefab, transform.position, Quaternion.identity ), 3.0f );
 
-        GameController.instance.State.Lives--;
-        GameController.instance.State.AdjustScore( GameConstants.SCORE_PLAYERDEATH );
+        _game_environment.Lives--;
+        _game_environment.AdjustScore( GameConstants.SCORE_PLAYERDEATH );
 
-        GameController.instance.State.Mode = GameState.GameMode.POSTDEATH;
+        //GameController.instance.Status.Mode = GameStatus.GameMode.POSTDEATH;
 
-        if ( GameController.instance.State.Lives <= 0 ) {
+        if ( _game_environment.Lives <= 0 ) {
             gameObject.SetActive( false );
             GameController.instance.Machine.SwitchStateTo( GameController.NewGameState.GAMEOVER );
         }
         else {
             DeathPanel.gameObject.SetActive( true );
-            GameController.instance.WaveCon.Paused = true;
-            GameController.instance.WaveCon.Reset();
+            _game_environment.WaveCon.Paused = true;
+            _game_environment.WaveCon.Reset();
             StartCoroutine( "PlayerRespawnTimeout" );
         }
     }
@@ -154,11 +170,7 @@ public class Player : MonoBehaviour
         gameObject.SetActive( true );
         My_Mesh.SetActive( true );
         enabled = true;
-        IsAlive = true;
-        GameController.instance.State.Mode = GameState.GameMode.RUNNING;
-#if !TESTMODE
-        GameController.instance.WaveCon.Paused = false;
-#endif
+        //GameController.instance.Status.Mode = GameStatus.GameMode.RUNNING;
     }
 }
 

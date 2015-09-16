@@ -7,14 +7,17 @@ using Random = UnityEngine.Random;
 
 public class UFO : GenericEnemy
 {
-    protected override float SpawnMaxX { get { return 18.0f; } }
-    protected override float SpawnMinX { get { return -18.0f; } }
+    protected override float SpawnMaxX
+    { get { return 18.0f; } }
+    protected override float SpawnMinX
+    { get { return -18.0f; } }
 
-    protected override int BaseScore { get { return GameConstants.SCORE_KILLSAT; } }
+    protected override int BaseScore
+    { get { return GameConstants.SCORE_KILLSAT; } }
 
     public GameObject ExplosionLaserGroundPrefab = null;
 
-    protected  const float MAX_Y_SPAWN = 13.0f;
+    protected const float MAX_Y_SPAWN = 13.0f;
     protected const float MIN_Y_SPAWN = 6.0f;
 
     protected enum Direction
@@ -24,12 +27,12 @@ public class UFO : GenericEnemy
     }
 
     private const float CHARGING_PITCH = 0.75f;
-    private  const float PASSIVE_PITCH = -0.8f;
-    private  const float LASER_FADE_TIME = 0.5f;
-    private  const float LASER_FADE_GRANULARITY = 0.05f;
+    private const float PASSIVE_PITCH = -0.8f;
+    private const float LASER_FADE_TIME = 0.5f;
+    private const float LASER_FADE_GRANULARITY = 0.05f;
 
-    private  const float CHARGING_TIME = 1.0f;
-    private  const float TARGET_LOCK_TIME = 0.75f;
+    private const float CHARGING_TIME = 1.0f;
+    private const float TARGET_LOCK_TIME = 0.75f;
 
     protected Direction _direction = 0;
     protected float _speed = 10.0f;
@@ -52,10 +55,12 @@ public class UFO : GenericEnemy
     /***************************************************************/
     private class State_PASSIVE : StateBehavior
     {
+        private const float PERCENT_CHANCE_OF_FIRING = 1.0f;
         public override void OnUpdate()
         {
             // Occasionally fire down hot death
-            if ( GameController.instance.State.Mode == GameState.GameMode.RUNNING && Random.Range( 0, 250 ) == 0 ) {
+            if ( GameController.instance.Machine.ActiveState.Equals( GameController.NewGameState.RUNNING ) &&
+                ( Random.Range( 0, 100 ) <= PERCENT_CHANCE_OF_FIRING ) ) {
                 Machine.SwitchStateTo( State.ATTACK );
             }
         }
@@ -66,7 +71,7 @@ public class UFO : GenericEnemy
     {
         private float _time_started_charging;
         private Vector3 _player_target_position;
-        private  bool _has_fired;
+        private bool _has_fired;
 
         public override void OnEnter( Enum changing_from )
         {
@@ -105,7 +110,7 @@ public class UFO : GenericEnemy
         public IEnumerator AcquireTargetLock()
         {
             yield return new WaitForSeconds( TARGET_LOCK_TIME );
-            _player_target_position = GameController.instance.PlayerShip.transform.position;
+            _player_target_position = ( (UFO)Parent ).GameEnvironment.PlayerShip.transform.position;
         }
 
         /// <summary>
@@ -130,11 +135,13 @@ public class UFO : GenericEnemy
             /* We COULD check if this is the player being hit, but all the enemies are on layer 8, and
                nothing else with a collider exists on any other layer but the player. */
 
-            if ( GameController.instance.State.Mode == GameState.GameMode.RUNNING ) {
-                if (/*hit = */Physics2D.Raycast( r.origin, r.direction, Mathf.Infinity, 1 | 8 ) ) {
-                    ( (UFO)Parent ).KillPlayer();
-                }
-            }
+
+            //FIXME
+            //if ( GameController.instance.Status.Mode == GameStatus.GameMode.RUNNING ) {
+            //    if (/*hit = */Physics2D.Raycast( r.origin, r.direction, Mathf.Infinity, 1 | 8 ) ) {
+            //        ( (UFO)Parent ).KillPlayer();
+            //    }
+            //}
 
             // Fade out the beam over LASER_FADE_TIME seconds
             Color col = ( (UFO)Parent )._laser.material.GetColor( "_TintColor" );
@@ -240,7 +247,8 @@ public class UFO : GenericEnemy
     /*****************************/
     protected override void InstaKill()
     {
-        StartCoroutine( "InstaKillDelay" );
+        //StartCoroutine( "InstaKillDelay" );
+        Done();
     }
 
     /*****************************/

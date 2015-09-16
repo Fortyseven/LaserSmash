@@ -6,7 +6,7 @@ public class HelpController : MonoBehaviour
     public void Update()
     {
         if ( Input.anyKeyDown ) {
-            Application.LoadLevel( "MainMenu" );
+            Init.instance.ChangeState( Init.GameStates.MAIN_MENU );
         }
     }
 }

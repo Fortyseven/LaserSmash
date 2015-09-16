@@ -47,27 +47,16 @@ public class WaveController : MonoBehaviour
 
     private float _cur_spawn_timeout;
     private float _next_spawn_time;
+    private  IGameEnvironment _game_environment = null;
 
-    /*****************************/
-    public void Awake()
-    {
-        Enemies = new WaveDefinition[ 1 ] {
-            new WaveDefinition("UFO", "UFO", 
-                                        new[] {100.0f, 100.0f, 1.0f, 1.0f, 1.0f }, new[] {100.0f, 100.0f, 100.0f, 1.0f, 1.0f }, null, false),
-            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
-            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
-            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
-            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
-            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false)
-        };
-        _audio = GetComponent<AudioSource>();
-        CreatePools();
-        Reset();
-    }
+    private bool _initialized = false;
 
     /*****************************/
     public void Reset()
     {
+        if ( !_initialized )
+            throw new UnityException( "Reset called on non-initalized WaveCon" );
+
         _cur_spawn_timeout = GameConstants.MULT_TIMEOUT_RAMP[ 0 ];
         _next_spawn_time = Time.time + _cur_spawn_timeout;
         for ( int i = 0; i < Enemies.Length; i++ ) {
@@ -78,8 +67,12 @@ public class WaveController : MonoBehaviour
     /*****************************/
     void CreatePools()
     {
+        if ( _game_environment == null ) {
+            Debug.Log( "Yes, it's fucking null." );
+        }
         for ( int i = 0; i < Enemies.Length; i++ ) {
-            Enemies[ i ].Pool = new ObjectPool( Enemies[ i ].GameObjectPrefab, MAX_OBJECT_PER_WAVEDEF );
+            Enemies[ i ].Pool = new ObjectPool( Enemies[ i ].GameObjectPrefab, MAX_OBJECT_PER_WAVEDEF, _game_environment );
+            Debug.Log( "Set environ to " + _game_environment.ToString() );
         }
     }
 
@@ -90,8 +83,9 @@ public class WaveController : MonoBehaviour
             throw new ArgumentNullException( "pool_name" );
 
         for ( int i = 0; i < Enemies.Length; i++ ) {
-            if ( Enemies[ i ].Name.Equals( pool_name ) ) {
-                return Enemies[ i ].Pool;
+            if ( Enemies[ i ].Name.Equals( pool_name ) )
+            {
+                return Enemies[i].Pool;
             }
         }
         throw new UnityException( "Could not provide object pool for " + pool_name );
@@ -100,36 +94,36 @@ public class WaveController : MonoBehaviour
     /*****************************/
     public void Update()
     {
-        if ( Paused )
+        if ( Paused || !_initialized )
             return;
 
-        _cur_spawn_timeout = GameConstants.MULT_TIMEOUT_RAMP[ GameController.instance.State.Multiplier - 1 ];
+        _cur_spawn_timeout = GameConstants.MULT_TIMEOUT_RAMP[ _game_environment.Multiplier - 1 ];
 
         if ( !GameController.DebugMode ) {
 
             if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
                 //GameController.instance.State.Multiplier = 1;
-                GameController.instance.State.Score = GameState.SCORE_THRESH_1X;
+                _game_environment.Score = GameConstants.SCORE_THRESH_1X;
             }
             if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
                 //GameController.instance.State.Multiplier = 2;
-                GameController.instance.State.Score = GameState.SCORE_THRESH_2X;
+                _game_environment.Score = GameConstants.SCORE_THRESH_2X;
             }
             if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
                 //GameController.instance.State.Multiplier = 3;
-                GameController.instance.State.Score = GameState.SCORE_THRESH_3X;
+                _game_environment.Score = GameConstants.SCORE_THRESH_3X;
             }
             if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
                 //GameController.instance.State.Multiplier = 4;
-                GameController.instance.State.Score = GameState.SCORE_THRESH_4X;
+                _game_environment.Score = GameConstants.SCORE_THRESH_4X;
             }
             if ( Input.GetKeyDown( KeyCode.Alpha5 ) ) {
                 //GameController.instance.State.Multiplier = 5;
-                GameController.instance.State.Score = GameState.SCORE_THRESH_5X;
+                _game_environment.Score = GameConstants.SCORE_THRESH_5X;
             }
             if ( Input.GetKeyDown( KeyCode.Alpha6 ) ) {
                 //GameController.instance.State.Multiplier = 6;
-                GameController.instance.State.Score = GameState.SCORE_THRESH_6X;
+                _game_environment.Score = GameConstants.SCORE_THRESH_6X;
             }
 
             if ( Input.GetKeyDown( KeyCode.U ) ) {
@@ -160,5 +154,27 @@ public class WaveController : MonoBehaviour
 
             // NOTED: There is a slim chance nothing will spawn.
         }
+    }
+
+    public void Init( IGameEnvironment environment )
+    {
+        _game_environment = environment;
+
+        Enemies = new[] {
+            new WaveDefinition("UFO", "UFO", 
+                                        new[] {100.0f, 100.0f, 1.0f, 1.0f, 1.0f }, 
+                                        new[] {100.0f, 100.0f, 100.0f, 1.0f, 1.0f }, 
+                                        null, false),
+            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
+            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
+            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
+            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
+            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false)
+        };
+        _audio = GetComponent<AudioSource>();
+        CreatePools();
+        Paused = true;
+        _initialized = true;
+        Reset();
     }
 }

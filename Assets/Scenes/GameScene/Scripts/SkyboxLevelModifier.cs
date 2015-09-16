@@ -4,7 +4,7 @@ public class SkyboxLevelModifier : MonoBehaviour
 {
     public void Update()
     {
-        int score = GameController.instance.State.Score;
+        //FIXME: int score = _game_environment.Score;
 
         //float hue = ( 1.0f / 10000 ) * score;
         float hue = 0.5f;

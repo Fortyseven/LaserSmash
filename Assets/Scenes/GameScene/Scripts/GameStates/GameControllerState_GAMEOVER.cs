@@ -7,24 +7,42 @@ public class GameControllerState_GAMEOVER : StateBehavior
 {
     private const float GAMEOVER_TIMEOUT = 4.0f;
 
+    private Canvas _ui_game_over_canvas;
+    private Flash _ui_flash;
     private float _game_over_timeout;
     private bool _game_over_message_enabled;
 
+    public override void Init()
+    {
+        _ui_game_over_canvas = GameObject.Find( "GameOver Canvas" ).GetComponent<Canvas>();
+        _ui_flash = _ui_game_over_canvas.GetComponentInChildren<Flash>();
+        _ui_game_over_canvas.gameObject.SetActive( false );
+    }
+
     public override void OnEnter( Enum changing_from )
     {
-        //GameState.instance.State.Mode = GameState.GameMode.GAMEOVER;
-
-        ( (GameController)Parent ).GameOverCanvas.gameObject.SetActive( true );
+        _ui_game_over_canvas.gameObject.SetActive( true );
         Text peak_score_value = GameObject.Find( "PeakScoreValue" ).GetComponent<Text>();
-        peak_score_value.text = ( (GameController)Parent ).State.PeakScore.ToString();
+        //peak_score_value.text = ( (GameController)Parent ).Status.PeakScore.ToString();
+        peak_score_value.text = "FIXME";
         _game_over_timeout = Time.time + GAMEOVER_TIMEOUT;
         _game_over_message_enabled = false;
+    }
+
+    public override void OnExit( Enum changing_to )
+    {
+        //#if !TESTMODE
+        //        ( (GameController)Parent ).GameOverCanvas.gameObject.SetActive( false );
+        //#endif
+
+        _ui_flash.ResetFlashers();
+        _ui_game_over_canvas.gameObject.SetActive( false );
     }
 
     public override void OnUpdate()
     {
         if ( Time.time >= _game_over_timeout && !_game_over_message_enabled ) {
-            ( (GameController)Parent ).GameOverCanvas.GetComponentInChildren<Flash>().Go();
+            _ui_game_over_canvas.GetComponentInChildren<Flash>().Go();
             _game_over_message_enabled = true;
         }
         if ( Input.anyKeyDown && ( Time.time >= _game_over_timeout ) ) {

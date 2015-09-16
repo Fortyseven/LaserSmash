@@ -87,7 +87,7 @@ namespace Assets.Scenes.GameScene.Scripts.Enemy
         private void OnGroundHit()
         {
             Instantiate( NukePrefab, transform.position, Quaternion.identity );
-            GameController.instance.PlayerComponent.Kill();
+            GameEnvironment.PlayerComponent.Kill();
             _hit_surface = true;
             Done();
         }

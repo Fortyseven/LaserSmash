@@ -5,13 +5,14 @@ using System.Collections.Generic;
 public class StateMachine : MonoBehaviour
 {
     public Enum ActiveState { get; private set; }
+    private enum DefaultState { NOT_STARTED = -1 };
 
     private Dictionary<Enum, StateBehavior> _state_behaviors;
     private MonoBehaviour _owner;
 
     public StateMachine()
     {
-        ActiveState = null;
+        ActiveState = DefaultState.NOT_STARTED;
     }
 
     public void Init( MonoBehaviour owner )
@@ -23,7 +24,7 @@ public class StateMachine : MonoBehaviour
     {
         Enum old_state = ActiveState;
 
-        if ( old_state != null ) {
+        if ( !old_state.Equals( DefaultState.NOT_STARTED ) ) {
             _state_behaviors[ old_state ].OnExit( new_state );
         }
         _state_behaviors[ new_state ].OnEnter( old_state );
@@ -51,7 +52,7 @@ public class StateMachine : MonoBehaviour
 
     public void Update()
     {
-        if ( ActiveState == null || !gameObject.activeInHierarchy )
+        if ( ActiveState.Equals( DefaultState.NOT_STARTED ) || !gameObject.activeInHierarchy )
             return;
 
         _state_behaviors[ ActiveState ].OnUpdate();
@@ -59,7 +60,7 @@ public class StateMachine : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if ( ActiveState == null || !gameObject.activeInHierarchy )
+        if ( ActiveState.Equals( DefaultState.NOT_STARTED ) || !gameObject.activeInHierarchy )
             return;
 
         _state_behaviors[ ActiveState ].OnFixedUpdate();

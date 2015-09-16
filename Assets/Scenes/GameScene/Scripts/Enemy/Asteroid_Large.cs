@@ -25,7 +25,7 @@ public class Asteroid_Large : BaseAsteroid
     public override void Awake()
     {
         base.Awake();
-        _ast_small_objectpool = GameController.instance.WaveCon.GetPoolForName( "Asteroid Small" );
+        _ast_small_objectpool = GameEnvironment.WaveCon.GetPoolForName( "Asteroid Small" );
     }
 
     /*****************************/

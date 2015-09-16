@@ -17,35 +17,36 @@ public class PauseController : MonoBehaviour
     public void Update()
     {
         if ( Input.GetButtonDown( INPUT_PAUSE ) ) {
-            if ( GameController.instance.State.Paused ) {
-                OnPauseLeave();
-            }
-            else {
-                OnPauseEnter();
-            }
+            //FIXME
+            //if ( GameController.instance.Status.Paused ) {
+            //    OnPauseLeave();
+            //}
+            //else {
+            //    OnPauseEnter();
+            //}
         }
     }
 
     private void OnPauseEnter()
     {
-        GameController.instance.State.Paused = true;
-        PauseCanvas.gameObject.SetActive( true );
+        //GameController.instance.Status.Paused = true;
+        //PauseCanvas.gameObject.SetActive( true );
 
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag( "Enemy" );
-        for ( int i = 0; i < enemies.Length; i++ ) {
-            enemies[ i ].GetComponent<GenericEnemy>().OnPause();
-        }
+        //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "Enemy" );
+        //for ( int i = 0; i < enemies.Length; i++ ) {
+        //    enemies[ i ].GetComponent<GenericEnemy>().OnPause();
+        //}
     }
 
     private void OnPauseLeave()
     {
-        GameController.instance.State.Paused = false;
-        PauseCanvas.gameObject.SetActive( false );
+        //GameController.instance.Status.Paused = false;
+        //PauseCanvas.gameObject.SetActive( false );
 
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag( "Enemy" );
-        for ( int i = 0; i < enemies.Length; i++ ) {
-            enemies[ i ].GetComponent<GenericEnemy>().OnResume();
-        }
+        //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "Enemy" );
+        //for ( int i = 0; i < enemies.Length; i++ ) {
+        //    enemies[ i ].GetComponent<GenericEnemy>().OnResume();
+        //}
     }
 
     public void OnClickQuit()

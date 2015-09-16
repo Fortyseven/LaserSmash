@@ -54,7 +54,7 @@ namespace Game
             }
 
             if ( destroyed_by_player ) {
-                GameController.instance.State.AdjustScore( BaseScore );
+                GameEnvironment.AdjustScore( BaseScore );
                 ExplodeAndHibernate();
                 return;
             }
@@ -82,7 +82,7 @@ namespace Game
             // Did we hit the ground? Punish player, make noises, explode
             if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
                 //Debug.Log( "Hit surface" );
-                GameController.instance.State.AdjustScore( -( BaseScore / 2 ) );
+                GameEnvironment.AdjustScore( -( BaseScore / 2 ) );
                 _hit_surface = true;
                 CleanUpAndHibernate( false );
             }
@@ -92,7 +92,12 @@ namespace Game
         public override void Respawn()
         {
             base.Respawn();
+            Color c = gameObject.GetComponent<Renderer>().material.color;
 
+            c.r = Random.Range( 0.1f, 0.6f );
+            c.g = Random.Range( 0.1f, 0.6f );
+            c.b = Random.Range( 0.1f, 0.6f );
+            gameObject.GetComponent<Renderer>().material.color = c;
             _rigidbody.velocity = Vector3.zero;
             float xpush = Random.Range( -1.0f, 1.0f ) * 150.0f;
             //float ypush = -Random.Range( 50.0f, 400.0f );

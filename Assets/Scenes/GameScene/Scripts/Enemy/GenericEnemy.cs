@@ -14,6 +14,14 @@ namespace Game
 
         public GameObject ExplosionPrefab;
 
+        private IGameEnvironment _game_environment;
+
+        public IGameEnvironment GameEnvironment
+        {
+            get { return _game_environment; }
+            set { _game_environment = value; }
+        }
+
         public virtual void Awake()
         {
             tag = "Enemy";
@@ -43,12 +51,12 @@ namespace Game
         public virtual void HitByLaser( Laserbeam laser )
         {
             ExplodeAndHibernate();
-            GameController.instance.State.AdjustScore( BaseScore );
+            GameEnvironment.AdjustScore( BaseScore );
         }
 
         protected void KillPlayer()
         {
-            GameController.instance.PlayerComponent.Kill();
+            _game_environment.PlayerComponent.Kill();
             Hibernate();
         }
 
