@@ -25,5 +25,7 @@ UnityVS*
 /*.pidb
 /*.booproj
 
+*LightmapSnapshot*
+
 #Unity3D Generated File On Crash Reports
 sysinfo.txt
