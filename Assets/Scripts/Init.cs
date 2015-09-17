@@ -10,7 +10,8 @@ public class Init : StateMachineMB
 
     public static Init instance
     {
-        get {
+        get
+        {
             if ( _instance == null ) { Construct( false ); }
             return _instance;
         }

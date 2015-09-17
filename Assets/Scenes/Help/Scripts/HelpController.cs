@@ -2,6 +2,10 @@
 
 public class HelpController : MonoBehaviour
 {
+    public void Start()
+    {
+        Init.Construct( true );
+    }
 
     public void Update()
     {
