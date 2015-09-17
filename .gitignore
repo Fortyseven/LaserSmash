@@ -25,6 +25,8 @@ UnityVS*
 /*.pidb
 /*.booproj
 
+trash/
+
 *LightmapSnapshot*
 
 #Unity3D Generated File On Crash Reports
