@@ -252,6 +252,7 @@ AudioSource:
   m_Pitch: -.800000012
   Loop: 1
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: .370000005
   MinDistance: 1
@@ -321,6 +322,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
