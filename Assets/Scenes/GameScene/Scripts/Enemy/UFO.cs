@@ -59,8 +59,8 @@ public class UFO : GenericEnemy
         public override void OnUpdate()
         {
             // Occasionally fire down hot death
-            if ( GameController.instance.Machine.ActiveState.Equals( GameController.NewGameState.RUNNING ) &&
-                ( Random.Range( 0, 100 ) <= PERCENT_CHANCE_OF_FIRING ) ) {
+            if ( GameController.instance.CurrentState.Name.Equals( GameController.NewGameState.RUNNING ) &&
+                 ( Random.Range( 0, 100 ) <= PERCENT_CHANCE_OF_FIRING ) ) {
                 Machine.SwitchStateTo( State.ATTACK );
             }
         }
@@ -149,6 +149,7 @@ public class UFO : GenericEnemy
             for ( float i = 0; i < 1.0f; i += LASER_FADE_GRANULARITY ) {
                 col.a = 1.0f - i;
                 ( (UFO)Parent )._laser.material.SetColor( "_TintColor", col );
+                Debug.Log( "foo " + i );
                 yield return new WaitForSeconds( LASER_FADE_TIME * LASER_FADE_GRANULARITY );
             }
 
