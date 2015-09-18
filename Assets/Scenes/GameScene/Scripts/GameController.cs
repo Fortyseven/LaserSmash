@@ -2,19 +2,15 @@
 
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class GameController : StateMachineMB
 {
     public static GameController instance = null;
     public static bool DebugMode { get; set; }
 
     //public Camera Egg_CockpitCamera;
-
     //private GameState _game_state;
 
-
     public bool SceneReady { get; set; }
-
-    public StateMachine Machine { get; private set; }
 
     public enum NewGameState
     {
@@ -38,15 +34,16 @@ public class GameController : MonoBehaviour
     /***************************************************************************/
     public void Start()
     {
-        Machine = gameObject.AddComponent<StateMachine>();
-        Machine.Init( this );
-        //      Machine.AddState<GameControllerState_INTRO_ANIM>(NewGameState.INTRO_ANIM);
-        Machine.AddState<GameControllerState_RUNNING>( NewGameState.RUNNING );
-        Machine.AddState<GameControllerState_GAMEOVER>( NewGameState.GAMEOVER );
+        base.Start();
+
+        AddState( new GameControllerState_RUNNING() );
+        AddState( new GameControllerState_GAMEOVER() );
+        // State change kicks off in Update
     }
 
     /***************************************************************************/
     private bool _init_kickstart = false;
+
     public void Update()
     {
         if ( !SceneReady )
@@ -54,7 +51,7 @@ public class GameController : MonoBehaviour
 
         if ( !_init_kickstart ) {
             _init_kickstart = true;
-            Machine.SwitchStateTo( NewGameState.RUNNING );
+            ChangeState( NewGameState.RUNNING );
         }
     }
 

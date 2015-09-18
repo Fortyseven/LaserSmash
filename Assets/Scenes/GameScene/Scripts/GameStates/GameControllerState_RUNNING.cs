@@ -3,13 +3,15 @@ using Game;
 using UnityEngine;
 using UnityEngine.UI;
 
-// ReSharper disable once ClassNeverInstantiated.Global
-public class GameControllerState_RUNNING : StateBehavior, IGameEnvironment
+public class GameControllerState_RUNNING : StateMachineMB.State, IGameEnvironment
 {
-    public GameStatus Status { get { return _status; } }
-    public WaveController WaveCon { get { return _wave_controller; } }
-    public GameObject PlayerShip { get { return _player_ship; } }
-    public Player PlayerComponent { get { return _player_component; } }
+    public GameStatus Status { get; private set; }
+
+    public WaveController WaveCon { get; private set; }
+
+    public GameObject PlayerShip { get; private set; }
+
+    public Player PlayerComponent { get; private set; }
 
     public int Lives
     {
@@ -53,12 +55,6 @@ public class GameControllerState_RUNNING : StateBehavior, IGameEnvironment
         }
     }
 
-
-    private GameStatus _status;
-    private WaveController _wave_controller;
-    private GameObject _player_ship;
-    private Player _player_component;
-
     private Text _ui_score_value;
     private Text _ui_lives_value;
     private Text _ui_mult_value;
@@ -69,52 +65,7 @@ public class GameControllerState_RUNNING : StateBehavior, IGameEnvironment
     private int _mult;
     private int _lives;
 
-
     /***********************************************************/
-    /***********************************************************/
-
-    public override void Init()
-    {
-    }
-
-    private void Setup()
-    {
-        // Fetch UI objects
-        _ui_score_value = GameObject.Find( "UI_ScoreValue" ).GetComponent<Text>();
-        _ui_mult_value = GameObject.Find( "UI_MultValue" ).GetComponent<Text>();
-        _ui_lives_value = GameObject.Find( "UI_LivesValue" ).GetComponent<Text>();
-
-
-        _player_ship = GameObject.Find( "PlayerBase" );
-
-        if ( _player_ship == null )
-            throw new UnityException( "PlayerBase object not found" );
-
-        _player_component = PlayerShip.GetComponent<Player>();
-
-        if ( _player_component == null )
-            throw new UnityException( "Player Component not found" );
-
-        _wave_controller = GetComponentInChildren<WaveController>();
-        _status = new GameStatus();
-
-        WaveCon.Init( this );
-
-
-        if ( GameController.DebugMode ) {
-            if ( gameObject.GetComponent<GameTestControls>() == null ) {
-                gameObject.AddComponent<GameTestControls>();
-            }
-        }
-    }
-    public override void OnEnter( Enum changing_from )
-    {
-        if ( changing_from == null )
-            return;
-        Setup();
-        NewGame();
-    }
-
     private void NewGame()
     {
         Debug.LogWarning( "NEW GAME!" );
@@ -125,7 +76,56 @@ public class GameControllerState_RUNNING : StateBehavior, IGameEnvironment
         Multiplier = GameConstants.INITIAL_MULTIPLIER;
         Lives = GameConstants.INITIAL_LIVES;
 
-        ( (GameController)Parent ).SceneReady = false;
+        ( (GameController)Owner ).SceneReady = false;
+    }
+
+    /***********************************************************/
+    public override Enum Name
+    { get { return GameController.NewGameState.RUNNING; } }
+
+    /***********************************************************/
+    public override void Start()
+    {
+        // Fetch UI objects
+        _ui_score_value = GameObject.Find( "UI_ScoreValue" ).GetComponent<Text>();
+        _ui_mult_value = GameObject.Find( "UI_MultValue" ).GetComponent<Text>();
+        _ui_lives_value = GameObject.Find( "UI_LivesValue" ).GetComponent<Text>();
+
+
+        PlayerShip = GameObject.Find( "PlayerBase" );
+
+        if ( PlayerShip == null )
+            throw new UnityException( "PlayerBase object not found" );
+
+        PlayerComponent = PlayerShip.GetComponent<Player>();
+
+        if ( PlayerComponent == null )
+            throw new UnityException( "Player Component not found" );
+
+        WaveCon = Owner.GetComponentInChildren<WaveController>();
+        Status = new GameStatus();
+
+        WaveCon.Init( this );
+
+
+        //if ( GameController.DebugMode ) {
+        //    if ( gameObject.GetComponent<GameTestControls>() == null ) {
+        //        gameObject.AddComponent<GameTestControls>();
+        //    }
+        //}
+    }
+
+    public override void OnStateEnter( StateMachineMB.State from_state )
+    {
+        if ( from_state == null )
+            return;
+
+        NewGame();
+    }
+
+    public override void OnStateExit( StateMachineMB.State to_state )
+    {
+        //throw new NotImplementedException();
     }
 
     public override void OnUpdate()

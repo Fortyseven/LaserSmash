@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public class GameControllerState_GAMEOVER : StateBehavior
+public class GameControllerState_GAMEOVER : StateMachineMB.State
 {
     private const float GAMEOVER_TIMEOUT = 4.0f;
 
@@ -12,14 +12,16 @@ public class GameControllerState_GAMEOVER : StateBehavior
     private float _game_over_timeout;
     private bool _game_over_message_enabled;
 
-    public override void Init()
+    public override Enum Name { get { return GameController.NewGameState.GAMEOVER; } }
+
+    public override void Start()
     {
         _ui_game_over_canvas = GameObject.Find( "GameOver Canvas" ).GetComponent<Canvas>();
         _ui_flash = _ui_game_over_canvas.GetComponentInChildren<Flash>();
         _ui_game_over_canvas.gameObject.SetActive( false );
     }
 
-    public override void OnEnter( Enum changing_from )
+    public override void OnStateEnter( StateMachineMB.State from_state )
     {
         _ui_game_over_canvas.gameObject.SetActive( true );
         Text peak_score_value = GameObject.Find( "PeakScoreValue" ).GetComponent<Text>();
@@ -29,7 +31,7 @@ public class GameControllerState_GAMEOVER : StateBehavior
         _game_over_message_enabled = false;
     }
 
-    public override void OnExit( Enum changing_to )
+    public override void OnStateExit( StateMachineMB.State to_state )
     {
         //#if !TESTMODE
         //        ( (GameController)Parent ).GameOverCanvas.gameObject.SetActive( false );
@@ -46,7 +48,7 @@ public class GameControllerState_GAMEOVER : StateBehavior
             _game_over_message_enabled = true;
         }
         if ( Input.anyKeyDown && ( Time.time >= _game_over_timeout ) ) {
-            Machine.SwitchStateTo( GameController.NewGameState.RUNNING );
+            Owner.ChangeState( GameController.NewGameState.RUNNING );
         }
     }
 }
