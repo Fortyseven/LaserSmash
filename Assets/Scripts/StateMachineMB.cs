@@ -23,7 +23,7 @@ public class StateMachineMB : MonoBehaviour
         public abstract void OnUpdate();
     }
 
-    protected State CurrentState { get; private set; }
+    public State CurrentState { get; private set; }
     protected Dictionary<Enum, State> States { get; private set; }
 
     protected bool InTransition { get; private set; }
