@@ -21,6 +21,16 @@ public class StateMachineMB : MonoBehaviour
         public abstract void OnStateEnter( State from_state );
         public abstract void OnStateExit( State to_state );
         public abstract void OnUpdate();
+
+        public virtual void OnMessageReceived( object o )
+        {
+            throw new NotImplementedException( "Message was received, but OnMessageReceived not implemented" );
+        }
+
+        internal void SendMessage( object o = null )
+        {
+            OnMessageReceived( o );
+        }
     }
 
     public State CurrentState { get; private set; }
@@ -68,6 +78,11 @@ public class StateMachineMB : MonoBehaviour
     /// <param name="next_state"></param>
     public void ChangeState( Enum next_state )
     {
+        if ( CurrentState != null )
+            Debug.LogWarning( "### ChangeState " + CurrentState.Name.ToString() + " -> " + next_state.ToString() );
+        else
+            Debug.LogWarning( "### ChangeState INIT " + next_state.ToString() );
+
         InTransition = true;
 
         if ( CurrentState != null ) {

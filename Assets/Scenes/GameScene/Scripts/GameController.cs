@@ -14,7 +14,7 @@ public class GameController : StateMachineMB
 
     public enum NewGameState
     {
-        //        INTRO_ANIM,
+        INTRO_ANIM,
         RUNNING,
         PAUSED,
         GAMEOVER
@@ -23,10 +23,13 @@ public class GameController : StateMachineMB
     /***************************************************************************/
     public void Awake()
     {
-        Debug.Log( "GameContr - Awake" );
+        Init.Construct( true );
+
+        Debug.Log( "GameController - Awake" );
+
         instance = this;
 
-        DebugMode = Application.loadedLevelName.Equals( "GameTest" );
+        //DebugMode = Application.loadedLevelName.Equals( "GameTest" );
 
         Physics2D.IgnoreLayerCollision( LayerMask.NameToLayer( "Enemy" ), LayerMask.NameToLayer( "Enemy" ) );
     }
@@ -36,28 +39,34 @@ public class GameController : StateMachineMB
     {
         base.Start();
 
+        AddState( new GameControllerState_INTRO_ANIM() );
         AddState( new GameControllerState_RUNNING() );
         AddState( new GameControllerState_GAMEOVER() );
-        // State change kicks off in Update
+
+        ChangeState( NewGameState.INTRO_ANIM );
+
     }
 
     /***************************************************************************/
-    private bool _init_kickstart = false;
+    //private bool _init_kickstart = false;
 
-    public void Update()
-    {
-        if ( !SceneReady )
-            return;
+    //public void Update()
+    //{
+    //    base.Update();
 
-        if ( !_init_kickstart ) {
-            _init_kickstart = true;
-            ChangeState( NewGameState.RUNNING );
-        }
-    }
+    //    if ( !SceneReady )
+    //        return;
+
+    //    if ( !_init_kickstart ) {
+    //        _init_kickstart = true;
+    //        ChangeState( NewGameState.RUNNING );
+    //    }
+    //}
 
     /***************************************************************************/
     public void OnSceneIntroAnimationComplete()
     {
-        SceneReady = true;
+        //SceneReady = true;
+        CurrentState.SendMessage();
     }
 }
