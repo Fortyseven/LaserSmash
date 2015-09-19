@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -11,6 +11,7 @@ Material:
   m_ShaderKeywords: OCTAVES_4 QUALITY_HIGH SCATTERING_ON _NORMALMAP
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -100,6 +101,13 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _Cube
+        second:
+          m_Texture: {fileID: 8900000, guid: b995d4bd9d11078d11005b9844295342, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _Ramp
         second:
           m_Texture: {fileID: 2800000, guid: b8d24d717d892f24ebefcb7c6a7ac7a7, type: 3}
@@ -110,13 +118,6 @@ Material:
           name: _RampTex
         second:
           m_Texture: {fileID: 2800000, guid: de25a418e52274482b51702fff566bcd, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Cube
-        second:
-          m_Texture: {fileID: 8900000, guid: b995d4bd9d11078d11005b9844295342, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -136,6 +137,14 @@ Material:
     m_Floats:
       data:
         first:
+          name: _SrcBlend
+        second: 1
+      data:
+        first:
+          name: _DstBlend
+        second: 0
+      data:
+        first:
           name: _Radius
         second: 1
       data:
@@ -145,15 +154,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: .0500000007
-      data:
-        first:
-          name: _SrcBlend
-        second: 1
-      data:
-        first:
-          name: _DstBlend
-        second: 0
+        second: .0399999991
       data:
         first:
           name: _Parallax
@@ -184,10 +185,6 @@ Material:
         second: 0
       data:
         first:
-          name: _EmissionScaleUI
-        second: 0
-      data:
-        first:
           name: _Mode
         second: 0
       data:
@@ -196,8 +193,12 @@ Material:
         second: .720000029
       data:
         first:
+          name: _EmissionScaleUI
+        second: 0
+      data:
+        first:
           name: _RimPower
-        second: 4
+        second: 6
       data:
         first:
           name: _Outline
@@ -242,7 +243,11 @@ Material:
       data:
         first:
           name: _RimColor
-        second: {r: .698529422, g: .698529422, b: .698529422, a: 1}
+        second: {r: .998580158, g: 1, b: .897058845, a: 1}
+      data:
+        first:
+          name: _ReflectColor
+        second: {r: 1, g: 1, b: 1, a: .5}
       data:
         first:
           name: _OutlineColor
@@ -251,7 +256,3 @@ Material:
         first:
           name: _SpherePos
         second: {r: 0, g: 0, b: 0, a: 0}
-      data:
-        first:
-          name: _ReflectColor
-        second: {r: 1, g: 1, b: 1, a: .5}
