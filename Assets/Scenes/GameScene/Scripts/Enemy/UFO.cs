@@ -49,19 +49,14 @@ public class UFO : GenericEnemy
 
         public override Enum Name { get { return UFOState.PASSIVE; } }
 
-        public override void Start()
-        {
-            //throw new NotImplementedException();
-        }
-
         public override void OnStateEnter( State from_state )
         {
-            //throw new NotImplementedException();
+            ;
         }
 
         public override void OnStateExit( State to_state )
         {
-            //throw new NotImplementedException();
+            ;
         }
 
         public override void OnUpdate()
@@ -81,11 +76,6 @@ public class UFO : GenericEnemy
         private bool _has_fired;
 
         public override Enum Name { get { return UFOState.ATTACK; } }
-
-        public override void Start()
-        {
-            //throw new NotImplementedException();
-        }
 
         public override void OnStateEnter( State from_state )
         {
@@ -165,13 +155,6 @@ public class UFO : GenericEnemy
             // Fade out the beam over LASER_FADE_TIME seconds
             Color col = ((UFO) Owner)._laser.material.GetColor("_TintColor");
 
-            //for ( float i = 0; i < 1.0f; i += LASER_FADE_GRANULARITY ) {
-            //    col.a = 1.0f - i;
-            //    ( (UFO)Owner )._laser.material.SetColor( "_TintColor", col );
-            //    //Debug.Log( "foo " + i );
-            //    yield return new WaitForSeconds( LASER_FADE_TIME * LASER_FADE_GRANULARITY );
-            //}
-
             float timer = LASER_FADE_TIME;
             float alpha = 1.0f;
 
@@ -187,13 +170,6 @@ public class UFO : GenericEnemy
             yield return null;
         }
     }
-
-    /*****************************/
-
-    //public override void Awake()
-    //{
-    //    base.Awake();
-    //}
 
     /*****************************/
     public new void Start()

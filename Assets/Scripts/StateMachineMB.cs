@@ -11,15 +11,26 @@ public class StateMachineMB : MonoBehaviour
         public StateMachineMB Owner { get; set; }
         public MonoBehaviour OwnerMB { get { return (MonoBehaviour)Owner; } }
 
-        public abstract void Start();
-
-        public virtual void Reset()
+        public virtual void Start()
         {
             ;
         }
 
-        public abstract void OnStateEnter( State from_state );
-        public abstract void OnStateExit( State to_state );
+        //public virtual void Reset()
+        //{
+        //    ;
+        //}
+
+        public virtual void OnStateEnter( State from_state )
+        {
+            ;
+        }
+
+        public virtual void OnStateExit( State to_state )
+        {
+            ;
+        }
+
         public abstract void OnUpdate();
 
         public virtual void OnMessageReceived( object o )

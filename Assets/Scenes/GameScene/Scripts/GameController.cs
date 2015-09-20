@@ -1,11 +1,12 @@
 ﻿//#define TESTMODE
 
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class GameController : StateMachineMB
 {
     public static GameController instance = null;
-    public static bool DebugMode { get; set; }
+    public static bool DebugMode { get; private set; }
 
     //public Camera Egg_CockpitCamera;
     //private GameState _game_state;
@@ -35,7 +36,9 @@ public class GameController : StateMachineMB
     }
 
     /***************************************************************************/
-    public void Start()
+
+    [UsedImplicitly]
+    public new void Start()
     {
         base.Start();
 
@@ -44,7 +47,6 @@ public class GameController : StateMachineMB
         AddState( new GameControllerState_GAMEOVER() );
 
         ChangeState( NewGameState.INTRO_ANIM );
-
     }
 
     /***************************************************************************/
