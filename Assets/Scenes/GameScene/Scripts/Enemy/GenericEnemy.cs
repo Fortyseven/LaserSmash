@@ -2,7 +2,7 @@
 
 namespace Game
 {
-    public abstract class GenericEnemy : MonoBehaviour
+    public abstract class GenericEnemy : StateMachineMB
     {
         protected abstract float SpawnMaxX { get; }
         protected abstract float SpawnMinX { get; }

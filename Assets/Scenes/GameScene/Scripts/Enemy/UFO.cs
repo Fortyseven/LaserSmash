@@ -7,13 +7,10 @@ using Random = UnityEngine.Random;
 
 public class UFO : GenericEnemy
 {
-    protected override float SpawnMaxX
-    { get { return 18.0f; } }
-    protected override float SpawnMinX
-    { get { return -18.0f; } }
+    protected override float SpawnMaxX { get { return 18.0f; } }
+    protected override float SpawnMinX { get { return -18.0f; } }
 
-    protected override int BaseScore
-    { get { return GameConstants.SCORE_KILLSAT; } }
+    protected override int BaseScore { get { return GameConstants.SCORE_KILLSAT; } }
 
     public GameObject ExplosionLaserGroundPrefab = null;
 
@@ -44,40 +41,57 @@ public class UFO : GenericEnemy
     private SpriteRenderer _charging_flare_sprite;
     private AudioSource _audio;
 
-    private StateMachine _state_machine;
+    private enum UFOState { PASSIVE, ATTACK };
 
-    private enum State
-    {
-        PASSIVE,
-        ATTACK
-    };
-
-    /***************************************************************/
-    private class State_PASSIVE : StateBehavior
+    private class State_PASSIVE : State
     {
         private const float PERCENT_CHANCE_OF_FIRING = 1.0f;
+
+        public override Enum Name { get { return UFOState.PASSIVE; } }
+
+        public override void Start()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public override void OnStateEnter( State from_state )
+        {
+            //throw new NotImplementedException();
+        }
+
+        public override void OnStateExit( State to_state )
+        {
+            //throw new NotImplementedException();
+        }
+
         public override void OnUpdate()
         {
             // Occasionally fire down hot death
             if ( GameController.instance.CurrentState.Name.Equals( GameController.NewGameState.RUNNING ) &&
                  ( Random.Range( 0, 100 ) <= PERCENT_CHANCE_OF_FIRING ) ) {
-                Machine.SwitchStateTo( State.ATTACK );
+                Owner.ChangeState( UFOState.ATTACK );
             }
         }
     }
 
-    /***************************************************************/
-    private class State_CHARGING : StateBehavior
+    private class State_CHARGING : State
     {
         private float _time_started_charging;
         private Vector3 _player_target_position;
         private bool _has_fired;
 
-        public override void OnEnter( Enum changing_from )
+        public override Enum Name { get { return UFOState.ATTACK; } }
+
+        public override void Start()
         {
-            ( (UFO)Parent )._charging_flare_sprite.enabled = true;
-            ( (UFO)Parent )._charging_light.enabled = true;
-            ( (UFO)Parent )._audio.pitch = CHARGING_PITCH;
+            //throw new NotImplementedException();
+        }
+
+        public override void OnStateEnter( State from_state )
+        {
+            ( (UFO)Owner )._charging_flare_sprite.enabled = true;
+            ( (UFO)Owner )._charging_light.enabled = true;
+            ( (UFO)Owner )._audio.pitch = CHARGING_PITCH;
 
             _time_started_charging = Time.time;
             _has_fired = false;
@@ -87,19 +101,24 @@ public class UFO : GenericEnemy
                 throw new UnityException( "TARGET_LOCK_TIME must be less than CHARGING_TIME" );
             }
 #endif
-            StartCoroutine( "AcquireTargetLock" );
+            OwnerMB.StartCoroutine( AcquireTargetLock() );
+        }
+
+        public override void OnStateExit( State to_state )
+        {
+            ( (UFO)Owner ).ShutDownLaser();
+            _has_fired = false;
         }
 
         public override void OnUpdate()
         {
             if ( ( Time.time - _time_started_charging ) > CHARGING_TIME && !_has_fired ) {
-                StartCoroutine( "Fire" );
+                OwnerMB.StartCoroutine( Fire() );
             }
             else {
                 // Laser source should follow ship's slow movement
-                ( (UFO)Parent )._laser.SetPosition( 1, transform.position );
+                ( (UFO)Owner )._laser.SetPosition( 1, OwnerMB.transform.position );
             }
-
         }
 
         /// <summary>
@@ -110,7 +129,7 @@ public class UFO : GenericEnemy
         public IEnumerator AcquireTargetLock()
         {
             yield return new WaitForSeconds( TARGET_LOCK_TIME );
-            _player_target_position = ( (UFO)Parent ).GameEnvironment.PlayerShip.transform.position;
+            _player_target_position = ( (UFO)Owner ).GameEnvironment.PlayerShip.transform.position;
         }
 
         /// <summary>
@@ -121,16 +140,16 @@ public class UFO : GenericEnemy
         {
             _has_fired = true;
 
-            ( (UFO)Parent )._laser.SetPosition( 1, transform.position );
-            ( (UFO)Parent )._laser.SetPosition( 0, _player_target_position );
+            ( (UFO)Owner )._laser.SetPosition( 1, OwnerMB.transform.position );
+            ( (UFO)Owner )._laser.SetPosition( 0, _player_target_position );
 
-            ( (UFO)Parent )._laser.gameObject.SetActive( true );
+            ( (UFO)Owner )._laser.gameObject.SetActive( true );
 
 
-            Instantiate( ( (UFO)Parent ).ExplosionLaserGroundPrefab, _player_target_position, Quaternion.identity );
+            Instantiate( ( (UFO)Owner ).ExplosionLaserGroundPrefab, _player_target_position, Quaternion.identity );
 
             // Check for collision
-            Ray2D r = new Ray2D( transform.position, ( _player_target_position - transform.position ) * 15 );
+            Ray2D r = new Ray2D(OwnerMB.transform.position, (_player_target_position - OwnerMB.transform.position) * 15);
 
             /* We COULD check if this is the player being hit, but all the enemies are on layer 8, and
                nothing else with a collider exists on any other layer but the player. */
@@ -144,28 +163,43 @@ public class UFO : GenericEnemy
             //}
 
             // Fade out the beam over LASER_FADE_TIME seconds
-            Color col = ( (UFO)Parent )._laser.material.GetColor( "_TintColor" );
+            Color col = ((UFO) Owner)._laser.material.GetColor("_TintColor");
 
-            for ( float i = 0; i < 1.0f; i += LASER_FADE_GRANULARITY ) {
-                col.a = 1.0f - i;
-                ( (UFO)Parent )._laser.material.SetColor( "_TintColor", col );
-                Debug.Log( "foo " + i );
-                yield return new WaitForSeconds( LASER_FADE_TIME * LASER_FADE_GRANULARITY );
+            //for ( float i = 0; i < 1.0f; i += LASER_FADE_GRANULARITY ) {
+            //    col.a = 1.0f - i;
+            //    ( (UFO)Owner )._laser.material.SetColor( "_TintColor", col );
+            //    //Debug.Log( "foo " + i );
+            //    yield return new WaitForSeconds( LASER_FADE_TIME * LASER_FADE_GRANULARITY );
+            //}
+
+            float timer = LASER_FADE_TIME;
+            float alpha = 1.0f;
+
+            while ( timer >= 0 ) {
+                timer -= Time.deltaTime;
+                alpha -= ( 1.0f / LASER_FADE_TIME ) * Time.deltaTime;
+                col.a = alpha;
+                ( (UFO)Owner )._laser.material.SetColor( "_TintColor", col );
+                yield return null;
             }
 
-            Machine.SwitchStateTo( State.PASSIVE );
-        }
-
-        public override void OnExit( Enum changing_to )
-        {
-            ( (UFO)Parent ).ShutDownLaser();
-            _has_fired = false;
+            Owner.ChangeState( UFOState.PASSIVE );
+            yield return null;
         }
     }
 
     /*****************************/
-    public override void Awake()
+
+    //public override void Awake()
+    //{
+    //    base.Awake();
+    //}
+
+    /*****************************/
+    public new void Start()
     {
+        base.Start();
+
         // Pick a side of the screen to fly out of
         _laser = GetComponentInChildren<LineRenderer>();
         _laser.gameObject.SetActive( false );
@@ -178,13 +212,10 @@ public class UFO : GenericEnemy
 
         _audio = GetComponent<AudioSource>();
 
-        _state_machine = gameObject.AddComponent<StateMachine>();
-        _state_machine.Init( this );
+        AddState( new State_PASSIVE() );
+        AddState( new State_CHARGING() );
 
-        _state_machine.AddState<State_PASSIVE>( State.PASSIVE );
-        _state_machine.AddState<State_CHARGING>( State.ATTACK );
-
-        _state_machine.SwitchStateTo( State.PASSIVE );
+        ChangeState( UFOState.PASSIVE );
     }
 
     /*****************************/
@@ -193,6 +224,8 @@ public class UFO : GenericEnemy
         if ( !IsReady )
             return;
 
+        base.Update();
+
         UpdateMovement();
     }
 
@@ -200,8 +233,9 @@ public class UFO : GenericEnemy
     private void UpdateMovement()
     {
         float speed;
-        switch ( (State)_state_machine.ActiveState ) {
-            case State.ATTACK:
+
+        switch ( Convert.ToInt32( CurrentState.Name ) ) {
+            case (int)UFOState.ATTACK:
                 speed = _charging_speed;
                 break;
             default:
@@ -229,7 +263,7 @@ public class UFO : GenericEnemy
     /*****************************/
     void Done()
     {
-        _state_machine.SwitchStateTo( State.PASSIVE );
+        ChangeState( UFOState.PASSIVE );
         ShutDownLaser();
         Hibernate();
     }
