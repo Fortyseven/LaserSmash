@@ -40,8 +40,6 @@ public class GameController : StateMachineMB
     [UsedImplicitly]
     public new void Start()
     {
-        base.Start();
-
         AddState( new GameControllerState_INTRO_ANIM() );
         AddState( new GameControllerState_RUNNING() );
         AddState( new GameControllerState_GAMEOVER() );

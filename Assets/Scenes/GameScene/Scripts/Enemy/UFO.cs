@@ -174,7 +174,6 @@ public class UFO : GenericEnemy
     /*****************************/
     public new void Start()
     {
-        base.Start();
 
         // Pick a side of the screen to fly out of
         _laser = GetComponentInChildren<LineRenderer>();

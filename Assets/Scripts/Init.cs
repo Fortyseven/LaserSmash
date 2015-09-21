@@ -125,8 +125,6 @@ public class Init : StateMachineMB
 
         Init._instance = this;
 
-        base.Start();
-
         AddState( new GameState_MainMenu() );
         AddState( new GameState_GameLoop() );
         AddState( new GameState_Help() );

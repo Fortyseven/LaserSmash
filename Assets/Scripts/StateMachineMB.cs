@@ -62,21 +62,26 @@ public class StateMachineMB : MonoBehaviour
         }
     }
 
+    public bool DebugMode { get; set; }
     public State CurrentState { get; private set; }
     protected Dictionary<Enum, State> States { get; private set; }
-
     protected bool InTransition { get; private set; }
 
-
+    public StateMachineMB()
+    {
+        DebugMode = false;
+        CurrentState = null;
+        States = new Dictionary<Enum, State>( 0 );
+        InTransition = false;
+    }
 
     /// <summary>
     /// 
     /// </summary>
-    protected void Start()
-    {
-        CurrentState = null;
-        States = new Dictionary<Enum, State>( 0 );
-    }
+    //protected void Start()
+    //{
+    //    States = new Dictionary<Enum, State>( 0 );
+    //}
 
     /// <summary>
     /// 
@@ -102,15 +107,17 @@ public class StateMachineMB : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Change to the specified state. Exit and Enter callbacks will be called where applicable.
     /// </summary>
     /// <param name="next_state"></param>
     public void ChangeState( Enum next_state )
     {
-        if ( CurrentState != null )
-            Debug.LogWarning( "### ChangeState " + CurrentState.Name + " -> " + next_state );
-        else
-            Debug.LogWarning( "### ChangeState INIT " + next_state );
+        if ( DebugMode ) {
+            if ( CurrentState != null )
+                Debug.LogWarning( "### ChangeState " + CurrentState.Name + " -> " + next_state );
+            else
+                Debug.LogWarning( "### ChangeState INIT " + next_state );
+        }
 
         InTransition = true;
 
