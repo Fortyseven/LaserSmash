@@ -11,6 +11,24 @@ public class StateMachineMB : MonoBehaviour
         public StateMachineMB Owner { get; set; }
         public MonoBehaviour OwnerMB { get { return (MonoBehaviour)Owner; } }
 
+        public static bool operator ==( State a, Enum b )
+        {
+            if ( System.Object.ReferenceEquals( a, b ) ) {
+                return true;
+            }
+
+            if ( ( (object)a == null ) || ( (object)b == null ) ) {
+                return false;
+            }
+
+            return a.Name.Equals( b );
+        }
+
+        public static bool operator !=( State a, Enum b )
+        {
+            return !( a == b );
+        }
+
         public virtual void Start()
         {
             ;
@@ -90,9 +108,9 @@ public class StateMachineMB : MonoBehaviour
     public void ChangeState( Enum next_state )
     {
         if ( CurrentState != null )
-            Debug.LogWarning( "### ChangeState " + CurrentState.Name.ToString() + " -> " + next_state.ToString() );
+            Debug.LogWarning( "### ChangeState " + CurrentState.Name + " -> " + next_state );
         else
-            Debug.LogWarning( "### ChangeState INIT " + next_state.ToString() );
+            Debug.LogWarning( "### ChangeState INIT " + next_state );
 
         InTransition = true;
 
