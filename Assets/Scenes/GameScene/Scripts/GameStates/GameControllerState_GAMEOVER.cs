@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-// ReSharper disable once ClassNeverInstantiated.Global
 public class GameControllerState_GAMEOVER : StateMachineMB.State
 {
     private const float GAMEOVER_TIMEOUT = 4.0f;

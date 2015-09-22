@@ -91,7 +91,6 @@ public class GameControllerState_RUNNING : StateMachineMB.State, IGameEnvironmen
         _ui_mult_value = GameObject.Find( "UI_MultValue" ).GetComponent<Text>();
         _ui_lives_value = GameObject.Find( "UI_LivesValue" ).GetComponent<Text>();
 
-
         PlayerShip = GameObject.Find( "PlayerBase" );
 
         if ( PlayerShip == null )
