@@ -5,7 +5,7 @@ using UnityEngine;
 public class Init : StateMachineMB
 {
     private static Init _instance = null;
-    public static bool Debug { get; set; } = false;
+    public static bool Debug { get; set; }
 
     public static Init instance
     {
@@ -109,9 +109,9 @@ public class Init : StateMachineMB
         }
     }
 
-    public static void Construct( bool debug_mode )
+    public static void Construct( bool debug_mode = false )
     {
-        if (_instance != null) return;
+        if ( _instance != null ) return;
 
         Debug = debug_mode;
         var go = new GameObject( "Init" );
