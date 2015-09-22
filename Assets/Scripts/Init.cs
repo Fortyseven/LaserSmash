@@ -5,8 +5,7 @@ public class Init : StateMachineMB
 {
     private static Init _instance = null;
     private static bool _debug = false;
-    public static bool Debug
-    { get { return _debug; } set { _debug = value; } }
+    public static bool Debug { get { return _debug; } set { _debug = value; } }
 
     public static Init instance
     {
