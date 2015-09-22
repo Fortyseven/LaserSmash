@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class Init : StateMachineMB
@@ -111,11 +112,11 @@ public class Init : StateMachineMB
 
     public static void Construct( bool debug_mode )
     {
-        if ( _instance == null ) {
-            Debug = debug_mode;
-            var go = new GameObject( "Init" );
-            go.AddComponent<Init>();
-        }
+        if (_instance != null) return;
+
+        Debug = debug_mode;
+        var go = new GameObject( "Init" );
+        go.AddComponent<Init>();
     }
 
     public new void Start()
