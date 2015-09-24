@@ -1,11 +1,12 @@
 ﻿//#define TESTMODE
 
+using System;
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 using Game;
+using Random = UnityEngine.Random;
 
-public class Player : MonoBehaviour
+public class Player : StateMachineMB
 {
     private const float SHIP_SPEED = 13.0f;
     //private const float SHIP_X_BOUNDS = 13.0f;
@@ -18,159 +19,194 @@ public class Player : MonoBehaviour
     public Image DeathPanel;
     public GameObject My_Mesh;
 
-    private float _next_fire_time;
-    private Vector3 _starting_position;
-    private GameObject _scene_surface;
-    private Vector3 _scene_surface_position;
 
-    private bool _ready = false;
-    private IGameEnvironment _game_environment = null;
+    //private bool _ready = false;
+    
+    public enum PlayerState { NORMAL, RESET, KILLED };
 
-    /**************************************/
-    public void Awake()
+    /***********************************************************************************/
+    public class PlayerState_NORMAL : State
     {
-        _ready = false;
-        _starting_position = transform.position;
-        _next_fire_time = Time.time + FIRE_DELAY;
+        public override Enum Name
+        {
+            get { return PlayerState.NORMAL; }
+        }
+
+        private float _next_fire_time;
+
+        public override void OnStateEnter( State from_state )
+        {
+            _next_fire_time = Time.time + FIRE_DELAY;
+        }
+
+        public override void OnUpdate()
+        {
+            Vector3 pos = OwnerMB.transform.position;
+
+            pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
+            //pos.x += _touch_axis_x * SHIP_SPEED * Time.deltaTime;
+            pos.x = Mathf.Clamp( pos.x, -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
+
+            if ( Input.GetButton( "Fire" ) ) {
+                Fire();
+            }
+
+            OwnerMB.transform.position = pos;
+
+            if ( Input.GetButtonDown( "Hyperspace" ) ) {
+                Hyperspace();
+            }
+        }
+
+        /**************************************/
+
+        private void Fire()
+        {
+            if ( Time.time >= _next_fire_time ) {
+                SpawnLaserbeam();
+                _next_fire_time = Time.time + FIRE_DELAY;
+            }
+        }
+
+        /**************************************/
+
+        private void Hyperspace()
+        {
+            // TODO: beaming animation, from and to, sfx
+            Vector3 pos = OwnerMB.transform.position;
+            pos.x = Random.Range( -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
+            OwnerMB.transform.position = pos;
+        }
+
+        /**************************************/
+
+        private void SpawnLaserbeam()
+        {
+            Vector3 newpos = Owner.transform.position;
+            newpos.y += LASER_Y_OFFSET_FROM_SHIP;
+            Instantiate( ( (Player)Owner ).LaserbeamPrefab, newpos, Quaternion.identity );
+        }
+    }
+
+    /***********************************************************************************/
+    public class PlayerState_RESET : State
+    {
+        private Vector3 _starting_position;
+
+        public override Enum Name
+        {
+            get { return PlayerState.RESET; }
+        }
+
+        public override void Start()
+        {
+            base.Start();
+            _starting_position = OwnerMB.transform.position;
+        }
+
+        public override void OnStateEnter( State from_state )
+        {
+#if !TESTMODE
+            ( (Player)Owner ).DeathPanel.gameObject.SetActive( false );
+            OwnerMB.transform.position = _starting_position;
+#endif
+            OwnerMB.gameObject.SetActive( true );
+            ( (Player)Owner ).My_Mesh.SetActive( true );
+            OwnerMB.enabled = true;
+            Owner.ChangeState( PlayerState.NORMAL );
+        }
+
+        public override void OnUpdate()
+        {
+            ;
+        }
+    }
+
+    /***********************************************************************************/
+    public class PlayerState_KILLED : State
+    {
+        public override Enum Name
+        {
+            get { return PlayerState.KILLED; }
+        }
+
+        private float _timeout_timer;
+
+        public override void OnStateEnter( State from_state )
+        {
+#if TESTMODE
+        return;
+#endif
+            ( (Player)Owner ).My_Mesh.SetActive( false );
+            ( (Player)OwnerMB ).enabled = false;
+
+            Destroy(
+                Instantiate( ( (Player)Owner ).DeathExplosionPrefab, OwnerMB.transform.position, Quaternion.identity ),
+                3.0f );
+
+            GameController.instance.GameEnv.Lives--;
+            GameController.instance.GameEnv.AdjustScore( GameConstants.SCORE_PLAYERDEATH );
+
+            //GameController.instance.Status.Mode = GameStatus.GameMode.POSTDEATH;
+
+            if ( GameController.instance.GameEnv.Lives <= 0 ) {
+                OwnerMB.gameObject.SetActive( false );
+                GameController.instance.ChangeState( GameController.GameState.GAMEOVER );
+            }
+            else {
+                ( (Player)Owner ).DeathPanel.gameObject.SetActive( true );
+                GameController.instance.GameEnv.WaveCon.Paused = true;
+                GameController.instance.GameEnv.WaveCon.Reset();
+
+                _timeout_timer = 3.0f;
+            }
+        }
+
+        public override void OnUpdate()
+        {
+            _timeout_timer -= Time.deltaTime;
+
+            if ( _timeout_timer <= 0 ) {
+                Owner.ChangeState( PlayerState.RESET );
+            }
+        }
     }
 
     /**************************************/
     public void Start()
     {
-        _scene_surface = GameObject.Find( "Surface" );
-        if ( _scene_surface == null ) {
-            throw new UnityException( "Could not find stage surface" );
-        }
-
-        _scene_surface_position = _scene_surface.transform.position;
-
-        Reset();
         enabled = false;
-    }
 
-    /**************************************/
-    public void Init( IGameEnvironment environment )
-    {
-        _game_environment = environment;
-        _ready = true;
+        AddState( new PlayerState_NORMAL() );
+        AddState( new PlayerState_RESET() );
+        AddState( new PlayerState_KILLED() );
+
+        // Let GameController initiate Reset
     }
 
     /**************************************/
     public void Done()
     {
-        _ready = false;
+        Debug.LogError( "Done?" );
+        Debug.Break();
+
+//        _ready = false;
         enabled = false;
     }
 
     /**************************************/
-    public void Update()
+    public new void Update()
     {
-        UpdateBackgroundSurface();
+        //if ( _ready || !enabled )
+        //    return;
 
-        if ( _ready || !enabled )
-            return;
+        base.Update();
 
 #if !TESTMODE
         //if ( GameController.instance.Status.Mode == GameStatus.GameMode.PAUSED ) {
         //    return;
         //}
 #endif
-        Vector3 pos = transform.position;
-
-        pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
-        //pos.x += _touch_axis_x * SHIP_SPEED * Time.deltaTime;
-        pos.x = Mathf.Clamp( pos.x, -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
-
-        if ( Input.GetButton( "Fire" ) ) {
-            Fire();
-        }
-
-        transform.position = pos;
-
-        if ( Input.GetButtonDown( "Hyperspace" ) ) {
-            Hyperspace();
-        }
-    }
-
-    /**************************************/
-    private void UpdateBackgroundSurface()
-    {
-        _scene_surface_position.x = transform.position.x * 0.02f;
-        _scene_surface.transform.position = _scene_surface_position;
-    }
-
-    /**************************************/
-    void Fire()
-    {
-        if ( Time.time >= _next_fire_time ) {
-            SpawnLaserbeam();
-            _next_fire_time = Time.time + FIRE_DELAY;
-        }
-    }
-
-    /**************************************/
-    void Hyperspace()
-    {
-        // TODO: beaming animation, from and to, sfx
-        Vector3 pos = transform.position;
-        pos.x = Random.Range( -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
-        transform.position = pos;
-    }
-
-    /**************************************/
-    private void SpawnLaserbeam()
-    {
-        Vector3 newpos = transform.position;
-        newpos.y += LASER_Y_OFFSET_FROM_SHIP;
-        Instantiate( LaserbeamPrefab, newpos, Quaternion.identity );
-    }
-
-    /**************************************/
-    public void Kill()
-    {
-#if TESTMODE
-        return;
-#endif
-        My_Mesh.SetActive( false );
-        enabled = false;
-
-        Destroy( Instantiate( DeathExplosionPrefab, transform.position, Quaternion.identity ), 3.0f );
-
-        _game_environment.Lives--;
-        _game_environment.AdjustScore( GameConstants.SCORE_PLAYERDEATH );
-
-        //GameController.instance.Status.Mode = GameStatus.GameMode.POSTDEATH;
-
-        if ( _game_environment.Lives <= 0 ) {
-            gameObject.SetActive( false );
-            GameController.instance.ChangeState( GameController.NewGameState.GAMEOVER );
-        }
-        else {
-            DeathPanel.gameObject.SetActive( true );
-            _game_environment.WaveCon.Paused = true;
-            _game_environment.WaveCon.Reset();
-            StartCoroutine( "PlayerRespawnTimeout" );
-        }
-    }
-
-    /**************************************/
-    public IEnumerator PlayerRespawnTimeout()
-    {
-        yield return new WaitForSeconds( 3.0f );
-        Reset();
-    }
-
-    /**************************************/
-    public void Reset()
-    {
-#if !TESTMODE
-        DeathPanel.gameObject.SetActive( false );
-        transform.position = _starting_position;
-#endif
-        gameObject.SetActive( true );
-        My_Mesh.SetActive( true );
-        enabled = true;
-        //GameController.instance.Status.Mode = GameStatus.GameMode.RUNNING;
     }
 }
 

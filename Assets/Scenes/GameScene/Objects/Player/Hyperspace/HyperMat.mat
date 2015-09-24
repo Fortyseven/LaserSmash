@@ -2,15 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: HyperMat
-  m_Shader: {fileID: 4800000, guid: 80979ccfe64a90c49b9fd932c1acb075, type: 3}
+  m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 5
   m_CustomRenderQueue: 3000
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -44,13 +45,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Mask
-        second:
-          m_Texture: {fileID: 2800000, guid: e5be47f3a052ae74692ff2407054ed59, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _OcclusionMap
         second:
           m_Texture: {fileID: 0}
@@ -79,6 +73,13 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _MetallicGlossMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _SpecGlossMap
         second:
           m_Texture: {fileID: 0}
@@ -86,7 +87,7 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _MetallicGlossMap
+          name: _Cube
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -100,20 +101,12 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Cube
+          name: _Mask
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: e5be47f3a052ae74692ff2407054ed59, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
-      data:
-        first:
-          name: _Cutoff
-        second: .00999999978
-      data:
-        first:
-          name: _Shininess
-        second: .078125
       data:
         first:
           name: _SrcBlend
@@ -124,6 +117,14 @@ Material:
         second: 10
       data:
         first:
+          name: _Cutoff
+        second: .00999999978
+      data:
+        first:
+          name: _Shininess
+        second: .078125
+      data:
+        first:
           name: _InvFade
         second: 1
       data:
@@ -132,16 +133,12 @@ Material:
         second: .0199999996
       data:
         first:
-          name: _Glossiness
-        second: 1
-      data:
-        first:
-          name: _RimPower
-        second: 3
-      data:
-        first:
           name: _ZWrite
         second: 0
+      data:
+        first:
+          name: _Glossiness
+        second: 1
       data:
         first:
           name: _BumpScale
@@ -170,6 +167,10 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _RimPower
+        second: 3
     m_Colors:
       data:
         first:
@@ -186,20 +187,20 @@ Material:
       data:
         first:
           name: _TintColor
-        second: {r: 0, g: 1, b: 1, a: .168627456}
-      data:
-        first:
-          name: _EmisColor
-        second: {r: 1, g: 0, b: 0, a: 0}
-      data:
-        first:
-          name: _RimColor
-        second: {r: .25999999, g: .189999998, b: .159999996, a: 0}
+        second: {r: 0, g: 1, b: 1, a: .256000012}
       data:
         first:
           name: _EmissionColorUI
         second: {r: 0, g: 1, b: 1, a: 1}
       data:
         first:
+          name: _RimColor
+        second: {r: .25999999, g: .189999998, b: .159999996, a: 0}
+      data:
+        first:
           name: _ReflectColor
         second: {r: 1, g: 1, b: 1, a: .5}
+      data:
+        first:
+          name: _EmisColor
+        second: {r: 1, g: 0, b: 0, a: 0}

@@ -26,7 +26,7 @@ public class Seeker : GenericEnemy
     /************************/
     public void Update()
     {
-        Transform player = GameEnvironment.PlayerShip.transform;
+        Transform player = GameController.instance.GameEnv.PlayerShip.transform;
         Vector3 pos = transform.position;
 
         if ( pos.y > SURFACE_Y && !_lock_to_surface ) {

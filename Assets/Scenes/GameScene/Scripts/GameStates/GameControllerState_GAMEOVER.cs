@@ -11,7 +11,7 @@ public class GameControllerState_GAMEOVER : StateMachineMB.State
     private float _game_over_timeout;
     private bool _game_over_message_enabled;
 
-    public override Enum Name { get { return GameController.NewGameState.GAMEOVER; } }
+    public override Enum Name { get { return GameController.GameState.GAMEOVER; } }
 
     public override void Start()
     {
@@ -47,7 +47,7 @@ public class GameControllerState_GAMEOVER : StateMachineMB.State
             _game_over_message_enabled = true;
         }
         if ( Input.anyKeyDown && ( Time.time >= _game_over_timeout ) ) {
-            Owner.ChangeState( GameController.NewGameState.RUNNING );
+            Owner.ChangeState( GameController.GameState.RUNNING );
         }
     }
 }

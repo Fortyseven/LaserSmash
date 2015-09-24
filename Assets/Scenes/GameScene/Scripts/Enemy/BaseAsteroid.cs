@@ -54,7 +54,7 @@ namespace Game
             }
 
             if ( destroyed_by_player ) {
-                GameEnvironment.AdjustScore( BaseScore );
+                GameController.instance.GameEnv.AdjustScore( BaseScore );
                 ExplodeAndHibernate();
                 return;
             }
@@ -82,7 +82,7 @@ namespace Game
             // Did we hit the ground? Punish player, make noises, explode
             if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
                 //Debug.Log( "Hit surface" );
-                GameEnvironment.AdjustScore( -( BaseScore / 2 ) );
+                GameController.instance.GameEnv.AdjustScore( -( BaseScore / 2 ) );
                 _hit_surface = true;
                 CleanUpAndHibernate( false );
             }
