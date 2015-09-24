@@ -45,8 +45,7 @@ public class GameEnvironment
 
         Score = 0;
         Multiplier = GameConstants.INITIAL_MULTIPLIER;
-        Lives = GameConstants.INITIAL_LIVES;
-        PlayerComponent.ChangeState( Player.PlayerState.RESET );
+        Lives = GameConstants.INITIAL_LIVES;        
     }
 
     public int Lives
