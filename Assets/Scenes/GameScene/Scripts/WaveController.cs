@@ -98,7 +98,8 @@ public class WaveController : MonoBehaviour
 
         _cur_spawn_timeout = GameConstants.MULT_TIMEOUT_RAMP[ GameController.instance.GameEnv.Multiplier - 1 ];
 
-        if ( !GameController.DebugMode ) {
+        //TODO: Invert this for production
+        if ( !GameController.instance.DebugMode ) {
 
             if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
                 //GameController.instance.State.Multiplier = 1;
