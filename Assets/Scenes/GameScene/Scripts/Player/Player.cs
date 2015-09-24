@@ -16,21 +16,18 @@ public class Player : StateMachineMB
     public GameObject LaserbeamPrefab = null;
     public GameObject DeathExplosionPrefab = null;
 
-    public Image DeathPanel;
+    public Image DeathPanel; // The red death filter while exploding
     public GameObject My_Mesh;
 
 
     //private bool _ready = false;
-    
+
     public enum PlayerState { NORMAL, RESET, KILLED };
 
     /***********************************************************************************/
     public class PlayerState_NORMAL : State
     {
-        public override Enum Name
-        {
-            get { return PlayerState.NORMAL; }
-        }
+        public override Enum Name { get { return PlayerState.NORMAL; } }
 
         private float _next_fire_time;
 
@@ -44,7 +41,6 @@ public class Player : StateMachineMB
             Vector3 pos = OwnerMB.transform.position;
 
             pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
-            //pos.x += _touch_axis_x * SHIP_SPEED * Time.deltaTime;
             pos.x = Mathf.Clamp( pos.x, -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
 
             if ( Input.GetButton( "Fire" ) ) {
@@ -93,14 +89,10 @@ public class Player : StateMachineMB
     {
         private Vector3 _starting_position;
 
-        public override Enum Name
-        {
-            get { return PlayerState.RESET; }
-        }
+        public override Enum Name { get { return PlayerState.RESET; } }
 
         public override void Start()
         {
-            base.Start();
             _starting_position = OwnerMB.transform.position;
         }
 
@@ -147,8 +139,6 @@ public class Player : StateMachineMB
             GameController.instance.GameEnv.Lives--;
             GameController.instance.GameEnv.AdjustScore( GameConstants.SCORE_PLAYERDEATH );
 
-            //GameController.instance.Status.Mode = GameStatus.GameMode.POSTDEATH;
-
             if ( GameController.instance.GameEnv.Lives <= 0 ) {
                 OwnerMB.gameObject.SetActive( false );
                 GameController.instance.ChangeState( GameController.GameState.GAMEOVER );
@@ -181,32 +171,19 @@ public class Player : StateMachineMB
         AddState( new PlayerState_RESET() );
         AddState( new PlayerState_KILLED() );
 
-        // Let GameController initiate Reset
+        DeathPanel.gameObject.SetActive( false );
+
+        // Just sit pretty until GameController changes us to Reset
     }
 
     /**************************************/
-    public void Done()
-    {
-        Debug.LogError( "Done?" );
-        Debug.Break();
+    //public void Done()
+    //{
+    //    Debug.LogError( "Done?" );
+    //    Debug.Break();
 
-//        _ready = false;
-        enabled = false;
-    }
-
-    /**************************************/
-    public new void Update()
-    {
-        //if ( _ready || !enabled )
-        //    return;
-
-        base.Update();
-
-#if !TESTMODE
-        //if ( GameController.instance.Status.Mode == GameStatus.GameMode.PAUSED ) {
-        //    return;
-        //}
-#endif
-    }
+    //    //        _ready = false;
+    //    enabled = false;
+    //}
 }
 
