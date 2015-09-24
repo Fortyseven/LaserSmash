@@ -6,8 +6,6 @@ using UnityEngine;
 public class GameController : StateMachineMB
 {
     public static GameController instance = null;
-    public static bool DebugMode { get; private set; }
-
     private GameObject _scene_surface;
     private Vector3 _scene_surface_position;
 
@@ -31,8 +29,6 @@ public class GameController : StateMachineMB
     {
         Init.Construct( true );
 
-        Debug.Log( "GameController - Awake" );
-
         instance = this;
 
         //DebugMode = Application.loadedLevelName.Equals( "GameTest" );
@@ -50,7 +46,6 @@ public class GameController : StateMachineMB
         AddState( new GameControllerState_PLAYER_DYING() );
 
         SetupBackgroundSceneControl();
-
 
         ChangeState( GameState.INTRO_ANIM );
     }
@@ -79,19 +74,20 @@ public class GameController : StateMachineMB
         _scene_surface.transform.position = _scene_surface_position;
     }
 
-    /***************************************************************************/
+    /**************************************/
     public void OnSceneIntroAnimationComplete()
     {
         //SceneReady = true;
         CurrentState.SendMessage();
     }
 
+    /**************************************/
     public void ResetGameEnvironment()
     {
         GameEnv = new GameEnvironment( this.gameObject );
     }
 
-
+    /**************************************/
     public void KillPlayer()
     {
         GameEnv.PlayerComponent.ChangeState( Player.PlayerState.KILLED );
