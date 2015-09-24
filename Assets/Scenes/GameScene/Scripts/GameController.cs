@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class GameController : StateMachineMB
 {
+    private const float CAMERA_PAN_FACTOR = 0.10f;
+
     public static GameController instance = null;
-    private GameObject _scene_surface;
-    private Vector3 _scene_surface_position;
+    private Vector3 _initial_camera_position;
 
     public GameEnvironment GameEnv { get; private set; }
 
@@ -43,7 +44,7 @@ public class GameController : StateMachineMB
         AddState( new GameControllerState_INTRO_ANIM() );
         AddState( new GameControllerState_RUNNING() );
         AddState( new GameControllerState_GAMEOVER() );
-        AddState( new GameControllerState_PLAYER_DYING() );
+        //AddState( new GameControllerState_PLAYER_DYING() );
 
         SetupBackgroundSceneControl();
 
@@ -53,32 +54,26 @@ public class GameController : StateMachineMB
     /**************************************/
     private void SetupBackgroundSceneControl()
     {
-        _scene_surface = GameObject.Find( "Surface" );
-        if ( _scene_surface == null ) {
-            throw new UnityException( "Could not find stage surface" );
-        }
-
-        _scene_surface_position = _scene_surface.transform.position;
+        _initial_camera_position = Camera.main.transform.localPosition;
     }
 
     /**************************************/
     public new void Update()
     {
         base.Update();
-        UpdateBackgroundSurface();
+        UpdateCameraPan();
     }
 
     /**************************************/
-    private void UpdateBackgroundSurface()
+    private void UpdateCameraPan()
     {
-        _scene_surface_position.x = transform.position.x * 0.02f;
-        _scene_surface.transform.position = _scene_surface_position;
+        _initial_camera_position.x = GameEnv.PlayerShip.transform.position.x * CAMERA_PAN_FACTOR;
+        Camera.main.transform.localPosition = _initial_camera_position;
     }
 
     /**************************************/
     public void OnSceneIntroAnimationComplete()
     {
-        //SceneReady = true;
         CurrentState.SendMessage();
     }
 
