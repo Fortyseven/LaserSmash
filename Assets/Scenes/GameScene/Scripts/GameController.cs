@@ -64,6 +64,7 @@ public class GameController : StateMachineMB
     /**************************************/
     public new void Update()
     {
+        base.Update();
         UpdateBackgroundSurface();
     }
 
