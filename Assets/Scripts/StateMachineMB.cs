@@ -118,15 +118,17 @@ public class StateMachineMB : MonoBehaviour
             else
                 Debug.LogWarning( "### ChangeState INIT " + next_state );
         }
+        State from_state = CurrentState;
 
         InTransition = true;
 
-        if ( CurrentState != null ) {
-            CurrentState.OnStateExit( States[ next_state ] );
+        if ( from_state != null ) {
+            from_state.OnStateExit( States[ next_state ] );
         }
 
-        States[ next_state ].OnStateEnter( CurrentState );
         CurrentState = States[ next_state ];
+
+        States[ next_state ].OnStateEnter( from_state );
 
         InTransition = false;
     }
