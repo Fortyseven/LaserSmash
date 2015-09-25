@@ -44,7 +44,7 @@ public class GameController : StateMachineMB
         AddState( new GameControllerState_INTRO_ANIM() );
         AddState( new GameControllerState_RUNNING() );
         AddState( new GameControllerState_GAMEOVER() );
-        //AddState( new GameControllerState_PLAYER_DYING() );
+        AddState( new GameControllerState_PLAYER_DYING() );
 
         SetupBackgroundSceneControl();
 
