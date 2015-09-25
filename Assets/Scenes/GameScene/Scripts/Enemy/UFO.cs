@@ -23,17 +23,17 @@ public class UFO : GenericEnemy
         DIR_LEFT   // l-t-r
     }
 
+    private const float CHARGING_TIME = 1.0f;
     private const float CHARGING_PITCH = 0.75f;
     private const float PASSIVE_PITCH = -0.8f;
     private const float LASER_FADE_TIME = 0.5f;
-    private const float CHARGING_TIME = 1.0f;
     private const float TARGET_LOCK_TIME = 0.75f;
 
     private float Speed { get; set; }
 
     protected Direction _direction = 0;
-    protected Vector3 _newpos;
 
+    private Vector3 _newpos;
     private LineRenderer _laser;
     private Light _charging_light;
     private SpriteRenderer _charging_flare_sprite;
@@ -183,7 +183,7 @@ public class UFO : GenericEnemy
     }
 
     /*****************************/
-    public new void Start()
+    public void Start()
     {
         // Pick a side of the screen to fly out of
         _laser = GetComponentInChildren<LineRenderer>();
