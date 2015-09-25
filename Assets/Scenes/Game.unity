@@ -453,7 +453,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: fe6878380b098c946b169fb05532ffcf, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: fe6878380b098c946b169fb05532ffcf, type: 3}
       propertyPath: m_Name
@@ -908,6 +908,18 @@ Prefab:
     - target: {fileID: 131700, guid: bffe94383e8e92c4094ebdac81916d02, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2324244, guid: bffe94383e8e92c4094ebdac81916d02, type: 2}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2324244, guid: bffe94383e8e92c4094ebdac81916d02, type: 2}
+      propertyPath: m_ReceiveShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 194660, guid: bffe94383e8e92c4094ebdac81916d02, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bffe94383e8e92c4094ebdac81916d02, type: 2}
