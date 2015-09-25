@@ -20,7 +20,7 @@ public class Player : StateMachineMB
     public enum PlayerState { NORMAL, RESET, KILLED, DISABLED };
 
     /***********************************************************************************/
-    public class PlayerState_NORMAL : State
+    private class PlayerState_NORMAL : State
     {
         public override Enum Name { get { return PlayerState.NORMAL; } }
 
@@ -50,7 +50,6 @@ public class Player : StateMachineMB
         }
 
         /**************************************/
-
         private void Fire()
         {
             if ( Time.time >= _next_fire_time ) {
@@ -60,7 +59,6 @@ public class Player : StateMachineMB
         }
 
         /**************************************/
-
         private void Hyperspace()
         {
             // TODO: beaming animation, from and to, sfx
@@ -70,7 +68,6 @@ public class Player : StateMachineMB
         }
 
         /**************************************/
-
         private void SpawnLaserbeam()
         {
             Vector3 newpos = Owner.transform.position;
@@ -80,7 +77,7 @@ public class Player : StateMachineMB
     }
 
     /***********************************************************************************/
-    public class PlayerState_RESET : State
+    private class PlayerState_RESET : State
     {
         private Vector3 _starting_position;
 
@@ -108,7 +105,7 @@ public class Player : StateMachineMB
     }
 
     /***********************************************************************************/
-    public class PlayerState_DISABLED : State
+    private class PlayerState_DISABLED : State
     {
         public override Enum Name { get { return PlayerState.DISABLED; } }
 
@@ -130,7 +127,7 @@ public class Player : StateMachineMB
     }
 
     /***********************************************************************************/
-    public class PlayerState_KILLED : State
+    private class PlayerState_KILLED : State
     {
         public override Enum Name
         {
@@ -182,15 +179,5 @@ public class Player : StateMachineMB
 
         // Just sit pretty until GameController changes us to Reset
     }
-
-    /**************************************/
-    //public void Done()
-    //{
-    //    Debug.LogError( "Done?" );
-    //    Debug.Break();
-
-    //    //        _ready = false;
-    //    enabled = false;
-    //}
 }
 
