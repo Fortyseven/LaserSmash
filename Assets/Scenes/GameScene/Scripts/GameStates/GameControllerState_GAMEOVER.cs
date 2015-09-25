@@ -22,6 +22,8 @@ public class GameControllerState_GAMEOVER : StateMachineMB.State
 
     public override void OnStateEnter( StateMachineMB.State from_state )
     {
+        GameController.instance.GameEnv.PlayerComponent.ChangeState( Player.PlayerState.DISABLED );
+
         _ui_game_over_canvas.gameObject.SetActive( true );
         Text peak_score_value = GameObject.Find( "PeakScoreValue" ).GetComponent<Text>();
         //peak_score_value.text = ( (GameController)Parent ).Status.PeakScore.ToString();
@@ -47,7 +49,7 @@ public class GameControllerState_GAMEOVER : StateMachineMB.State
             _game_over_message_enabled = true;
         }
         if ( Input.anyKeyDown && ( Time.time >= _game_over_timeout ) ) {
-            Owner.ChangeState( GameController.GameState.RUNNING );
+            Application.LoadLevel("Game");
         }
     }
 }
