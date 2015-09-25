@@ -2,7 +2,6 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 using Game;
 using Random = UnityEngine.Random;
 
@@ -16,13 +15,9 @@ public class Player : StateMachineMB
     public GameObject LaserbeamPrefab = null;
     public GameObject DeathExplosionPrefab = null;
 
-    public Image DeathPanel; // The red death filter while exploding
-    public GameObject My_Mesh;
+    private GameObject _ship_mesh;
 
-
-    //private bool _ready = false;
-
-    public enum PlayerState { NORMAL, RESET, KILLED };
+    public enum PlayerState { NORMAL, RESET, KILLED, DISABLED };
 
     /***********************************************************************************/
     public class PlayerState_NORMAL : State
@@ -99,13 +94,33 @@ public class Player : StateMachineMB
         public override void OnStateEnter( State from_state )
         {
 #if !TESTMODE
-            ( (Player)Owner ).DeathPanel.gameObject.SetActive( false );
             OwnerMB.transform.position = _starting_position;
 #endif
-            OwnerMB.gameObject.SetActive( true );
-            ( (Player)Owner ).My_Mesh.SetActive( true );
-            OwnerMB.enabled = true;
+            ( (Player)Owner )._ship_mesh.SetActive( true );
+
             Owner.ChangeState( PlayerState.NORMAL );
+        }
+
+        public override void OnUpdate()
+        {
+            ;
+        }
+    }
+
+    /***********************************************************************************/
+    public class PlayerState_DISABLED : State
+    {
+        public override Enum Name { get { return PlayerState.DISABLED; } }
+
+        public override void OnStateEnter( State from_state )
+        {
+            ( (Player)Owner )._ship_mesh.SetActive( false );
+        }
+
+        public override void OnStateExit( State to_state )
+        {
+            ( (Player)Owner )._ship_mesh.SetActive( true );
+
         }
 
         public override void OnUpdate()
@@ -129,27 +144,20 @@ public class Player : StateMachineMB
 #if TESTMODE
         return;
 #endif
-            ( (Player)Owner ).My_Mesh.SetActive( false );
-            ( (Player)OwnerMB ).enabled = false;
+            ( (Player)Owner )._ship_mesh.SetActive( false );
 
             Destroy(
                 Instantiate( ( (Player)Owner ).DeathExplosionPrefab, OwnerMB.transform.position, Quaternion.identity ),
                 3.0f );
 
-            GameController.instance.GameEnv.Lives--;
-            GameController.instance.GameEnv.AdjustScore( GameConstants.SCORE_PLAYERDEATH );
+            GameController.instance.ChangeState( GameController.GameState.PLAYER_DYING );
 
-            if ( GameController.instance.GameEnv.Lives <= 0 ) {
-                OwnerMB.gameObject.SetActive( false );
-                GameController.instance.ChangeState( GameController.GameState.GAMEOVER );
-            }
-            else {
-                ( (Player)Owner ).DeathPanel.gameObject.SetActive( true );
-                GameController.instance.GameEnv.WaveCon.Paused = true;
-                GameController.instance.GameEnv.WaveCon.Reset();
+            _timeout_timer = 3.0f;
+        }
 
-                _timeout_timer = 3.0f;
-            }
+        public override void OnStateExit( State to_state )
+        {
+            ( (Player)Owner )._ship_mesh.SetActive( true );
         }
 
         public override void OnUpdate()
@@ -165,13 +173,12 @@ public class Player : StateMachineMB
     /**************************************/
     public void Start()
     {
-        enabled = false;
+        _ship_mesh = transform.Find( "Mesh" ).gameObject;
 
         AddState( new PlayerState_NORMAL() );
         AddState( new PlayerState_RESET() );
+        AddState( new PlayerState_DISABLED() );
         AddState( new PlayerState_KILLED() );
-
-        DeathPanel.gameObject.SetActive( false );
 
         // Just sit pretty until GameController changes us to Reset
     }
