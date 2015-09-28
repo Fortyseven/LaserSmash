@@ -152,17 +152,13 @@ public class Player : StateMachineMB
             _timeout_timer = 3.0f;
         }
 
-        public override void OnStateExit( State to_state )
-        {
-            ( (Player)Owner )._ship_mesh.SetActive( true );
-        }
-
         public override void OnUpdate()
         {
             _timeout_timer -= Time.deltaTime;
 
             if ( _timeout_timer <= 0 ) {
-                Owner.ChangeState( PlayerState.RESET );
+                // Will kick off resumption of game or GameOver, and possible reset us
+                GameController.instance.CurrentState.SendMessage();
             }
         }
     }
@@ -170,6 +166,8 @@ public class Player : StateMachineMB
     /**************************************/
     public void Start()
     {
+        DebugMode = true;
+
         _ship_mesh = transform.Find( "Mesh" ).gameObject;
 
         AddState( new PlayerState_NORMAL() );
