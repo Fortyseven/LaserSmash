@@ -34,20 +34,23 @@ public class GameControllerState_PLAYER_DYING : StateMachineMB.State
 
     public override void OnStateExit( StateMachineMB.State to_state )
     {
-        _death_panel_image.gameObject.SetActive( false );
+        GameController.instance.GameEnv.WaveCon.Paused = false;
+    }
+
+    public override void OnMessageReceived( object o )
+    {
+        if ( GameController.instance.GameEnv.Lives <= 0 ) {
+            Owner.ChangeState( GameController.GameState.GAMEOVER );
+        }
+        else {
+            _death_panel_image.gameObject.SetActive( false );
+            GameController.instance.GameEnv.PlayerComponent.ChangeState( Player.PlayerState.RESET );
+            Owner.ChangeState( GameController.GameState.RUNNING );
+        }
     }
 
     public override void OnUpdate()
     {
-        _timer -= Time.deltaTime;
-
-        if ( _timer <= 0 ) {
-            if ( GameController.instance.GameEnv.Lives <= 0 ) {
-                Owner.ChangeState( GameController.GameState.GAMEOVER );
-            }
-            else {
-                Owner.ChangeState( GameController.GameState.RUNNING );
-            }
-        }
+        ;
     }
 }
