@@ -12,6 +12,7 @@ public class GameControllerState_INTRO_ANIM : StateMachineMB.State
     public override void OnStateExit( StateMachineMB.State to_state )
     {
         GameController.instance.GameEnv.PlayerComponent.ChangeState( Player.PlayerState.RESET );
+        GameController.instance.GameEnv.WaveCon.Paused = false;
     }
 
     public override void OnUpdate()

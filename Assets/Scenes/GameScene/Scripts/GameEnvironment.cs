@@ -41,11 +41,11 @@ public class GameEnvironment
 
         WaveCon = owner.GetComponentInChildren<WaveController>();
         WaveCon.Init();
-        WaveCon.Paused = false;
+        WaveCon.Paused = true;
 
         Score = 0;
         Multiplier = GameConstants.INITIAL_MULTIPLIER;
-        Lives = GameConstants.INITIAL_LIVES;        
+        Lives = GameConstants.INITIAL_LIVES;
     }
 
     public int Lives
