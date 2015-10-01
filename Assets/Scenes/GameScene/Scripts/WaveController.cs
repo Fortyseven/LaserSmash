@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 [RequireComponent( typeof( AudioSource ) )]
 public class WaveController : MonoBehaviour
 {
-    public const int MAX_OBJECT_PER_WAVEDEF = 20;
+    private const int MAX_OBJECT_PER_WAVEDEF = 20;
 
     [Serializable]
     public struct WaveDefinition
