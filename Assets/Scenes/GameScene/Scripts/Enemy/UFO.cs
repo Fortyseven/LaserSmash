@@ -15,7 +15,7 @@ public class UFO : GenericEnemy
     public GameObject ExplosionLaserGroundPrefab = null;
 
     protected const float MAX_Y_SPAWN = 13.0f;
-    protected const float MIN_Y_SPAWN = 6.0f;
+    protected const float MIN_Y_SPAWN = 4.0f; //6.0f;
 
     protected enum Direction
     {
