@@ -101,37 +101,31 @@ public class WaveController : MonoBehaviour
         //TODO: Invert this for production
         if ( !GameController.instance.DebugMode ) {
 
-            if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
-                //GameController.instance.State.Multiplier = 1;
-                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_1X;
-            }
-            if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
-                //GameController.instance.State.Multiplier = 2;
-                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_2X;
-            }
-            if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
-                //GameController.instance.State.Multiplier = 3;
-                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_3X;
-            }
-            if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
-                //GameController.instance.State.Multiplier = 4;
-                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_4X;
-            }
-            if ( Input.GetKeyDown( KeyCode.Alpha5 ) ) {
-                //GameController.instance.State.Multiplier = 5;
-                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_5X;
-            }
-            if ( Input.GetKeyDown( KeyCode.Alpha6 ) ) {
-                //GameController.instance.State.Multiplier = 6;
-                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_6X;
-            }
+            if ( Input.GetKey( KeyCode.LeftAlt ) ) {
+                if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_1X;
+                }
+                if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_2X;
+                }
+                if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_3X;
+                }
+                if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_4X;
+                }
+                if ( Input.GetKeyDown( KeyCode.Alpha5 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_5X;
+                }
+                if ( Input.GetKeyDown( KeyCode.Alpha6 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_6X;
+                }
 
-            if ( Input.GetKeyDown( KeyCode.U ) ) {
-                GetPoolForName( "UFO" ).GetInstance();
+                if ( Input.GetKeyDown( KeyCode.U ) ) {
+                    GetPoolForName( "UFO" ).GetInstance();
+                }
             }
         }
-
-        return;
 
         if ( Time.time >= _next_spawn_time ) {
             // Heartbeat throb
