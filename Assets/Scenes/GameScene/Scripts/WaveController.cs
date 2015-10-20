@@ -1,7 +1,9 @@
 ﻿//#define TESTMODE
 
 using System;
+using System.Linq;
 using Game;
+using JetBrains.Annotations;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,11 +11,13 @@ using Random = UnityEngine.Random;
  * HOW TO USE: The prefab with this component attached defines all of the enemies 
  * that will be spawned, and creates pools for them on initialization. 
  */
+[UsedImplicitly]
 [RequireComponent( typeof( AudioSource ) )]
 public class WaveController : MonoBehaviour
 {
     private const int MAX_OBJECT_PER_WAVEDEF = 20;
 
+    /*************************************************/
     [Serializable]
     public struct WaveDefinition
     {
@@ -27,14 +31,16 @@ public class WaveController : MonoBehaviour
         public bool Disabled;               // Will disable this enemy for debugging purposes
 
         //public WaveDefinition( string name, string asset_path, float[] level_freq_low, float[] level_freq_high, ObjectPool pool, bool disabled )
-        public WaveDefinition( string name, string asset_path, float[] spawn_freq, ObjectPool pool, bool disabled )
+        public WaveDefinition( string name, float[] spawn_freq, ObjectPool pool, bool disabled )
         {
             Name = name;
 
-            GameObjectPrefab = Resources.Load<GameObject>( "Enemies/" + asset_path + "" );
+            GameObjectPrefab = Resources.Load<GameObject>( "Enemies/" + name + "" );
             if ( GameObjectPrefab == null ) {
                 Debug.LogError( "LoadAssetAtPath returned null" );
             }
+
+            Debug.Assert( spawn_freq.Length == GameConstants.MAX_MULTIPLIER, "[" + name + "] spawn_freq.Length != GameConstants.MAX_MULTIPLIER" );
 
             SpawnFrequencyByLevel = spawn_freq;
             //LevelFrequencyLow = level_freq_low;
@@ -45,6 +51,7 @@ public class WaveController : MonoBehaviour
         }
     }
 
+    /*************************************************/
     private WaveDefinition[] Enemies;
 
     public bool Paused { get; set; }
@@ -135,38 +142,41 @@ public class WaveController : MonoBehaviour
         }
     }
 
+    /*****************************/
     private void SpawnTick()
     {
         for ( int i = 0; i < Enemies.Length; i++ ) {
             if ( Enemies[ i ].Disabled )
                 continue;
-            //float chance = Random.Range( Enemies[ i ].LevelFrequencyLow[ 0 ], Enemies[ i ].LevelFrequencyHigh[ 0 ] );
+
+            var odds = Enemies[i].SpawnFrequencyByLevel[GameController.instance.GameEnv.Multiplier-1];
+            var rand = Random.Range(0.0f, 100.0f);
+
+            Debug.Log( "odds " + odds + " / " + rand );
 
 
-            //TODO: Level in SpawnFrequencyByLevel?!
-            if ( Random.Range( 0.0f, 100.0f ) < Enemies[ i ].SpawnFrequencyByLevel[ 0 ] ) {
+            if ( rand < odds ) {
                 GameObject g = Enemies[ i ].Pool.GetInstance();
 
                 // We've hit max spawned items; no more left in pool
                 if ( g != null )
                     return;
             }
-
             // NOTED: There is a slim chance nothing will spawn.
         }
     }
 
+    /*****************************/
     public void Init()
     {
         Enemies = new[] {
-            new WaveDefinition("UFO", "UFO",
-                                        new[] {100.0f, 100.0f, 1.0f, 1.0f, 1.0f },
-                                        null, false),
-            //new WaveDefinition("UFO", "UFO", 
-            //                            new[] {100.0f, 100.0f, 1.0f, 1.0f, 1.0f }, 
-            //                            new[] {100.0f, 100.0f, 100.0f, 1.0f, 1.0f }, 
-            //                            null, false),
-            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
+            new WaveDefinition("UFO",
+                                    new[] {0.0f, 5.0f, 7.0f, 9.0f, 9.0f, 12.0f },
+                                    null, false),
+            new WaveDefinition("Asteroid_LG",
+                                    new[] {10.0f, 10.0f, 10.0f, 10.0f, 10.0f, 20.0f },
+                                    null, false)
+            
             //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
             //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
             //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),

@@ -56,9 +56,11 @@ public class UFO : GenericEnemy
 
         public override void OnUpdate()
         {
+            if ( !GameController.instance.CurrentState.Name.Equals( GameController.GameState.RUNNING ) )
+                return;
+
             // Occasionally fire down hot death
-            if ( GameController.instance.CurrentState.Name.Equals( GameController.GameState.RUNNING ) &&
-                 ( Random.Range( 0, 100 ) <= PERCENT_CHANCE_OF_FIRING ) ) {
+            if ( Random.Range( 0, 100 ) <= PERCENT_CHANCE_OF_FIRING ) {
                 Owner.ChangeState( UFOState.ATTACKING );
             }
         }
