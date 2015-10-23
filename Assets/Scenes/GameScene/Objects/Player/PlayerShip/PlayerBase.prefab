@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11482704}
   m_Layer: 12
   m_Name: PlayerBase
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +36,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &144194
 GameObject:
   m_ObjectHideFlags: 0
@@ -51,7 +51,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &145444
 GameObject:
@@ -300,7 +300,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131700}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
@@ -517,8 +517,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LaserbeamPrefab: {fileID: 100000, guid: 7323540a3fc444140a38c4fb6ff92f21, type: 2}
   DeathExplosionPrefab: {fileID: 100000, guid: e524f040c884a2147a8e2788ab89dc67, type: 2}
-  DeathPanel: {fileID: 0}
-  My_Mesh: {fileID: 163336}
 --- !u!119 &11951040
 Projector:
   m_ObjectHideFlags: 1
