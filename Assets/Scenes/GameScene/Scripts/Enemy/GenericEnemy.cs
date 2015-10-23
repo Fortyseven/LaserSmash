@@ -25,7 +25,7 @@ namespace Game
         /// <param name="col">Who colided with us.</param>
         public void OnTriggerEnter( Collider col )
         {
-            if ( col.name.Equals( "PlayerShip" ) ) {
+            if ( col.tag.Equals( "Player" ) ) {
                 KillPlayer();
             }
         }
