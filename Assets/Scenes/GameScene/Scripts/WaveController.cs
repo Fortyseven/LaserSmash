@@ -127,6 +127,10 @@ public class WaveController : MonoBehaviour
                     GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_6X;
                 }
 
+                if ( Input.GetKeyDown( KeyCode.Q ) ) {
+                    GameController.instance.GameEnv.AdjustScore( 75 );
+                }
+
                 if ( Input.GetKeyDown( KeyCode.U ) ) {
                     GetPoolForName( "UFO" ).GetInstance();
                 }
