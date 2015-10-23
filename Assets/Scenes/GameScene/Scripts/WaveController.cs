@@ -1,7 +1,6 @@
 ﻿//#define TESTMODE
 
 using System;
-using System.Linq;
 using Game;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -154,7 +153,6 @@ public class WaveController : MonoBehaviour
 
             Debug.Log( "odds " + odds + " / " + rand );
 
-
             if ( rand < odds ) {
                 GameObject g = Enemies[ i ].Pool.GetInstance();
 
@@ -174,10 +172,13 @@ public class WaveController : MonoBehaviour
                                     new[] {0.0f, 5.0f, 7.0f, 9.0f, 9.0f, 12.0f },
                                     null, false),
             new WaveDefinition("Asteroid_LG",
-                                    new[] {10.0f, 10.0f, 10.0f, 10.0f, 10.0f, 20.0f },
+                                    new[] {40.0f, 45.0f, 50.0f, 55.0f, 60.0f, 70.0f },
+                                    null, false),
+            new WaveDefinition("Asteroid_SM",
+                                    new[] {40.0f, 45.0f, 50.0f, 55.0f, 60.0f, 70.0f },
                                     null, false)
-            
-            //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
+
+                                    //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
             //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
             //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
             //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false)

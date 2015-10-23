@@ -25,7 +25,7 @@ public class Asteroid_Large : BaseAsteroid
     public override void Awake()
     {
         base.Awake();
-        _ast_small_objectpool = GameController.instance.GameEnv.WaveCon.GetPoolForName( "Asteroid_LG" );
+        _ast_small_objectpool = GameController.instance.GameEnv.WaveCon.GetPoolForName( "Asteroid_SM" );
     }
 
     /*****************************/
@@ -79,18 +79,18 @@ public class Asteroid_Large : BaseAsteroid
     /*****************************/
     private void SpawnSmalLRock( Direction drift_direction )
     {
-        GameObject sm_rock = _ast_small_objectpool.GetInstance( transform.position, Quaternion.identity, false );
+        var sm_rock = _ast_small_objectpool.GetInstance( transform.position, Quaternion.identity, false );
 
-        if ( sm_rock != null ) {
-            int dir = ( drift_direction == Direction.DIRECTION_LEFT ) ? -1 : 1;
-            float force_downward = -Random.Range( FRAGMENT_Y_FORCE_MIN, FRAGMENT_Y_FORCE_MAX );
+        if ( sm_rock == null ) return;
 
-            Asteroid_Small as_small = sm_rock.GetComponent<Asteroid_Small>();
-            as_small.IsFragment = true;
-            as_small.Respawn();
-            float force_sideways = dir * Random.Range( 0.0f, 1.0f ) * 300;
+        int dir = ( drift_direction == Direction.DIRECTION_LEFT ) ? -1 : 1;
+        float force_downward = -Random.Range( FRAGMENT_Y_FORCE_MIN, FRAGMENT_Y_FORCE_MAX );
 
-            sm_rock.GetComponent<Rigidbody>().AddForce( new Vector3( force_sideways, force_downward, 0.0f ) );
-        }
+        Asteroid_Small as_small = sm_rock.GetComponent<Asteroid_Small>();
+        as_small.IsFragment = true;
+        as_small.Respawn();
+        float force_sideways = dir * Random.Range( 0.0f, 1.0f ) * 300;
+
+        sm_rock.GetComponent<Rigidbody>().AddForce( new Vector3( force_sideways, force_downward, 0.0f ) );
     }
 }
