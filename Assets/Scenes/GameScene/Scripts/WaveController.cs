@@ -159,10 +159,6 @@ public class WaveController : MonoBehaviour
 
             if ( rand < odds ) {
                 GameObject g = Enemies[ i ].Pool.GetInstance();
-
-                // We've hit max spawned items; no more left in pool
-                if ( g != null )
-                    return;
             }
             // NOTED: There is a slim chance nothing will spawn.
         }
