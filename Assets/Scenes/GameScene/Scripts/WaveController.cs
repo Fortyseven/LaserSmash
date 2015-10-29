@@ -172,7 +172,7 @@ public class WaveController : MonoBehaviour
     {
         Enemies = new[] {
             new WaveDefinition("UFO",
-                                    new[] {0.0f, 5.0f, 7.0f, 9.0f, 9.0f, 12.0f },
+                                    new[] {0.0f, 0.0f, 0.0f, 5.0f, 8.0f, 10.0f },
                                     null, false),
             new WaveDefinition("Asteroid_LG",
                                     new[] {40.0f, 45.0f, 50.0f, 55.0f, 60.0f, 70.0f },
