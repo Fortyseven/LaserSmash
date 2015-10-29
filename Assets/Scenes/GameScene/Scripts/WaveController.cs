@@ -180,6 +180,9 @@ public class WaveController : MonoBehaviour
             new WaveDefinition("Asteroid_SM",
                                     new[] {40.0f, 45.0f, 50.0f, 55.0f, 60.0f, 70.0f },
                                     null, false)
+            new WaveDefinition("Seeker",
+                                    new[] {3.0f, 5.0f, 8.0f, 8.0f, 10.0f, 10.0f },
+                                    null, false),
 
                                     //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
             //new WaveDefinition("foo", null, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, new float[5] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, null, false),
