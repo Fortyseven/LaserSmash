@@ -10,6 +10,7 @@ public class Seeker : GenericEnemy
     protected override int BaseScore { get { return GameConstants.SCORE_KILLSAT; } }
 
     private const float SURFACE_Y = 0.2f;
+    private const float SPEED = 4.0f;
 
     enum SeekerState
     {
@@ -32,7 +33,7 @@ public class Seeker : GenericEnemy
             Vector3 pos = OwnerMB.transform.position;
 
             pos = Vector3.MoveTowards( pos, player.position, Time.deltaTime * 0.25f );
-            pos += OwnerMB.transform.forward * Time.deltaTime * 4f;
+            pos += OwnerMB.transform.forward * Time.deltaTime * SPEED;
             OwnerMB.transform.position = pos;
 
             Vector3 foo = player.position - OwnerMB.transform.position;
@@ -77,7 +78,7 @@ public class Seeker : GenericEnemy
 
             Vector3 pos = OwnerMB.transform.position;
 
-            pos += OwnerMB.transform.forward * Time.deltaTime * 4f;
+            pos += OwnerMB.transform.forward * Time.deltaTime * SPEED;
             OwnerMB.transform.position = pos;
         }
     }
