@@ -1,0 +1,130 @@
+ASTROSMASH
+Cartridge Instructions
+(For 1 Player)
+
+The sky IS falling! Chicken Little was right! You're the laser battery 
+Commander and HERE THEY COME!...an attack of multicolored meteors 
+with an occasional spinning bomb that will blow up one of your guns 
+if you let it land, AND -- to really make life interesting, some guided 
+missiles and an Attack UFO! As your score goes higher, so does the 
+excitement!
+
+OBJECT OF THE GAME
+To hit as many meteors, bombs, missiles and flying saucers as 
+possible, without being hit yourself. As your score grows higher, the 
+game speeds up and gives you more challenge. Take turns with your 
+friends to see who can get the highest "peak score"!
+
+SELECT GAME SPEED
+Played at any of 4 skill levels. When you see the game title:
+
+Press RETURN to play at the top level. 
+Press 1 (Auto-Fire) to play at easy level.
+Press 2 (Single Shot) to play at easier level.
+Press 3 (Hyper Space) to play at easiest level.
+
+Then press RETURN to start game.
+
+CONTROLS
+Fire: Any SIDE ACTION button
+Auto Fire mode: press 1
+Single Shot mode: press 2
+Hyper Space: press 3
+Move left: left side of DISC
+Move right: right side of DISC
+
+GET READY!
+
+1. Move your active laser gun left and right by pressing DISC.
+
+2. When you are under a falling rock or other object, FIRE by 
+pressing ANY SIDE ACTION BUTTON (or press AUTO FIRE [1] and the 
+computer will shoot 3 times each second for you). For rapid fire, use 
+SINGLE SHOT mode, keep depressing SPACE BAR and tap the DISC.
+
+3. Hit as many rocks as you can -- every one that lands reduces your 
+score.
+
+4. Be sure to hit every white "spinner"! Try to hit or avoid guided 
+missiles and attacking UFOs (which appear when your score is over 
+20,000 points)!
+
+5. Every time your peak score goes up another 1,000 points, you get 
+another laser gun in your arsenal.
+
+6. Scoring formula:
+
+Your score goes UP when you hit...
+
+Big Rock = 10
+Small Rock = 20
+Big Spinner = 40
+Small Spinner = 80
+Guided Missile = 50
+UFO = 100 (appears on level 4 and above)
+
+Point values are multiplied by the level number.
+
+Your score goes DOWN when...
+
+Big Rock Lands = -5
+Small Rock Lands = -10
+Your Gun Is Hit, or a Spinner Lands = -100
+
+Point values are multiplied by the level number.
+
+Scoring level changes:
+
+1x  level : Black background : Score up to 999
+2x  level : Blue background : Score 1,000-4,999
+3x  level : Purple background : Score 5,000-19,999
+4x  level : Turquoise background : Score 20,000-49,999
+5x  level : Gray background : Score 50,000-99,999
+6x  level : Black background : Score 100,000 and over
+
+NOTE: EVERYTHING SPEEDS UP AND YOU HAVE MORE TARGETS AND 
+ATTACKERS, MOVING FASTER, AT THE HIGHER SCORES ESPECIALLY 
+WHEN THE TOTAL PASSES 100,000, 200,000, 500,000 AND ONE 
+MILLION POINTS!
+
+7. When you hit a rock and it splits in two, try to hit both of those 
+fragments: they each give you twice as many points as the original 
+big rock!
+
+8. Whenever you see a white object, concentrate on avoiding it or 
+shooting it down...
+
+* White spinners (big and small): Be sure to hit every one you can -- 
+if one lands, you lose a laser gun (when you lose them all, the game 
+is over).
+
+* Pulsating guided missiles: will seek out your active laser gun and 
+blow it up on impact! If you can, get directly under a GM while it is 
+correcting course, and shoot it! If the missile gets to the ground, 
+sometimes it will home in on your laser, flying horizontally. If this 
+happens, your only chance of escape is to go into HYPER SPACE! 
+(move instantly to another place).
+
+When you press HYPER SPACE (3) your laser will immediately move 
+to the left or right a random distance determined by the computer. 
+The guided missile will attempt to follow you there, and you might 
+have to go into HYPER SPACE more than once -- and risk finding 
+yourself under a falling rock!
+
+* Attack UFOs: appear occasionally when your score is over 20,000 
+points. They sweep across the screen, aiming huge bombs at your 
+active laser gun. The bombs fall slowly enough for you to move out 
+of the way. Keep moving! Try to get directly beneath the UFO and 
+directly beneath the UFO and shoot it down!
+
+9. Do not shoot at falling rocks that are very close to your active 
+laser, as the explosion may produce shrapnel and blow up your gun.
+
+10. When you get good at ASTROSMASH, the game can go on for some 
+time. If you want a break in the action, remember the "interrupt 
+code" (press 1 and 9 simultaneously).
+
+Restart by pressing either Disc.
+----------
+©1981, 1998 Intellivision Productions, Inc.
+
