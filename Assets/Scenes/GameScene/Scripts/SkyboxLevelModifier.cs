@@ -11,7 +11,7 @@ public class SkyboxLevelModifier : MonoBehaviour
         float hue = ( 1.0f / SCORE_WRAP_POINT ) * GameController.instance.GameEnv.Score;
         float adj_hue = hue % 1.0f; // loop
         //Debug.Log( adj_hue );
-        RenderSettings.fogColor = HSVtoRGB( adj_hue, 0.35f, 0.82f ); //HSVToRGB( adj_hue, 0.52f, 0.82f );
+        RenderSettings.fogColor = HSVtoRGB( adj_hue, 0.35f, 0.82f );
     }
 
     // Yoinked from https://goo.gl/v1ui5E
