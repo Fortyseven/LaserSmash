@@ -134,6 +134,9 @@ public class WaveController : MonoBehaviour
                 if ( Input.GetKeyDown( KeyCode.U ) ) {
                     GetPoolForName( "UFO" ).GetInstance();
                 }
+                if ( Input.GetKeyDown( KeyCode.R ) ) {
+                    GetPoolForName( "Seeker" ).GetInstance();
+                }
             }
         }
 
