@@ -13,25 +13,20 @@ namespace Assets.Scenes.GameScene.Scripts.Enemy
         protected override float SpawnMaxX { get { return GameConstants.SCREEN_X_BOUNDS; } }
         protected override float SpawnMinX { get { return -GameConstants.SCREEN_X_BOUNDS; } }
 
-        protected abstract float MinForce { get; }
-        protected abstract float MaxForce { get; }
+        protected abstract float MinSpeed { get; }
+        protected abstract float MaxSpeed { get; }
 
         private const float Y_OFFSET_FLOOR = 0f;
 
         public GameObject NukePrefab;
 
-        protected float _base_mass_mult;
-        protected bool _hit_surface;
-
         protected AudioSource _audio;
-        protected Rigidbody _rigidbody;
+        protected float _drop_speed;
 
         /******************************************************************/
         public void Awake()
         {
             base.Awake();
-            _rigidbody = GetComponent<Rigidbody>();
-            _base_mass_mult = _rigidbody.mass;
             IsReady = false;
             _audio = GetComponent<AudioSource>();
         }
@@ -54,6 +49,19 @@ namespace Assets.Scenes.GameScene.Scripts.Enemy
             if ( !IsReady )
                 return;
 
+            Vector3 pos = transform.position;
+
+            //TODO: clean this up
+            float drop_sp = _drop_speed;
+
+            float mult = Mathf.Sin(GameController.instance.GameEnv.Multiplier/6.0f);
+            Debug.Log( mult );
+            drop_sp *= mult;
+
+            pos.y -= drop_sp * Time.deltaTime;
+
+            transform.position = pos;
+
             // Did we go off screen? Sweep it under the rug.
             if ( Mathf.Abs( transform.position.x ) > GameConstants.SCREEN_X_BOUNDS ) {
                 Done( false );
@@ -72,12 +80,9 @@ namespace Assets.Scenes.GameScene.Scripts.Enemy
         /******************************************************************/
         private void Done( bool explode = true )
         {
-            //if (_hit_surface)
-
-            _rigidbody.velocity = new Vector3( 0, 0, 0 );
-
-            if ( explode )
+            if ( explode ) {
                 Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
+            }
 
             _audio.Stop();
             Hibernate();
@@ -88,7 +93,6 @@ namespace Assets.Scenes.GameScene.Scripts.Enemy
         {
             Instantiate( NukePrefab, transform.position, Quaternion.identity );
             GameController.instance.KillPlayer();
-            _hit_surface = true;
             Done();
         }
 
@@ -97,9 +101,8 @@ namespace Assets.Scenes.GameScene.Scripts.Enemy
         {
             base.Respawn();
             _audio.Play();
-            _hit_surface = false;
             IsReady = true;
-            _rigidbody.AddForce( new Vector3( 0, -( Random.Range( MinForce, MaxForce ) ), 0 ) );
+            _drop_speed = Random.Range( MinSpeed, MaxSpeed );
         }
     }
 }
