@@ -841,11 +841,6 @@ RectTransform:
   m_PrefabParentObject: {fileID: 22400004, guid: 744b460cec1d0464fb9e8ae5b5844fec,
     type: 2}
   m_PrefabInternal: {fileID: 1278274132}
---- !u!223 &710541373 stripped
-Canvas:
-  m_PrefabParentObject: {fileID: 22300000, guid: 744b460cec1d0464fb9e8ae5b5844fec,
-    type: 2}
-  m_PrefabInternal: {fileID: 1278274132}
 --- !u!1001 &733568134
 Prefab:
   m_ObjectHideFlags: 0
@@ -2286,12 +2281,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1914970437}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98e882a7f5ac38d4a9a912bce7cfd52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PauseCanvas: {fileID: 710541373}
 --- !u!114 &1914970439
 MonoBehaviour:
   m_ObjectHideFlags: 0
