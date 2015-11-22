@@ -11,7 +11,7 @@ namespace Game
         private const float SHIP_SPEED = 13.0f;
         //private const float SHIP_X_BOUNDS = 13.0f;
         private const float LASER_Y_OFFSET_FROM_SHIP = 2.0f;
-        private const float FIRE_DELAY = 0.33f;
+        private const float FIRE_DELAY = 0.15f;
 
         public GameObject LaserbeamPrefab = null;
         public GameObject DeathExplosionPrefab = null;
@@ -25,13 +25,62 @@ namespace Game
         {
             public override Enum Name { get { return PlayerState.NORMAL; } }
 
+            private const int MAX_SHOTS_ON_SCREEN = 2;
+            private int _beams_on_screen;
+            private GameObject[] _laser_beams;
+            private Laserbeam[] _laser_beams_comp;
+
             private float _next_fire_time;
 
+            /*******************************/
+            public override void Start()
+            {
+                CreateBeams();
+            }
+
+            /*******************************/
+            private void CreateBeams()
+            {
+                _beams_on_screen = 0;
+                _laser_beams = new GameObject[ MAX_SHOTS_ON_SCREEN ];
+                _laser_beams_comp = new Laserbeam[ MAX_SHOTS_ON_SCREEN ];
+
+                for ( int i = 0; i < MAX_SHOTS_ON_SCREEN; i++ ) {
+                    _laser_beams[ i ] = (GameObject)Instantiate( ( (Player)Owner ).LaserbeamPrefab, Vector3.zero, Quaternion.identity );
+
+                    _laser_beams_comp[ i ] = _laser_beams[ i ].GetComponent<Laserbeam>();
+
+                    _laser_beams_comp[ i ].Init( () => {
+                        _beams_on_screen--;
+                        if ( _beams_on_screen < 0 ) _beams_on_screen = 0;
+                    } );
+                }
+            }
+
+            /*******************************/
+            private void SpawnLaserbeam()
+            {
+                if ( _beams_on_screen >= MAX_SHOTS_ON_SCREEN ) return;
+
+                Vector3 newpos = Owner.transform.position;
+                newpos.y += LASER_Y_OFFSET_FROM_SHIP;
+
+                for ( int i = 0; i < MAX_SHOTS_ON_SCREEN; i++ ) {
+                    if ( !_laser_beams[ i ].activeInHierarchy ) {
+                        _laser_beams_comp[ i ].Fire( newpos );
+                        _beams_on_screen++;
+                        return;
+                    }
+                }
+            }
+
+            /*******************************/
             public override void OnStateEnter( State from_state )
             {
                 _next_fire_time = Time.time + FIRE_DELAY;
             }
 
+            /*******************************/
             public override void OnUpdate()
             {
                 Vector3 pos = OwnerMB.transform.position;
@@ -39,7 +88,7 @@ namespace Game
                 pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
                 pos.x = Mathf.Clamp( pos.x, -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
 
-                if ( Input.GetButton( "Fire" ) ) {
+                if ( Input.GetButtonDown( "Fire" ) ) {
                     Fire();
                 }
 
@@ -53,10 +102,9 @@ namespace Game
             /**************************************/
             private void Fire()
             {
-                if ( Time.time >= _next_fire_time ) {
-                    SpawnLaserbeam();
-                    _next_fire_time = Time.time + FIRE_DELAY;
-                }
+                if ( Time.time < _next_fire_time ) return;
+                SpawnLaserbeam();
+                _next_fire_time = Time.time + FIRE_DELAY;
             }
 
             /**************************************/
@@ -66,14 +114,6 @@ namespace Game
                 Vector3 pos = OwnerMB.transform.position;
                 pos.x = Random.Range( -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
                 OwnerMB.transform.position = pos;
-            }
-
-            /**************************************/
-            private void SpawnLaserbeam()
-            {
-                Vector3 newpos = Owner.transform.position;
-                newpos.y += LASER_Y_OFFSET_FROM_SHIP;
-                Instantiate( ( (Player)Owner ).LaserbeamPrefab, newpos, Quaternion.identity );
             }
         }
 
