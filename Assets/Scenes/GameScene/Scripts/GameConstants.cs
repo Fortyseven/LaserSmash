@@ -14,7 +14,7 @@ namespace Game
         public const int    SCORE_PLAYERDEATH   = -100;
         public const int    MAX_MULTIPLIER      = 6;
 
-        public static float[] MULT_TIMEOUT_RAMP = { 1.0f, 0.875f, 0.750f, 0.600f, 0.475f, 0.350f };
+        public static readonly float[] MULT_TIMEOUT_RAMP = { 1.0f, 0.875f, 0.750f, 0.600f, 0.475f, 0.350f };
 
         /*
             1x  level : Black background : Score up to 999

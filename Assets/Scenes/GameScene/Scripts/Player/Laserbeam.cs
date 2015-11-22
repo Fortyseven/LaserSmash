@@ -1,26 +1,28 @@
-﻿using Game;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Laserbeam : MonoBehaviour
+namespace Game
 {
-    const float SPEED = 50.0f;
-
-    public void OnTriggerEnter( Collider other )
+    public class Laserbeam : MonoBehaviour
     {
-        //Debug.Log( "laser collide with " + other.gameObject.name + " -- " + other.gameObject.GetType() );
+        const float SPEED = 50.0f;
 
-        GenericEnemy ge = other.gameObject.GetComponent<GenericEnemy>();
-        if ( ge != null ) {
-            ge.HitByLaser( this );
-            Destroy( this.gameObject );
+        public void OnTriggerEnter( Collider other )
+        {
+            //Debug.Log( "laser collide with " + other.gameObject.name + " -- " + other.gameObject.GetType() );
+
+            GenericEnemy ge = other.gameObject.GetComponent<GenericEnemy>();
+            if ( ge != null ) {
+                ge.HitByLaser( this );
+                Destroy( this.gameObject );
+            }
         }
-    }
 
-    public void Update()
-    {
-        transform.Translate( new Vector3( 0.0f, SPEED * Time.deltaTime, 0.0f ), transform );
+        public void Update()
+        {
+            transform.Translate( new Vector3( 0.0f, SPEED * Time.deltaTime, 0.0f ), transform );
 
-        if ( transform.position.y > GameConstants.SCREEN_Y_GEN_OFFSET )
-            Destroy( gameObject );
+            if ( transform.position.y > GameConstants.SCREEN_Y_GEN_OFFSET )
+                Destroy( gameObject );
+        }
     }
 }

@@ -3,89 +3,92 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class GameController : StateMachineMB
+namespace Game
 {
-    private const float CAMERA_PAN_FACTOR = 0.10f;
-
-    public static GameController instance = null;
-    private Vector3 _initial_camera_position;
-
-    public GameEnvironment GameEnv { get; private set; }
-
-    //public Camera Egg_CockpitCamera;
-
-    public bool SceneReady { get; set; }
-
-    public enum GameState
+    public class GameController : StateMachineMB
     {
-        INTRO_ANIM,
-        RUNNING,
-        PLAYER_DYING,
-        PAUSED,
-        GAMEOVER
-    }
+        private const float CAMERA_PAN_FACTOR = 0.10f;
 
-    /**************************************/
-    public void Awake()
-    {
-        Init.Construct( true );
+        public static GameController instance = null;
+        private Vector3 _initial_camera_position;
 
-        instance = this;
+        public GameEnvironment GameEnv { get; private set; }
 
-        //DebugMode = Application.loadedLevelName.Equals( "GameTest" );
+        //public Camera Egg_CockpitCamera;
 
-        Physics2D.IgnoreLayerCollision( LayerMask.NameToLayer( "Enemy" ), LayerMask.NameToLayer( "Enemy" ) );
-    }
-    /**************************************/
+        public bool SceneReady { get; set; }
 
-    [UsedImplicitly]
-    public void Start()
-    {
-        AddState( new GameControllerState_INTRO_ANIM() );
-        AddState( new GameControllerState_RUNNING() );
-        AddState( new GameControllerState_GAMEOVER() );
-        AddState( new GameControllerState_PLAYER_DYING() );
+        public enum GameState
+        {
+            INTRO_ANIM,
+            RUNNING,
+            PLAYER_DYING,
+            PAUSED,
+            GAMEOVER
+        }
 
-        SetupBackgroundSceneControl();
+        /**************************************/
+        public void Awake()
+        {
+            Init.Construct( true );
 
-        ChangeState( GameState.INTRO_ANIM );
-    }
+            instance = this;
 
-    /**************************************/
-    private void SetupBackgroundSceneControl()
-    {
-        _initial_camera_position = Camera.main.transform.localPosition;
-    }
+            //DebugMode = Application.loadedLevelName.Equals( "GameTest" );
 
-    /**************************************/
-    public new void Update()
-    {
-        base.Update();
-        UpdateCameraPan();
-    }
+            Physics2D.IgnoreLayerCollision( LayerMask.NameToLayer( "Enemy" ), LayerMask.NameToLayer( "Enemy" ) );
+        }
+        /**************************************/
 
-    /**************************************/
-    private void UpdateCameraPan()
-    {
-        _initial_camera_position.x = GameEnv.PlayerShip.transform.position.x * CAMERA_PAN_FACTOR;
-        Camera.main.transform.localPosition = _initial_camera_position;
-    }
+        [UsedImplicitly]
+        public void Start()
+        {
+            AddState( new GameControllerState_INTRO_ANIM() );
+            AddState( new GameControllerState_RUNNING() );
+            AddState( new GameControllerState_GAMEOVER() );
+            AddState( new GameControllerState_PLAYER_DYING() );
 
-    /**************************************/
-    public void OnSceneIntroAnimationComplete()
-    {
-        CurrentState.SendMessage();
-    }
+            SetupBackgroundSceneControl();
 
-    /**************************************/
-    public void ResetGameEnvironment()
-    {
-        GameEnv = new GameEnvironment( this.gameObject );
-    }
+            ChangeState( GameState.INTRO_ANIM );
+        }
 
-    /**************************************/
-    public void KillPlayer()
-    {
-        GameEnv.PlayerComponent.ChangeState( Player.PlayerState.KILLED );
+        /**************************************/
+        private void SetupBackgroundSceneControl()
+        {
+            _initial_camera_position = Camera.main.transform.localPosition;
+        }
+
+        /**************************************/
+        public new void Update()
+        {
+            base.Update();
+            UpdateCameraPan();
+        }
+
+        /**************************************/
+        private void UpdateCameraPan()
+        {
+            _initial_camera_position.x = GameEnv.PlayerShip.transform.position.x * CAMERA_PAN_FACTOR;
+            Camera.main.transform.localPosition = _initial_camera_position;
+        }
+
+        /**************************************/
+        public void OnSceneIntroAnimationComplete()
+        {
+            CurrentState.SendMessage();
+        }
+
+        /**************************************/
+        public void ResetGameEnvironment()
+        {
+            GameEnv = new GameEnvironment( this.gameObject );
+        }
+
+        /**************************************/
+        public void KillPlayer()
+        {
+            GameEnv.PlayerComponent.ChangeState( Player.PlayerState.KILLED );
+        }
     }
 }

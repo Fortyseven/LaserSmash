@@ -1,45 +1,48 @@
 ﻿using UnityEngine;
 
-public class GameTestControls : MonoBehaviour
+namespace Game
 {
-    private WaveController _wavecon;
-    private ObjectPool[] _pools;
-
-    public void Start()
+    public class GameTestControls : MonoBehaviour
     {
-        Debug.Log( "Game Test Scene Controls Added" );
-      //  _PoolAsteroidLG = new ObjectPool( GOAsteroidLarge, 10 );
-        _wavecon = GetComponentInChildren<WaveController>();
+        private WaveController _wavecon;
+        private ObjectPool[] _pools;
 
-        _pools = new ObjectPool[ 6 ];
+        public void Start()
+        {
+            Debug.Log( "Game Test Scene Controls Added" );
+            //  _PoolAsteroidLG = new ObjectPool( GOAsteroidLarge, 10 );
+            _wavecon = GetComponentInChildren<WaveController>();
 
-        _pools[ 0 ] = _wavecon.GetPoolForName( "Asteroid Large" );
-        _pools[ 1 ] = _wavecon.GetPoolForName( "Asteroid Small" );
-        _pools[ 2 ] = _wavecon.GetPoolForName( "UFO" );
-        _pools[ 3 ] = _wavecon.GetPoolForName( "Bomb Large" );
-        _pools[ 4 ] = _wavecon.GetPoolForName( "Bomb Small" );
-        _pools[ 5 ] = _wavecon.GetPoolForName( "Seeker" );
-    }
+            _pools = new ObjectPool[ 6 ];
 
-    public void Update()
-    {
-        if ( Input.GetKeyDown( "1" ) ) {
-            _pools[ 0 ].GetInstance();
+            _pools[ 0 ] = _wavecon.GetPoolForName( "Asteroid Large" );
+            _pools[ 1 ] = _wavecon.GetPoolForName( "Asteroid Small" );
+            _pools[ 2 ] = _wavecon.GetPoolForName( "UFO" );
+            _pools[ 3 ] = _wavecon.GetPoolForName( "Bomb Large" );
+            _pools[ 4 ] = _wavecon.GetPoolForName( "Bomb Small" );
+            _pools[ 5 ] = _wavecon.GetPoolForName( "Seeker" );
         }
-        if ( Input.GetKeyDown( "2" ) ) {
-            _pools[ 1 ].GetInstance();
-        }
-        if ( Input.GetKeyDown( "3" ) ) {
-            _pools[ 2 ].GetInstance();
-        }
-        if ( Input.GetKeyDown( "4" ) ) {
-            _pools[ 3 ].GetInstance();
-        }
-        if ( Input.GetKeyDown( "5" ) ) {
-            _pools[ 4 ].GetInstance();
-        }
-        if ( Input.GetKeyDown( "6" ) ) {
-            _pools[ 5 ].GetInstance();
+
+        public void Update()
+        {
+            if ( Input.GetKeyDown( "1" ) ) {
+                _pools[ 0 ].GetInstance();
+            }
+            if ( Input.GetKeyDown( "2" ) ) {
+                _pools[ 1 ].GetInstance();
+            }
+            if ( Input.GetKeyDown( "3" ) ) {
+                _pools[ 2 ].GetInstance();
+            }
+            if ( Input.GetKeyDown( "4" ) ) {
+                _pools[ 3 ].GetInstance();
+            }
+            if ( Input.GetKeyDown( "5" ) ) {
+                _pools[ 4 ].GetInstance();
+            }
+            if ( Input.GetKeyDown( "6" ) ) {
+                _pools[ 5 ].GetInstance();
+            }
         }
     }
 }

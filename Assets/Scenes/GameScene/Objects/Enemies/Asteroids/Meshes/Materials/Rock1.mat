@@ -2,15 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Rock1
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _EMISSION _NORMALMAP
-  m_LightmapFlags: 1
+  m_ShaderKeywords: _NORMALMAP
+  m_LightmapFlags: 0
   m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -53,7 +54,7 @@ Material:
         first:
           name: _EmissionMap
         second:
-          m_Texture: {fileID: 2800000, guid: 90a01524f400290498bb50c7ade58713, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 2, y: 2}
           m_Offset: {x: 0, y: 0}
       data:
@@ -94,20 +95,20 @@ Material:
     m_Floats:
       data:
         first:
-          name: _Cutoff
-        second: .5
-      data:
-        first:
-          name: _Shininess
-        second: 1
-      data:
-        first:
           name: _SrcBlend
         second: 1
       data:
         first:
           name: _DstBlend
         second: 0
+      data:
+        first:
+          name: _Cutoff
+        second: .5
+      data:
+        first:
+          name: _Shininess
+        second: 1
       data:
         first:
           name: _Parallax
@@ -119,11 +120,11 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0
+        second: .0399999991
       data:
         first:
           name: _BumpScale
-        second: .150000006
+        second: .790000021
       data:
         first:
           name: _OcclusionStrength
@@ -147,7 +148,7 @@ Material:
       data:
         first:
           name: _Metallic
-        second: 0
+        second: .5
       data:
         first:
           name: _RimPower
@@ -156,11 +157,11 @@ Material:
       data:
         first:
           name: _EmissionColor
-        second: {r: 15, g: 11.4828081, b: 0, a: 15}
+        second: {r: 0, g: 0, b: 0, a: 1}
       data:
         first:
           name: _Color
-        second: {r: .242647052, g: .242647052, b: .242647052, a: 1}
+        second: {r: .658999979, g: .307094008, b: .307094008, a: 0}
       data:
         first:
           name: _SpecColor

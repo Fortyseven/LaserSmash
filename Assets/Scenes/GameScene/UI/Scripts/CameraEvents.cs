@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class CameraEvents : MonoBehaviour
+namespace Game
 {
-    public void OnIntroCameraDone()
+    public class CameraEvents : MonoBehaviour
     {
-        GameController.instance.OnSceneIntroAnimationComplete();
+        public void OnIntroCameraDone()
+        {
+            GameController.instance.OnSceneIntroAnimationComplete();
+        }
     }
 }

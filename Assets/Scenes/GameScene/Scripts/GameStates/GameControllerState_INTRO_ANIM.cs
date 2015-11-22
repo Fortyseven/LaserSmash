@@ -1,27 +1,30 @@
 ﻿using System;
 
-public class GameControllerState_INTRO_ANIM : StateMachineMB.State
+namespace Game
 {
-    public override Enum Name { get { return GameController.GameState.INTRO_ANIM; } }
-
-    public override void OnStateEnter( StateMachineMB.State from_state )
+    public class GameControllerState_INTRO_ANIM : StateMachineMB.State
     {
-        GameController.instance.ResetGameEnvironment();
-    }
+        public override Enum Name { get { return GameController.GameState.INTRO_ANIM; } }
 
-    public override void OnStateExit( StateMachineMB.State to_state )
-    {
-        GameController.instance.GameEnv.PlayerComponent.ChangeState( Player.PlayerState.RESET );
-        GameController.instance.GameEnv.WaveCon.Paused = false;
-    }
+        public override void OnStateEnter( StateMachineMB.State from_state )
+        {
+            GameController.instance.ResetGameEnvironment();
+        }
 
-    public override void OnUpdate()
-    {
-        ;
-    }
+        public override void OnStateExit( StateMachineMB.State to_state )
+        {
+            GameController.instance.GameEnv.PlayerComponent.ChangeState( Player.PlayerState.RESET );
+            GameController.instance.GameEnv.WaveCon.Paused = false;
+        }
 
-    public override void OnMessageReceived( object o )
-    {
-        Owner.ChangeState( GameController.GameState.RUNNING );
+        public override void OnUpdate()
+        {
+            ;
+        }
+
+        public override void OnMessageReceived( object o )
+        {
+            Owner.ChangeState( GameController.GameState.RUNNING );
+        }
     }
 }

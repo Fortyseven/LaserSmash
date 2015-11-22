@@ -22,7 +22,7 @@ namespace Game
         protected GameObject _particle_trail = null;
         protected bool _hit_surface;
         protected Rigidbody _rigidbody;
-
+        private Material _my_material;
         /*****************************/
         public virtual void Awake()
         {
@@ -31,6 +31,9 @@ namespace Game
             _rigidbody = GetComponent<Rigidbody>();
             _rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
             IsReady = false;
+
+            _my_material = new Material( gameObject.GetComponentInChildren<Renderer>().sharedMaterial );
+            gameObject.GetComponentInChildren<Renderer>().sharedMaterial = _my_material;
         }
 
         /*****************************/
@@ -92,12 +95,9 @@ namespace Game
         public override void Respawn()
         {
             base.Respawn();
-            //Color c = gameObject.GetComponent<Renderer>().material.color;
 
-            //c.r = Random.Range( 0.1f, 0.6f );
-            //c.g = Random.Range( 0.1f, 0.6f );
-            //c.b = Random.Range( 0.1f, 0.6f );
-            //gameObject.GetComponent<Renderer>().material.color = c;
+            RecolorMaterial();
+
             _rigidbody.velocity = Vector3.zero;
             float xpush = Random.Range( -1.0f, 1.0f ) * 150.0f;
             //float ypush = -Random.Range( 50.0f, 400.0f );
@@ -108,6 +108,13 @@ namespace Game
                 // I could delete it here, but let's dig deeper to find the REAL cause
             }
             SpawnParticleTrail();
+        }
+
+        /*****************************/
+        protected void RecolorMaterial()
+        {
+            _my_material.color = Utils.HSVtoRGB( Random.Range( 0, 1.0f ), 0.53f, 0.65f );
+            gameObject.GetComponentInChildren<Renderer>().sharedMaterial = _my_material;
         }
 
         /*****************************/

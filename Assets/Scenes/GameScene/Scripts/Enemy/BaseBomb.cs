@@ -4,7 +4,7 @@ using UnityEngine;
 //TODO: bring down pitch slightly for larger bomb
 //TODO: geiger counter sound?
 
-namespace Assets.Scenes.GameScene.Scripts.Enemy
+namespace Game
 {
     [RequireComponent( typeof( Rigidbody ) )]
     [RequireComponent( typeof( AudioSource ) )]
