@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Rock1
+  m_Name: RockMat
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _NORMALMAP
   m_LightmapFlags: 0
@@ -104,7 +104,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .5
+        second: 0.5
       data:
         first:
           name: _Shininess
@@ -112,7 +112,7 @@ Material:
       data:
         first:
           name: _Parallax
-        second: .0199999996
+        second: 0.02
       data:
         first:
           name: _ZWrite
@@ -120,11 +120,11 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .0399999991
+        second: 0.04
       data:
         first:
           name: _BumpScale
-        second: .790000021
+        second: 0.79
       data:
         first:
           name: _OcclusionStrength
@@ -148,11 +148,11 @@ Material:
       data:
         first:
           name: _Metallic
-        second: .5
+        second: 0.5
       data:
         first:
           name: _RimPower
-        second: 3.0999999
+        second: 3.1
     m_Colors:
       data:
         first:
@@ -161,15 +161,15 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .658999979, g: .307094008, b: .307094008, a: 0}
+        second: {r: 0.659, g: 0.307094, b: 0.307094, a: 0}
       data:
         first:
           name: _SpecColor
-        second: {r: .308823526, g: .308823526, b: .308823526, a: 1}
+        second: {r: 0.30882353, g: 0.30882353, b: 0.30882353, a: 1}
       data:
         first:
           name: _EmissionColorUI
-        second: {r: 1, g: .765517235, b: 0, a: 1}
+        second: {r: 1, g: 0.76551723, b: 0, a: 1}
       data:
         first:
           name: _RimColor
