@@ -183,9 +183,9 @@ namespace Game
             //new WaveDefinition("Bomb_Small",
             //                        new[] {10.0f, 15.0f, 15.0f, 15.0f, 15.0f, 15.0f },
             //                        null, false),
-            //new WaveDefinition("Seeker",
-            //                        new[] {3.0f, 5.0f, 8.0f, 8.0f, 10.0f, 10.0f },
-            //                        null, false),
+            new WaveDefinition("Seeker",
+                                    new[] {3.0f, 5.0f, 8.0f, 8.0f, 10.0f, 10.0f },
+                                    null, false),
 
         };
             _audio = GetComponent<AudioSource>();
