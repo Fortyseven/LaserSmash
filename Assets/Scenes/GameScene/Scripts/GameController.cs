@@ -11,7 +11,7 @@ namespace Game
 
         public static GameController instance = null;
         private Vector3 _initial_camera_position;
-
+        public BarrierGroup Barriers;
         public GameEnvironment GameEnv { get; private set; }
 
         //public Camera Egg_CockpitCamera;

@@ -11,14 +11,9 @@ namespace Game
 
         protected virtual Vector3 SurfaceHitOffset { get { return new Vector3( 0.0f, -0.75f, 0.0f ); } }
 
-        //public AudioClip SoundHitSurface = null;
-
         public GameObject HitSurfacePrefab = null;
-        //public GameObject PlayerObject = null;
-        //public GameObject AsteroidSmallPrefab = null;
         public GameObject ParticleEmitterPrefab = null;
 
-        //protected float _gravity_multiplier = 0.0f;
         protected GameObject _particle_trail = null;
         protected bool _hit_surface;
         protected Rigidbody _rigidbody;
@@ -79,9 +74,9 @@ namespace Game
             if ( !IsReady )
                 return;
 
-            // Did we go off screen? Sweep it under the rug.
+            // Did we go off screen? Zap the barrier
             if ( Mathf.Abs( transform.position.x ) > GameConstants.SCREEN_X_BOUNDS ) {
-                //Debug.Log( "Exceeded screen bounds" );
+                GameController.instance.Barriers.Zapped( transform.position );
                 CleanUpAndHibernate( false );
                 return;
             }

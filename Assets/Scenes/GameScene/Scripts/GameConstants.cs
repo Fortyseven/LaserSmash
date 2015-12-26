@@ -2,7 +2,7 @@ namespace Game
 {
     public class GameConstants
     {
-        public const float  SCREEN_X_BOUNDS     = 14.0f;
+        public const float  SCREEN_X_BOUNDS     = 14.5f;
         public const float  SCREEN_Y_GEN_OFFSET = 17.0f;
         public const float  SCREEN_Y_FLOOR      = 0.0f;
         public const int    SCORE_ASTEROID_LG   = 10;
