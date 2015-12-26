@@ -9,7 +9,8 @@ namespace Game
 
         protected override int BaseScore { get { return GameConstants.SCORE_ASTEROID_SM; } }
 
-        protected virtual Vector3 SurfaceHitOffset { get { return new Vector3( 0.0f, -0.75f, 0.0f ); } }
+        //protected virtual Vector3 SurfaceHitOffset { get { return new Vector3( 0.0f, -0.75f, 0.0f ); } }
+        protected virtual Vector3 SurfaceHitOffset { get { return new Vector3( 0.0f, -2f, 0.0f ); } }
 
         public GameObject HitSurfacePrefab = null;
         public GameObject ParticleEmitterPrefab = null;
