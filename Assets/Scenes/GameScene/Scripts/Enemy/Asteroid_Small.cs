@@ -23,13 +23,14 @@ namespace Game
             // we need to roll our own particle trail
             if ( IsFragment ) {
                 //Debug.Log( "SM: Spawned as fragment" );
-                SpawnParticleTrail();
-                RecolorMaterial();
+                SpawnParticleTrail();                
             }
             else {
                 //Debug.Log( "SM: Spawned as normal small rock" );
                 base.Respawn();
             }
+
+            RecolorMaterial();
 
             ParticleEmitter p = _particle_trail.GetComponentInChildren<ParticleEmitter>();
 

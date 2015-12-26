@@ -23,13 +23,17 @@ namespace Game
         protected bool _hit_surface;
         protected Rigidbody _rigidbody;
         private Material _my_material;
+
         /*****************************/
         public virtual void Awake()
         {
             int enemy_layer = LayerMask.NameToLayer( "Enemy" );
+
             Physics.IgnoreLayerCollision( enemy_layer, enemy_layer, true );
+
             _rigidbody = GetComponent<Rigidbody>();
             _rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
+
             IsReady = false;
 
             _my_material = new Material( gameObject.GetComponentInChildren<Renderer>().sharedMaterial );
