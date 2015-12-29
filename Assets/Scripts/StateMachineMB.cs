@@ -10,6 +10,7 @@ public class StateMachineMB : MonoBehaviour
 
         public StateMachineMB Owner { get; set; }
         public MonoBehaviour OwnerMB { get { return (MonoBehaviour)Owner; } }
+        public bool SkipUpdateOnZeroTimeScale { get; set; }
 
         public static bool operator ==( State a, Enum b )
         {
@@ -33,11 +34,6 @@ public class StateMachineMB : MonoBehaviour
         {
             ;
         }
-
-        //public virtual void Reset()
-        //{
-        //    ;
-        //}
 
         public virtual void OnStateEnter( State from_state )
         {
@@ -66,6 +62,7 @@ public class StateMachineMB : MonoBehaviour
     public State CurrentState { get; private set; }
     protected Dictionary<Enum, State> States { get; private set; }
     protected bool InTransition { get; private set; }
+    public bool SkipUpdateOnZeroTimeScale { get; set; }
 
     public StateMachineMB()
     {
@@ -73,6 +70,7 @@ public class StateMachineMB : MonoBehaviour
         CurrentState = null;
         States = new Dictionary<Enum, State>( 0 );
         InTransition = false;
+        SkipUpdateOnZeroTimeScale = true;
     }
 
     /// <summary>
@@ -91,6 +89,10 @@ public class StateMachineMB : MonoBehaviour
         if ( InTransition )
             return;
 
+        if ( SkipUpdateOnZeroTimeScale && Time.timeScale == 0 ) {
+            return;
+        }
+
         if ( CurrentState != null )
             CurrentState.OnUpdate();
     }
@@ -104,6 +106,14 @@ public class StateMachineMB : MonoBehaviour
         States.Add( state.Name, state );
         state.Owner = this;
         state.Start();
+
+        // bubble up to new states whatever the default is; state can then override
+        state.SkipUpdateOnZeroTimeScale = this.SkipUpdateOnZeroTimeScale;
+    }
+
+    public void ChangeState( State next_state )
+    {
+        ChangeState( next_state.Name );
     }
 
     /// <summary>
