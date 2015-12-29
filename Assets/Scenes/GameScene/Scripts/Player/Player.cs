@@ -15,6 +15,7 @@ namespace Game
 
         public GameObject LaserbeamPrefab = null;
         public GameObject DeathExplosionPrefab = null;
+        public GameObject HyperspaceEffectPrefab = null;
 
         private GameObject _ship_mesh;
 
@@ -111,6 +112,9 @@ namespace Game
             private void Hyperspace()
             {
                 // TODO: beaming animation, from and to, sfx
+
+                Instantiate( ( (Player)Owner ).HyperspaceEffectPrefab, OwnerMB.transform.position, Quaternion.identity );
+
                 Vector3 pos = OwnerMB.transform.position;
                 pos.x = Random.Range( -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
                 OwnerMB.transform.position = pos;
