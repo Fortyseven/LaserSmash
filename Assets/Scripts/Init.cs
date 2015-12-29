@@ -1,6 +1,15 @@
-﻿using System;
+﻿/************************************************************************
+** Init.cs
+**
+** Copyright (c) 2016, BytesTemplar.com
+** For information on usage and redistribution, and for a DISCLAIMER 
+** OF ALL WARRANTIES, see the text file, "LICENSE" in this distribution.
+*************************************************************************/
+
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Init : StateMachineMB
 {
@@ -28,6 +37,7 @@ public class Init : StateMachineMB
         GAME_LOOP
     };
 
+    /********************************************/
     private class GameState_MainMenu : State
     {
         public override Enum Name
@@ -41,12 +51,12 @@ public class Init : StateMachineMB
 
         public override void OnStateEnter( State from_state )
         {
-            Application.LoadLevel( SCENE_NAME_MAIN_MENU );
+            SceneManager.LoadScene( SCENE_NAME_MAIN_MENU );
         }
 
         public override void OnStateExit( State to_state )
         {
-            Application.UnloadLevel( SCENE_NAME_MAIN_MENU );
+            SceneManager.UnloadScene( SCENE_NAME_MAIN_MENU );
         }
 
         public override void OnUpdate()
@@ -55,6 +65,7 @@ public class Init : StateMachineMB
         }
     }
 
+    /********************************************/
     private class GameState_GameLoop : State
     {
         public override Enum Name
@@ -68,12 +79,12 @@ public class Init : StateMachineMB
 
         public override void OnStateEnter( State from_state )
         {
-            Application.LoadLevel( SCENE_NAME_GAME );
+            SceneManager.LoadScene( SCENE_NAME_GAME );
         }
 
         public override void OnStateExit( State to_state )
         {
-            Application.UnloadLevel( SCENE_NAME_GAME );
+            SceneManager.UnloadScene( SCENE_NAME_GAME );
         }
 
         public override void OnUpdate()
@@ -82,6 +93,7 @@ public class Init : StateMachineMB
         }
     }
 
+    /********************************************/
     private class GameState_Help : State
     {
         public override Enum Name
@@ -95,12 +107,12 @@ public class Init : StateMachineMB
 
         public override void OnStateEnter( State from_state )
         {
-            Application.LoadLevel( SCENE_NAME_HELP );
+            SceneManager.LoadScene( SCENE_NAME_HELP );
         }
 
         public override void OnStateExit( State to_state )
         {
-            Application.UnloadLevel( SCENE_NAME_HELP );
+            SceneManager.LoadScene( SCENE_NAME_HELP );
         }
 
         public override void OnUpdate()
@@ -109,6 +121,7 @@ public class Init : StateMachineMB
         }
     }
 
+    /********************************************/
     public static void Construct( bool debug_mode = false )
     {
         if ( _instance != null ) return;

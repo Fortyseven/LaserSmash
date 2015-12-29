@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Game
@@ -51,7 +52,7 @@ namespace Game
                 _game_over_message_enabled = true;
             }
             if ( Input.anyKeyDown && ( Time.time >= _game_over_timeout ) ) {
-                Application.LoadLevel( "Game" );
+                SceneManager.LoadScene("Game");
             }
         }
     }
