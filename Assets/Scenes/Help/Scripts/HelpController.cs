@@ -1,16 +1,27 @@
-﻿using UnityEngine;
+﻿/************************************************************************
+** HelpController.cs
+**
+** Copyright (c) 2016, BytesTemplar.com
+** For information on usage and redistribution, and for a DISCLAIMER 
+** OF ALL WARRANTIES, see the text file, "LICENSE" in this distribution.
+*************************************************************************/
 
-public class HelpController : MonoBehaviour
+using UnityEngine;
+
+namespace Game
 {
-    public void Start()
+    public class HelpController : MonoBehaviour
     {
-        Init.Construct( true );
-    }
+        public void Start()
+        {
+            Init.Construct( true );
+        }
 
-    public void Update()
-    {
-        if ( Input.anyKeyDown ) {
-            Init.instance.ChangeState( Init.GameStates.MAIN_MENU );
+        public void Update()
+        {
+            if ( Input.anyKeyDown ) {
+                Init.instance.ChangeState( Init.GameStates.MAIN_MENU );
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
 **
 ** Ported from UVScroller.js 
 ** 
-** Copyright (c) 2015, BytesTemplar.com
+** Copyright (c) 2016, BytesTemplar.com
 ** For information on usage and redistribution, and for a DISCLAIMER 
 ** OF ALL WARRANTIES, see the text file, "LICENSE" in this distribution.
 *************************************************************************/
@@ -12,30 +12,34 @@ using UnityEngine;
 // ReSharper disable ConvertToConstant.Global
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 
-[ExecuteInEditMode]
-public class UVScrollerEx : MonoBehaviour
+namespace Game
 {
-    public float ScrollSpeed = 1.0f;
-    public float MainOffsetX = 0.0f;
-    public float MainOffsetY = 0.0f;
-
-    public Texture UseCustomTex = null;
-    public string CustomTexName = "";
-
-    Renderer _renderer;
-    private Vector2 _offs;
-    public void Start()
+    [ExecuteInEditMode]
+    public class UVScrollerEx : MonoBehaviour
     {
-        _renderer = GetComponent<Renderer>();
-        _offs = new Vector2( 0, 0 );
-    }
+        public float ScrollSpeed = 1.0f;
+        public float MainOffsetX = 0.0f;
+        public float MainOffsetY = 0.0f;
 
-    public void Update()
-    {
-        float offset = Time.time * ScrollSpeed;
-        _offs.x = MainOffsetX * offset;
-        _offs.y = MainOffsetY * offset;
+        public Texture UseCustomTex = null;
+        public string CustomTexName = "";
 
-        _renderer.sharedMaterial.SetTextureOffset( UseCustomTex ? CustomTexName : "_MainTex", _offs );
+        private Renderer _renderer;
+        private Vector2 _offs;
+
+        public void Start()
+        {
+            _renderer = GetComponent<Renderer>();
+            _offs = new Vector2( 0, 0 );
+        }
+
+        public void Update()
+        {
+            float offset = Time.time*ScrollSpeed;
+            _offs.x = MainOffsetX * offset;
+            _offs.y = MainOffsetY * offset;
+
+            _renderer.sharedMaterial.SetTextureOffset( UseCustomTex ? CustomTexName : "_MainTex", _offs );
+        }
     }
 }

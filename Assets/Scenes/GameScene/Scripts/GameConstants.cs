@@ -1,3 +1,11 @@
+﻿/************************************************************************
+** GameConstants.cs
+**
+** Copyright (c) 2016, BytesTemplar.com
+** For information on usage and redistribution, and for a DISCLAIMER 
+** OF ALL WARRANTIES, see the text file, "LICENSE" in this distribution.
+*************************************************************************/
+
 namespace Game
 {
     public class GameConstants

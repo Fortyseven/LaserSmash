@@ -1,4 +1,12 @@
-﻿using System.Collections.Generic;
+﻿/************************************************************************
+** ObjectPool.cs
+**
+** Copyright (c) 2016, BytesTemplar.com
+** For information on usage and redistribution, and for a DISCLAIMER 
+** OF ALL WARRANTIES, see the text file, "LICENSE" in this distribution.
+*************************************************************************/
+
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game

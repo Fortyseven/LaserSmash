@@ -23,6 +23,8 @@ namespace Game
         /*****************************/
         public virtual void Awake()
         {
+            base.Awake();
+
             int enemy_layer = LayerMask.NameToLayer( "Enemy" );
 
             Physics.IgnoreLayerCollision( enemy_layer, enemy_layer, true );
@@ -72,6 +74,8 @@ namespace Game
         /*****************************/
         protected void Update()
         {
+            base.Update();
+
             if ( !IsReady )
                 return;
 

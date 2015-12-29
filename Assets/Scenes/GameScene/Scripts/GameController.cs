@@ -1,7 +1,14 @@
-﻿//#define TESTMODE
+﻿/************************************************************************
+** GameController.cs
+**
+** Copyright (c) 2016, BytesTemplar.com
+** For information on usage and redistribution, and for a DISCLAIMER 
+** OF ALL WARRANTIES, see the text file, "LICENSE" in this distribution.
+*************************************************************************/
 
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game
 {
@@ -58,6 +65,7 @@ namespace Game
         private void SetupBackgroundSceneControl()
         {
             _initial_camera_position = Camera.main.transform.localPosition;
+            SceneManager.LoadScene( "BG1", LoadSceneMode.Additive ); // TODO: For future expansion
         }
 
         /**************************************/

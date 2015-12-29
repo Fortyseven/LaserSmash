@@ -1,4 +1,10 @@
-﻿//#define TESTMODE
+﻿/************************************************************************
+** Player.cs
+**
+** Copyright (c) 2016, BytesTemplar.com
+** For information on usage and redistribution, and for a DISCLAIMER 
+** OF ALL WARRANTIES, see the text file, "LICENSE" in this distribution.
+*************************************************************************/
 
 using System;
 using UnityEngine;
@@ -111,8 +117,7 @@ namespace Game
             /**************************************/
             private void Hyperspace()
             {
-                // TODO: beaming animation, from and to, sfx
-
+                // Poof!
                 Instantiate( ( (Player)Owner ).HyperspaceEffectPrefab, OwnerMB.transform.position, Quaternion.identity );
 
                 Vector3 pos = OwnerMB.transform.position;

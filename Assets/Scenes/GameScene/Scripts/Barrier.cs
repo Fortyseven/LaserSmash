@@ -1,69 +1,94 @@
-﻿using System;
+﻿/************************************************************************
+** Barrier.cs
+**
+** Copyright (c) 2016, BytesTemplar.com
+** For information on usage and redistribution, and for a DISCLAIMER 
+** OF ALL WARRANTIES, see the text file, "LICENSE" in this distribution.
+*************************************************************************/
+
+using System;
 using UnityEngine;
-using System.Collections;
 
-public class Barrier : StateMachineMB
+namespace Game
 {
-    private const float BARRIER_FADE_SPEED = 1.5f;
 
-    protected enum BarrierState { IDLE, ZAPPED };
-
-    private Material _my_material;
-    protected Color _color;
-
-    /***************************************************************************/
-    protected class BarrierState_IDLE : State
+    public class Barrier : StateMachineMB
     {
-        public override Enum Name { get { return BarrierState.IDLE; } }
-        public override void OnStateEnter( State from_state )
+        private const float BARRIER_FADE_SPEED = 1.5f;
+
+        protected enum BarrierState
         {
-            ( (Barrier)Owner )._color.a = 0.0f;
-            ( (Barrier)Owner )._my_material.color = ( (Barrier)Owner )._color;
-        }
+            IDLE,
+            ZAPPED
+        };
 
-        public override void OnUpdate()
+        private Material _my_material;
+        protected Color _color;
+
+        /***************************************************************************/
+
+        protected class BarrierState_IDLE : State
         {
-        }
-    }
+            public override Enum Name
+            {
+                get { return BarrierState.IDLE; }
+            }
 
-    /***************************************************************************/
-    protected class BarrierState_ZAPPED : State
-    {
-        public override Enum Name { get { return BarrierState.ZAPPED; } }
+            public override void OnStateEnter( State from_state )
+            {
+                ( (Barrier)Owner )._color.a = 0.0f;
+                ( (Barrier)Owner )._my_material.color = ( (Barrier)Owner )._color;
+            }
 
-
-        public override void OnStateEnter( State from_state )
-        {
-            base.OnStateEnter( from_state );
-            ( (Barrier)Owner )._color.a = 1.0f;
-        }
-
-        public override void OnUpdate()
-        {
-            ( (Barrier)Owner )._my_material.color = ( (Barrier)Owner )._color;
-
-            if ( ( (Barrier)Owner )._color.a > 0 )
-                ( (Barrier)Owner )._color.a -= BARRIER_FADE_SPEED * Time.deltaTime;
-            else {
-                Owner.ChangeState( BarrierState.IDLE );
+            public override void OnUpdate()
+            {
             }
         }
-    }
 
-    /***************************************************************************/
-    public void Awake()
-    {
-        // Clone shared material so we can modify it independently
-        _my_material = new Material( gameObject.GetComponent<Renderer>().sharedMaterial );
-        gameObject.GetComponent<Renderer>().sharedMaterial = _my_material;
+        /***************************************************************************/
 
-        AddState( new BarrierState_IDLE() );
-        AddState( new BarrierState_ZAPPED() );
-        ChangeState( BarrierState.IDLE );
-    }
+        protected class BarrierState_ZAPPED : State
+        {
+            public override Enum Name
+            {
+                get { return BarrierState.ZAPPED; }
+            }
 
-    public void Zap()
-    {
-        ChangeState( BarrierState.ZAPPED );
+
+            public override void OnStateEnter( State from_state )
+            {
+                base.OnStateEnter( from_state );
+                ( (Barrier)Owner )._color.a = 1.0f;
+            }
+
+            public override void OnUpdate()
+            {
+                ( (Barrier)Owner )._my_material.color = ( (Barrier)Owner )._color;
+
+                if ( ( (Barrier)Owner )._color.a > 0 )
+                    ( (Barrier)Owner )._color.a -= BARRIER_FADE_SPEED * Time.deltaTime;
+                else {
+                    Owner.ChangeState( BarrierState.IDLE );
+                }
+            }
+        }
+
+        /***************************************************************************/
+
+        public void Awake()
+        {
+            // Clone shared material so we can modify it independently
+            _my_material = new Material( gameObject.GetComponent<Renderer>().sharedMaterial );
+            gameObject.GetComponent<Renderer>().sharedMaterial = _my_material;
+
+            AddState( new BarrierState_IDLE() );
+            AddState( new BarrierState_ZAPPED() );
+            ChangeState( BarrierState.IDLE );
+        }
+
+        public void Zap()
+        {
+            ChangeState( BarrierState.ZAPPED );
+        }
     }
 }
