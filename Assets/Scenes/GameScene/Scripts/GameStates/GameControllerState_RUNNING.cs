@@ -29,7 +29,10 @@ namespace Game
                 //GameController.instance.GameEnv.PlayerShip.GetComponent<Player>().ChangeState(Player.PlayerState_KILLED);
                 GameController.instance.KillPlayer();
             }
-        }
 
+            if ( Input.GetKeyDown( KeyCode.Escape ) ) {
+                Owner.ChangeState( GameController.GameState.PAUSED );
+            }
+        }
     }
 }

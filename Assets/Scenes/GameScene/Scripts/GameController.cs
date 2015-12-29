@@ -47,6 +47,7 @@ namespace Game
             AddState( new GameControllerState_RUNNING() );
             AddState( new GameControllerState_GAMEOVER() );
             AddState( new GameControllerState_PLAYER_DYING() );
+            AddState( new GameControllerState_PAUSED() );
 
             SetupBackgroundSceneControl();
 
