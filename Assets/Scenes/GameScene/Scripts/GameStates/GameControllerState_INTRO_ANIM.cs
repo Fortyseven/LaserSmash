@@ -22,7 +22,7 @@ namespace Game
             ;
         }
 
-        public override void OnMessageReceived( object o )
+        public override void OnStateMessageReceived( object o )
         {
             Owner.ChangeState( GameController.GameState.RUNNING );
         }

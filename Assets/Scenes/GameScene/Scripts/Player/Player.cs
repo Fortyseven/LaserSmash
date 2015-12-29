@@ -198,8 +198,8 @@ namespace Game
                 _timeout_timer -= Time.deltaTime;
 
                 if ( _timeout_timer <= 0 ) {
-                    // Will kick off resumption of game or GameOver, and possible reset us
-                    GameController.instance.CurrentState.SendMessage();
+                    // Will kick off resumption of game or GameOver, and possibly reset us
+                    GameController.instance.CurrentState.SendStateMessage();
                 }
             }
         }

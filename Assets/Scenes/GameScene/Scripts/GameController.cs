@@ -76,7 +76,7 @@ namespace Game
         /**************************************/
         public void OnSceneIntroAnimationComplete()
         {
-            CurrentState.SendMessage();
+            CurrentState.SendStateMessage();
         }
 
         /**************************************/

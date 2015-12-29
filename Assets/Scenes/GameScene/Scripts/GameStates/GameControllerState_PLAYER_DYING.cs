@@ -37,7 +37,7 @@ namespace Game
             GameController.instance.GameEnv.WaveCon.Paused = false;
         }
 
-        public override void OnMessageReceived( object o )
+        public override void OnStateMessageReceived( object o )
         {
             if ( GameController.instance.GameEnv.Lives <= 0 ) {
                 Owner.ChangeState( GameController.GameState.GAMEOVER );

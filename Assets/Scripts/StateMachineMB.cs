@@ -47,14 +47,14 @@ public class StateMachineMB : MonoBehaviour
 
         public abstract void OnUpdate();
 
-        public virtual void OnMessageReceived( object o )
+        public virtual void OnStateMessageReceived( object o )
         {
             throw new NotImplementedException( "Message was received, but OnMessageReceived not implemented" );
         }
 
-        internal void SendMessage( object o = null )
+        internal void SendStateMessage( object o = null )
         {
-            OnMessageReceived( o );
+            OnStateMessageReceived( o );
         }
     }
 
@@ -73,28 +73,26 @@ public class StateMachineMB : MonoBehaviour
         SkipUpdateOnZeroTimeScale = true;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    //protected void Start()
-    //{
-    //    States = new Dictionary<Enum, State>( 0 );
-    //}
+    public void SendStateMessage( object o )
+    {
+        if ( CurrentState != null ) {
+            CurrentState.SendStateMessage( o );
+        }
+    }
 
     /// <summary>
     /// 
     /// </summary>
     protected void Update()
     {
-        if ( InTransition )
+        if ( InTransition || CurrentState == null )
             return;
 
-        if ( SkipUpdateOnZeroTimeScale && Time.timeScale == 0 ) {
+        if ( CurrentState.SkipUpdateOnZeroTimeScale && Time.timeScale == 0 ) {
             return;
         }
 
-        if ( CurrentState != null )
-            CurrentState.OnUpdate();
+        CurrentState.OnUpdate();
     }
 
     /// <summary>
@@ -105,10 +103,11 @@ public class StateMachineMB : MonoBehaviour
     {
         States.Add( state.Name, state );
         state.Owner = this;
-        state.Start();
 
-        // bubble up to new states whatever the default is; state can then override
+        // bubble up to new states whatever the default is; state can then override in Start
         state.SkipUpdateOnZeroTimeScale = this.SkipUpdateOnZeroTimeScale;
+
+        state.Start();
     }
 
     public void ChangeState( State next_state )
