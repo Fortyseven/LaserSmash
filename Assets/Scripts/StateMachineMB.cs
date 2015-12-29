@@ -49,7 +49,7 @@ public class StateMachineMB : MonoBehaviour
 
         public virtual void OnStateMessageReceived( object o )
         {
-            throw new NotImplementedException( "Message was received, but OnMessageReceived not implemented" );
+            throw new NotImplementedException( "Message \"" + o + "\" was received, but OnMessageReceived not implemented" );
         }
 
         internal void SendStateMessage( object o = null )
@@ -73,7 +73,16 @@ public class StateMachineMB : MonoBehaviour
         SkipUpdateOnZeroTimeScale = true;
     }
 
-    public void SendStateMessage( object o )
+    // This ugly thing here is here to satisfy a bug(?) in Unity's 
+    // onClick callback in the editor
+    public void SendStateMessage( String o = null )
+    {
+        if ( CurrentState != null ) {
+            CurrentState.SendStateMessage( o );
+        }
+    }
+
+    public void SendStateMessage( object o = null )
     {
         if ( CurrentState != null ) {
             CurrentState.SendStateMessage( o );
