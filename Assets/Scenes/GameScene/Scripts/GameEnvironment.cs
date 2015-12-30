@@ -29,9 +29,7 @@ namespace Game
 
         public GameEnvironment( GameObject owner )
         {
-            Debug.LogWarning( "NEW GAME!" );
             //Egg_CockpitCamera.enabled = false;
-            //PlayerComponent.Init();
 
             // Fetch UI objects
             _ui_score_value = GameObject.Find( "UI_ScoreValue" ).GetComponent<Text>();
