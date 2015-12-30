@@ -216,8 +216,6 @@ namespace Game
         /**************************************/
         public void Start()
         {
-            DebugMode = true;
-
             _ship_mesh = transform.Find( "Mesh" ).gameObject;
 
             AddState( new PlayerState_NORMAL() );
