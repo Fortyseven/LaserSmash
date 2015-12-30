@@ -17,8 +17,29 @@ public class StateMachineMB : MonoBehaviour
         public abstract Enum Name { get; }
 
         public StateMachineMB Owner { get; set; }
-        public MonoBehaviour OwnerMB { get { return (MonoBehaviour)Owner; } }
+        protected MonoBehaviour OwnerMB { get { return Owner; } }
         public bool SkipUpdateOnZeroTimeScale { get; set; }
+
+        #region Equality
+        protected bool Equals( State other )
+        {
+            return Equals( Owner, other.Owner ) && SkipUpdateOnZeroTimeScale == other.SkipUpdateOnZeroTimeScale;
+        }
+
+        public override bool Equals( object obj )
+        {
+            if ( ReferenceEquals( null, obj ) ) return false;
+            if ( ReferenceEquals( this, obj ) ) return true;
+            if ( obj.GetType() != this.GetType() ) return false;
+            return Equals( (State)obj );
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked {
+                return ( ( Owner != null ? Owner.GetHashCode() : 0 ) * 397 ) ^ SkipUpdateOnZeroTimeScale.GetHashCode();
+            }
+        }
 
         public static bool operator ==( State a, Enum b )
         {
@@ -37,6 +58,7 @@ public class StateMachineMB : MonoBehaviour
         {
             return !( a == b );
         }
+        #endregion
 
         public virtual void Start()
         {
@@ -70,9 +92,9 @@ public class StateMachineMB : MonoBehaviour
     public State CurrentState { get; private set; }
     protected Dictionary<Enum, State> States { get; private set; }
     protected bool InTransition { get; private set; }
-    public bool SkipUpdateOnZeroTimeScale { get; set; }
+    private bool SkipUpdateOnZeroTimeScale { get; set; }
 
-    public StateMachineMB()
+    protected StateMachineMB()
     {
         DebugMode = false;
         CurrentState = null;
@@ -116,7 +138,7 @@ public class StateMachineMB : MonoBehaviour
     /// 
     /// </summary>
     /// <param name="state"></param>
-    public void AddState( State state )
+    protected void AddState( State state )
     {
         States.Add( state.Name, state );
         state.Owner = this;
