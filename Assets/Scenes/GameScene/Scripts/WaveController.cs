@@ -135,10 +135,10 @@ namespace Game
                     }
 
                     if ( Input.GetKeyDown( KeyCode.U ) ) {
-                        GetPoolForName( "UFO" ).GetInstance();
+                        GetPoolForName( "UFO" ).SpawnInstance();
                     }
                     if ( Input.GetKeyDown( KeyCode.R ) ) {
-                        GetPoolForName( "Seeker" ).GetInstance();
+                        GetPoolForName( "Seeker" ).SpawnInstance();
                     }
                 }
             }
@@ -164,7 +164,7 @@ namespace Game
                 //Debug.Log( "odds " + odds + " / " + rand );
 
                 if ( rand < odds ) {
-                    GameObject g = Enemies[ i ].Pool.GetInstance();
+                    Enemies[ i ].Pool.SpawnInstance();
                 }
                 // NOTED: There is a slim chance nothing will spawn.
             }

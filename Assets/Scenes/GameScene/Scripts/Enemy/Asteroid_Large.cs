@@ -80,7 +80,7 @@ namespace Game
         /*****************************/
         private void SpawnSmalLRock( Direction drift_direction )
         {
-            var sm_rock = _ast_small_objectpool.GetInstance( transform.position, Quaternion.identity, false );
+            var sm_rock = _ast_small_objectpool.SpawnInstance( transform.position, Quaternion.identity, false );
 
             if ( sm_rock == null ) return;
 

@@ -34,22 +34,22 @@ namespace Game
         public void Update()
         {
             if ( Input.GetKeyDown( "1" ) ) {
-                _pools[ 0 ].GetInstance();
+                _pools[ 0 ].SpawnInstance();
             }
             if ( Input.GetKeyDown( "2" ) ) {
-                _pools[ 1 ].GetInstance();
+                _pools[ 1 ].SpawnInstance();
             }
             if ( Input.GetKeyDown( "3" ) ) {
-                _pools[ 2 ].GetInstance();
+                _pools[ 2 ].SpawnInstance();
             }
             if ( Input.GetKeyDown( "4" ) ) {
-                _pools[ 3 ].GetInstance();
+                _pools[ 3 ].SpawnInstance();
             }
             if ( Input.GetKeyDown( "5" ) ) {
-                _pools[ 4 ].GetInstance();
+                _pools[ 4 ].SpawnInstance();
             }
             if ( Input.GetKeyDown( "6" ) ) {
-                _pools[ 5 ].GetInstance();
+                _pools[ 5 ].SpawnInstance();
             }
         }
     }

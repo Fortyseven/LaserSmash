@@ -42,13 +42,13 @@ namespace Game
         }
 
         /*****************************/
-        public GameObject GetInstance()
+        public GameObject SpawnInstance()
         {
-            return GetInstance( new Vector3( 0, 0, 0 ), Quaternion.identity );
+            return SpawnInstance( new Vector3( 0, 0, 0 ), Quaternion.identity );
         }
 
         /*****************************/
-        public GameObject GetInstance( Vector3 position, Quaternion rot, bool call_respawn = true )
+        public GameObject SpawnInstance( Vector3 position, Quaternion rot, bool call_respawn = true )
         {
             // Have we hit max allocation? Instantiate, add to the pool, and return
             if ( _items.Count < MaxCount ) {
