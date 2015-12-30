@@ -17,8 +17,6 @@ namespace Game
 
         // Use this for initialization
         public override Enum Name { get { return GameController.GameState.PLAYER_DYING; } }
-        private const float DYING_DURATION_SECS = 3.0f;
-        private float _timer;
         private Image _death_panel_image; // The red death filter while exploding
 
         public override void Start()
@@ -36,8 +34,6 @@ namespace Game
 
             GameController.instance.GameEnv.WaveCon.Paused = true;
             GameController.instance.GameEnv.WaveCon.Reset();
-
-            _timer = DYING_DURATION_SECS;
         }
 
         public override void OnStateExit( StateMachineMB.State to_state )
@@ -45,6 +41,7 @@ namespace Game
             GameController.instance.GameEnv.WaveCon.Paused = false;
         }
 
+        // Triggered at the end of the death animation
         public override void OnStateMessageReceived( object o )
         {
             if ( GameController.instance.GameEnv.Lives <= 0 ) {

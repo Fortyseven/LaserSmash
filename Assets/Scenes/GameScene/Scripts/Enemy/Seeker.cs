@@ -37,7 +37,6 @@ namespace Game
 
             public override void OnUpdate()
             {
-                Transform player = GameController.instance.GameEnv.PlayerShip.transform;
                 Vector3 pos = OwnerMB.transform.position;
 
                 if ( pos.y <= ( SURFACE_Y + 1.5f ) ) {
@@ -50,7 +49,6 @@ namespace Game
 
             private void glideForward()
             {
-                Transform player = GameController.instance.GameEnv.PlayerShip.transform;
                 Vector3 pos = OwnerMB.transform.position;
 
                 // just keep going towards the ground, and death
@@ -163,11 +161,9 @@ namespace Game
             _killme_flag = false;
 
             if ( UnityEngine.Random.Range( 0, 100 ) <= RELENTLESS_CHANCE ) {
-                Debug.Log("REL");
                 ChangeState( SeekerState.TRACKING_RELENTLESS );
             }
             else {
-                Debug.Log( "NORM" );
                 ChangeState( SeekerState.TRACKING );
             }
         }
