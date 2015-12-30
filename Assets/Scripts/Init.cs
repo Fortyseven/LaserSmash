@@ -139,7 +139,7 @@ namespace Game
             go.AddComponent<Init>();
         }
 
-        public new void Start()
+        public void Start()
         {
             DontDestroyOnLoad( this.gameObject );
 

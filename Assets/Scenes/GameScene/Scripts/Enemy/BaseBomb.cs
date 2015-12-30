@@ -24,7 +24,7 @@ namespace Game
         protected float _drop_speed;
 
         /******************************************************************/
-        public void Awake()
+        public new void Awake()
         {
             base.Awake();
             IsReady = false;
@@ -44,7 +44,7 @@ namespace Game
         }
 
         /******************************************************************/
-        public void Update()
+        public new void Update()
         {
             if ( !IsReady )
                 return;

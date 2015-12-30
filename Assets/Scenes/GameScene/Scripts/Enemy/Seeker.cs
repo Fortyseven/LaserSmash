@@ -130,15 +130,17 @@ namespace Game
         }
 
         /************************/
-        public void Awake()
+        public override void Awake()
         {
+            base.Awake();
+
             AddState( new SeekerState_TRACKING() );
             AddState( new SeekerState_TRACKING_RELENTLESS() );
             AddState( new SeekerState_LOCKED() );
         }
 
         /************************/
-        public void Update()
+        public new void Update()
         {
             base.Update();
 

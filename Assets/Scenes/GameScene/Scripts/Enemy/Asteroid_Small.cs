@@ -9,7 +9,7 @@ namespace Game
         public bool IsFragment { get; set; }
 
         /*****************************/
-        public override void Awake()
+        public new void Awake()
         {
             base.Awake();
             IsFragment = false;

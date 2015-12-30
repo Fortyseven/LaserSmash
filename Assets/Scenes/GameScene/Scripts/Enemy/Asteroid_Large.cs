@@ -23,7 +23,7 @@ namespace Game
         ObjectPool _ast_small_objectpool;
 
         /*****************************/
-        public override void Awake()
+        public new void Awake()
         {
             base.Awake();
             _ast_small_objectpool = GameController.instance.GameEnv.WaveCon.GetPoolForName( "Asteroid_SM" );

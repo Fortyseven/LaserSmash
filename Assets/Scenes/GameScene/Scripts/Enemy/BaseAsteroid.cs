@@ -21,7 +21,7 @@ namespace Game
         private Material _my_material;
 
         /*****************************/
-        public virtual void Awake()
+        public new void Awake()
         {
             base.Awake();
 
@@ -72,7 +72,7 @@ namespace Game
         }
 
         /*****************************/
-        protected void Update()
+        public new void Update()
         {
             base.Update();
 
