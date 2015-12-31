@@ -23,9 +23,9 @@ namespace Game
         private int _mult;
         private int _lives;
 
-        private Text _ui_score_value;
-        private Text _ui_lives_value;
-        private Text _ui_mult_value;
+        private readonly Text _ui_score_value;
+        private readonly Text _ui_lives_value;
+        private readonly Text _ui_mult_value;
 
         public GameEnvironment( GameObject owner )
         {
