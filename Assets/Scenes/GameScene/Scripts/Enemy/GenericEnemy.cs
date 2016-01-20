@@ -36,7 +36,7 @@ namespace Game
             GameController.instance.GameEnv.AdjustScore( BaseScore );
         }
 
-        protected void KillPlayer()
+        public void KillPlayer()
         {
             GameController.instance.KillPlayer();
             Hibernate();
@@ -46,7 +46,7 @@ namespace Game
         /// Spawns an explosion prefab object and hibernates object for later recycling in the object pool.
         /// ExplosionPrefab should be self-terminating.
         /// </summary>
-        protected void ExplodeAndHibernate()
+        public void ExplodeAndHibernate()
         {
             if ( ExplosionPrefab != null ) {
                 Instantiate( ExplosionPrefab, transform.position, Quaternion.identity );
