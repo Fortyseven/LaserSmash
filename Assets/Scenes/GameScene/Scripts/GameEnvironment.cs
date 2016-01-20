@@ -60,11 +60,6 @@ namespace Game
             get { return _lives; }
             set
             {
-                // Only adjust lives when the game is running; once it's
-                // at zero, only a Reset() will unlock it
-                //if ( Mode == GameMode.GAMEOVER )
-                //    return;
-
                 _lives = value;
                 SetLivesValue( value );
             }
@@ -98,42 +93,43 @@ namespace Game
         }
 
         /***************************************************************************/
-
         public void SetScoreValue( int score )
         {
             _ui_score_value.text = score.ToString();
         }
 
         /***************************************************************************/
-
         public void SetMultValue( int mult )
         {
             _ui_mult_value.text = mult.ToString() + "x";
         }
 
         /***************************************************************************/
-
         public void SetLivesValue( int lives )
         {
             _ui_lives_value.text = lives.ToString();
         }
 
+        /***************************************************************************/
         public void AdjustScore( int score_offset )
         {
-            Score += score_offset * Multiplier;
+            if ( GameController.instance.CurrentState == GameController.GameState.RUNNING ||
+                 GameController.instance.CurrentState == GameController.GameState.PLAYER_DYING ) {
 
-            if ( Score > _peak_score ) {
-                _peak_score = Score;
-                if ( _peak_score - _last_life_peak_score > 1000 ) {
-                    _last_life_peak_score = _peak_score;
-                    Lives++;
-                    //TODO: Add 1UP noise
+                Score += score_offset * Multiplier;
+
+                if ( Score > _peak_score ) {
+                    _peak_score = Score;
+                    if ( _peak_score - _last_life_peak_score > 1000 ) {
+                        _last_life_peak_score = _peak_score;
+                        Lives++;
+                        //TODO: Add 1UP noise
+                    }
                 }
             }
         }
 
         /***************************************************************************/
-
         private void ValidateMultplier()
         {
             int cur_mult = Multiplier;
@@ -161,6 +157,7 @@ namespace Game
                 OnMultChange();
         }
 
+        /***************************************************************************/
         private void OnMultChange()
         {
             //switch ( Multiplier ) {

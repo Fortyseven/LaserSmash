@@ -99,6 +99,8 @@ namespace Game
 
             public override void OnStateExit( State to_state )
             {
+                OwnerMB.StopCoroutine( AcquireTargetLock() );
+                OwnerMB.StopCoroutine( Fire() );
                 ( (UFO)Owner ).ShutDownLaser();
                 _has_fired = false;
             }
@@ -169,7 +171,6 @@ namespace Game
                 float timer = LASER_FADE_TIME;
 
                 while ( timer > 0 ) {
-                    Debug.Log( "Fade: " + timer );
                     timer -= Time.deltaTime;
 
                     //alpha -= ( 1.0f / LASER_FADE_TIME ) * Time.deltaTime;
@@ -186,9 +187,8 @@ namespace Game
         }
 
         /*****************************/
-        public void Start()
+        public new void Awake()
         {
-            // Pick a side of the screen to fly out of
             _laser = GetComponentInChildren<LineRenderer>();
             _laser.gameObject.SetActive( false );
 
@@ -229,22 +229,14 @@ namespace Game
             // Did we fly off the screen?
             if ( _direction == Direction.DIR_RIGHT ) {
                 if ( _newpos.x >= SpawnMaxX ) {
-                    Done();
+                    Hibernate();
                 }
             }
             else if ( _direction == Direction.DIR_LEFT ) {
                 if ( _newpos.x <= SpawnMinX ) {
-                    Done();
+                    Hibernate();
                 }
             }
-        }
-
-        /*****************************/
-        void Done()
-        {
-            ChangeState( UFOState.PASSIVE );
-            ShutDownLaser();
-            Hibernate();
         }
 
         /*****************************/
@@ -262,21 +254,30 @@ namespace Game
         protected override void InstaKill()
         {
             //StartCoroutine( "InstaKillDelay" );
-            Done();
         }
 
         /*****************************/
         public IEnumerator InstaKillDelay()
         {
             yield return new WaitForSeconds( 3.0f );
-            Done();
+            Hibernate();
+        }
+
+        /*****************************/
+        protected override void OnHibernateCallback()
+        {
+            GameController.instance.GameEnv.WaveCon.UFOsISpawned = false;
+            ChangeState( UFOState.PASSIVE );
+            ShutDownLaser();
         }
 
         /*****************************/
         public override void Respawn()
         {
+            // Decide the height
             float y_offs = Random.Range( MIN_Y_SPAWN, MAX_Y_SPAWN );
 
+            // Pick a side of the screen to fly out of
             if ( Random.Range( 0, 2 ) == 0 ) {
                 _direction = Direction.DIR_RIGHT;
                 _newpos = new Vector3( SpawnMinX, y_offs, 0 );
@@ -285,9 +286,14 @@ namespace Game
                 _direction = Direction.DIR_LEFT;
                 _newpos = new Vector3( SpawnMaxX, y_offs, 0 );
             }
-            transform.position = _newpos;
 
+            transform.position = _newpos;
+            GameController.instance.GameEnv.WaveCon.UFOsISpawned = true;
             IsReady = true;
+
+            ChangeState( UFOState.PASSIVE );
+
+            Debug.Log( "UFO RESPAWNED" );
         }
     }
 }

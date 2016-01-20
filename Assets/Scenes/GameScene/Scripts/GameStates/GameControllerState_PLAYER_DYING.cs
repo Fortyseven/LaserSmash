@@ -30,8 +30,9 @@ namespace Game
             _death_panel_image.gameObject.SetActive( true );
 
             GameController.instance.GameEnv.Lives--;
-            GameController.instance.GameEnv.AdjustScore( GameConstants.SCORE_PLAYERDEATH );
 
+            GameController.instance.GameEnv.AdjustScore( GameConstants.SCORE_PLAYERDEATH );
+            
             GameController.instance.GameEnv.WaveCon.Paused = true;
             GameController.instance.GameEnv.WaveCon.Reset();
         }

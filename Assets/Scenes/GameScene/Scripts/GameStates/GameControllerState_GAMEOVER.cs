@@ -37,8 +37,7 @@ namespace Game
 
             _ui_game_over_canvas.gameObject.SetActive( true );
             Text peak_score_value = GameObject.Find( "PeakScoreValue" ).GetComponent<Text>();
-            //peak_score_value.text = ( (GameController)Parent ).Status.PeakScore.ToString();
-            peak_score_value.text = "FIXME";
+            peak_score_value.text = ( (GameController)Owner ).GameEnv.PeakScore.ToString();
             _game_over_timeout = Time.time + GAMEOVER_TIMEOUT;
             _game_over_message_enabled = false;
         }

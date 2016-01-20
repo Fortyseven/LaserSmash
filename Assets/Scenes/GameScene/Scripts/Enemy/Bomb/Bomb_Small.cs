@@ -9,7 +9,7 @@ namespace Game
 
         protected override float SpawnYOffset { get { return 15.0f; } }
 
-        protected override float MinSpeed { get { return 3.5f; } }
-        protected override float MaxSpeed { get { return 10.0f; } }
+        //protected override float MinSpeed { get { return 3.5f; } }
+        //protected override float MaxSpeed { get { return 10.0f; } }
     }
 }

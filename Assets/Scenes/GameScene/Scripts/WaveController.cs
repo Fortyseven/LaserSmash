@@ -22,7 +22,7 @@ namespace Game
     [RequireComponent( typeof( AudioSource ) )]
     public class WaveController : MonoBehaviour
     {
-        private const int MAX_OBJECT_PER_WAVEDEF = 20;
+        private const int MAX_OBJECT_PER_WAVEDEF = 3;
 
         /*************************************************/
         [Serializable]
@@ -32,7 +32,7 @@ namespace Game
             public readonly GameObject GameObjectPrefab;    // Prefab associated with enemy 
             public readonly float[] SpawnFrequencyByLevel;  // random % chance of spawning per level
             public ObjectPool Pool;                         // not exposed in editor //TODO:Should this be private?
-            public bool Disabled;                           // Will disable this enemy for debugging purposes
+            public readonly bool Disabled;                           // Will disable this enemy for debugging purposes
 
             public WaveDefinition( string name, float[] spawn_freq, ObjectPool pool, bool disabled )
             {
@@ -53,7 +53,7 @@ namespace Game
         }
 
         /*************************************************/
-        private WaveDefinition[] Enemies;
+        public WaveDefinition[] Enemies { get; private set; }
 
         public bool Paused { get; set; }
 
@@ -62,6 +62,8 @@ namespace Game
         private float _cur_spawn_timeout;
         private float _next_spawn_time;
         private bool _initialized = false;
+
+        public bool UFOsISpawned { get; set; }
 
         /*****************************/
         public void Reset()
@@ -75,6 +77,8 @@ namespace Game
             for ( int i = 0; i < Enemies.Length; i++ ) {
                 Enemies[ i ].Pool.Reset();
             }
+
+            UFOsISpawned = false;
         }
 
         /*****************************/
@@ -154,14 +158,17 @@ namespace Game
         /*****************************/
         private void SpawnTick()
         {
+            if ( UFOsISpawned ) {
+                Debug.Log( "ufo still exists" );
+                return;
+            }
             for ( int i = 0; i < Enemies.Length; i++ ) {
                 if ( Enemies[ i ].Disabled )
                     continue;
 
+
                 var odds = Enemies[i].SpawnFrequencyByLevel[GameController.instance.GameEnv.Multiplier-1];
                 var rand = Random.Range(0.0f, 100.0f);
-
-                //Debug.Log( "odds " + odds + " / " + rand );
 
                 if ( rand < odds ) {
                     Enemies[ i ].Pool.SpawnInstance();
@@ -174,23 +181,23 @@ namespace Game
         public void Init()
         {
             Enemies = new[] {
-            //new WaveDefinition("UFO",
-            //                        new[] {0.0f, 0.0f, 0.0f, 5.0f, 8.0f, 10.0f },
-            //                        null, false),
+            new WaveDefinition("UFO",
+                                    new[] {0.0f, 0.0f, 0.0f, 5.0f, 8.0f, 10.0f },
+                                    null, false),
             new WaveDefinition("Asteroid_LG",
                                     new[] {30.0f, 40.0f, 50.0f, 55.0f, 60.0f, 70.0f },
                                     null, false),
             new WaveDefinition("Asteroid_SM",
                                     new[] {35.0f, 45.0f, 50.0f, 55.0f, 60.0f, 70.0f },
                                     null, false),
-            //new WaveDefinition("Bomb_Large",
-            //                        new[] {10.0f, 15.0f, 15.0f, 15.0f, 15.0f, 15.0f },
-            //                        null, false),
-            //new WaveDefinition("Bomb_Small",
-            //                        new[] {10.0f, 15.0f, 15.0f, 15.0f, 15.0f, 15.0f },
-            //                        null, false),
+            new WaveDefinition("Bomb_Large",
+                                    new[] {8.0f, 8.0f, 8.0f, 5.0f, 5.0f, 5.0f },
+                                    null, false),
+            new WaveDefinition("Bomb_Small",
+                                    new[] {8.0f, 8.0f, 8.0f, 5.0f, 5.0f, 5.0f },
+                                    null, false),
             new WaveDefinition("Seeker",
-                                    new[] {3.0f, 5.0f, 8.0f, 8.0f, 10.0f, 10.0f },
+                                    new[] {3.0f, 5.0f, 8.0f, 8.0f, 8.0f, 8.0f },
                                     null, false),
 
         };

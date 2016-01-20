@@ -30,16 +30,6 @@ namespace Game
             }
         }
 
-        public virtual void OnPause()
-        {
-            ;
-        }
-
-        public virtual void OnResume()
-        {
-            ;
-        }
-
         public virtual void HitByLaser( Laserbeam laser )
         {
             ExplodeAndHibernate();
@@ -48,7 +38,6 @@ namespace Game
 
         protected void KillPlayer()
         {
-            //_game_environment.PlayerComponent.ChangeState( Player.PlayerState.KILLED );
             GameController.instance.KillPlayer();
             Hibernate();
         }
@@ -90,10 +79,25 @@ namespace Game
         /// </summary>
         public void Hibernate()
         {
-
+            OnHibernateCallback();
             gameObject.SetActive( false );
             transform.position.Set( 0, 0, 0 );
             IsReady = false;
+        }
+
+        protected virtual void OnHibernateCallback()
+        {
+            ;
+        }
+
+        protected virtual void OnPause()
+        {
+            ;
+        }
+
+        protected virtual void OnResume()
+        {
+            ;
         }
     }
 }

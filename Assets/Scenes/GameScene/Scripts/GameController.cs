@@ -97,7 +97,9 @@ namespace Game
         /**************************************/
         public void KillPlayer()
         {
-            GameEnv.PlayerComponent.ChangeState( Player.PlayerState.KILLED );
+            if ( GameController.instance.CurrentState == GameController.GameState.RUNNING ) {
+                GameEnv.PlayerComponent.ChangeState( Player.PlayerState.KILLED );
+            }
         }
     }
 }

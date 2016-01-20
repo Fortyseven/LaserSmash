@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game
 {
@@ -12,9 +13,13 @@ namespace Game
 
         private const int RELENTLESS_CHANCE = 50;
         private const float SURFACE_Y = 0.2f;
-        private const float SPEED = 4.0f;
 
-        private bool _killme_flag = false;
+        private const float SPEED_MIN = 4.0f;
+        private const float SPEED_MAX = 8.0f;
+
+        private float _my_speed;
+
+        private bool _killme_flag;
 
         /*******************************************************/
 
@@ -52,7 +57,7 @@ namespace Game
                 Vector3 pos = OwnerMB.transform.position;
 
                 // just keep going towards the ground, and death
-                pos += OwnerMB.transform.forward * Time.deltaTime * SPEED;
+                pos += OwnerMB.transform.forward * Time.deltaTime * ( (Seeker)Owner )._my_speed;
                 OwnerMB.transform.position = pos;
                 if ( pos.y <= SURFACE_Y ) {
                     ( (Seeker)Owner )._killme_flag = true;
@@ -66,7 +71,7 @@ namespace Game
                 Vector3 pos = OwnerMB.transform.position;
 
                 pos = Vector3.MoveTowards( pos, player.position, Time.deltaTime * 0.25f );
-                pos += OwnerMB.transform.forward * Time.deltaTime * SPEED;
+                pos += OwnerMB.transform.forward * Time.deltaTime * ( (Seeker)Owner )._my_speed;
                 OwnerMB.transform.position = pos;
 
                 Vector3 foo = player.position - OwnerMB.transform.position;
@@ -124,7 +129,7 @@ namespace Game
 
                 Vector3 pos = OwnerMB.transform.position;
 
-                pos += OwnerMB.transform.forward * Time.deltaTime * SPEED;
+                pos += OwnerMB.transform.forward * Time.deltaTime * ( (Seeker)Owner )._my_speed;
                 OwnerMB.transform.position = pos;
             }
         }
@@ -162,7 +167,9 @@ namespace Game
             base.Respawn();
             _killme_flag = false;
 
-            if ( UnityEngine.Random.Range( 0, 100 ) <= RELENTLESS_CHANCE ) {
+            _my_speed = Random.Range( SPEED_MIN, SPEED_MAX );
+
+            if ( Random.Range( 0, 100 ) <= RELENTLESS_CHANCE ) {
                 ChangeState( SeekerState.TRACKING_RELENTLESS );
             }
             else {

@@ -1,5 +1,4 @@
-﻿using Game;
-using UnityEngine;
+﻿using UnityEngine;
 
 //TODO: bring down pitch slightly for larger bomb
 //TODO: geiger counter sound?
@@ -13,8 +12,12 @@ namespace Game
         protected override float SpawnMaxX { get { return GameConstants.SCREEN_X_BOUNDS; } }
         protected override float SpawnMinX { get { return -GameConstants.SCREEN_X_BOUNDS; } }
 
-        protected abstract float MinSpeed { get; }
-        protected abstract float MaxSpeed { get; }
+        //protected abstract float MinSpeed { get; }
+        //protected abstract float MaxSpeed { get; }
+
+        protected float MinSpeed { get { return 1.0f; } }
+        protected float MaxSpeed { get { return 7.0f; } }
+
 
         private const float Y_OFFSET_FLOOR = 0f;
 
@@ -32,17 +35,18 @@ namespace Game
         }
 
         /******************************************************************/
-        public override void OnPause()
+        protected override void OnPause()
         {
             _audio.Pause();
         }
 
         /******************************************************************/
-        public override void OnResume()
+        protected override void OnResume()
         {
             _audio.Play();
         }
 
+        //private const float MAX_DROP_SPEED = 1.0f;
         /******************************************************************/
         public new void Update()
         {
@@ -52,13 +56,13 @@ namespace Game
             Vector3 pos = transform.position;
 
             //TODO: clean this up
-            float drop_sp = _drop_speed;
+            //float drop_sp = _drop_speed;
 
-            float mult = Mathf.Sin(GameController.instance.GameEnv.Multiplier/6.0f);
-            Debug.Log( mult );
-            drop_sp *= mult;
+            //float mult = Mathf.Sin(GameController.instance.GameEnv.Multiplier/12.0f);
+            //Debug.Log( mult );
+            //drop_sp *= mult;
 
-            pos.y -= drop_sp * Time.deltaTime;
+            pos.y -= _drop_speed * Time.deltaTime;
 
             transform.position = pos;
 
@@ -103,6 +107,7 @@ namespace Game
             _audio.Play();
             IsReady = true;
             _drop_speed = Random.Range( MinSpeed, MaxSpeed );
+            //Debug.Log( "Spawning bomb with " + _drop_speed );
         }
     }
 }

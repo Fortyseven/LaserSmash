@@ -124,9 +124,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: -1}
-  m_LocalScale: {x: .200000003, y: .200000003, z: .200000003}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 400002}
   m_RootOrder: 0
@@ -137,7 +137,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.6800003, y: 12.9700003, z: 0}
+  m_LocalPosition: {x: -2.378186, y: 8.217293, z: -15.445126}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -151,9 +151,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
-  m_LocalRotation: {x: -.707106888, y: 0, z: -0, w: .707106769}
+  m_LocalRotation: {x: -0.7071069, y: 0, z: -0, w: 0.70710677}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .834698319, y: .834698319, z: 3.97348857}
+  m_LocalScale: {x: 0.8346983, y: 0.8346983, z: 3.9734886}
   m_Children: []
   m_Father: {fileID: 400008}
   m_RootOrder: 1
@@ -163,8 +163,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
-  m_LocalRotation: {x: -.707106888, y: 0, z: -0, w: .707106769}
-  m_LocalPosition: {x: -2.0467062, y: -2.37118769, z: .0358227156}
+  m_LocalRotation: {x: -0.7071069, y: 0, z: -0, w: 0.70710677}
+  m_LocalPosition: {x: -2.0467062, y: -2.3711877, z: 0.035822716}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400008}
@@ -175,9 +175,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
-  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .150000006, y: .150000006, z: .150000006}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 400006}
   - {fileID: 400004}
@@ -190,9 +190,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: 0, y: -.0120000001, z: -.765999973}
-  m_LocalScale: {x: .200000003, y: .200000003, z: .200000003}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: -0.00000004371139}
+  m_LocalPosition: {x: 0, y: -0.012, z: -0.766}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 400002}
   m_RootOrder: 2
@@ -203,7 +203,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -5.61000013, z: 0}
+  m_LocalPosition: {x: 0, y: -5.61, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400008}
@@ -219,6 +219,7 @@ MeshRenderer:
   m_ReceiveShadows: 1
   m_Materials:
   - {fileID: 2100000, guid: 73a5fad4f0b9a9549998b77c321ee7f9, type: 2}
+  - {fileID: 2100000, guid: da1ac2a7fb8527349a98f76c976a4a1a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -226,8 +227,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -243,6 +246,7 @@ MeshRenderer:
   m_ReceiveShadows: 1
   m_Materials:
   - {fileID: 2100000, guid: 73a5fad4f0b9a9549998b77c321ee7f9, type: 2}
+  - {fileID: 2100000, guid: da1ac2a7fb8527349a98f76c976a4a1a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -250,8 +254,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -279,7 +285,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: .0500000007
+  m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
@@ -295,8 +301,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .42255795, y: .400344849, z: 1.60520625}
-  m_Center: {x: -.00555038452, y: 0, z: .213765502}
+  m_Size: {x: 0.42255795, y: 0.40034485, z: 1.6052063}
+  m_Center: {x: -0.0055503845, y: 0, z: 0.2137655}
 --- !u!82 &8243466
 AudioSource:
   m_ObjectHideFlags: 1
@@ -316,7 +322,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 30
-  MaxDistance: 1243.69995
+  MaxDistance: 1243.7
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 1
@@ -337,6 +343,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 4
   panLevelCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -347,6 +354,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 4
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -357,6 +365,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 4
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -367,6 +376,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!108 &10800000
 Light:
   m_ObjectHideFlags: 1
@@ -376,17 +386,18 @@ Light:
   m_Enabled: 1
   serializedVersion: 6
   m_Type: 2
-  m_Color: {r: 1, g: .8482759, b: 0, a: 1}
-  m_Intensity: 1.37035096
-  m_Range: 1.05999994
+  m_Color: {r: 1, g: 0.8482759, b: 0, a: 1}
+  m_Intensity: 1.370351
+  m_Range: 1.06
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
     m_Resolution: -1
     m_Strength: 1
-    m_Bias: .0500000007
-    m_NormalBias: .400000006
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
   m_DrawHalo: 1
   m_Flare: {fileID: 12100000, guid: fd7cb871930ba40b398d61cf4a3cd04d, type: 2}
@@ -417,18 +428,55 @@ ParticleSystem:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
+  serializedVersion: 2
   lengthInSec: 3
-  startDelay: 0
+  startDelay:
+    scalar: 0
+    maxCurve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    minCurve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    minMaxState: 0
   speed: 1
   randomSeed: 0
   looping: 1
   prewarm: 0
   playOnAwake: 1
   moveWithTransform: 0
+  scalingMode: 2
   InitialModule:
+    serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 13.8800001
+      scalar: 13.88
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -444,6 +492,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -459,9 +508,10 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: .00999999978
+      scalar: 0.01
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -477,6 +527,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -492,6 +543,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     startColor:
       maxGradient:
@@ -588,7 +640,7 @@ ParticleSystem:
         rgba: 4284111450
       minMaxState: 0
     startSize:
-      scalar: 2.05999994
+      scalar: 2.06
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -604,6 +656,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -619,9 +672,80 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    startRotationX:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    startRotationY:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     startRotation:
-      scalar: .0989601687
+      scalar: 0.09896017
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -637,6 +761,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -652,10 +777,12 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
+    randomizeRotationDirection: 0
     gravityModifier: 0
-    inheritVelocity: 0
     maxNumParticles: 1000
+    rotation3D: 0
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -669,12 +796,19 @@ ParticleSystem:
     arc: 360
     placementMode: 0
     m_Mesh: {fileID: 0}
+    m_MeshRenderer: {fileID: 0}
+    m_SkinnedMeshRenderer: {fileID: 0}
+    m_MeshMaterialIndex: 0
+    m_MeshNormalOffset: 0
+    m_UseMeshMaterialIndex: 0
+    m_UseMeshColors: 1
     randomDirection: 0
   EmissionModule:
     enabled: 1
+    serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 23.2700005
+      scalar: 23.27
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -690,6 +824,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -705,11 +840,16 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     cnt0: 30
     cnt1: 30
     cnt2: 30
     cnt3: 30
+    cntmax0: 30
+    cntmax1: 30
+    cntmax2: 30
+    cntmax3: 30
     time0: 0
     time1: 0
     time2: 0
@@ -722,18 +862,19 @@ ParticleSystem:
       maxCurve:
         serializedVersion: 2
         m_Curve:
-        - time: .00429184549
+        - time: 0.0042918455
           value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - time: .180257499
+        - time: 0.1802575
           value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -742,18 +883,19 @@ ParticleSystem:
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - time: .729613721
+        - time: 0.7296137
           value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 2
   RotationModule:
     enabled: 0
-    curve:
-      scalar: .785398185
+    x:
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -769,6 +911,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -784,7 +927,79 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
+    y:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    curve:
+      scalar: 0.7853982
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    separateAxes: 0
   ColorModule:
     enabled: 1
     gradient:
@@ -900,6 +1115,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -915,6 +1131,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 1
     tilesX: 1
     tilesY: 1
@@ -941,6 +1158,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -956,9 +1174,10 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: .0500000007
+      scalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -974,6 +1193,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -989,6 +1209,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     z:
       scalar: 0
@@ -1007,6 +1228,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1022,8 +1244,47 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     inWorldSpace: 1
+  InheritVelocityModule:
+    enabled: 0
+    m_Mode: 0
+    m_Curve:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
   ForceModule:
     enabled: 1
     x:
@@ -1043,6 +1304,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1058,9 +1320,10 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: -.189999998
+      scalar: -0.19
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1076,6 +1339,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1091,9 +1355,10 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: -.0299999993
+      scalar: -0.03
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1109,6 +1374,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1124,6 +1390,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     inWorldSpace: 0
     randomizePerFrame: 0
@@ -1149,6 +1416,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1164,6 +1432,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     y:
       scalar: 1
@@ -1182,6 +1451,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1197,6 +1467,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     z:
       scalar: 1
@@ -1215,6 +1486,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1230,6 +1502,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     magnitude:
       scalar: 1
@@ -1248,6 +1521,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1263,6 +1537,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     separateAxis: 0
     inWorldSpace: 0
@@ -1286,6 +1561,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1301,12 +1577,13 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 1
     range: {x: 0, y: 1}
   RotationBySpeedModule:
     enabled: 0
-    curve:
-      scalar: .785398185
+    x:
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1322,6 +1599,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1337,7 +1615,79 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
+    y:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    curve:
+      scalar: 0.7853982
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    separateAxes: 0
     range: {x: 0, y: 1}
   ColorBySpeedModule:
     enabled: 0
@@ -1438,50 +1788,17 @@ ParticleSystem:
     range: {x: 0, y: 1}
   CollisionModule:
     enabled: 0
+    serializedVersion: 2
     type: 0
+    collisionMode: 0
     plane0: {fileID: 0}
     plane1: {fileID: 0}
     plane2: {fileID: 0}
     plane3: {fileID: 0}
     plane4: {fileID: 0}
     plane5: {fileID: 0}
-    dampen: 0
-    bounce: 1
-    energyLossOnCollision: 0
-    minKillSpeed: 0
-    particleRadius: .00999999978
-    collidesWith:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    quality: 0
-    voxelSize: .5
-    collisionMessages: 0
-  SubModule:
-    enabled: 0
-    subEmitterBirth: {fileID: 0}
-    subEmitterBirth1: {fileID: 0}
-    subEmitterCollision: {fileID: 0}
-    subEmitterCollision1: {fileID: 0}
-    subEmitterDeath: {fileID: 0}
-    subEmitterDeath1: {fileID: 0}
---- !u!198 &19800002
-ParticleSystem:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100010}
-  lengthInSec: .100000001
-  startDelay: 0
-  speed: 1
-  randomSeed: 0
-  looping: 1
-  prewarm: 0
-  playOnAwake: 1
-  moveWithTransform: 0
-  InitialModule:
-    enabled: 1
-    startLifetime:
-      scalar: .5
+    m_Dampen:
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1497,6 +1814,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1512,6 +1830,184 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    m_Bounce:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    m_EnergyLossOnCollision:
+      scalar: 0
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    minKillSpeed: 0
+    radiusScale: 1
+    collidesWith:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    maxCollisionShapes: 256
+    quality: 0
+    voxelSize: 0.5
+    collisionMessages: 0
+    collidesWithDynamic: 1
+    interiorCollisions: 1
+  SubModule:
+    enabled: 0
+    subEmitterBirth: {fileID: 0}
+    subEmitterBirth1: {fileID: 0}
+    subEmitterCollision: {fileID: 0}
+    subEmitterCollision1: {fileID: 0}
+    subEmitterDeath: {fileID: 0}
+    subEmitterDeath1: {fileID: 0}
+--- !u!198 &19800002
+ParticleSystem:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100010}
+  serializedVersion: 2
+  lengthInSec: 0.1
+  startDelay:
+    scalar: 0
+    maxCurve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    minCurve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    minMaxState: 0
+  speed: 1
+  randomSeed: 0
+  looping: 1
+  prewarm: 0
+  playOnAwake: 1
+  moveWithTransform: 0
+  scalingMode: 2
+  InitialModule:
+    serializedVersion: 2
+    enabled: 1
+    startLifetime:
+      scalar: 0.5
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
       scalar: 5
@@ -1530,6 +2026,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1545,6 +2042,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     startColor:
       maxGradient:
@@ -1657,6 +2155,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1672,6 +2171,77 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    startRotationX:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    startRotationY:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     startRotation:
       scalar: 0
@@ -1690,6 +2260,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1705,15 +2276,17 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
+    randomizeRotationDirection: 0
     gravityModifier: 0
-    inheritVelocity: 0
     maxNumParticles: 1984
+    rotation3D: 0
   ShapeModule:
     serializedVersion: 2
     enabled: 1
     type: 7
-    radius: .300000012
+    radius: 0.3
     angle: 0
     length: 5
     boxX: 1
@@ -1722,9 +2295,16 @@ ParticleSystem:
     arc: 360
     placementMode: 0
     m_Mesh: {fileID: 0}
+    m_MeshRenderer: {fileID: 0}
+    m_SkinnedMeshRenderer: {fileID: 0}
+    m_MeshMaterialIndex: 0
+    m_MeshNormalOffset: 0
+    m_UseMeshMaterialIndex: 0
+    m_UseMeshColors: 1
     randomDirection: 0
   EmissionModule:
     enabled: 1
+    serializedVersion: 2
     m_Type: 0
     rate:
       scalar: 100
@@ -1743,6 +2323,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1758,11 +2339,16 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     cnt0: 30
     cnt1: 30
     cnt2: 30
     cnt3: 30
+    cntmax0: 30
+    cntmax1: 30
+    cntmax2: 30
+    cntmax3: 30
     time0: 0
     time1: 0
     time2: 0
@@ -1781,12 +2367,13 @@ ParticleSystem:
           outSlope: 0
           tangentMode: 0
         - time: 1
-          value: .190687358
+          value: 0.19068736
           inSlope: 0
           outSlope: 0
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1802,11 +2389,12 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 1
   RotationModule:
     enabled: 0
-    curve:
-      scalar: 14.8192415
+    x:
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1822,6 +2410,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1837,7 +2426,79 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
+    y:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    curve:
+      scalar: 14.819242
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    separateAxes: 0
   ColorModule:
     enabled: 1
     gradient:
@@ -1953,6 +2614,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1968,6 +2630,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 1
     tilesX: 1
     tilesY: 1
@@ -1994,6 +2657,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2009,6 +2673,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     y:
       scalar: 0
@@ -2027,6 +2692,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2042,6 +2708,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     z:
       scalar: 0
@@ -2060,6 +2727,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2075,8 +2743,47 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     inWorldSpace: 0
+  InheritVelocityModule:
+    enabled: 0
+    m_Mode: 0
+    m_Curve:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
   ForceModule:
     enabled: 0
     x:
@@ -2096,6 +2803,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2111,6 +2819,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     y:
       scalar: 0
@@ -2129,6 +2838,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2144,6 +2854,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     z:
       scalar: 0
@@ -2162,6 +2873,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2177,6 +2889,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     inWorldSpace: 0
     randomizePerFrame: 0
@@ -2202,6 +2915,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2217,6 +2931,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     y:
       scalar: 1
@@ -2235,6 +2950,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2250,6 +2966,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     z:
       scalar: 1
@@ -2268,6 +2985,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2283,6 +3001,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     magnitude:
       scalar: 1
@@ -2301,6 +3020,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2316,6 +3036,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
     separateAxis: 0
     inWorldSpace: 0
@@ -2339,6 +3060,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2354,12 +3076,13 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 1
     range: {x: 0, y: 1}
   RotationBySpeedModule:
     enabled: 0
-    curve:
-      scalar: .785398126
+    x:
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2375,6 +3098,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2390,7 +3114,79 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
+        m_RotationOrder: 4
       minMaxState: 0
+    y:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    curve:
+      scalar: 0.7853981
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    separateAxes: 0
     range: {x: 0, y: 1}
   ColorBySpeedModule:
     enabled: 0
@@ -2491,24 +3287,131 @@ ParticleSystem:
     range: {x: 0, y: 1}
   CollisionModule:
     enabled: 0
+    serializedVersion: 2
     type: 0
+    collisionMode: 0
     plane0: {fileID: 0}
     plane1: {fileID: 0}
     plane2: {fileID: 0}
     plane3: {fileID: 0}
     plane4: {fileID: 0}
     plane5: {fileID: 0}
-    dampen: 0
-    bounce: 1
-    energyLossOnCollision: 0
+    m_Dampen:
+      scalar: 0
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    m_Bounce:
+      scalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
+    m_EnergyLossOnCollision:
+      scalar: 0
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minMaxState: 0
     minKillSpeed: 0
-    particleRadius: .00999999978
+    radiusScale: 1
     collidesWith:
       serializedVersion: 2
       m_Bits: 4294967295
+    maxCollisionShapes: 256
     quality: 0
-    voxelSize: .5
+    voxelSize: 0.5
     collisionMessages: 0
+    collidesWithDynamic: 1
+    interiorCollisions: 1
   SubModule:
     enabled: 0
     subEmitterBirth: {fileID: 0}
@@ -2535,20 +3438,25 @@ ParticleSystemRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_RenderMode: 0
-  m_MaxParticleSize: .5
+  m_SortMode: 0
+  m_MinParticleSize: 0
+  m_MaxParticleSize: 0.5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
   m_SortingFudge: 0
   m_NormalDirection: 1
-  m_SortMode: 0
+  m_RenderAlignment: 0
+  m_Pivot: {x: 0, y: 0, z: 0}
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -2571,20 +3479,25 @@ ParticleSystemRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_RenderMode: 0
-  m_MaxParticleSize: .5
+  m_SortMode: 0
+  m_MinParticleSize: 0
+  m_MaxParticleSize: 0.5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
   m_SortingFudge: 0
   m_NormalDirection: 1
-  m_SortMode: 0
+  m_RenderAlignment: 0
+  m_Pivot: {x: 0, y: 0, z: 0}
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
