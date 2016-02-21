@@ -52,6 +52,11 @@ namespace Game
             gameObject.SetActive( false );
         }
 
+        public void Die()
+        {
+            HideBeam();
+        }
+
         public void Update()
         {
             if ( !_firing ) return;

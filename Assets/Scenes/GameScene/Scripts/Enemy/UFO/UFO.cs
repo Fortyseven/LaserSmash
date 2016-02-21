@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using JetBrains.Annotations;
 using Random = UnityEngine.Random;
@@ -14,9 +13,10 @@ namespace Game
         protected override int BaseScore { get { return GameConstants.SCORE_KILLSAT; } }
 
         public GameObject ExplosionLaserGroundPrefab = null;
+        public GameObject EnergyBallPrefab = null;
 
         protected const float MAX_Y_SPAWN = 13.0f;
-        protected const float MIN_Y_SPAWN = 4.0f; //6.0f;
+        protected const float MIN_Y_SPAWN = 7.5f; //6.0f;
 
         protected enum Direction
         {
@@ -42,34 +42,6 @@ namespace Game
 
         internal enum UFOState { PASSIVE, ATTACKING };
 
-        /*******************************************************************************/
-        private class State_PASSIVE : State
-        {
-            private const float PASSIVE_SPEED = 10.0f;
-            private const float PERCENT_CHANCE_OF_FIRING = 1.0f;
-
-            public override Enum Name { get { return UFOState.PASSIVE; } }
-
-            public override void OnStateEnter( State from_state )
-            {
-                ( (UFO)Owner ).Speed = PASSIVE_SPEED;
-            }
-
-            public override void OnUpdate()
-            {
-                if ( !GameController.instance.CurrentState.Name.Equals( GameController.GameState.RUNNING ) )
-                    return;
-
-                // Occasionally fire down hot death
-                if ( Random.Range( 0, 100 ) <= PERCENT_CHANCE_OF_FIRING ) {
-                    Owner.ChangeState( UFOState.ATTACKING );
-                }
-            }
-        }
-
-        /*******************************************************************************/
-
-
         /*****************************/
         public new void Awake()
         {
@@ -84,7 +56,7 @@ namespace Game
 
             _audio = GetComponent<AudioSource>();
 
-            AddState( new State_PASSIVE() );
+            AddState( new UFO_State_PASSIVE() );
             AddState( new UFO_State_ATTACKING() );
 
             ChangeState( UFOState.PASSIVE );

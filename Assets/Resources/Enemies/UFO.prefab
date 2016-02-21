@@ -290,7 +290,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -312,7 +312,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!82 &8200002
 AudioSource:
   m_ObjectHideFlags: 1
@@ -449,6 +449,7 @@ MonoBehaviour:
   ExplosionPrefab: {fileID: 100000, guid: 492f7b4514b88794dbb01ae06440c3a5, type: 2}
   ExplosionLaserGroundPrefab: {fileID: 100000, guid: 41bf82abdbd76f0439ffd4c6f37238f4,
     type: 2}
+  EnergyBallPrefab: {fileID: 141738, guid: c1053a7a362fcaa45891dfca663021fe, type: 2}
 --- !u!114 &11458164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -545,6 +546,18 @@ Prefab:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: panLevelCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EnergyBallPrefab
+      value: 
+      objectReference: {fileID: 141738, guid: c1053a7a362fcaa45891dfca663021fe, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}

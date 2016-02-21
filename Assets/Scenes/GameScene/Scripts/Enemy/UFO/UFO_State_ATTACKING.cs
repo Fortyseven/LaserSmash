@@ -87,7 +87,7 @@ namespace Game
             var r = new Ray(OwnerMB.transform.position, (_player_target_position - OwnerMB.transform.position) * 2);
 
 
-            Debug.DrawRay( OwnerMB.transform.position, ( _player_target_position - OwnerMB.transform.position ) * 2 );
+            //Debug.DrawRay( OwnerMB.transform.position, ( _player_target_position - OwnerMB.transform.position ) * 2 );
 
             /* We COULD check if this is the player being hit, but all the enemies are on layer 8, and
                nothing else with a collider exists on any other layer but the player. */
@@ -97,8 +97,9 @@ namespace Game
             // the player when we're actually in a game
             if ( GameController.instance.CurrentState == GameController.GameState.RUNNING ) {
                 if ( Physics.Raycast( r.origin, r.direction, Mathf.Infinity, 1 << 12 ) ) {
-                    Debug.Log( "KABOOM" );
-                    ( (UFO)Owner ).KillPlayer();
+                    // Manually calling this so we don't vanish immediately after killing player
+                    // UFOs should be seen leaving the scene, like the badass motherfucker it is.
+                    GameController.instance.KillPlayer();
                 }
             }
 
