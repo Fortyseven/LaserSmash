@@ -20,6 +20,7 @@ namespace Game
         private Vector3 _initial_camera_position;
         public BarrierGroup Barriers;
         public GameEnvironment GameEnv { get; private set; }
+        public AudioClip Snd1UpClip;
 
         //public Camera Egg_CockpitCamera;
 

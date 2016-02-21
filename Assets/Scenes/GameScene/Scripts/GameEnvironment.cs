@@ -123,7 +123,8 @@ namespace Game
                     if ( _peak_score - _last_life_peak_score > 1000 ) {
                         _last_life_peak_score = _peak_score;
                         Lives++;
-                        //TODO: Add 1UP noise
+                        // Play 1-Up SFX
+                        GameController.instance.GetComponent<AudioSource>().PlayOneShot( GameController.instance.Snd1UpClip );
                     }
                 }
             }
