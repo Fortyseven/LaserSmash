@@ -94,5 +94,13 @@ namespace Game
 
             sm_rock.GetComponent<Rigidbody>().AddForce( new Vector3( force_sideways, force_downward, 0.0f ) );
         }
+
+        /*****************************/
+        protected override void OnSurfaceKill()
+        {
+            GameController.instance.Shaker.SHAKE( 0.5f, 0.50f );
+            base.OnSurfaceKill();
+        }
+
     }
 }

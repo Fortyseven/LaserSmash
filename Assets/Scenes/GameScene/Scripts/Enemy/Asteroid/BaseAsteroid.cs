@@ -88,11 +88,16 @@ namespace Game
 
             // Did we hit the ground? Punish player, make noises, explode
             if ( transform.position.y < GameConstants.SCREEN_Y_FLOOR ) {
-                //Debug.Log( "Hit surface" );
-                GameController.instance.GameEnv.AdjustScore( -( BaseScore / 2 ) );
-                _hit_surface = true;
-                CleanUpAndHibernate( false );
+                OnSurfaceKill();
             }
+        }
+
+        /*****************************/
+        protected virtual void OnSurfaceKill()
+        {            
+            GameController.instance.GameEnv.AdjustScore( -( BaseScore / 2 ) );
+            _hit_surface = true;
+            CleanUpAndHibernate( false );
         }
 
         /*****************************/
@@ -129,6 +134,7 @@ namespace Game
             _particle_trail.name = "Trail from " + name;
         }
 
+        /*****************************/
         protected override void InstaKill()
         {
             CleanUpAndHibernate( false );

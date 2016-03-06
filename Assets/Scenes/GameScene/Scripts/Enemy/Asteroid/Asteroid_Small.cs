@@ -39,5 +39,11 @@ namespace Game
             IsFragment = false;
             IsReady = true;
         }
+
+        protected override void OnSurfaceKill()
+        {
+            GameController.instance.Shaker.SHAKE( 0.5f, 0.25f );
+            base.OnSurfaceKill();
+        }
     }
 }
