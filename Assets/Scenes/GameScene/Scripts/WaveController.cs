@@ -75,10 +75,14 @@ namespace Game
             _next_spawn_time = Time.time + _cur_spawn_timeout;
 
             for ( int i = 0; i < Enemies.Length; i++ ) {
-                Enemies[ i ].Pool.Reset();
+                Debug.Log( "wnat to delete " + Enemies[ i ].Name );
+                if ( !Enemies[ i ].Name.Equals("UFO") ) {
+                    Debug.Log( "deleting " + Enemies[ i ].Name );
+                    Enemies[ i ].Pool.Reset();
+                }
             }
 
-            UFOsISpawned = false;
+            //UFOsISpawned = false;
         }
 
         /*****************************/
@@ -114,25 +118,26 @@ namespace Game
             //TODO: Invert this for production
             if ( !GameController.instance.DebugMode ) {
 
+                if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_1X;
+                }
+                if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_2X;
+                }
+                if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_3X;
+                }
+                if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_4X;
+                }
+                if ( Input.GetKeyDown( KeyCode.Alpha5 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_5X;
+                }
+                if ( Input.GetKeyDown( KeyCode.Alpha6 ) ) {
+                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_6X;
+                }
+
                 if ( Input.GetKey( KeyCode.LeftAlt ) ) {
-                    if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
-                        GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_1X;
-                    }
-                    if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
-                        GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_2X;
-                    }
-                    if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
-                        GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_3X;
-                    }
-                    if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
-                        GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_4X;
-                    }
-                    if ( Input.GetKeyDown( KeyCode.Alpha5 ) ) {
-                        GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_5X;
-                    }
-                    if ( Input.GetKeyDown( KeyCode.Alpha6 ) ) {
-                        GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_6X;
-                    }
 
                     if ( Input.GetKeyDown( KeyCode.Q ) ) {
                         GameController.instance.GameEnv.AdjustScore( 75 );
@@ -159,7 +164,7 @@ namespace Game
         private void SpawnTick()
         {
             if ( UFOsISpawned ) {
-                Debug.Log( "ufo still exists" );
+                //Debug.Log( "ufo still exists" );
                 return;
             }
             for ( int i = 0; i < Enemies.Length; i++ ) {
@@ -182,7 +187,7 @@ namespace Game
         {
             Enemies = new[] {
             new WaveDefinition("UFO",
-                                    new[] {0.0f, 0.0f, 0.0f, 5.0f, 8.0f, 10.0f },
+                                    new[] {0.0f, 0.0f, 0.0f, 5.0f, 5.0f, 5.0f },
                                     null, false),
             new WaveDefinition("Asteroid_LG",
                                     new[] {30.0f, 40.0f, 50.0f, 55.0f, 60.0f, 70.0f },

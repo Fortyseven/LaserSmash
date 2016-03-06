@@ -7,9 +7,9 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: GlassRim
-  m_Shader: {fileID: 4800000, guid: 21174e9f6f2bc084caa7b159f3ba5507, type: 3}
-  m_ShaderKeywords: OCTAVES_5 QUALITY_HIGH SCATTERING_ON _ALPHABLEND_ON _EMISSION
-  m_LightmapFlags: 1
+  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: OCTAVES_5 QUALITY_HIGH SCATTERING_ON _ALPHABLEND_ON
+  m_LightmapFlags: 6
   m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
@@ -151,16 +151,16 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Cube
+          name: _Detail
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: 600abaa2b552ba24fa93fc7ac2e55e66, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Detail
+          name: _Cube
         second:
-          m_Texture: {fileID: 2800000, guid: 600abaa2b552ba24fa93fc7ac2e55e66, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -204,7 +204,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: 0.2
+        second: 0.1
       data:
         first:
           name: _InvFade
@@ -220,7 +220,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0.549
+        second: 0.687
       data:
         first:
           name: _BumpScale
@@ -252,7 +252,7 @@ Material:
       data:
         first:
           name: _RimPower
-        second: 3.67
+        second: 4.56
       data:
         first:
           name: _Outline
@@ -269,11 +269,11 @@ Material:
       data:
         first:
           name: _EmissionColor
-        second: {r: 0.26, g: 0.26, b: 0.26, a: 0.26}
+        second: {r: 0, g: 0, b: 0, a: 1}
       data:
         first:
           name: _Color
-        second: {r: 0.6764706, g: 0.6764706, b: 0.6764706, a: 0.366}
+        second: {r: 0.6764706, g: 0.6764706, b: 0.6764706, a: 0.559}
       data:
         first:
           name: _SpecColor
