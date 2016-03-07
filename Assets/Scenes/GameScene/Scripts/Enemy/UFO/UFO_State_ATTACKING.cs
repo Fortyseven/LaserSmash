@@ -103,7 +103,7 @@ namespace Game
                 }
             }
 
-            Debug.Log( "Beginning fade" );
+            //Debug.Log( "Beginning fade" );
 
             // Fade out the beam over LASER_FADE_TIME seconds
             Color col = ((UFO) Owner)._laser.material.GetColor("_TintColor");
@@ -121,7 +121,7 @@ namespace Game
                 yield return null;
             }
 
-            Debug.Log( "Finished fade, leaving state" );
+            //Debug.Log( "Finished fade, leaving state" );
             Owner.ChangeState( UFO.UFOState.PASSIVE );
         }
     }

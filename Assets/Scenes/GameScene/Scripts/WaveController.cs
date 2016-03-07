@@ -75,9 +75,7 @@ namespace Game
             _next_spawn_time = Time.time + _cur_spawn_timeout;
 
             for ( int i = 0; i < Enemies.Length; i++ ) {
-                Debug.Log( "wnat to delete " + Enemies[ i ].Name );
                 if ( !Enemies[ i ].Name.Equals("UFO") ) {
-                    Debug.Log( "deleting " + Enemies[ i ].Name );
                     Enemies[ i ].Pool.Reset();
                 }
             }

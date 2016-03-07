@@ -149,7 +149,7 @@ namespace Game
 
             ChangeState( UFOState.PASSIVE );
 
-            Debug.Log( "UFO RESPAWNED" );
+            //Debug.Log( "UFO RESPAWNED" );
         }
     }
 }
