@@ -36,22 +36,24 @@ AudioSource:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e7d50172771a10e4a8ba271d2a80dfd5, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
+  Spatialize: 0
   Priority: 255
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
+  BypassEffects: 1
+  BypassListenerEffects: 1
+  BypassReverbZones: 1
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -67,16 +69,18 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 4
   panLevelCustomCurve:
     serializedVersion: 2
     m_Curve:
     - time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -87,6 +91,18 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -98,109 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43ce4422cb83a104bbdb30d603d155a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Waves:
-  - Name: Asteroid Large
-    GameObjectPrefab: {fileID: 100000, guid: 84d422626517537469cda2d9c72b6d9f, type: 2}
-    LevelFrequencyLow:
-    - 20
-    - 30
-    - 40
-    - 50
-    - 60
-    - 70
-    LevelFrequencyHigh:
-    - 60
-    - 70
-    - 80
-    - 90
-    - 100
-    - 100
-    Disabled: 0
-  - Name: Asteroid Small
-    GameObjectPrefab: {fileID: 100000, guid: b903225e39fbd154b9fac745dc352046, type: 2}
-    LevelFrequencyLow:
-    - 15
-    - 25
-    - 35
-    - 45
-    - 55
-    - 65
-    LevelFrequencyHigh:
-    - 50
-    - 60
-    - 70
-    - 80
-    - 90
-    - 100
-    Disabled: 0
-  - Name: UFO
-    GameObjectPrefab: {fileID: 100000, guid: 98e4506e1986da74f895c24f6046fd2c, type: 2}
-    LevelFrequencyLow:
-    - 1
-    - 1
-    - 1
-    - 1
-    - 1
-    - 1
-    LevelFrequencyHigh:
-    - 2
-    - 2
-    - 5
-    - 6
-    - 7
-    - 10
-    Disabled: 0
-  - Name: Bomb Large
-    GameObjectPrefab: {fileID: 100006, guid: d11d2ea210c889544977a61e1d173ff0, type: 2}
-    LevelFrequencyLow:
-    - 5
-    - 5
-    - 5
-    - 5
-    - 1
-    - 1
-    LevelFrequencyHigh:
-    - 10
-    - 10
-    - 10
-    - 10
-    - 10
-    - 10
-    Disabled: 0
-  - Name: Bomb Small
-    GameObjectPrefab: {fileID: 100006, guid: 730cb164e2cf95042808b2c915fdbaf2, type: 2}
-    LevelFrequencyLow:
-    - 5
-    - 5
-    - 5
-    - 5
-    - 1
-    - 1
-    LevelFrequencyHigh:
-    - 10
-    - 10
-    - 10
-    - 10
-    - 10
-    - 10
-    Disabled: 0
-  - Name: Seeker
-    GameObjectPrefab: {fileID: 100002, guid: 7a40d764f58b47a4a99f83d8bec320ce, type: 2}
-    LevelFrequencyLow:
-    - 0
-    - 1
-    - 1
-    - 1
-    - 1
-    - 1
-    LevelFrequencyHigh:
-    - 0
-    - 2
-    - 3
-    - 5
-    - 6
-    - 8
-    Disabled: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -212,4 +125,3 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
-  m_IsExploded: 1

@@ -2071,18 +2071,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1914970441}
     m_Modifications:
-    - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
-      propertyPath: Enemies.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
-      propertyPath: Enemies.Array.data[0].LevelFrequencyLow.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
-      propertyPath: Enemies.Array.data[0].LevelFrequencyHigh.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2114,30 +2102,6 @@ Prefab:
     - target: {fileID: 400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
-      propertyPath: Enemies.Array.data[0].GameObjectPrefab
-      value: 
-      objectReference: {fileID: 100000, guid: 98e4506e1986da74f895c24f6046fd2c, type: 2}
-    - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
-      propertyPath: Enemies.Array.data[0].Name
-      value: UFO
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
-      propertyPath: Enemies.Array.data[0].LevelFrequencyLow.Array.data[0]
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
-      propertyPath: Enemies.Array.data[0].LevelFrequencyHigh.Array.data[0]
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 8266472, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
-      propertyPath: panLevelCustomCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8266472, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
-      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 10cf5ce2e998c7747a4ad8880958e0d0, type: 2}
