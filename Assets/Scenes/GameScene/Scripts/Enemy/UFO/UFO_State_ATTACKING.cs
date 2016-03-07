@@ -110,6 +110,8 @@ namespace Game
 
             float timer = UFO.LASER_FADE_TIME;
 
+            GameController.instance.Shaker.SHAKE( UFO.LASER_FADE_TIME, 0.20f );
+
             while ( timer > 0 ) {
                 timer -= Time.deltaTime;
 
