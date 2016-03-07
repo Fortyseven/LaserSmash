@@ -32,7 +32,6 @@ namespace Game
 
         public override void OnStateEnter( StateMachineMB.State from_state )
         {
-            Debug.Log( "ENTER" );
             _calling_state = from_state;
             Time.timeScale = 0;
             _ui_panel.SetActive( true );
