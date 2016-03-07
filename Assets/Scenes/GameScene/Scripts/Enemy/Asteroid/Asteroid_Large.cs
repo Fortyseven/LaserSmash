@@ -43,6 +43,7 @@ namespace Game
         /*****************************/
         public override void HitByLaser( Laserbeam laser )
         {
+            GameController.instance.Shaker.SHAKE( 0.20f, 0.25f );
             //base.HitByLaser( laser );
             Fragment();
             CleanUpAndHibernate();

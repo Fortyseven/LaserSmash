@@ -94,7 +94,7 @@ namespace Game
 
         /******************************************************************/
         private void OnGroundHit()
-        {
+        {            
             Instantiate( NukePrefab, transform.position, Quaternion.identity );
             GameController.instance.KillPlayer();
             Done();

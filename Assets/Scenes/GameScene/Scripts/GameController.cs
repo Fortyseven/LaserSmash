@@ -21,6 +21,7 @@ namespace Game
         public BarrierGroup Barriers;
         public GameEnvironment GameEnv { get; private set; }
         public AudioClip Snd1UpClip;
+        public CameraShaker Shaker;
 
         //public Camera Egg_CockpitCamera;
 
@@ -51,6 +52,8 @@ namespace Game
         [UsedImplicitly]
         public void Start()
         {
+            Shaker = gameObject.AddComponent<CameraShaker>();
+
             AddState( new GameControllerState_INTRO_ANIM() );
             AddState( new GameControllerState_RUNNING() );
             AddState( new GameControllerState_GAMEOVER() );
@@ -80,7 +83,7 @@ namespace Game
         private void UpdateCameraPan()
         {
             _initial_camera_position.x = GameEnv.PlayerShip.transform.position.x * CAMERA_PAN_FACTOR;
-            Camera.main.transform.localPosition = _initial_camera_position;
+            Camera.main.transform.localPosition = _initial_camera_position + Shaker.GetOffset();
         }
 
         /**************************************/
@@ -99,6 +102,7 @@ namespace Game
         public void KillPlayer()
         {
             if ( GameController.instance.CurrentState == GameController.GameState.RUNNING ) {
+                GameController.instance.Shaker.SHAKE( 2.5f, 1.0f );
                 GameEnv.PlayerComponent.ChangeState( Player.PlayerState.KILLED );
             }
         }

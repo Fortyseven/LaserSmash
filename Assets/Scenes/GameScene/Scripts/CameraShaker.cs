@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System;
 
 namespace Game
 {
@@ -28,13 +30,28 @@ namespace Game
 
             _offs.x = Mathf.Sin( _shake_timer * 150 ) * _shake_magnitude * ( _shake_timer / _shake_duration );
             _offs.y = Mathf.Cos( _shake_timer * 150 ) * _shake_magnitude * ( _shake_timer / _shake_duration );
+            _offs.z = Mathf.Cos( _shake_timer * 150 ) * _shake_magnitude * ( _shake_timer / _shake_duration );
         }
 
         public void SHAKE( float duration, float magnitude = MAGNITUDE )
-        {
+        {            
             _shake_duration = duration;
             _shake_timer = _shake_duration;
             _shake_magnitude = magnitude;
+            //StartCoroutine( doSleep() );
+        }
+
+        private IEnumerator doSleep()
+        {
+            float delay = 0.05f;
+            Time.timeScale = 0;
+
+            while ( delay > 0 ) {
+                delay -= Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            Time.timeScale = 1.0f;
         }
 
         public Vector3 GetOffset()
