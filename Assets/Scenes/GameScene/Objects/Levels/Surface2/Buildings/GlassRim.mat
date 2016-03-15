@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: GlassRim
-  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: OCTAVES_5 QUALITY_HIGH SCATTERING_ON _ALPHABLEND_ON
   m_LightmapFlags: 6
   m_CustomRenderQueue: 3000
@@ -220,7 +220,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0.687
+        second: 0.812
       data:
         first:
           name: _BumpScale
