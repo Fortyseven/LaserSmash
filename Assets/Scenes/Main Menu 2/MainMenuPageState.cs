@@ -6,39 +6,43 @@ namespace Game
 {
     public abstract class MainMenuPageState : StateMachineMB.State
     {
-        public bool InTransit { get { return _is_fading; } }
+        public bool InTransit { get; private set; }
 
         private Canvas _canvas;
 
-        private bool _is_fading;
-
         private const float FADE_SPEED = 2f;
+
+        private IEnumerator _fade_in_thread, _fade_out_thread;
 
         /*************************************/
         public MainMenuPageState( Canvas canvas ) : base()
         {
-            Debug.Log( "Assigning canvas " + canvas.name );
             _canvas = canvas;
         }
 
         /*************************************/
         public override void OnStateEnter( StateMachineMB.State from )
         {
-            Debug.Log( "State entered" );
-            OwnerMB.StartCoroutine( FadeIn_Coroutine() );
+            if ( InTransit ) {
+                OwnerMB.StopCoroutine( _fade_out_thread );
+                OwnerMB.StopCoroutine( _fade_in_thread );
+                InTransit = false;
+            }
+            _fade_in_thread = FadeIn_Coroutine();
+            OwnerMB.StartCoroutine( _fade_in_thread );
         }
 
         /*************************************/
         public override void OnStateExit( StateMachineMB.State to )
         {
-            Debug.Log( "State exiting" );
-            OwnerMB.StartCoroutine( FadeOut_Coroutine() );
+            _fade_out_thread = FadeOut_Coroutine();
+            OwnerMB.StartCoroutine( _fade_out_thread );
         }
 
         /*************************************/
         public IEnumerator FadeIn_Coroutine()
         {
-            _is_fading = true;
+            InTransit = true;
 
             _canvas.gameObject.SetActive( true );
 
@@ -60,7 +64,7 @@ namespace Game
                 yield return null;
             }
 
-            _is_fading = false;
+            InTransit = false;
         }
 
         /*************************************/
@@ -68,10 +72,9 @@ namespace Game
         {
             CanvasRenderer[] _rends = _canvas.GetComponentsInChildren<CanvasRenderer>();
 
-            _is_fading = true;
+            InTransit = true;
 
             float a = 1.0f;
-
             while ( a > 0.0f ) {
                 a -= Time.deltaTime * FADE_SPEED;
                 for ( int k = 0; k < _rends.Length; k++ ) {
@@ -87,7 +90,7 @@ namespace Game
             }
 
             _canvas.gameObject.SetActive( false );
-            _is_fading = false;
+            InTransit = false;
         }
     }
 }

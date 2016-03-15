@@ -92,8 +92,8 @@ namespace Game
 
         public bool DebugMode { get; set; }
         public State CurrentState { get; private set; }
+        public bool InTransition { get; private set; }
         protected Dictionary<Enum, State> States { get; private set; }
-        protected bool InTransition { get; private set; }
         private bool SkipUpdateOnZeroTimeScale { get; set; }
 
         protected StateMachineMB()

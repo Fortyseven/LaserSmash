@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.SceneManagement;
 
 namespace Game
 {
     class MainMenu2 : StateMachineMB
     {
         public Canvas[] _canvases;
+        public Canvas _canvas_loading;
 
         private NavPoints _nav_points;
 
         public enum PageStates
         {
-            PAGE_MAIN, PAGE_CONFIG, PAGE_ABOUT
+            PAGE_MAIN, PAGE_CONFIG, PAGE_ABOUT, PAGE_CONTROLS
         };
 
         /*************************************************************************/
@@ -42,11 +44,11 @@ namespace Game
         }
 
         /*************************************************************************/
-        class Menu_Config : MainMenuPageState
+        class Menu_Controls : MainMenuPageState
         {
-            public override Enum Name { get { return PageStates.PAGE_CONFIG; } }
+            public override Enum Name { get { return PageStates.PAGE_CONTROLS; } }
 
-            public Menu_Config( Canvas canvas ) : base( canvas )
+            public Menu_Controls( Canvas canvas ) : base( canvas )
             {
                 ;
             }
@@ -97,14 +99,17 @@ namespace Game
         /*************************************************************************/
         void Start()
         {
+            _canvas_loading.gameObject.SetActive( false );
             _nav_points = GetComponent<NavPoints>();
 
             for ( int i = 0; i < _canvases.Length; i++ ) {
                 _canvases[ i ].gameObject.SetActive( false );
             }
 
+            Debug.Log( "total canvases = " + _canvases.Length );
+
             AddState( new Menu_MainMenu( _canvases[ 0 ] ) );
-            AddState( new Menu_Config( _canvases[ 1 ] ) );
+            AddState( new Menu_Controls( _canvases[ 1 ] ) );
             AddState( new Menu_About( _canvases[ 2 ] ) );
 
             ChangeState( PageStates.PAGE_MAIN );
@@ -121,29 +126,67 @@ namespace Game
                 ChangePage( PageStates.PAGE_MAIN );
             }
             else if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
-                ChangePage( PageStates.PAGE_CONFIG );
+                ChangePage( PageStates.PAGE_CONTROLS );
             }
             else if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
                 ChangePage( PageStates.PAGE_ABOUT );
             }
+            //else if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
+            //    ChangePage( PageStates.PAGE_CONTROLS );
+            //}
         }
 
         /*************************************/
-        private void ChangePage( Enum page )
+        private void ChangePage( PageStates page )
         {
             if ( CurrentState == page ) return;
+
+            if ( ((MainMenuPageState)CurrentState).InTransit ) return;
 
             if ( page.Equals( PageStates.PAGE_MAIN ) ) {
                 _nav_points.MoveToNavPoint( 0 );
             }
-            if ( page.Equals( PageStates.PAGE_CONFIG ) ) {
-                _nav_points.MoveToNavPoint( 1 );
-            }
-            if ( page.Equals( PageStates.PAGE_ABOUT ) ) {
+            //else if ( page.Equals( PageStates.PAGE_CONFIG ) ) {
+            //    _nav_points.MoveToNavPoint( 1 );
+            //}
+            else if ( page.Equals( PageStates.PAGE_ABOUT ) ) {
                 _nav_points.MoveToNavPoint( 2 );
+            }
+            else if ( page.Equals( PageStates.PAGE_CONTROLS ) ) {
+                _nav_points.MoveToNavPoint( 3 );
             }
 
             ChangeState( page );
+        }
+
+        public void OnClick_Start()
+        {
+            StartCoroutine( CO_StartGame() );
+        }
+
+        private IEnumerator CO_StartGame()
+        {
+            _canvas_loading.gameObject.SetActive( true );
+            AsyncOperation async = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+            AsyncOperation async_bg = SceneManager.LoadSceneAsync( "BG1", LoadSceneMode.Additive ); // TODO: For future expansion
+
+            while ( async.progress < 1.0f && async_bg.progress < 1.0f ) {
+                Debug.Log( async.progress + " - " + async_bg.progress );
+                yield return null;
+            }
+            _canvas_loading.gameObject.SetActive( false );
+        }
+        public void OnClick_Keys()
+        {
+            ChangePage( PageStates.PAGE_CONTROLS );
+        }
+        public void OnClick_Help()
+        {
+            ChangePage( PageStates.PAGE_ABOUT );
+        }
+        public void OnClick_Return()
+        {
+            ChangePage( PageStates.PAGE_MAIN );
         }
     }
 }

@@ -69,7 +69,6 @@ namespace Game
         private void SetupBackgroundSceneControl()
         {
             _initial_camera_position = Camera.main.transform.localPosition;
-            SceneManager.LoadScene( "BG1", LoadSceneMode.Additive ); // TODO: For future expansion
         }
 
         /**************************************/
