@@ -92,9 +92,10 @@ namespace Game
 
             base.Update();
 
-            if ( Input.GetKeyDown( KeyCode.V ) ) {
-                Shaker.SHAKE( 2.0f, 4.0f );
-            }
+            //if ( Input.GetKeyDown( KeyCode.V ) ) {
+            //    Shaker.SHAKE( 2.0f, 4.0f );
+            //}
+
             //if ( Input.GetKeyDown( KeyCode.B ) ) {
 
             //}
