@@ -58,8 +58,8 @@ namespace Game
         public void Start()
         {
             LoadingCanvas.gameObject.SetActive( true );
-            _bg_loading = false;
-            //_bg_load_async = SceneManager.LoadSceneAsync( "BG1", LoadSceneMode.Additive );
+            _bg_loading = true;
+            _bg_load_async = SceneManager.LoadSceneAsync( "BG1", LoadSceneMode.Additive );
 
             Shaker = gameObject.AddComponent<CameraShaker>();
 
