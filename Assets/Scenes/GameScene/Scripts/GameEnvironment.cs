@@ -120,9 +120,8 @@ namespace Game
 
                 if ( Score > _peak_score ) {
                     _peak_score = Score;
-                    if ( _peak_score - _last_life_peak_score > 1000 ) {
-                        //Debug.Log( "Last Life Peak: " + _last_life_peak_score + " -- Curr Peak: " + _peak_score );
-                        _last_life_peak_score = Mathf.FloorToInt( _peak_score / 1000 ) * 1000; // Round it down to the most recent 1k
+                    if ( _peak_score - _last_life_peak_score > GameConstants.LIVES_1UP_THRESHOLD ) {
+                        _last_life_peak_score = Mathf.FloorToInt( _peak_score / GameConstants.LIVES_1UP_THRESHOLD ) * GameConstants.LIVES_1UP_THRESHOLD; // Round it down to the most recent 
                         Lives++;
                         // Play 1-Up SFX
                         GameController.instance.GetComponent<AudioSource>().PlayOneShot( GameController.instance.Snd1UpClip );
