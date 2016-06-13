@@ -55,38 +55,31 @@ namespace Game
             Lives = GameConstants.INITIAL_LIVES;
         }
 
-        public int Lives
-        {
+        public int Lives {
             get { return _lives; }
-            set
-            {
+            set {
                 _lives = value;
                 SetLivesValue( value );
             }
         }
 
-        public int Score
-        {
+        public int Score {
             get { return _score; }
-            set
-            {
+            set {
                 _score = value;
                 SetScoreValue( value );
                 ValidateMultplier();
             }
         }
 
-        public int PeakScore
-        {
+        public int PeakScore {
             get { return _peak_score; }
             set { _peak_score = value; }
         }
 
-        public int Multiplier
-        {
+        public int Multiplier {
             get { return _mult; }
-            set
-            {
+            set {
                 _mult = value;
                 SetMultValue( _mult );
             }
