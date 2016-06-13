@@ -41,7 +41,7 @@ namespace Game
         public const int SCORE_THRESH_6X    = 100000;
 
         public const int INITIAL_LIVES       = 3;
-        public const int LIVES_1UP_THRESHOLD = 3;
+        public const int LIVES_1UP_THRESHOLD = 2000;
         public const int INITIAL_MULTIPLIER  = 1;
 
     }
