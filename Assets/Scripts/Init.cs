@@ -30,13 +30,7 @@ namespace Game
         private const string SCENE_NAME_GAME = "Game";
         private const string SCENE_NAME_HELP = "Help";
 
-        public enum GameStates
-        {
-            INTRO,
-            MAIN_MENU,
-            HELP,
-            GAME_LOOP
-        };
+        public enum GameStates { INTRO, MAIN_MENU, HELP, GAME_LOOP };
 
         /********************************************/
         private class GameState_MainMenu : State
@@ -57,10 +51,7 @@ namespace Game
                 SceneManager.UnloadScene(SCENE_NAME_MAIN_MENU);
             }
 
-            public override void OnUpdate()
-            {
-                ;
-            }
+            public override void OnUpdate() {; }
         }
 
         /********************************************/
@@ -82,10 +73,7 @@ namespace Game
                 SceneManager.UnloadScene(SCENE_NAME_GAME);
             }
 
-            public override void OnUpdate()
-            {
-                ;
-            }
+            public override void OnUpdate() {; }
         }
 
         /********************************************/
@@ -107,10 +95,7 @@ namespace Game
                 SceneManager.LoadScene(SCENE_NAME_HELP);
             }
 
-            public override void OnUpdate()
-            {
-                ;
-            }
+            public override void OnUpdate() {; }
         }
 
         /********************************************/
@@ -133,8 +118,7 @@ namespace Game
             AddState(new GameState_GameLoop());
             AddState(new GameState_Help());
 
-            if (Debug)
-                return;
+            if (Debug) return;
 
             ChangeState(GameStates.MAIN_MENU);
         }
