@@ -7,7 +7,6 @@
 *************************************************************************/
 
 using System;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,12 +17,10 @@ namespace Game
         private static Init _instance = null;
         public static bool Debug { get; set; }
 
-        public static Init instance
-        {
-            get
-            {
-                if ( _instance == null ) {
-                    Construct( false );
+        public static Init instance {
+            get {
+                if (_instance == null) {
+                    Construct(false);
                 }
                 return _instance;
             }
@@ -42,26 +39,22 @@ namespace Game
         };
 
         /********************************************/
-
         private class GameState_MainMenu : State
         {
-            public override Enum Name
-            {
-                get { return GameStates.MAIN_MENU; }
-            }
+            public override Enum Name { get { return GameStates.MAIN_MENU; } }
 
             public override void Start()
             {
             }
 
-            public override void OnStateEnter( State from_state )
+            public override void OnStateEnter(State from_state)
             {
-                SceneManager.LoadScene( SCENE_NAME_MAIN_MENU );
+                SceneManager.LoadScene(SCENE_NAME_MAIN_MENU);
             }
 
-            public override void OnStateExit( State to_state )
+            public override void OnStateExit(State to_state)
             {
-                SceneManager.UnloadScene( SCENE_NAME_MAIN_MENU );
+                SceneManager.UnloadScene(SCENE_NAME_MAIN_MENU);
             }
 
             public override void OnUpdate()
@@ -71,26 +64,22 @@ namespace Game
         }
 
         /********************************************/
-
         private class GameState_GameLoop : State
         {
-            public override Enum Name
-            {
-                get { return GameStates.GAME_LOOP; }
-            }
+            public override Enum Name { get { return GameStates.GAME_LOOP; } }
 
             public override void Start()
             {
             }
 
-            public override void OnStateEnter( State from_state )
+            public override void OnStateEnter(State from_state)
             {
-                SceneManager.LoadScene( SCENE_NAME_GAME );
+                SceneManager.LoadScene(SCENE_NAME_GAME);
             }
 
-            public override void OnStateExit( State to_state )
+            public override void OnStateExit(State to_state)
             {
-                SceneManager.UnloadScene( SCENE_NAME_GAME );
+                SceneManager.UnloadScene(SCENE_NAME_GAME);
             }
 
             public override void OnUpdate()
@@ -100,26 +89,22 @@ namespace Game
         }
 
         /********************************************/
-
         private class GameState_Help : State
         {
-            public override Enum Name
-            {
-                get { return GameStates.HELP; }
-            }
+            public override Enum Name { get { return GameStates.HELP; } }
 
             public override void Start()
             {
             }
 
-            public override void OnStateEnter( State from_state )
+            public override void OnStateEnter(State from_state)
             {
-                SceneManager.LoadScene( SCENE_NAME_HELP );
+                SceneManager.LoadScene(SCENE_NAME_HELP);
             }
 
-            public override void OnStateExit( State to_state )
+            public override void OnStateExit(State to_state)
             {
-                SceneManager.LoadScene( SCENE_NAME_HELP );
+                SceneManager.LoadScene(SCENE_NAME_HELP);
             }
 
             public override void OnUpdate()
@@ -129,10 +114,9 @@ namespace Game
         }
 
         /********************************************/
-
-        public static void Construct( bool debug_mode = false )
+        public static void Construct(bool debug_mode = false)
         {
-            if ( _instance != null ) return;
+            if (_instance != null) return;
 
             Debug = debug_mode;
             var go = new GameObject("Init");
@@ -141,18 +125,18 @@ namespace Game
 
         public void Start()
         {
-            DontDestroyOnLoad( this.gameObject );
+            DontDestroyOnLoad(this.gameObject);
 
             Init._instance = this;
 
-            AddState( new GameState_MainMenu() );
-            AddState( new GameState_GameLoop() );
-            AddState( new GameState_Help() );
+            AddState(new GameState_MainMenu());
+            AddState(new GameState_GameLoop());
+            AddState(new GameState_Help());
 
-            if ( Debug )
+            if (Debug)
                 return;
 
-            ChangeState( GameStates.MAIN_MENU );
+            ChangeState(GameStates.MAIN_MENU);
         }
 
         public new void Update()

@@ -53,7 +53,7 @@ namespace Game
         {
             Unpause();
             // there's really only one place a message will come from
-            SceneManager.LoadScene( "MainMenuV2" );
+            SceneManager.LoadScene( "MainMenuV2", LoadSceneMode.Single );
         }
 
         private void Unpause()

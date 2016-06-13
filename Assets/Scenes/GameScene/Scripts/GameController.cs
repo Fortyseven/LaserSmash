@@ -21,9 +21,10 @@ namespace Game
         public BarrierGroup Barriers;
         public GameEnvironment GameEnv { get; private set; }
         public AudioClip Snd1UpClip;
-        public CameraShaker Shaker;
+        public Canvas LoadingCanvas;
 
-        //public Camera Egg_CockpitCamera;
+        [HideInInspector]
+        public CameraShaker Shaker;
 
         public bool SceneReady { get; set; }
 
@@ -36,12 +37,16 @@ namespace Game
             GAMEOVER
         }
 
+        private AsyncOperation _bg_load_async;
+        private bool _bg_loading;
+
         /**************************************/
         public void Awake()
         {
             Init.Construct( true );
 
             instance = this;
+
 
             //DebugMode = Application.loadedLevelName.Equals( "GameTest" );
 
@@ -52,6 +57,10 @@ namespace Game
         [UsedImplicitly]
         public void Start()
         {
+            LoadingCanvas.gameObject.SetActive( true );
+            _bg_loading = false;
+            //_bg_load_async = SceneManager.LoadSceneAsync( "BG1", LoadSceneMode.Additive );
+
             Shaker = gameObject.AddComponent<CameraShaker>();
 
             AddState( new GameControllerState_INTRO_ANIM() );
@@ -74,13 +83,20 @@ namespace Game
         /**************************************/
         public new void Update()
         {
+            if ( _bg_loading ) {
+                if ( _bg_load_async.progress >= 1.0f ) {
+                    _bg_loading = false;
+                    LoadingCanvas.gameObject.SetActive( false );
+                }
+            }
+
             base.Update();
 
             if ( Input.GetKeyDown( KeyCode.V ) ) {
-                Shaker.SHAKE(2.0f, 4.0f);
+                Shaker.SHAKE( 2.0f, 4.0f );
             }
             //if ( Input.GetKeyDown( KeyCode.B ) ) {
-                
+
             //}
 
             UpdateCameraPan();
