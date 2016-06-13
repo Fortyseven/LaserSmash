@@ -12,25 +12,16 @@ namespace Game
 
         private NavPoints _nav_points;
 
-        public enum PageStates
-        {
-            PAGE_MAIN, PAGE_CONFIG, PAGE_ABOUT, PAGE_CONTROLS
-        };
+        public enum PageStates { PAGE_MAIN, PAGE_CONFIG, PAGE_ABOUT, PAGE_CONTROLS };
 
         /*************************************************************************/
         class Menu_MainMenu : MainMenuPageState
         {
             public override Enum Name { get { return PageStates.PAGE_MAIN; } }
 
-            public Menu_MainMenu( Canvas canvas ) : base( canvas )
-            {
-                ;
-            }
+            public Menu_MainMenu( Canvas canvas ) : base( canvas ) {; }
 
-            public override void OnUpdate()
-            {
-
-            }
+            public override void OnUpdate() {; }
 
             public override void OnStateEnter( State from )
             {
@@ -48,15 +39,9 @@ namespace Game
         {
             public override Enum Name { get { return PageStates.PAGE_CONTROLS; } }
 
-            public Menu_Controls( Canvas canvas ) : base( canvas )
-            {
-                ;
-            }
+            public Menu_Controls( Canvas canvas ) : base( canvas ) {; }
 
-            public override void OnUpdate()
-            {
-
-            }
+            public override void OnUpdate() {; }
 
             public override void OnStateEnter( State from )
             {
@@ -74,15 +59,9 @@ namespace Game
         {
             public override Enum Name { get { return PageStates.PAGE_ABOUT; } }
 
-            public Menu_About( Canvas canvas ) : base( canvas )
-            {
-                ;
-            }
+            public Menu_About( Canvas canvas ) : base( canvas ) {; }
 
-            public override void OnUpdate()
-            {
-
-            }
+            public override void OnUpdate() {; }
 
             public override void OnStateEnter( State from )
             {
@@ -118,7 +97,9 @@ namespace Game
         {
             base.Update();
 
-            if ( CurrentState == null || ( (MainMenuPageState)CurrentState ).InTransit ) return;
+            if ( CurrentState == null || ( (MainMenuPageState)CurrentState ).InTransit ) {
+                return;
+            }
 
             //DEBUG
             //if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
@@ -135,9 +116,9 @@ namespace Game
         /*********************************************/
         private void ChangePage( PageStates page )
         {
-            if ( CurrentState == page ) return;
-
-            if ( ( (MainMenuPageState)CurrentState ).InTransit ) return;
+            if ( CurrentState == page || ( (MainMenuPageState)CurrentState ).InTransit ) {
+                return;
+            }
 
             switch ( page ) {
                 case PageStates.PAGE_MAIN:
@@ -177,14 +158,17 @@ namespace Game
             // StartCoroutine( CO_StartGame() );
             SceneManager.LoadScene( 1, LoadSceneMode.Single );
         }
+
         public void OnClick_Keys()
         {
             ChangePage( PageStates.PAGE_CONTROLS );
         }
+
         public void OnClick_Help()
         {
             ChangePage( PageStates.PAGE_ABOUT );
         }
+
         public void OnClick_Return()
         {
             ChangePage( PageStates.PAGE_MAIN );
