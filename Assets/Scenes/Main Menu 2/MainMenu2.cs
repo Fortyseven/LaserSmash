@@ -172,6 +172,11 @@ namespace Game
         {
             ChangePage( PageStates.PAGE_MAIN );
         }
+
+        public void OnClick_Quit()
+        {
+            Application.Quit();
+        }
         /*********************************************/
     }
 }
