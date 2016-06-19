@@ -257,7 +257,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: a1ce6cd7ec7e9d1458fd0da1bbd91ea7, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: a1ce6cd7ec7e9d1458fd0da1bbd91ea7, type: 2}
       propertyPath: m_Name
@@ -496,7 +496,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400024, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
       propertyPath: m_FontData.m_BestFit
@@ -995,11 +995,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.5019608}
-    m_HighlightedColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.69803923}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.7490196, b: 0, a: 1}
     m_PressedColor: {r: 0.34509805, g: 0.34509805, b: 0.34509805, a: 0.69803923}
     m_DisabledColor: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 0.5019608}
-    m_ColorMultiplier: 2
+    m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
@@ -1011,7 +1011,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 907885844}
+  m_TargetGraphic: {fileID: 17464833}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
