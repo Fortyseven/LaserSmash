@@ -1,8 +1,0 @@
-#!/usr/bin/python
-from UpdateXcodeUnityAds import *
-
-def main():
-	UpdateXcodeUnityAds.unityAddUnityAds()
-
-if __name__ == "__main__":
-	main()
