@@ -167,7 +167,6 @@ namespace Game
             public override void OnStateExit( State to_state )
             {
                 ( (Player)Owner )._ship_mesh.SetActive( true );
-
             }
 
             public override void OnUpdate()
@@ -179,8 +178,7 @@ namespace Game
         /***********************************************************************************/
         private class PlayerState_KILLED : State
         {
-            public override Enum Name
-            {
+            public override Enum Name {
                 get { return PlayerState.KILLED; }
             }
 

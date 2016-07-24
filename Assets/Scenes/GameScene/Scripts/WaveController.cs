@@ -32,7 +32,7 @@ namespace Game
             public readonly GameObject GameObjectPrefab;    // Prefab associated with enemy 
             public readonly float[] SpawnFrequencyByLevel;  // random % chance of spawning per level
             public ObjectPool Pool;                         // not exposed in editor //TODO:Should this be private?
-            public readonly bool Disabled;                           // Will disable this enemy for debugging purposes
+            public readonly bool Disabled;                  // Will disable this enemy for debugging purposes
 
             public WaveDefinition( string name, float[] spawn_freq, ObjectPool pool, bool disabled )
             {
@@ -40,11 +40,14 @@ namespace Game
 
                 GameObjectPrefab = Resources.Load<GameObject>( "Enemies/" + name + "" );
                 if ( GameObjectPrefab == null ) {
+#if UNITY_EDITOR
                     Debug.LogError( "LoadAssetAtPath returned null" );
+#endif
                 }
 
+#if UNITY_EDITOR
                 Debug.Assert( spawn_freq.Length == GameConstants.MAX_MULTIPLIER, "[" + name + "] spawn_freq.Length != GameConstants.MAX_MULTIPLIER" );
-
+#endif
                 SpawnFrequencyByLevel = spawn_freq;
 
                 Pool = pool;
@@ -75,12 +78,10 @@ namespace Game
             _next_spawn_time = Time.time + _cur_spawn_timeout;
 
             for ( int i = 0; i < Enemies.Length; i++ ) {
-                if ( !Enemies[ i ].Name.Equals("UFO") ) {
+                if ( !Enemies[ i ].Name.Equals( "UFO" ) ) {
                     Enemies[ i ].Pool.Reset();
                 }
             }
-
-            //UFOsISpawned = false;
         }
 
         /*****************************/
@@ -108,48 +109,49 @@ namespace Game
         /*****************************/
         public void Update()
         {
-            if ( Paused || !_initialized )
-                return;
+            if ( Paused || !_initialized ) return;
 
             _cur_spawn_timeout = GameConstants.MULT_TIMEOUT_RAMP[ GameController.instance.GameEnv.Multiplier - 1 ];
 
-            //TODO: Invert this for production
-            if ( !GameController.instance.DebugMode ) {
+#if UNITY_EDITOR
+            // Debug Keys
 
-                if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
-                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_1X;
-                }
-                if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
-                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_2X;
-                }
-                if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
-                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_3X;
-                }
-                if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
-                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_4X;
-                }
-                if ( Input.GetKeyDown( KeyCode.Alpha5 ) ) {
-                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_5X;
-                }
-                if ( Input.GetKeyDown( KeyCode.Alpha6 ) ) {
-                    GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_6X;
-                }
-
-                if ( Input.GetKey( KeyCode.LeftAlt ) ) {
-
-                    if ( Input.GetKeyDown( KeyCode.Q ) ) {
-                        GameController.instance.GameEnv.AdjustScore( 75 );
-                    }
-
-                    if ( Input.GetKeyDown( KeyCode.U ) ) {
-                        GetPoolForName( "UFO" ).SpawnInstance();
-                    }
-                    if ( Input.GetKeyDown( KeyCode.R ) ) {
-                        GetPoolForName( "Seeker" ).SpawnInstance();
-                    }
-                }
+            // Change current score multiplire
+            if ( Input.GetKeyDown( KeyCode.Alpha1 ) ) {
+                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_1X;
+            }
+            if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
+                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_2X;
+            }
+            if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
+                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_3X;
+            }
+            if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
+                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_4X;
+            }
+            if ( Input.GetKeyDown( KeyCode.Alpha5 ) ) {
+                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_5X;
+            }
+            if ( Input.GetKeyDown( KeyCode.Alpha6 ) ) {
+                GameController.instance.GameEnv.Score = GameConstants.SCORE_THRESH_6X;
             }
 
+            if ( Input.GetKey( KeyCode.LeftAlt ) ) {
+                // Bump up the score 
+                if ( Input.GetKeyDown( KeyCode.Q ) ) {
+                    GameController.instance.GameEnv.AdjustScore( 75 );
+                }
+
+                // Spawn UFO
+                if ( Input.GetKeyDown( KeyCode.U ) ) {
+                    GetPoolForName( "UFO" ).SpawnInstance();
+                }
+                // Spawn rocket
+                if ( Input.GetKeyDown( KeyCode.R ) ) {
+                    GetPoolForName( "Seeker" ).SpawnInstance();
+                }
+            }
+#endif
             if ( Time.time >= _next_spawn_time ) {
                 // Heartbeat throb
                 _audio.Play();
@@ -161,14 +163,11 @@ namespace Game
         /*****************************/
         private void SpawnTick()
         {
-            if ( UFOsISpawned ) {
-                //Debug.Log( "ufo still exists" );
-                return;
-            }
+            if ( UFOsISpawned ) return;
+
             for ( int i = 0; i < Enemies.Length; i++ ) {
                 if ( Enemies[ i ].Disabled )
                     continue;
-
 
                 var odds = Enemies[i].SpawnFrequencyByLevel[GameController.instance.GameEnv.Multiplier-1];
                 var rand = Random.Range(0.0f, 100.0f);
@@ -176,7 +175,7 @@ namespace Game
                 if ( rand < odds ) {
                     Enemies[ i ].Pool.SpawnInstance();
                 }
-                // NOTED: There is a slim chance nothing will spawn.
+                // NOTE: There is a slim chance nothing will spawn.
             }
         }
 
@@ -185,24 +184,23 @@ namespace Game
         {
             Enemies = new[] {
             new WaveDefinition("UFO",
-                                    new[] {0.0f, 0.0f, 0.0f, 5.0f, 5.0f, 5.0f },
+                                    new[] { 0.0f, 0.0f, 0.0f, 5.0f, 5.0f, 5.0f },
                                     null, false),
             new WaveDefinition("Asteroid_LG",
-                                    new[] {30.0f, 40.0f, 50.0f, 55.0f, 60.0f, 70.0f },
+                                    new[] { 30.0f, 40.0f, 50.0f, 55.0f, 60.0f, 70.0f },
                                     null, false),
             new WaveDefinition("Asteroid_SM",
-                                    new[] {35.0f, 45.0f, 50.0f, 55.0f, 60.0f, 70.0f },
+                                    new[] { 35.0f, 45.0f, 50.0f, 55.0f, 60.0f, 70.0f },
                                     null, false),
             new WaveDefinition("Bomb_Large",
-                                    new[] {8.0f, 8.0f, 8.0f, 5.0f, 5.0f, 5.0f },
+                                    new[] { 8.0f, 8.0f, 8.0f, 5.0f, 5.0f, 5.0f },
                                     null, false),
             new WaveDefinition("Bomb_Small",
-                                    new[] {8.0f, 8.0f, 8.0f, 5.0f, 5.0f, 5.0f },
+                                    new[] { 8.0f, 8.0f, 8.0f, 5.0f, 5.0f, 5.0f },
                                     null, false),
             new WaveDefinition("Seeker",
-                                    new[] {3.0f, 5.0f, 8.0f, 8.0f, 8.0f, 8.0f },
+                                    new[] { 3.0f, 5.0f, 8.0f, 8.0f, 8.0f, 8.0f },
                                     null, false),
-
         };
             _audio = GetComponent<AudioSource>();
             CreatePools();
