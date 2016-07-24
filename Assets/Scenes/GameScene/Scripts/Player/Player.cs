@@ -39,6 +39,8 @@ namespace Game
 
             private float _next_fire_time;
 
+            private bool _autofire_enabled = false;
+
             /*******************************/
             public override void Start()
             {
@@ -95,7 +97,7 @@ namespace Game
                 pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
                 pos.x = Mathf.Clamp( pos.x, -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
 
-                if ( Input.GetButtonDown( "Fire" ) ) {
+                if ( Input.GetButtonDown( "Fire" ) || _autofire_enabled ) {
                     Fire();
                 }
 
@@ -104,6 +106,19 @@ namespace Game
                 if ( Input.GetButtonDown( "Hyperspace" ) ) {
                     Hyperspace();
                 }
+
+                if ( Input.GetButtonDown( "AutoFire Toggle" ) ) {
+                    ToggleAutofire();
+                }
+            }
+
+            /**************************************/
+            private void ToggleAutofire()
+            {
+                _autofire_enabled = !_autofire_enabled;
+#if UNITY_EDITOR
+                Debug.Log( "Autofire toggled: " + _autofire_enabled );
+#endif
             }
 
             /**************************************/
