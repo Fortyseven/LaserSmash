@@ -18,7 +18,7 @@ namespace Game
         {
             //FIXME: We don't need to run this every frame; scale it back
 
-            float hue = (1.0f/SCORE_WRAP_POINT)*GameController.instance.GameEnv.Score;
+            float hue = (1.0f/SCORE_WRAP_POINT)*(GameController.instance.GameEnv.Score+1000);
             float adj_hue = hue%1.0f; // loop
             //Debug.Log( adj_hue );
             RenderSettings.fogColor = Utils.HSVtoRGB( adj_hue, 0.35f, 0.82f );
