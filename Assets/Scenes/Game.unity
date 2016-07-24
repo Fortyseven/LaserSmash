@@ -339,6 +339,26 @@ Prefab:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: a1ce6cd7ec7e9d1458fd0da1bbd91ea7, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: a1ce6cd7ec7e9d1458fd0da1bbd91ea7, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: a1ce6cd7ec7e9d1458fd0da1bbd91ea7, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: a1ce6cd7ec7e9d1458fd0da1bbd91ea7, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a1ce6cd7ec7e9d1458fd0da1bbd91ea7, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1ce6cd7ec7e9d1458fd0da1bbd91ea7, type: 2}
   m_IsPrefabParent: 0
@@ -554,6 +574,42 @@ Prefab:
       propertyPath: m_Text
       value: 99999
       objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100018, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100016, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33f1fc838fb76a140aeb336b8cd5f1d0, type: 2}
   m_IsPrefabParent: 0
@@ -567,7 +623,7 @@ GameObject:
   - 224: {fileID: 584326469}
   - 222: {fileID: 584326471}
   - 114: {fileID: 584326470}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -641,7 +697,7 @@ GameObject:
   - 224: {fileID: 681047711}
   - 222: {fileID: 681047713}
   - 114: {fileID: 681047712}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -874,7 +930,7 @@ GameObject:
   - 114: {fileID: 843335225}
   - 114: {fileID: 843335224}
   - 114: {fileID: 843335223}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1725,7 +1781,7 @@ GameObject:
   - 223: {fileID: 1079643372}
   - 114: {fileID: 1079643374}
   - 114: {fileID: 1079643373}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas_Loading
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2021,6 +2077,18 @@ Prefab:
     - target: {fileID: 11400000, guid: 744b460cec1d0464fb9e8ae5b5844fec, type: 2}
       propertyPath: m_EffectColor.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 744b460cec1d0464fb9e8ae5b5844fec, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 744b460cec1d0464fb9e8ae5b5844fec, type: 2}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 744b460cec1d0464fb9e8ae5b5844fec, type: 2}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 744b460cec1d0464fb9e8ae5b5844fec, type: 2}
