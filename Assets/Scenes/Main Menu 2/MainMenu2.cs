@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Game
 {
@@ -8,6 +9,8 @@ namespace Game
     {
         public Canvas[] _canvases;
         public Canvas _canvas_loading;
+
+        public Text LabelVersion;
 
         private NavPoints _nav_points;
 
@@ -77,6 +80,7 @@ namespace Game
         /*************************************************************************/
         void Start()
         {
+            LabelVersion.text = Game.GameConstants.VERSION_STRING;
             _canvas_loading.gameObject.SetActive( false );
             _nav_points = GetComponent<NavPoints>();
 
