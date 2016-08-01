@@ -2297,6 +2297,7 @@ GameObject:
   - 4: {fileID: 1674939034}
   - 114: {fileID: 1674939035}
   - 114: {fileID: 1674939036}
+  - 114: {fileID: 1674939037}
   m_Layer: 0
   m_Name: Menus
   m_TagString: Untagged
@@ -2356,6 +2357,17 @@ MonoBehaviour:
   - {fileID: 856212080}
   - {fileID: 1062505517}
   TargetCamera: {fileID: 1808957807}
+--- !u!114 &1674939037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1674939033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f97078de4792eef4ba26f324db227170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1679398956
 GameObject:
   m_ObjectHideFlags: 0

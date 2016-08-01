@@ -26,7 +26,7 @@ namespace Game
             }
         }
 
-        private const string SCENE_NAME_MAIN_MENU = "MainMenu";
+        private const string SCENE_NAME_MAIN_MENU = "MainMenuV2";
         private const string SCENE_NAME_GAME      = "Game";
         private const string SCENE_NAME_HELP      = "Help";
 

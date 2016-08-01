@@ -87,6 +87,14 @@ namespace Game
             public override void OnStateEnter( State from_state )
             {
                 _next_fire_time = Time.time + FIRE_DELAY;
+                InputController.OnInput += this.OnInput;
+            }
+
+            /*******************************/
+            public override void OnStateExit( State to_state )
+            {
+                base.OnStateExit( to_state );
+                InputController.OnInput -= this.OnInput;
             }
 
             /*******************************/
@@ -97,18 +105,23 @@ namespace Game
                 pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
                 pos.x = Mathf.Clamp( pos.x, -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
 
-                if ( Input.GetButtonDown( "Fire" ) || _autofire_enabled ) {
-                    Fire();
-                }
+                if ( _autofire_enabled ) Fire();
 
                 OwnerMB.transform.position = pos;
+            }
 
-                if ( Input.GetButtonDown( "Hyperspace" ) ) {
-                    Hyperspace();
-                }
-
-                if ( Input.GetButtonDown( "AutoFire Toggle" ) ) {
-                    ToggleAutofire();
+            private void OnInput( InputController.InputDef input )
+            {
+                switch ( input.input_enum ) {
+                    case InputController.InputEnum.Fire:
+                        Fire();
+                        break;
+                    case InputController.InputEnum.AutoFire:
+                        ToggleAutofire();
+                        break;
+                    case InputController.InputEnum.Hyperspace:
+                        Hyperspace();
+                        break;
                 }
             }
 

@@ -80,6 +80,8 @@ namespace Game
         /*************************************************************************/
         void Start()
         {
+            InputController.Construct( true );
+
             LabelVersion.text = Game.GameConstants.VERSION_STRING;
             _canvas_loading.gameObject.SetActive( false );
             _nav_points = GetComponent<NavPoints>();

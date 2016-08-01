@@ -44,6 +44,7 @@ namespace Game
         public void Awake()
         {
             Init.Construct( true );
+            InputController.Construct( true );
 
             instance = this;
 
