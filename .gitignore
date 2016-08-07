@@ -11,7 +11,7 @@ Assets/UnityVS*
 Assets/link*
 Assets/Editor.meta
 _Dist/
-Assets/Vendor*
+#Assets/Vendor*
 Assets/Plugins*
 UnityVS*
 
