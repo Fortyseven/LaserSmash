@@ -1580,7 +1580,7 @@ MonoBehaviour:
   white: 0.7
   adaptionSpeed: 1.5
   tonemapper: {fileID: 4800000, guid: 003377fc2620a44939dadde6fe3f8190, type: 3}
-  validRenderTextureFormat: 1
+  validRenderTextureFormat: 0
 --- !u!114 &976842472
 MonoBehaviour:
   m_ObjectHideFlags: 0
