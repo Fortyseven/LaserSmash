@@ -1,2 +1,5 @@
 *.cs diff
 *.meta diff
+*.asset diff
+*.mat diff
+.gitattributes diff
