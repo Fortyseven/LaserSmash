@@ -19,15 +19,18 @@ namespace Game
         private StateMachineMB.State _calling_state;
         private GameObject _ui_panel;
 
+        private DebounceButton _pause_debounced = new DebounceButton("Pause");
+
         public override void Start()
         {
             SkipUpdateOnZeroTimeScale = false;
 
             _ui_panel = GameObject.Find( "Pause Canvas" );
 
-            if ( _ui_panel == null ) throw new UnityException( "Could not find 'Pause Canvas' object" );
+            if( _ui_panel == null ) throw new UnityException( "Could not find 'Pause Canvas' object" );
 
             _ui_panel.SetActive( false );
+
         }
 
         public override void OnStateEnter( StateMachineMB.State from_state )
@@ -35,6 +38,7 @@ namespace Game
             _calling_state = from_state;
             Time.timeScale = 0;
             _ui_panel.SetActive( true );
+            _pause_debounced.reset();
         }
 
         public override void OnStateExit( StateMachineMB.State to_state )
@@ -44,7 +48,7 @@ namespace Game
 
         public override void OnUpdate()
         {
-            if ( Input.GetKeyDown( KeyCode.Escape ) ) {
+            if( _pause_debounced.isPressed() ) {
                 Owner.ChangeState( _calling_state );
             }
         }

@@ -15,6 +15,14 @@ namespace Game
     {
         public override Enum Name { get { return GameController.GameState.RUNNING; } }
 
+        private DebounceButton _pause_debounced = new DebounceButton("Pause");
+
+        public override void OnStateEnter( StateMachineMB.State from_state )
+        {
+            base.OnStateEnter( from_state );
+            _pause_debounced.reset();
+        }
+
         public override void OnStateExit( StateMachineMB.State to_state )
         {
             //throw new NotImplementedException();
@@ -38,7 +46,7 @@ namespace Game
                 GameController.instance.KillPlayer();
             }
 
-            if ( Input.GetKeyDown( KeyCode.Escape ) ) {
+            if ( _pause_debounced.isPressed() ) {
                 Owner.ChangeState( GameController.GameState.PAUSED );
             }
         }
