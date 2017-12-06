@@ -2,4 +2,5 @@
 *.meta diff
 *.asset diff
 *.mat diff
+*.unity diff
 .gitattributes diff
