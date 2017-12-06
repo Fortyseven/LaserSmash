@@ -37,26 +37,6 @@ namespace Game
         }
 
         /*************************************************************************/
-        class Menu_Controls : MainMenuPageState
-        {
-            public override Enum Name { get { return PageStates.PAGE_CONTROLS; } }
-
-            public Menu_Controls( Canvas canvas ) : base( canvas ) {; }
-
-            public override void OnUpdate() {; }
-
-            public override void OnStateEnter( State from )
-            {
-                base.OnStateEnter( from );
-            }
-            public override void OnStateExit( State from )
-            {
-                base.OnStateExit( from );
-            }
-
-        }
-
-        /*************************************************************************/
         class Menu_About : MainMenuPageState
         {
             public override Enum Name { get { return PageStates.PAGE_ABOUT; } }
@@ -180,6 +160,13 @@ namespace Game
         public void OnClick_Quit()
         {
             Application.Quit();
+        }
+
+        public void OnClick_Config( int input_id )
+        {
+            if (CurrentState == PageStates.PAGE_CONTROLS) {
+                CurrentState.SendStateMessage( input_id );
+            }
         }
         /*********************************************/
     }
