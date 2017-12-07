@@ -97,7 +97,7 @@ namespace Game
         }
 
         /*********************************************/
-        private void ChangePage( PageStates page )
+        public void ChangePage( PageStates page )
         {
             if ( CurrentState == page || ( (MainMenuPageState)CurrentState ).InTransit ) {
                 return;
@@ -167,6 +167,11 @@ namespace Game
             if (CurrentState == PageStates.PAGE_CONTROLS) {
                 CurrentState.SendStateMessage( input_id );
             }
+        }
+
+        public void OnClick_Apply()
+        {
+            CurrentState.SendStateMessage( "apply" );
         }
         /*********************************************/
     }
