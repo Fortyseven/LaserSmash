@@ -87,6 +87,33 @@ namespace Game
             public override void OnStateEnter( State from_state )
             {
                 _next_fire_time = Time.time + FIRE_DELAY;
+                GameController.instance.InputController.Subscribe( this.OnInput );
+            }
+
+            /*******************************/
+            public override void OnStateExit( State to_state )
+            {
+                base.OnStateExit( to_state );
+                GameController.instance.InputController.Unsubscribe( this.OnInput );
+            }
+
+            /*******************************/
+            public void OnInput(InputController.EventType ev)
+            {
+                switch(ev) {
+                    case InputController.EventType.EV_LEFT:
+                        //
+                        break;
+                    case InputController.EventType.EV_RIGHT:
+                        //
+                        break;
+                    case InputController.EventType.EV_FIRE:
+                        Fire();
+                        break;
+                    case InputController.EventType.EV_HYPER:
+                        Hyperspace();
+                        break;
+                }
             }
 
             /*******************************/
@@ -97,19 +124,15 @@ namespace Game
                 pos.x += Input.GetAxis( "Horizontal" ) * SHIP_SPEED * Time.deltaTime;
                 pos.x = Mathf.Clamp( pos.x, -GameConstants.SCREEN_X_BOUNDS, GameConstants.SCREEN_X_BOUNDS );
 
-                if ( Input.GetButtonDown( "Fire" ) || _autofire_enabled ) {
+                if ( _autofire_enabled ) {
                     Fire();
                 }
 
                 OwnerMB.transform.position = pos;
 
-                if ( Input.GetButtonDown( "Hyperspace" ) ) {
-                    Hyperspace();
-                }
-
-                if ( Input.GetButtonDown( "AutoFire Toggle" ) ) {
-                    ToggleAutofire();
-                }
+                //if ( Input.GetButtonDown( "AutoFire Toggle" ) ) {
+                //    ToggleAutofire();
+                //}
             }
 
             /**************************************/

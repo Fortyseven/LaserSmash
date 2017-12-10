@@ -11,21 +11,17 @@ namespace Game
 
         public class TextObjectPair
         {
-            public Text textValue;
-            public KeyCode value;
+            public Text textKeyValue;
+            public Text textJoyValue;
+            public KeyCode key_value;
+            public string joy_value;
         }
 
-        private TextObjectPair mKeyLeft;
-        private TextObjectPair mKeyRight;
-        private TextObjectPair mKeyFire;
-        private TextObjectPair mKeyHyper;
-        private TextObjectPair mKeyPause;
-
-        private TextObjectPair mJoyLeft;
-        private TextObjectPair mJoyRight;
-        private TextObjectPair mJoyFire;
-        private TextObjectPair mJoyHyper;
-        private TextObjectPair mJoyPause;
+        private TextObjectPair mInputLeft;
+        private TextObjectPair mInputRight;
+        private TextObjectPair mInputFire;
+        private TextObjectPair mInputHyper;
+        private TextObjectPair mInputPause;
 
         private bool mIsInitialized = false;
 
@@ -41,46 +37,35 @@ namespace Game
             base.OnStateEnter( from );
 
             if( !mIsInitialized ) {
-                mKeyLeft = new TextObjectPair {
-                    textValue = GameObject.Find( "keyValueLeft" ).GetComponent<Text>(),
-                    value = KeyCode.LeftArrow
+                mInputLeft = new TextObjectPair {
+                    textKeyValue = GameObject.Find( "keyValueLeft" ).GetComponent<Text>(),
+                    textJoyValue = GameObject.Find( "joyValueLeft" ).GetComponent<Text>(),
+                    key_value = KeyCode.LeftArrow,
+                    joy_value = ""
                 };
-                mKeyRight = new TextObjectPair {
-                    textValue = GameObject.Find( "keyValueRight" ).GetComponent<Text>(),
-                    value = KeyCode.RightArrow
+                mInputRight = new TextObjectPair {
+                    textKeyValue = GameObject.Find( "keyValueRight" ).GetComponent<Text>(),
+                    textJoyValue = GameObject.Find( "joyValueRight" ).GetComponent<Text>(),
+                    key_value = KeyCode.RightArrow,
+                    joy_value = ""
                 };
-                mKeyFire = new TextObjectPair {
-                    textValue = GameObject.Find( "keyValueFire" ).GetComponent<Text>(),
-                    value = KeyCode.Space
+                mInputFire = new TextObjectPair {
+                    textKeyValue = GameObject.Find( "keyValueFire" ).GetComponent<Text>(),
+                    textJoyValue = GameObject.Find( "joyValueFire" ).GetComponent<Text>(),
+                    key_value = KeyCode.Space,
+                    joy_value = ""
                 };
-                mKeyHyper = new TextObjectPair {
-                    textValue = GameObject.Find( "keyValueHyper" ).GetComponent<Text>(),
-                    value = KeyCode.UpArrow
+                mInputHyper = new TextObjectPair {
+                    textKeyValue = GameObject.Find( "keyValueHyper" ).GetComponent<Text>(),
+                    textJoyValue = GameObject.Find( "joyValueHyper" ).GetComponent<Text>(),
+                    key_value = KeyCode.UpArrow,
+                    joy_value = ""
                 };
-                mKeyPause = new TextObjectPair {
-                    textValue = GameObject.Find( "keyValuePause" ).GetComponent<Text>(),
-                    value = KeyCode.P
-                };
-
-                mJoyLeft = new TextObjectPair {
-                    textValue = GameObject.Find( "joyValueLeft" ).GetComponent<Text>()
-                    //value = KeyCode.LeftArrow
-                };
-                mJoyRight = new TextObjectPair {
-                    textValue = GameObject.Find( "joyValueRight" ).GetComponent<Text>()
-                    //value = KeyCode.LeftArrow
-                };
-                mJoyFire = new TextObjectPair {
-                    textValue = GameObject.Find( "joyValueFire" ).GetComponent<Text>()
-                    //value = KeyCode.LeftArrow
-                };
-                mJoyHyper = new TextObjectPair {
-                    textValue = GameObject.Find( "joyValueHyper" ).GetComponent<Text>()
-                    //value = KeyCode.LeftArrow
-                };
-                mJoyPause = new TextObjectPair {
-                    textValue = GameObject.Find( "joyValuePause" ).GetComponent<Text>()
-                    //value = KeyCode.LeftArrow
+                mInputPause = new TextObjectPair {
+                    textKeyValue = GameObject.Find( "keyValuePause" ).GetComponent<Text>(),
+                    textJoyValue = GameObject.Find( "joyValuePause" ).GetComponent<Text>(),
+                    key_value = KeyCode.P,
+                    joy_value = ""
                 };
 
                 mIsInitialized = true;
@@ -92,29 +77,48 @@ namespace Game
 
         private void populateInputLabels()
         {
-            mKeyLeft.textValue.text = ( (KeyCode)mKeyLeft.value ).ToString();
-            mKeyRight.textValue.text = ( (KeyCode)mKeyRight.value ).ToString();
-            mKeyFire.textValue.text = ( (KeyCode)mKeyFire.value ).ToString();
-            mKeyHyper.textValue.text = ( (KeyCode)mKeyHyper.value ).ToString();
-            mKeyPause.textValue.text = ( (KeyCode)mKeyPause.value ).ToString();
+            mInputLeft.textKeyValue.text = ( (KeyCode)mInputLeft.key_value ).ToString();
+            mInputRight.textKeyValue.text = ( (KeyCode)mInputRight.key_value ).ToString();
+            mInputFire.textKeyValue.text = ( (KeyCode)mInputFire.key_value ).ToString();
+            mInputHyper.textKeyValue.text = ( (KeyCode)mInputHyper.key_value ).ToString();
+            mInputPause.textKeyValue.text = ( (KeyCode)mInputPause.key_value ).ToString();
+
+            mInputLeft.textJoyValue.text = mInputLeft.joy_value.ToString();
+            mInputRight.textJoyValue.text = mInputRight.joy_value.ToString();
+            mInputFire.textJoyValue.text = mInputFire.joy_value.ToString();
+            mInputHyper.textJoyValue.text = mInputHyper.joy_value.ToString();
+            mInputPause.textJoyValue.text = mInputPause.joy_value.ToString();
         }
 
         private void loadSavedInputs()
         {
-            mKeyLeft.value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueLeft", (int)mKeyLeft.value );
-            mKeyRight.value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueRight", (int)mKeyRight.value );
-            mKeyFire.value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueFire", (int)mKeyFire.value );
-            mKeyHyper.value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueHyper", (int)mKeyHyper.value );
-            mKeyPause.value = (KeyCode)PlayerPrefs.GetInt( "mKeyValuePause", (int)mKeyPause.value );
+            mInputLeft.key_value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueLeft", (int)mInputLeft.key_value );
+            mInputRight.key_value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueRight", (int)mInputRight.key_value );
+            mInputFire.key_value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueFire", (int)mInputFire.key_value );
+            mInputHyper.key_value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueHyper", (int)mInputHyper.key_value );
+            mInputPause.key_value = (KeyCode)PlayerPrefs.GetInt( "mKeyValuePause", (int)mInputPause.key_value );
+
+            mInputLeft.joy_value = PlayerPrefs.GetString( "mJoyValueLeft", mInputLeft.joy_value );
+            mInputRight.joy_value = PlayerPrefs.GetString( "mJoyValueRight", mInputRight.joy_value );
+            mInputFire.joy_value = PlayerPrefs.GetString( "mJoyValueFire", mInputFire.joy_value );
+            mInputHyper.joy_value = PlayerPrefs.GetString( "mJoyValueHyper", mInputHyper.joy_value );
+            mInputPause.joy_value = PlayerPrefs.GetString( "mJoyValuePause", mInputPause.joy_value );
         }
 
         private void saveInputs()
         {
-            PlayerPrefs.SetInt( "mKeyValueLeft", (int)mKeyLeft.value );
-            PlayerPrefs.SetInt( "mKeyValueRight", (int)mKeyRight.value );
-            PlayerPrefs.SetInt( "mKeyValueFire", (int)mKeyFire.value );
-            PlayerPrefs.SetInt( "mKeyValueHyper", (int)mKeyHyper.value );
-            PlayerPrefs.SetInt( "mKeyValuePause", (int)mKeyPause.value );
+            PlayerPrefs.SetInt( "mKeyValueLeft", (int)mInputLeft.key_value );
+            PlayerPrefs.SetInt( "mKeyValueRight", (int)mInputRight.key_value );
+            PlayerPrefs.SetInt( "mKeyValueFire", (int)mInputFire.key_value );
+            PlayerPrefs.SetInt( "mKeyValueHyper", (int)mInputHyper.key_value );
+            PlayerPrefs.SetInt( "mKeyValuePause", (int)mInputPause.key_value );
+
+            PlayerPrefs.SetString( "mJoyValueLeft", mInputLeft.joy_value );
+            PlayerPrefs.SetString( "mJoyValueRight", mInputRight.joy_value );
+            PlayerPrefs.SetString( "mJoyValueFire", mInputFire.joy_value );
+            PlayerPrefs.SetString( "mJoyValueHyper", mInputHyper.joy_value );
+            PlayerPrefs.SetString( "mJoyValuePause", mInputPause.joy_value );
+
             PlayerPrefs.Save();
             Debug.Log( "Saved." );
         }
@@ -127,7 +131,7 @@ namespace Game
         public override void OnStateMessageReceived( object id )
         {
             if( id is String ) {
-                if ((String)id == "apply") {
+                if( (String)id == "apply" ) {
                     saveInputs();
                     ( OwnerMB as MainMenu2 ).ChangePage( MainMenu2.PageStates.PAGE_MAIN );
                 }
@@ -143,19 +147,19 @@ namespace Game
             mEditMode = true;
             switch( id ) {
                 case InputIDType.LEFT:
-                    mEditInput = mKeyLeft;
+                    mEditInput = mInputLeft;
                     break;
                 case InputIDType.RIGHT:
-                    mEditInput = mKeyRight;
+                    mEditInput = mInputRight;
                     break;
                 case InputIDType.FIRE:
-                    mEditInput = mKeyFire;
+                    mEditInput = mInputFire;
                     break;
                 case InputIDType.HYPER:
-                    mEditInput = mKeyHyper;
+                    mEditInput = mInputHyper;
                     break;
                 case InputIDType.PAUSE:
-                    mEditInput = mKeyPause;
+                    mEditInput = mInputPause;
                     break;
             }
         }
@@ -173,11 +177,25 @@ namespace Game
                     endEditMode();
                     return;
                 }
+
+                // Poll sticks (seriously)
+                for( int stick = 1; stick < 8; stick++ ) {
+                    for( int butt = 0; butt < 20; butt++ ) {
+                        var joystring = "joystick " + stick + " button " + butt;
+                        if( Input.GetKeyDown( joystring ) ) {
+                            mEditInput.textJoyValue.text = joystring;
+                            mEditInput.joy_value = joystring;
+                            endEditMode();
+                            return;
+                        }
+                    }
+                }
+
                 foreach( KeyCode kcode in Enum.GetValues( typeof( KeyCode ) ) ) {
                     if( Input.GetKeyDown( kcode ) ) {
                         //Debug.Log( "Key pressed: " + kcode );
-                        mEditInput.textValue.text = kcode.ToString();
-                        mEditInput.value = kcode;
+                        mEditInput.textKeyValue.text = kcode.ToString();
+                        mEditInput.key_value = kcode;
                         endEditMode();
                         return;
                     }

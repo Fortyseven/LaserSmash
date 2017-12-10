@@ -23,6 +23,8 @@ namespace Game
         public AudioClip Snd1UpClip;
         public Canvas LoadingCanvas;
 
+        public InputController InputController = new InputController();
+
         [HideInInspector]
         public CameraShaker Shaker;
 
@@ -47,6 +49,7 @@ namespace Game
 
             instance = this;
 
+            InputController.Init();
 
             //DebugMode = Application.loadedLevelName.Equals( "GameTest" );
 
@@ -93,6 +96,7 @@ namespace Game
             base.Update();
 
             UpdateCameraPan();
+            InputController.Poll();
         }
 
         /**************************************/
