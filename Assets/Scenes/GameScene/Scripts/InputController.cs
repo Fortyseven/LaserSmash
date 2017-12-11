@@ -45,15 +45,12 @@ namespace Game
         {
             public readonly EventType EventType;
             public readonly InputType InputType;
-
-            private string mInputID;
-            private object mInputValue;
+            public readonly object InputValue;
 
             /* -------------------- */
             public InputElement( string input_id, InputType type, EventType event_type, object default_value )
             {
-                mInputID = input_id;
-                mInputValue = default_value;
+                InputValue = default_value;
 
                 InputType = type;
                 EventType = event_type;
@@ -61,11 +58,11 @@ namespace Game
                 // Pull the key codes/string from the Player Prefs depending on the type of input
 
                 if( InputType == InputType.INPUT_KEY ) {
-                    mInputValue = PlayerPrefs.GetInt( input_id, (int)default_value );
+                    InputValue = PlayerPrefs.GetInt( input_id, (int)default_value );
                 }
                 else if( InputType == InputType.INPUT_JOYBUTTON ||
                          InputType == InputType.INPUT_JOYAXIS ) {
-                    mInputValue = PlayerPrefs.GetString( input_id, (string)default_value );
+                    InputValue = PlayerPrefs.GetString( input_id, (string)default_value );
                 }
             }
 
@@ -74,9 +71,9 @@ namespace Game
             {
                 switch( InputType ) {
                     case InputType.INPUT_KEY:
-                        return Input.GetKey( (KeyCode)mInputValue );
+                        return Input.GetKey( (KeyCode)InputValue );
                     case InputType.INPUT_JOYBUTTON:
-                        return Input.GetKey( (string)mInputValue );
+                        return Input.GetKey( (string)InputValue );
                     case InputType.INPUT_JOYAXIS:
                     default:
                         return false;
