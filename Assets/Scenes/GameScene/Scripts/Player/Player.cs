@@ -98,9 +98,9 @@ namespace Game
             }
 
             /*******************************/
-            public void OnInput(InputController.EventType ev)
+            public void OnInput(InputController.TEvent ev)
             {
-                switch(ev) {
+                switch(ev.event_type) {
                     case InputController.EventType.EV_LEFT:
                         //
                         break;

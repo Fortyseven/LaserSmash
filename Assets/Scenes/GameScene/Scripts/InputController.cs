@@ -8,79 +8,125 @@ namespace Game
 {
     public class InputController
     {
+        const string PREFS_KEY_LEFT = "mKeyValueLeft";
+        const string PREFS_KEY_RIGHT = "mKeyValueRight";
+        const string PREFS_KEY_FIRE = "mKeyValueFire";
+        const string PREFS_KEY_HYPER = "mKeyValueHyper";
+        const string PREFS_KEY_PAUSE = "mKeyValuePause";
+
+        const string PREFS_JOY_LEFT = "mJoyValueLeft";
+        const string PREFS_JOY_RIGHT = "mJoyValueRight";
+        const string PREFS_JOY_FIRE = "mJoyValueFire";
+        const string PREFS_JOY_HYPER = "mJoyValueHyper";
+        const string PREFS_JOY_PAUSE = "mJoyValuePause";
+
+        public delegate void OnInputEvent( TEvent ev );
+        public event OnInputEvent mEventSubscribers;
+
+        public struct TEvent
+        {
+            public EventType event_type;
+            public InputType input_type;
+            public float axis_value;
+        }
 
         public enum EventType
         {
-            EV_LEFT, EV_RIGHT, EV_FIRE, EV_HYPER, EV_PAUSE
+            EV_UP, EV_DOWN, EV_LEFT, EV_RIGHT, EV_FIRE, EV_HYPER, EV_PAUSE,
+            EV_VERT, EV_HORIZ
         };
 
-        public class InputPair
+        public enum InputType { INPUT_KEY, INPUT_JOYBUTTON, INPUT_JOYAXIS };
+
+        private List<InputElement> mInputElements = new List<InputElement>();
+
+        /*********************************************/
+        public class InputElement
         {
-            public KeyCode key_value;
-            public string joy_value;
+            public readonly EventType EventType;
+            public readonly InputType InputType;
+
+            private string mInputID;
+            private object mInputValue;
+
+            /* -------------------- */
+            public InputElement( string input_id, InputType type, EventType event_type, object default_value )
+            {
+                mInputID = input_id;
+                mInputValue = default_value;
+
+                InputType = type;
+                EventType = event_type;
+
+                // Pull the key codes/string from the Player Prefs depending on the type of input
+
+                if( InputType == InputType.INPUT_KEY ) {
+                    mInputValue = PlayerPrefs.GetInt( input_id, (int)default_value );
+                }
+                else if( InputType == InputType.INPUT_JOYBUTTON ||
+                         InputType == InputType.INPUT_JOYAXIS ) {
+                    mInputValue = PlayerPrefs.GetString( input_id, (string)default_value );
+                }
+            }
+
+            /* -------------------- */
+            public bool Poll()
+            {
+                switch( InputType ) {
+                    case InputType.INPUT_KEY:
+                        return Input.GetKey( (KeyCode)mInputValue );
+                    case InputType.INPUT_JOYBUTTON:
+                        return Input.GetKey( (string)mInputValue );
+                    case InputType.INPUT_JOYAXIS:
+                    default:
+                        return false;
+                }
+            }
         }
 
-        InputPair mInputLeft = new InputPair();
-        InputPair mInputRight = new InputPair();
-        InputPair mInputFire = new InputPair();
-        InputPair mInputHyper = new InputPair();
-        InputPair mInputPause = new InputPair();
-
-        public delegate void OnInputEvent( EventType ev );
-        public event OnInputEvent mEventSubscribers;
-
+        /*********************************************/
         public void Subscribe( OnInputEvent func )
         {
             mEventSubscribers += func;
         }
 
+        /*********************************************/
         public void Unsubscribe( OnInputEvent func )
         {
             mEventSubscribers -= func;
         }
 
+        /*********************************************/
         public void Poll()
         {
             if( mEventSubscribers == null ) return;
 
             if( Input.anyKey ) {
-                if( Input.GetKeyDown( mInputLeft.key_value ) ||
-                    Input.GetKeyDown( mInputLeft.joy_value ) ) {
-                    mEventSubscribers( EventType.EV_LEFT );
+                foreach( var input in mInputElements ) {
+                    if( input.Poll() ) {
+                        mEventSubscribers( new TEvent {
+                            input_type = input.InputType,
+                            event_type = input.EventType
+                        } );
+                    }
                 }
-                if( Input.GetKeyDown( mInputRight.key_value ) ||
-                    Input.GetKeyDown( mInputRight.joy_value ) ) {
-                    mEventSubscribers( EventType.EV_RIGHT );
-                }
-                if( Input.GetKeyDown( mInputFire.key_value ) ||
-                    Input.GetKeyDown( mInputFire.joy_value ) ) {
-                    mEventSubscribers( EventType.EV_FIRE );
-                }
-                if( Input.GetKeyDown( mInputHyper.key_value ) ||
-                    Input.GetKeyDown( mInputHyper.joy_value ) ) {
-                    mEventSubscribers( EventType.EV_HYPER );
-                }
-                if( Input.GetKeyDown( mInputPause.key_value ) ||
-                    Input.GetKeyDown( mInputPause.joy_value ) ) {
-                    mEventSubscribers( EventType.EV_PAUSE );
-                }
-
             }
         }
 
+        /*********************************************/
         public void Init()
         {
-            mInputLeft.key_value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueLeft", (int)mInputLeft.key_value );
-            mInputRight.key_value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueRight", (int)mInputRight.key_value );
-            mInputFire.key_value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueFire", (int)mInputFire.key_value );
-            mInputHyper.key_value = (KeyCode)PlayerPrefs.GetInt( "mKeyValueHyper", (int)mInputHyper.key_value );
-            mInputPause.key_value = (KeyCode)PlayerPrefs.GetInt( "mKeyValuePause", (int)mInputPause.key_value );
+            mInputElements.Add( new InputElement( PREFS_KEY_LEFT, InputType.INPUT_KEY, EventType.EV_LEFT, KeyCode.LeftArrow ) );
+            mInputElements.Add( new InputElement( PREFS_KEY_RIGHT, InputType.INPUT_KEY, EventType.EV_RIGHT, KeyCode.RightArrow ) );
+            mInputElements.Add( new InputElement( PREFS_KEY_FIRE, InputType.INPUT_KEY, EventType.EV_FIRE, KeyCode.LeftControl ) );
+            mInputElements.Add( new InputElement( PREFS_KEY_HYPER, InputType.INPUT_KEY, EventType.EV_HYPER, KeyCode.UpArrow ) );
+            mInputElements.Add( new InputElement( PREFS_KEY_PAUSE, InputType.INPUT_KEY, EventType.EV_PAUSE, KeyCode.Escape ) );
 
-            mInputLeft.joy_value = PlayerPrefs.GetString( "mJoyValueLeft", mInputLeft.joy_value );
-            mInputRight.joy_value = PlayerPrefs.GetString( "mJoyValueRight", mInputRight.joy_value );
-            mInputFire.joy_value = PlayerPrefs.GetString( "mJoyValueFire", mInputFire.joy_value );
-            mInputHyper.joy_value = PlayerPrefs.GetString( "mJoyValueHyper", mInputHyper.joy_value );
-            mInputPause.joy_value = PlayerPrefs.GetString( "mJoyValuePause", mInputPause.joy_value );
+            mInputElements.Add( new InputElement( PREFS_JOY_LEFT, InputType.INPUT_JOYBUTTON, EventType.EV_LEFT, null ) );
+            mInputElements.Add( new InputElement( PREFS_JOY_RIGHT, InputType.INPUT_JOYBUTTON, EventType.EV_RIGHT, null ) );
+            mInputElements.Add( new InputElement( PREFS_JOY_FIRE, InputType.INPUT_JOYBUTTON, EventType.EV_FIRE, "joystick 1 button 1" ) );
+            mInputElements.Add( new InputElement( PREFS_JOY_HYPER, InputType.INPUT_JOYBUTTON, EventType.EV_HYPER, "joystick 1 button 2" ) );
+            mInputElements.Add( new InputElement( PREFS_JOY_PAUSE, InputType.INPUT_JOYBUTTON, EventType.EV_PAUSE, "joystick 1 button 9" ) );
         }
     }
 }
